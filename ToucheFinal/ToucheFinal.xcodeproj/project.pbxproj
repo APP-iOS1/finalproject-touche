@@ -26,6 +26,8 @@
 		657A092229765EAC00E5B565 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092129765EAC00E5B565 /* UserInfoStore.swift */; };
 		657A092529765EE000E5B565 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092429765EE000E5B565 /* HomeView.swift */; };
 		657A092729765F1000E5B565 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092629765F1000E5B565 /* MyPageView.swift */; };
+		6F23320529766725002854AD /* SephoraFirebaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F23320429766725002854AD /* SephoraFirebaseView.swift */; };
+		6F2332072976732D002854AD /* APIStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2332062976732D002854AD /* APIStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 		657A092129765EAC00E5B565 /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
 		657A092429765EE000E5B565 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		657A092629765F1000E5B565 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		6F23320429766725002854AD /* SephoraFirebaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SephoraFirebaseView.swift; sourceTree = "<group>"; };
+		6F2332062976732D002854AD /* APIStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,8 +128,10 @@
 		657A092829765F1600E5B565 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6F2332062976732D002854AD /* APIStore.swift */,
 				657A092429765EE000E5B565 /* HomeView.swift */,
 				657A092629765F1000E5B565 /* MyPageView.swift */,
+				6F23320429766725002854AD /* SephoraFirebaseView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F2332072976732D002854AD /* APIStore.swift in Sources */,
 				657A092529765EE000E5B565 /* HomeView.swift in Sources */,
 				657A08FB2976596900E5B565 /* ContentView.swift in Sources */,
 				657A091729765BF000E5B565 /* Perfume.swift in Sources */,
@@ -223,6 +230,7 @@
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
 				657A092229765EAC00E5B565 /* UserInfoStore.swift in Sources */,
 				657A091929765CFE00E5B565 /* Comment.swift in Sources */,
+				6F23320529766725002854AD /* SephoraFirebaseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
