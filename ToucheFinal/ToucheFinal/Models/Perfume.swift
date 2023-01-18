@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Perfume {
-    var perfumeId: String
+struct Perfume: Hashable {
+    var id: String
     var brandName: String
     var displayName: String
     var heroImage: String
@@ -16,4 +16,7 @@ struct Perfume {
     var scentType : String
     var keyNotes : [String]
     var fragranceDescription : String
+    var likedPeople: [String]
+    var commentCount: Int
+    var totalPerfumeScore: Int
 }
