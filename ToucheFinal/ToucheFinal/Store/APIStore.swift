@@ -13,11 +13,69 @@ import FirebaseFirestoreSwift
 class APIStore: ObservableObject {
     @Published var notice: String = ""
     @Published var products: [Product] = []
+    @Published var perfumes: [Perfume] = []
+    
+    // ==========================================
+    private var cursor: QueryDocumentSnapshot?
+    private let pageSize = 3
+    // ==========================================
+    
     var cancellables = Set<AnyCancellable>()
     let path = Firestore.firestore()
     
     func reset() {
         notice = ""
+    }
+    
+    func fetch() {
+        switch cursor {
+        case nil:
+            path.collection("Perfume")
+                .limit(to: pageSize)
+                .getDocuments { [weak self] (snapshot: QuerySnapshot?, _ :Error?) in
+                    guard let snapshot = snapshot else { return }
+                    
+                    guard let lastSnapshot = snapshot.documents.last else {
+                        // The collection is empty.
+                        self?.cursor = nil
+                        return
+                    }
+                    
+                    self?.cursor = lastSnapshot
+                    
+                    self?.perfumes = snapshot.documents.compactMap { query -> Perfume? in
+                        do {
+                            return try query.data(as: Perfume.self)
+                        } catch {
+                            return nil
+                        }
+                    }
+                }
+        default:
+            path.collection("Perfume")
+                .limit(to: pageSize)
+                .start(afterDocument: cursor!)
+                .getDocuments { [weak self] (snapshot: QuerySnapshot?, _ :Error?) in
+                    guard let snapshot = snapshot else { return }
+                    
+                    guard let lastSnapshot = snapshot.documents.last else {
+                        // The collection is empty.
+                        self?.cursor = nil
+                        return
+                    }
+                    
+                    self?.cursor = lastSnapshot
+                    
+                    self?.perfumes = snapshot.documents.compactMap { query -> Perfume? in
+                        do {
+                            return try query.data(as: Perfume.self)
+                        } catch {
+                            return nil
+                        }
+                    }
+                }
+
+        }
     }
     
     func fetchlistDataAndPostToFirestore(page: Int = 1) {
@@ -75,18 +133,18 @@ class APIStore: ObservableObject {
     func refreshProductData() async -> Void {
         self.products = await withCheckedContinuation { (continuation: CheckedContinuation<[Product], Never>) in
             path.collection("Temp")
-                .limit(to: 10)
+                .limit(to: pageSize)
                 .getDocuments { (snapshot: QuerySnapshot?, _ :Error?) in
-                guard let snapshot = snapshot else { return }
-                let products = snapshot.documents.compactMap { query -> Product? in
-                    do {
-                        return try query.data(as: Product.self)
-                    } catch {
-                        return nil
+                    guard let snapshot = snapshot else { return }
+                    let products = snapshot.documents.compactMap { query -> Product? in
+                        do {
+                            return try query.data(as: Product.self)
+                        } catch {
+                            return nil
+                        }
                     }
+                    continuation.resume(returning: products)
                 }
-                continuation.resume(returning: products)
-            }
         }
     }
     
@@ -98,23 +156,23 @@ class APIStore: ObservableObject {
             "X-RapidAPI-Key": "bd60134ebbmsh47ad7cc85cd24d7p1cbc4ejsn3ed23622063e",
             "X-RapidAPI-Host": "sephora.p.rapidapi.com"
         ]
-
+        
         let request = NSMutableURLRequest(url: NSURL(string: "https://sephora.p.rapidapi.com/products/detail?productId=\(product.productId)&preferedSku=2210607")! as URL,
-                                                cachePolicy: .useProtocolCachePolicy,
-                                            timeoutInterval: 10.0)
+                                          cachePolicy: .useProtocolCachePolicy,
+                                          timeoutInterval: 10.0)
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         
         var longDescription: String = ""
         var quickDescription: String = ""
-
+        
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             if (error != nil) {
                 print("datatask error : ", error?.localizedDescription)
             } else {
                 if let jsonData = try? JSONDecoder().decode(Detail.self, from: data ?? Data()),
-                    let response = response as? HTTPURLResponse {
+                   let response = response as? HTTPURLResponse {
                     print("longDescription: ",jsonData.longDescription)
                     print(response.statusCode)
                     longDescription = jsonData.longDescription
@@ -148,11 +206,11 @@ class APIStore: ObservableObject {
                 }
             }
         })
-
+        
         dataTask.resume()
         
-//        guard !(longDescription.isEmpty && quickDescription.isEmpty) else {
-//            return }
+        //        guard !(longDescription.isEmpty && quickDescription.isEmpty) else {
+        //            return }
         
     }
 }
@@ -176,5 +234,5 @@ struct Product: Codable {
 struct Detail: Codable {
     var longDescription: String
     var quickLookDescription: String
-
+    
 }

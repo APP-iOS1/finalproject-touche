@@ -20,5 +20,7 @@ struct UserInfo {
     var userNation: Nation
     var userProfileImage: String
     var perfumeScore: String
-    var likeComment: String
+    var likedComment: String
+    var nickName: String
+    var email: String
 }
