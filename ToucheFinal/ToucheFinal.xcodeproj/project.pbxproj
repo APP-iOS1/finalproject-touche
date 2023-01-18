@@ -7,19 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		233260D42977757500771B2A /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D32977757500771B2A /* LogInView.swift */; };
-		233260D82977759900771B2A /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D72977759900771B2A /* SignUpView.swift */; };
-		233260DA297775B700771B2A /* SignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D9297775B700771B2A /* SignOutView.swift */; };
-		233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260DB297782E900771B2A /* LogInSignUpView.swift */; };
-		233260DF2977833600771B2A /* SegmentedPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 233260DE2977833600771B2A /* SegmentedPicker */; };
-		2390497E2977920C0097B20A /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2390497D2977920C0097B20A /* GuideView.swift */; };
-		239049802977B9420097B20A /* LogInRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2390497F2977B9420097B20A /* LogInRootView.swift */; };
-		239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239049812977CBBF0097B20A /* WriteCommentView.swift */; };
-		61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13172977D587003F0466 /* PerfumeDetailView.swift */; };
-		61FE131A2977D588003F0466 /* PerfumeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13182977D587003F0466 /* PerfumeTabView.swift */; };
-		61FE13212977D7A1003F0466 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13202977D7A1003F0466 /* CommentCell.swift */; };
-		61FE13232977D7A9003F0466 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13222977D7A8003F0466 /* RatingView.swift */; };
-		61FE13252977DC3F003F0466 /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13242977DC3F003F0466 /* SearchFilterView.swift */; };
 		657A08F92976596900E5B565 /* ToucheFinalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A08F82976596900E5B565 /* ToucheFinalApp.swift */; };
 		657A08FB2976596900E5B565 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A08FA2976596900E5B565 /* ContentView.swift */; };
 		657A08FD2976596A00E5B565 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657A08FC2976596A00E5B565 /* Assets.xcassets */; };
@@ -37,16 +24,6 @@
 		657A092029765E9C00E5B565 /* CommentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A091F29765E9C00E5B565 /* CommentStore.swift */; };
 		657A092529765EE000E5B565 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092429765EE000E5B565 /* HomeView.swift */; };
 		657A092729765F1000E5B565 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092629765F1000E5B565 /* MyPageView.swift */; };
-
-		65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB3729777E6000DB4860 /* ImagePicker.swift */; };
-		65A7AB3A2977812700DB4860 /* EditMyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB392977812700DB4860 /* EditMyProfileView.swift */; };
-		65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB3B2977AFAD00DB4860 /* SettingView.swift */; };
-		A8BC3270297776C1004EF50C /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC326F297776C1004EF50C /* SearchView.swift */; };
-		A8BC32722977AB6A004EF50C /* FilteringResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC32712977AB6A004EF50C /* FilteringResultView.swift */; };
-		A8BC32742977BC09004EF50C /* PerfumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC32732977BC08004EF50C /* PerfumeCell.swift */; };
-		A8BC32772977BD95004EF50C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = A8BC32762977BD95004EF50C /* SDWebImageSwiftUI */; };
-		A8BC32792977BF3E004EF50C /* dummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC32782977BF3E004EF50C /* dummyData.swift */; };
-
 		6F23320529766725002854AD /* SephoraFirebaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F23320429766725002854AD /* SephoraFirebaseView.swift */; };
 		6F2332072976732D002854AD /* APIStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2332062976732D002854AD /* APIStore.swift */; };
 		6F23320A29769969002854AD /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6F23320929769969002854AD /* FirebaseFirestoreSwift */; };
@@ -54,22 +31,9 @@
 		6F6ACD852977919800F7FBEB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 6F6ACD842977919800F7FBEB /* SwiftSoup */; };
 		6F6ACD872977948D00F7FBEB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F6ACD862977948D00F7FBEB /* GoogleService-Info.plist */; };
 		6F6ACD8A2977D11D00F7FBEB /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6ACD892977D11D00F7FBEB /* UserInfoStore.swift */; };
-
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		233260D32977757500771B2A /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
-		233260D72977759900771B2A /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		233260D9297775B700771B2A /* SignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutView.swift; sourceTree = "<group>"; };
-		233260DB297782E900771B2A /* LogInSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInSignUpView.swift; sourceTree = "<group>"; };
-		2390497D2977920C0097B20A /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
-		2390497F2977B9420097B20A /* LogInRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRootView.swift; sourceTree = "<group>"; };
-		239049812977CBBF0097B20A /* WriteCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteCommentView.swift; sourceTree = "<group>"; };
-		61FE13172977D587003F0466 /* PerfumeDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeDetailView.swift; sourceTree = "<group>"; };
-		61FE13182977D587003F0466 /* PerfumeTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeTabView.swift; sourceTree = "<group>"; };
-		61FE13202977D7A1003F0466 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentCell.swift; path = ToucheFinal/Views/CommentCell.swift; sourceTree = SOURCE_ROOT; };
-		61FE13222977D7A8003F0466 /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RatingView.swift; path = ToucheFinal/Views/RatingView.swift; sourceTree = SOURCE_ROOT; };
-		61FE13242977DC3F003F0466 /* SearchFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilterView.swift; sourceTree = "<group>"; };
 		657A08F52976596900E5B565 /* ToucheFinal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToucheFinal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		657A08F82976596900E5B565 /* ToucheFinalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToucheFinalApp.swift; sourceTree = "<group>"; };
 		657A08FA2976596900E5B565 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -82,21 +46,11 @@
 		657A091F29765E9C00E5B565 /* CommentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentStore.swift; sourceTree = "<group>"; };
 		657A092429765EE000E5B565 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		657A092629765F1000E5B565 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
-
-		65A7AB3729777E6000DB4860 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		65A7AB392977812700DB4860 /* EditMyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyProfileView.swift; sourceTree = "<group>"; };
-		65A7AB3B2977AFAD00DB4860 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
-		A8BC326F297776C1004EF50C /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
-		A8BC32712977AB6A004EF50C /* FilteringResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringResultView.swift; sourceTree = "<group>"; };
-		A8BC32732977BC08004EF50C /* PerfumeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeCell.swift; sourceTree = "<group>"; };
-		A8BC32782977BF3E004EF50C /* dummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = dummyData.swift; path = Views/dummyData.swift; sourceTree = "<group>"; };
-
 		6F23320429766725002854AD /* SephoraFirebaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SephoraFirebaseView.swift; sourceTree = "<group>"; };
 		6F2332062976732D002854AD /* APIStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIStore.swift; sourceTree = "<group>"; };
 		6F6ACD812977915B00F7FBEB /* LongDescriptionParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LongDescriptionParsing.swift; sourceTree = "<group>"; };
 		6F6ACD862977948D00F7FBEB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6F6ACD892977D11D00F7FBEB /* UserInfoStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,9 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8BC32772977BD95004EF50C /* SDWebImageSwiftUI in Frameworks */,
 				657A091329765B7800E5B565 /* GoogleSignIn in Frameworks */,
-				233260DF2977833600771B2A /* SegmentedPicker in Frameworks */,
 				657A090E29765A5500E5B565 /* FirebaseDatabaseSwift in Frameworks */,
 				657A091029765A5500E5B565 /* FirebaseFirestore in Frameworks */,
 				6F23320A29769969002854AD /* FirebaseFirestoreSwift in Frameworks */,
@@ -120,61 +72,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		61FE131B2977D5B9003F0466 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				657A092429765EE000E5B565 /* HomeView.swift */,
-				A8BC32732977BC08004EF50C /* PerfumeCell.swift */,
-				61FE13172977D587003F0466 /* PerfumeDetailView.swift */,
-				239049812977CBBF0097B20A /* WriteCommentView.swift */,
-				61FE13202977D7A1003F0466 /* CommentCell.swift */,
-				61FE13222977D7A8003F0466 /* RatingView.swift */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
-		61FE131C2977D5C1003F0466 /* MyPage */ = {
-			isa = PBXGroup;
-			children = (
-				61FE131E2977D662003F0466 /* Sign */,
-				657A092629765F1000E5B565 /* MyPageView.swift */,
-				65A7AB392977812700DB4860 /* EditMyProfileView.swift */,
-				61FE131F2977D6A3003F0466 /* Setting */,
-			);
-			path = MyPage;
-			sourceTree = "<group>";
-		};
-		61FE131D2977D5D9003F0466 /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				A8BC32712977AB6A004EF50C /* FilteringResultView.swift */,
-				A8BC326F297776C1004EF50C /* SearchView.swift */,
-				61FE13242977DC3F003F0466 /* SearchFilterView.swift */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
-		61FE131E2977D662003F0466 /* Sign */ = {
-			isa = PBXGroup;
-			children = (
-				233260D32977757500771B2A /* LogInView.swift */,
-				233260D72977759900771B2A /* SignUpView.swift */,
-				233260D9297775B700771B2A /* SignOutView.swift */,
-				233260DB297782E900771B2A /* LogInSignUpView.swift */,
-				2390497F2977B9420097B20A /* LogInRootView.swift */,
-				2390497D2977920C0097B20A /* GuideView.swift */,
-			);
-			path = Sign;
-			sourceTree = "<group>";
-		};
-		61FE131F2977D6A3003F0466 /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				65A7AB3B2977AFAD00DB4860 /* SettingView.swift */,
-			);
-			path = Setting;
-			sourceTree = "<group>";
-		};
 		657A08EC2976596900E5B565 = {
 			isa = PBXGroup;
 			children = (
@@ -197,13 +94,8 @@
 			children = (
 				657A08FC2976596A00E5B565 /* Assets.xcassets */,
 				657A08FA2976596900E5B565 /* ContentView.swift */,
-
-				65A7AB3729777E6000DB4860 /* ImagePicker.swift */,
-				A8BC32782977BF3E004EF50C /* dummyData.swift */,
-
 				6F6ACD862977948D00F7FBEB /* GoogleService-Info.plist */,
 				6F6ACD882977ACB500F7FBEB /* Util */,
-
 				657A091C29765E1300E5B565 /* Models */,
 				657A08FE2976596A00E5B565 /* Preview Content */,
 				657A092329765EB300E5B565 /* Store */,
@@ -245,16 +137,9 @@
 		657A092829765F1600E5B565 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-
-				61FE13182977D587003F0466 /* PerfumeTabView.swift */,
-				61FE131B2977D5B9003F0466 /* Home */,
-				61FE131C2977D5C1003F0466 /* MyPage */,
-				61FE131D2977D5D9003F0466 /* Search */,
-
 				657A092429765EE000E5B565 /* HomeView.swift */,
 				657A092629765F1000E5B565 /* MyPageView.swift */,
 				6F23320429766725002854AD /* SephoraFirebaseView.swift */,
-
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -297,13 +182,8 @@
 				657A090F29765A5500E5B565 /* FirebaseFirestore */,
 				657A091229765B7800E5B565 /* GoogleSignIn */,
 				657A091429765B7800E5B565 /* GoogleSignInSwift */,
-
-				233260DE2977833600771B2A /* SegmentedPicker */,
-				A8BC32762977BD95004EF50C /* SDWebImageSwiftUI */,
-
 				6F23320929769969002854AD /* FirebaseFirestoreSwift */,
 				6F6ACD842977919800F7FBEB /* SwiftSoup */,
-
 			);
 			productName = ToucheFinal;
 			productReference = 657A08F52976596900E5B565 /* ToucheFinal.app */;
@@ -336,12 +216,7 @@
 			packageReferences = (
 				657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				657A091129765B7800E5B565 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-
-				233260DD2977833600771B2A /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */,
-				A8BC32752977BD95004EF50C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
-
 				6F6ACD832977919800F7FBEB /* XCRemoteSwiftPackageReference "SwiftSoup" */,
-
 			);
 			productRefGroup = 657A08F62976596900E5B565 /* Products */;
 			projectDirPath = "";
@@ -373,36 +248,15 @@
 				6F2332072976732D002854AD /* APIStore.swift in Sources */,
 				657A092529765EE000E5B565 /* HomeView.swift in Sources */,
 				657A08FB2976596900E5B565 /* ContentView.swift in Sources */,
-				A8BC32792977BF3E004EF50C /* dummyData.swift in Sources */,
-				65A7AB3A2977812700DB4860 /* EditMyProfileView.swift in Sources */,
-				61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */,
 				657A091729765BF000E5B565 /* Perfume.swift in Sources */,
-				61FE13252977DC3F003F0466 /* SearchFilterView.swift in Sources */,
 				657A091E29765E9000E5B565 /* PerfumeStore.swift in Sources */,
-				61FE131A2977D588003F0466 /* PerfumeTabView.swift in Sources */,
-				233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */,
-				233260D82977759900771B2A /* SignUpView.swift in Sources */,
-				239049802977B9420097B20A /* LogInRootView.swift in Sources */,
 				657A08F92976596900E5B565 /* ToucheFinalApp.swift in Sources */,
 				6F6ACD822977915B00F7FBEB /* LongDescriptionParsing.swift in Sources */,
 				657A091B29765D3D00E5B565 /* UserInfo.swift in Sources */,
 				6F6ACD8A2977D11D00F7FBEB /* UserInfoStore.swift in Sources */,
 				657A092029765E9C00E5B565 /* CommentStore.swift in Sources */,
-				61FE13212977D7A1003F0466 /* CommentCell.swift in Sources */,
-				2390497E2977920C0097B20A /* GuideView.swift in Sources */,
-				233260DA297775B700771B2A /* SignOutView.swift in Sources */,
-				65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */,
-				65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
-				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,
-				233260D42977757500771B2A /* LogInView.swift in Sources */,
-				657A092229765EAC00E5B565 /* UserInfoStore.swift in Sources */,
-				A8BC32742977BC09004EF50C /* PerfumeCell.swift in Sources */,
 				657A091929765CFE00E5B565 /* Comment.swift in Sources */,
-				A8BC32722977AB6A004EF50C /* FilteringResultView.swift in Sources */,
-				A8BC3270297776C1004EF50C /* SearchView.swift in Sources */,
-				61FE13232977D7A9003F0466 /* RatingView.swift in Sources */,
-
 				6F23320529766725002854AD /* SephoraFirebaseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,14 +458,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		233260DD2977833600771B2A /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/KazaiMazai/SwiftySegmentedPicker.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -628,15 +474,9 @@
 				minimumVersion = 6.2.4;
 			};
 		};
-
-		A8BC32752977BD95004EF50C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
-
 		6F6ACD832977919800F7FBEB /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
-
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
@@ -645,11 +485,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		233260DE2977833600771B2A /* SegmentedPicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 233260DD2977833600771B2A /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */;
-			productName = SegmentedPicker;
-		};
 		657A090929765A5500E5B565 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -680,12 +515,6 @@
 			package = 657A091129765B7800E5B565 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
 		};
-
-		A8BC32762977BD95004EF50C /* SDWebImageSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A8BC32752977BD95004EF50C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
-			productName = SDWebImageSwiftUI;
-
 		6F23320929769969002854AD /* FirebaseFirestoreSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -695,7 +524,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6F6ACD832977919800F7FBEB /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
-
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
