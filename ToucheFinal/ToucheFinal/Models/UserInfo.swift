@@ -15,9 +15,10 @@ enum Nation {
     case Japan
 }
 
-struct UserInfo {
-    var userId: String
+struct UserInfo: Identifiable {
+    var id: String
     var userNation: Nation
+    var userNickNAme: String
     var userProfileImage: String
     var perfumeScore: String
     var likeComment: String
