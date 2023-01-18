@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1059894855428-4md6heohl2nur51c71kkpb8jaidn91n1.apps.googleusercontent.com</string>
+	<string>702955082327-v1l0lequf8e3lf8erhotfn0lbb5rfo6g.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1059894855428-4md6heohl2nur51c71kkpb8jaidn91n1</string>
+	<string>com.googleusercontent.apps.702955082327-v1l0lequf8e3lf8erhotfn0lbb5rfo6g</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDllJFoI1EKc5ZSVLlrJqzWxwBpFjMDuIU</string>
+	<string>AIzaSyAG-S7eBPYkSknnGhr1cH21SajxwJU7e04</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1059894855428</string>
+	<string>702955082327</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.codelion.ToucheFinal</string>
 	<key>PROJECT_ID</key>
-	<string>touchefinal-ec3d6</string>
+	<string>touchefinal-231b4</string>
 	<key>STORAGE_BUCKET</key>
-	<string>touchefinal-ec3d6.appspot.com</string>
+	<string>touchefinal-231b4.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1059894855428:ios:16e6039b81e2d852dfb251</string>
+	<string>1:702955082327:ios:bb40fdaf76a32f0f17c912</string>
 </dict>
 </plist>
