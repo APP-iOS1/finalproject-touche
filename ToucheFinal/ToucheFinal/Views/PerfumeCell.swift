@@ -37,7 +37,6 @@ struct PerfumeCell: View {
     }
 }
 
-
 struct PerfumeCell_Previews: PreviewProvider {
     static var previews: some View {
         PerfumeCell(perfume: Perfume(id: "P258612",
