@@ -11,59 +11,52 @@ import SwiftUI
 /// 1. Sephora Data Fetching 되는가? **[OK!]**
 /// 2. 원하는 데이터만 선택해서 Firestore에 저장되는가?
 struct SephoraFirebaseView: View {
-    
-//    let headers = [
-//        "X-RapidAPI-Key": "bd60134ebbmsh47ad7cc85cd24d7p1cbc4ejsn3ed23622063e",
-//        "X-RapidAPI-Host": "sephora.p.rapidapi.com"
-//    ]
-//
-//    func fetchSephoraData(productId: String) {
-//        let request = NSMutableURLRequest(
-//            url: NSURL(string: "https://sephora.p.rapidapi.com/products/detail?productId=\(productId)&preferedSku=2210607")! as URL,
-//            cachePolicy: .useProtocolCachePolicy,
-//            timeoutInterval: 10.0
-//        )
-//        request.httpMethod = "GET"
-//        request.allHTTPHeaderFields = headers
-//
-//        let session = URLSession.shared
-//        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-//            if let error = error {
-//                print(error)
-//            }
-//            let httpResponse = response as? HTTPURLResponse
-            
-//            guard let jsonData = try? JSONDecoder().decode(Result.self, from: data ?? Data()) else {
-//                print("jsonError")
-//                return
-//            }
-//            print(jsonData)
-//        })
-//        dataTask.resume()
-//    }
-//
-//    let productIds = [ "P449116",
-//                       "P501018",
-//                       "P417179",
-//    ]
-    
-    @State private var productId: String = ""
+    @State private var page = 1
     @StateObject var store: APIStore = APIStore()
     
     var body: some View {
         VStack {
-            TextField("productId", text: $productId)
-            
-            Button("데이터 받기") {
-                store.fetchlistData(page: 1)
-//                    store.fetchAllDetail()
-//                    print(store.products)
-//                    print(store.longDescriptions)
-//                print(
-//                    store.fetchDetailData(productId: "P385358")
-//                )
+            Stepper(value: $page, step: 1) {
+                Text("\(page)")
+                    .frame(maxWidth: .infinity, alignment: .center)
+            } onEditingChanged: {
+                if $0 { store.reset() }
             }
+            
+            Button("데이터 보내기") {
+                // 7 page까지 완료
+                store.fetchlistDataAndPostToFirestore(page: page)
+//                store.hi()
+            }
+            
+            Text(store.notice)
         }
+    }
+}
+
+struct SephoraFirebaseDetailView: View {
+    @StateObject var store: APIStore = APIStore()
+    
+    var body: some View {
+        List(store.products, id: \.productId) { product in
+            Button {
+                store.fetchDetailData(product: product)
+            } label: {
+                HStack {
+                    Text(product.productId)
+                    Spacer()
+                    Image(systemName: "checkmark")
+                        .opacity(0)
+                }                
+            }
+            .foregroundColor(.black)
+
+        }
+        .overlay(alignment: .center, content: {
+            Text("데이터 없음")
+                .opacity(store.products.isEmpty ? 1 : 0)
+        })
+        .refreshable(action: store.refreshProductData)
     }
 }
 
@@ -73,24 +66,6 @@ struct SephoraFirebaseView_Previews: PreviewProvider {
     }
 }
 
-// sephora api fetch 용 데이터 모델
-//struct Result: Codable{
-//    var longDescription: String
-//    var displayName: String
-//
-//}
+// sephora -> products/detail -> ld, image450
+// firestore -> temps(collection) -> productId -> products/detail(sephora) -> ld, image450 -> temp2(collection) ->  perfumeId, brandName , displayName,( longDescription ), heroImage
 
-//var perfumeId: String
-//var brandName: String
-//var displayName: String
-//var heroImage: String
-//var fragranceFamily : String
-//var scentType : String
-//var keyNotes : [String]
-//var fragranceDescription : String
-
-//struct Product: Codable {
-//    var brandName: String
-//    var displayName: String
-//    var image450: String
-//}
