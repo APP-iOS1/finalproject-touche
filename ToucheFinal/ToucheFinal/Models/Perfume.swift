@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Perfume: Identifiable {
-    var id: String
+struct Perfume {
+    var perfumeId: String
     var brandName: String
     var displayName: String
     var heroImage: String

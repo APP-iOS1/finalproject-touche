@@ -46,6 +46,6 @@ struct CommentCell: View {
 
 struct CommentCell_Previews: PreviewProvider {
     static var previews: some View {
-        CommentCell(comment:     Comment(id: "123", commentTime: "", contents: "goodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgood", perfumeScore: 4, writerId: "", writerNickName: "Ned", writerImage: ""))
+        CommentCell(comment: Comment(commentId: "123", commentTime: "", contents: "goodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgood", perfumeScore: 4, writerId: "", writerNickName: "Ned", writerImage: ""))
     }
 }

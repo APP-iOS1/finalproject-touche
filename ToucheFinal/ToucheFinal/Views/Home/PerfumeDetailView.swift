@@ -83,7 +83,7 @@ struct PerfumeDetailView: View {
                             Text("Comments")
                                 .font(.title2)
                                 .bold()
-                            ForEach(commentDummy) { comment in
+                            ForEach(commentDummy, id: \.self.commentId) { comment in
                                 Divider()
                                 CommentCell(comment: comment)
 //                                Divider()
@@ -104,7 +104,7 @@ struct PerfumeDetailView: View {
 struct PerfumeDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            PerfumeDetailView(perfume: Perfume(id: "P258612",
+            PerfumeDetailView(perfume: Perfume(perfumeId: "P258612",
                                                brandName: "CHANEL",
                                                displayName: "CHANCE EAU TENDRE Eau de Toilette",
                                                heroImage: "https://www.sephora.com/productimages/sku/s2238145-main-grid.jpg",

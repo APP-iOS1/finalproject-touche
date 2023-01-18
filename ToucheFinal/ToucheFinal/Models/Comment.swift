@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Comment: Identifiable {
-    var id: String
+struct Comment {
+    var commentId: String
     var commentTime: String
     var contents: String
     var perfumeScore: Int

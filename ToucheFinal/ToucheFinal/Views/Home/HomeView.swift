@@ -78,7 +78,7 @@ struct HomeView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack {
-                            ForEach(dummy) { perfume in
+                            ForEach(dummy, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
                                 } label: {
@@ -94,7 +94,7 @@ struct HomeView: View {
                         .modifier(TextViewModeifier())
                     ScrollView(.horizontal, showsIndicators: false){
                         LazyHGrid(rows: rows){
-                            ForEach(dummy) { perfume in
+                            ForEach(dummy, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
                                 } label: {

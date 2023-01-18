@@ -39,7 +39,7 @@ struct FilteringResultView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                        
-                        ForEach(dummy) { data in
+                        ForEach(dummy, id: \.self.perfumeId) { data in
                             NavigationLink {
                                 // 해당 향수 디테일 뷰로 이동
                             } label: {
@@ -68,7 +68,7 @@ struct FilteringResultView: View {
 
 struct FilteringResultView_Previews: PreviewProvider {
     static var previews: some View {
-        FilteringResultView(perfume: Perfume(id: "P258612",
+        FilteringResultView(perfume: Perfume(perfumeId: "P258612",
                                              brandName: "CHANEL",
                                              displayName: "CHANCE EAU TENDRE Eau de Toilette",
                                              heroImage: "https://www.sephora.com/productimages/sku/s2238145-main-grid.jpg",

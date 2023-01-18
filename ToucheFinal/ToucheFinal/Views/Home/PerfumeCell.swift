@@ -39,7 +39,7 @@ struct PerfumeCell: View {
 
 struct PerfumeCell_Previews: PreviewProvider {
     static var previews: some View {
-        PerfumeCell(perfume: Perfume(id: "P258612",
+        PerfumeCell(perfume: Perfume(perfumeId: "P258612",
                                      brandName: "CHANEL",
                                      displayName: "CHANCE EAU TENDRE Eau de Toilette",
                                      heroImage: "https://www.sephora.com/productimages/sku/s2238145-main-grid.jpg",
