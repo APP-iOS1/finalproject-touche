@@ -154,12 +154,12 @@
       }
     },
     {
-      "identity" : "swiftysegmentedpicker",
+      "identity" : "swiftsoup",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KazaiMazai/SwiftySegmentedPicker.git",
+      "location" : "https://github.com/scinfu/SwiftSoup.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "c3c63962939c161aeef1bcef40ee97bd57eca943"
+        "revision" : "f707b8680cddb96dc1855632340a572ef37bbb98",
+        "version" : "2.5.3"
       }
     }
   ],
