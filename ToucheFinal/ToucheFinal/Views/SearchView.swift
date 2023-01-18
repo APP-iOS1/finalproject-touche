@@ -5,6 +5,17 @@
 //  Created by 이재희 on 2023/01/18.
 //
 
+/*
+ TODO
+ [] 0. < 백버튼으로 사용가능한지
+ [] 1. TextField: brandName,displayName,keyNotes로 검색가능, placeholder명 정하기
+ [] 2. 최근 검색어 아래에 텍스트로만 보일지? 이미지도 같이 보여줄지?
+ [] 2-1. 클릭시 해당 검색어 이동하게 할지
+ [] 2-2. 최근 검색어 5개만 보이게하기, 데이터 연동
+ [] 3. 필터뷰로 이동
+ [] 4. 하루끝 참고해서 키보드 올라오는거 참고하기
+ [] 5. DeleteAll, x 추가하기 -> x로 삭제 되고, 텍스트 누르면 검색창이동하듯 이동도 해야하는건지?
+ */
 import SwiftUI
 
 struct SearchView: View {
@@ -16,7 +27,7 @@ struct SearchView: View {
             VStack {
                 HStack {
                     Button {
-                        //백버튼기능 (되려나?)
+                        // TODO: 0.
                     } label: {
                         Image(systemName: "chevron.left")
                             .padding(.leading)
@@ -25,7 +36,7 @@ struct SearchView: View {
                     
                     HStack{
                         Image(systemName: "magnifyingglass").foregroundColor(.black)
-                        // TODO: - brandName, displayName, keyNotes 로 검색가능, placeholder명 뭐로 할 지
+                        // TODO: 1.
                         TextField("Search Brand, Notes, ", text: $searchText)
                             .keyboardType(.alphabet)
                             .autocorrectionDisabled()
@@ -44,7 +55,8 @@ struct SearchView: View {
                             
                         }
                         
-                    }.padding()
+                    }
+                    .padding(11)
                         .background(Color(UIColor.systemGray5))
                         .cornerRadius(7)
                         .padding([.leading, .trailing], 10)
@@ -55,7 +67,7 @@ struct SearchView: View {
                     Button {
                         // 최근 검색어(Search history or Recent Searches) 전체 삭제 버튼
                     } label: {
-                        Text("Delete")
+                        Text("DeleteAll")
                     }
                 }
                 .padding()
@@ -63,7 +75,7 @@ struct SearchView: View {
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
 //                        NavigationLink {
-//                            // TODO: - 텍스트만 보이게? 아니면 해당 검색창으로 이동?
+//                            // TODO: 2.
 //                        } label: {
 //                            // TODO: - 최대 5개 보여주기 - 데이터 연결 후 하기
 //                            //                            ForEach(Array(vm.usersCurrentSearch.enumerated()), id:\.offset){ index ,item in
@@ -86,8 +98,9 @@ struct SearchView: View {
                                 Text(item)
                                     .foregroundColor(.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.bottom)
+                                    .padding(.bottom, 5)
                                     .font(.callout)
+                                    
                                 
                             }
                         }
@@ -103,16 +116,15 @@ struct SearchView: View {
                 Spacer()
                 
                 NavigationLink {
-                    // 필터뷰로 이동
+                   // TODO: 3.
                 } label: {
                     Text("Filters")
                         .foregroundColor(.white)
-                        .frame(width: 150, height: 50)
+                        .frame(width: 130, height: 40)
                     //                        .padding()
                         .background(.black)
                         .cornerRadius(7)
                         .padding(.bottom)
-                    
                 }
                 
                 
