@@ -57,13 +57,7 @@ struct PerfumeDetailView: View {
                     .padding(.leading, 20)
                     Divider()
                         .padding(.bottom)
-                    VStack(alignment: .leading, spacing: 5){
-                        Text("Descriptions")
-                            .bold()
-                        Text(perfume.fragranceDescription)
-                            .padding(.bottom)
-                        
-                        Text("FragrnceFamily")
+                    VStack(alignment: .leading, spacing: 5){                       Text("FragranceFamily")
                             .bold()
                         Text(perfume.fragranceFamily)
                             .padding(.bottom)
@@ -81,6 +75,10 @@ struct PerfumeDetailView: View {
                                 }
                             }
                         }.padding(.bottom)
+                        Text("Descriptions")
+                            .bold()
+                        Text(perfume.fragranceDescription)
+                            .padding(.bottom)
                         Group{
                             Text("Comments")
                                 .font(.title2)

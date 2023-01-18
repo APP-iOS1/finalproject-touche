@@ -19,10 +19,11 @@ struct PerfumeTabView: View {
                         switch selectedIndex{
                         case 0:
                             HomeView()
-//                        case 1:
+                        case 1:
+                            ContentView()
 //                            HomeView()
                         default:
-                            MyPageView()
+                            LogInRootView()
                         }
                     }
                     Spacer()

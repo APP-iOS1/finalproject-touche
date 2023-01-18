@@ -11,9 +11,8 @@ struct LogInView: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var isShowingAlert: Bool = false
-    
     @Binding var user: Bool
-    
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack{
             VStack(alignment: .leading){
@@ -38,6 +37,8 @@ struct LogInView: View {
             
             Button {
                 user = true
+                UserDefaults.standard.set(self.user, forKey: "user")
+                dismiss()
             } label: {
                 Text("Sign In")
                     .frame(width: 360, height: 46)

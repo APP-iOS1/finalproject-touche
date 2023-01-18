@@ -42,15 +42,15 @@ struct WriteCommentView: View {
     }
 }
 
-struct WriteCommentView_Previews: PreviewProvider {
-    static var previews: some View {
-        WriteCommentView(perfume: .constant(Perfume(perfumeId: "P258612",
-                                                    brandName: "CHANEL",
-                                                    displayName: "CHANCE EAU TENDRE Eau de Toilette",
-                                                    heroImage: "https://www.sephora.com/productimages/sku/s2238145-main-grid.jpg",
-                                                    fragranceFamily: "Fresh",
-                                                    scentType: "Fresh Fruity Florals",
-                                                    keyNotes: ["Citron", "Jasmine", "Teakwood"],
-                                                    fragranceDescription: "The delicate and unexpected fruity-floral fragrance for women creates a soft whirlwind of happiness, fantasy, and radiance.")))
-    }
-}
+//struct WriteCommentView_Previews: PreviewProvider {
+//    static var previews: some View {
+        //        WriteCommentView(perfume: .constant(Perfume(perfumeId: "P258612",
+        //                                                    brandName: "CHANEL",
+        //                                                    displayName: "CHANCE EAU TENDRE Eau de Toilette",
+        //                                                    heroImage: "https://www.sephora.com/productimages/sku/s2238145-main-grid.jpg",
+        //                                                    fragranceFamily: "Fresh",
+        //                                                    scentType: "Fresh Fruity Florals",
+        //                                                    keyNotes: ["Citron", "Jasmine", "Teakwood"],
+        //                                                    fragranceDescription: "The delicate and unexpected fruity-floral fragrance for women creates a soft whirlwind of happiness, fantasy, and radiance.")))
+//    }
+//}

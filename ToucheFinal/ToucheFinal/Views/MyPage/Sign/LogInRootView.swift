@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct LogInRootView: View {
-    @State private var user: Bool = false
+    @State private var user: Bool = UserDefaults.standard.bool(forKey: "user")
     var body: some View {
         if user {
-            GuideView() // 로그인 되면
+            MyPageView() // 로그인 되면
         } else { // 로그인 안되면
             SignOutView(user: $user)
         }

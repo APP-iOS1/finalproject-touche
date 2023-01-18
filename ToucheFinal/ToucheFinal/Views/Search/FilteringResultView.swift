@@ -39,7 +39,7 @@ struct FilteringResultView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                        
-                        ForEach(dummy, id: \.self) { data in
+                        ForEach(dummy) { data in
                             NavigationLink {
                                 // 해당 향수 디테일 뷰로 이동
                             } label: {

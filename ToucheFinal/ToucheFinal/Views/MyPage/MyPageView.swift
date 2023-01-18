@@ -10,14 +10,12 @@ import SwiftUI
 struct MyPageView: View {
     
     @State private var image = UIImage()
+    @State private var userNickname: String = "루나"
     @State private var showEditMyProfileView = false
     
-    
     var body: some View {
-    
         NavigationStack{
-        VStack{
-                
+            VStack{
                 Image(uiImage: self.image)
                     .resizable()
                     .cornerRadius(50)
@@ -27,7 +25,7 @@ struct MyPageView: View {
                     .clipShape(Circle())
                     .padding(.bottom, 20)
                 
-                Text("userNickName 들어올 자리")
+                Text(userNickname)
                     .padding(.bottom,3)
                 
                 Button {
@@ -36,7 +34,7 @@ struct MyPageView: View {
                     Text("Edit Profile")
                 }
                 .fullScreenCover(isPresented: $showEditMyProfileView) {
-                    EditMyProfileView()
+                    EditMyProfileView(image: $image, userNickname: $userNickname)
                 }
                 
                 Divider()
@@ -74,6 +72,7 @@ struct MyPageView: View {
                 .padding(.bottom, 20)
                 Button {
                     // 로그아웃 함수 들어갈 자리
+                    UserDefaults.standard.set(false, forKey: "user")
                 } label: {
                     Text("Log Out")
                         .frame(width: 170, height: 50)
@@ -83,17 +82,17 @@ struct MyPageView: View {
                     
                 }
             }
-        .padding(14)
-        .toolbar{
-            ToolbarItem(placement: .navigationBarTrailing){
-                Button {
-                    
-                } label: {
-                    Image(systemName: "gear")
+            .padding(14)
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing){
+                    NavigationLink {
+                        SettingView()
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundColor(.black)
+                    }
                 }
-
             }
-        }
         }
     }
 }

@@ -24,7 +24,7 @@ struct HomeView: View {
                         .frame(height: 350)
                         .overlay(alignment: .bottom) {
                             HStack{
-                                Text("Newly Added\nPerfume")
+                                Text("NEWLY ADDED\nPERFUME")
                                     .font(.largeTitle)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
@@ -37,10 +37,10 @@ struct HomeView: View {
                     if isShowingPromotion{
                         HStack {
                             VStack(alignment: .leading) {
-                                Text("지금 프로모션 중인 향수를 확인하세요")
+                                Text("CHECK OUT THE PROMOTIONS.")
                                     .foregroundColor(.black)
                                 
-                                Text("더보기")
+                                Text("MORE")
                                     .underline()
                                     .foregroundColor(.black)
                             }
@@ -48,7 +48,7 @@ struct HomeView: View {
                             Button {
                                 isShowingPromotion = false
                             } label: {
-                                Text("닫기")
+                                Text("CLOSE")
                                     .foregroundColor(.gray)
                             }
                         }
@@ -58,20 +58,22 @@ struct HomeView: View {
                     }
                     
                     // MARK: 브랜드 검색 순위
-                    Text("지금 사람들이 많이 검색한 브랜드")
+                    Text("BRAND TOP 7")
                         .modifier(TextViewModeifier())
                         .padding(.bottom, -15)
                     
                     ForEach(mostSearchedBrands, id: \.self) { brand in
                         Text(brand)
-                            .font(.system(size: 25))
+//                            .font(.system(size: 25))
+                            .font(.callout)
+                            .bold()
                             .fontWeight(.regular)
                             .foregroundColor(.black)
                             .lineSpacing(4.5)
                             .padding(.leading)
                     }
                     // MARK: 최근 클릭한 향수
-                    Text("최근 본 향수")
+                    Text("RECENTLY VIEWED")
                         .modifier(TextViewModeifier())
                     
                     ScrollView(.horizontal, showsIndicators: false){
@@ -88,7 +90,7 @@ struct HomeView: View {
                     }.padding(.bottom, 15)
                     
                     // MARK: 코멘트 많이 달린 향수
-                    Text("실시간 코멘트 급상승 향수")
+                    Text("RECENTLY TOP COMMNENTS 20")
                         .modifier(TextViewModeifier())
                     ScrollView(.horizontal, showsIndicators: false){
                         LazyHGrid(rows: rows){
@@ -105,8 +107,20 @@ struct HomeView: View {
                 }
             }
         }
+        .toolbar(content: {
+            ToolbarItem {
+                NavigationLink {
+                    SearchView()
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.black)
+                }
+            }
+        })
         .padding(.top, 0.1)
         .padding(.bottom, 30)
+        .navigationBarBackButtonHidden(true)
+        
     }
 }
 

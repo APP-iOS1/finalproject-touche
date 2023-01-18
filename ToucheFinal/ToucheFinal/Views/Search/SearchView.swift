@@ -20,47 +20,12 @@ import SwiftUI
 
 struct SearchView: View {
     @State private var searchText = ""
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     let testItem: [String] = ["Jo Malone London", "Jasmine", "Dior", "CHANCE EAU TENDRE Eau de Toilette", "Yves Saint Laurent"]
     
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
-                    Button {
-                        // TODO: 0.
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .padding(.leading)
-                            .foregroundColor(.black)
-                    }
-                    
-                    HStack{
-                        Image(systemName: "magnifyingglass").foregroundColor(.black)
-                        // TODO: 1.
-                        TextField("Search Brand, Notes, ", text: $searchText)
-                            .keyboardType(.alphabet)
-                            .autocorrectionDisabled()
-                            .textInputAutocapitalization(.never)    // 첫 영문자 대문자로 시작 막음
-                        Spacer(minLength: 0)
-                        if !searchText.isEmpty {
-                            Button {
-                                self.searchText = ""
-                            } label: {
-                                Image(systemName: "xmark")
-                                    .resizable()
-                                    .foregroundColor(Color(UIColor.systemGray6))
-                                    .frame(width: 8, height: 8)
-                                    .background(Circle().foregroundColor(Color(UIColor.systemGray2)).frame(width: 16, height: 16))
-                            }
-                            
-                        }
-                        
-                    }
-                    .padding(11)
-                        .background(Color(UIColor.systemGray5))
-                        .cornerRadius(7)
-                        .padding([.leading, .trailing], 10)
-                }
                 HStack{
                     Text("RECENT SEARCHES")
                     Spacer()
@@ -93,7 +58,7 @@ struct SearchView: View {
 //                        }
                         ForEach(testItem, id: \.self) { item in
                             NavigationLink {
-                                //
+                                SearchFilterView()
                             } label: {
                                 Text(item)
                                     .foregroundColor(.black)
@@ -116,7 +81,8 @@ struct SearchView: View {
                 Spacer()
                 
                 NavigationLink {
-                   // TODO: 3.
+//                    FilteringResultView()
+                    SearchFilterView()
                 } label: {
                     Text("Filters")
                         .foregroundColor(.white)
@@ -130,6 +96,49 @@ struct SearchView: View {
                 
             }
         }
+        .toolbar(content: {
+            ToolbarItem {
+                HStack{
+                    Image(systemName: "magnifyingglass").foregroundColor(.black)
+                    // TODO: 1.
+                    TextField("Search Brand, Notes, ", text: $searchText)
+                        .keyboardType(.alphabet)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)    // 첫 영문자 대문자로 시작 막음
+                    Spacer(minLength: 0)
+                    if !searchText.isEmpty {
+                        Button {
+                            self.searchText = ""
+                        } label: {
+                            Image(systemName: "xmark")
+                                .resizable()
+                                .foregroundColor(Color(UIColor.systemGray6))
+                                .frame(width: 8, height: 8)
+                                .background(Circle().foregroundColor(Color(UIColor.systemGray2)).frame(width: 16, height: 16))
+                        }
+                        
+                    }
+                    
+                }
+                .frame(width: 320)
+                .padding(11)
+                    .background(Color(UIColor.systemGray5))
+                    .cornerRadius(7)
+                    .padding([.leading, .trailing], 10)
+            }
+        })
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    self.mode.wrappedValue.dismiss()
+                } label:{
+                    Image(systemName: "chevron.left")
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationTitle(Text("Filter"))
     }
 }
 

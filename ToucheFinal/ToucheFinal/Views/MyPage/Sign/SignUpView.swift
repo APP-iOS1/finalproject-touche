@@ -61,7 +61,7 @@ struct SignUpView: View {
                 Group{
                     Text("Password")
                     
-                    SecureField("Enter Password", text: $password)
+                    SecureField("Enter password", text: $password)
                         .frame(height: 40)
                         .padding(.top, -6)
                     
