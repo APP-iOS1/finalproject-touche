@@ -26,7 +26,7 @@ struct SephoraFirebaseView: View {
             Button("데이터 보내기") {
                 // 7 page까지 완료
                 store.fetchlistDataAndPostToFirestore(page: page)
-//                store.hi()
+                //                store.hi()
             }
             
             Text(store.notice)
@@ -38,25 +38,28 @@ struct SephoraFirebaseDetailView: View {
     @StateObject var store: APIStore = APIStore()
     
     var body: some View {
-        List(store.products, id: \.productId) { product in
-            Button {
-                store.fetchDetailData(product: product)
-            } label: {
-                HStack {
-                    Text(product.productId)
-                    Spacer()
-                    Image(systemName: "checkmark")
-                        .opacity(0)
-                }                
+        List(store.perfumes, id: \.perfumeId) {  perfume in
+            HStack {
+                Text(perfume.perfumeId)
+                Spacer()
+                Image(systemName: "checkmark")
+                    .opacity(0)
             }
             .foregroundColor(.black)
-
+            
         }
+        .overlay(alignment: .bottomTrailing, content: {
+            Button("다음") {
+                store.fetch()
+            }
+            .padding()
+            .buttonStyle(.bordered)
+        })
         .overlay(alignment: .center, content: {
             Text("데이터 없음")
-                .opacity(store.products.isEmpty ? 1 : 0)
+                .opacity(store.perfumes.isEmpty ? 1 : 0)
         })
-        .refreshable(action: store.refreshProductData)
+//        .refreshable(action: store.refreshProductData)
     }
 }
 
