@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		233260D42977757500771B2A /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D32977757500771B2A /* LogInView.swift */; };
+		233260D82977759900771B2A /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D72977759900771B2A /* SignUpView.swift */; };
+		233260DA297775B700771B2A /* SignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D9297775B700771B2A /* SignOutView.swift */; };
+		233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260DB297782E900771B2A /* LogInSignUpView.swift */; };
+		233260DF2977833600771B2A /* SegmentedPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 233260DE2977833600771B2A /* SegmentedPicker */; };
+		2390497E2977920C0097B20A /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2390497D2977920C0097B20A /* GuideView.swift */; };
+		239049802977B9420097B20A /* LogInRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2390497F2977B9420097B20A /* LogInRootView.swift */; };
+		239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239049812977CBBF0097B20A /* WriteCommentView.swift */; };
 		657A08F92976596900E5B565 /* ToucheFinalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A08F82976596900E5B565 /* ToucheFinalApp.swift */; };
 		657A08FB2976596900E5B565 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A08FA2976596900E5B565 /* ContentView.swift */; };
 		657A08FD2976596A00E5B565 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657A08FC2976596A00E5B565 /* Assets.xcassets */; };
@@ -29,6 +37,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		233260D32977757500771B2A /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
+		233260D72977759900771B2A /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		233260D9297775B700771B2A /* SignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutView.swift; sourceTree = "<group>"; };
+		233260DB297782E900771B2A /* LogInSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInSignUpView.swift; sourceTree = "<group>"; };
+		2390497D2977920C0097B20A /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
+		2390497F2977B9420097B20A /* LogInRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRootView.swift; sourceTree = "<group>"; };
+		239049812977CBBF0097B20A /* WriteCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteCommentView.swift; sourceTree = "<group>"; };
 		657A08F52976596900E5B565 /* ToucheFinal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToucheFinal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		657A08F82976596900E5B565 /* ToucheFinalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToucheFinalApp.swift; sourceTree = "<group>"; };
 		657A08FA2976596900E5B565 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -51,6 +66,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				657A091329765B7800E5B565 /* GoogleSignIn in Frameworks */,
+				233260DF2977833600771B2A /* SegmentedPicker in Frameworks */,
 				657A090E29765A5500E5B565 /* FirebaseDatabaseSwift in Frameworks */,
 				657A091029765A5500E5B565 /* FirebaseFirestore in Frameworks */,
 				657A091529765B7800E5B565 /* GoogleSignInSwift in Frameworks */,
@@ -126,6 +142,13 @@
 			children = (
 				657A092429765EE000E5B565 /* HomeView.swift */,
 				657A092629765F1000E5B565 /* MyPageView.swift */,
+				233260D32977757500771B2A /* LogInView.swift */,
+				233260D72977759900771B2A /* SignUpView.swift */,
+				233260D9297775B700771B2A /* SignOutView.swift */,
+				233260DB297782E900771B2A /* LogInSignUpView.swift */,
+				2390497D2977920C0097B20A /* GuideView.swift */,
+				2390497F2977B9420097B20A /* LogInRootView.swift */,
+				239049812977CBBF0097B20A /* WriteCommentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -153,6 +176,7 @@
 				657A090F29765A5500E5B565 /* FirebaseFirestore */,
 				657A091229765B7800E5B565 /* GoogleSignIn */,
 				657A091429765B7800E5B565 /* GoogleSignInSwift */,
+				233260DE2977833600771B2A /* SegmentedPicker */,
 			);
 			productName = ToucheFinal;
 			productReference = 657A08F52976596900E5B565 /* ToucheFinal.app */;
@@ -185,6 +209,7 @@
 			packageReferences = (
 				657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				657A091129765B7800E5B565 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				233260DD2977833600771B2A /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */,
 			);
 			productRefGroup = 657A08F62976596900E5B565 /* Products */;
 			projectDirPath = "";
@@ -217,10 +242,17 @@
 				657A08FB2976596900E5B565 /* ContentView.swift in Sources */,
 				657A091729765BF000E5B565 /* Perfume.swift in Sources */,
 				657A091E29765E9000E5B565 /* PerfumeStore.swift in Sources */,
+				233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */,
+				233260D82977759900771B2A /* SignUpView.swift in Sources */,
+				239049802977B9420097B20A /* LogInRootView.swift in Sources */,
 				657A08F92976596900E5B565 /* ToucheFinalApp.swift in Sources */,
 				657A091B29765D3D00E5B565 /* UserInfo.swift in Sources */,
 				657A092029765E9C00E5B565 /* CommentStore.swift in Sources */,
+				2390497E2977920C0097B20A /* GuideView.swift in Sources */,
+				233260DA297775B700771B2A /* SignOutView.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
+				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,
+				233260D42977757500771B2A /* LogInView.swift in Sources */,
 				657A092229765EAC00E5B565 /* UserInfoStore.swift in Sources */,
 				657A091929765CFE00E5B565 /* Comment.swift in Sources */,
 			);
@@ -423,6 +455,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		233260DD2977833600771B2A /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/KazaiMazai/SwiftySegmentedPicker.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -442,6 +482,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		233260DE2977833600771B2A /* SegmentedPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 233260DD2977833600771B2A /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */;
+			productName = SegmentedPicker;
+		};
 		657A090929765A5500E5B565 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
