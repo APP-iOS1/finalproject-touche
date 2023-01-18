@@ -27,6 +27,10 @@
 		657A092529765EE000E5B565 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092429765EE000E5B565 /* HomeView.swift */; };
 		657A092729765F1000E5B565 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092629765F1000E5B565 /* MyPageView.swift */; };
 		A8BC3270297776C1004EF50C /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC326F297776C1004EF50C /* SearchView.swift */; };
+		A8BC32722977AB6A004EF50C /* FilteringResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC32712977AB6A004EF50C /* FilteringResultView.swift */; };
+		A8BC32742977BC09004EF50C /* PerfumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC32732977BC08004EF50C /* PerfumeCell.swift */; };
+		A8BC32772977BD95004EF50C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = A8BC32762977BD95004EF50C /* SDWebImageSwiftUI */; };
+		A8BC32792977BF3E004EF50C /* dummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC32782977BF3E004EF50C /* dummyData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +49,9 @@
 		657A092429765EE000E5B565 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		657A092629765F1000E5B565 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		A8BC326F297776C1004EF50C /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		A8BC32712977AB6A004EF50C /* FilteringResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringResultView.swift; sourceTree = "<group>"; };
+		A8BC32732977BC08004EF50C /* PerfumeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeCell.swift; sourceTree = "<group>"; };
+		A8BC32782977BF3E004EF50C /* dummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dummyData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8BC32772977BD95004EF50C /* SDWebImageSwiftUI in Frameworks */,
 				657A091329765B7800E5B565 /* GoogleSignIn in Frameworks */,
 				657A090E29765A5500E5B565 /* FirebaseDatabaseSwift in Frameworks */,
 				657A091029765A5500E5B565 /* FirebaseFirestore in Frameworks */,
@@ -129,6 +137,9 @@
 				657A092429765EE000E5B565 /* HomeView.swift */,
 				657A092629765F1000E5B565 /* MyPageView.swift */,
 				A8BC326F297776C1004EF50C /* SearchView.swift */,
+				A8BC32712977AB6A004EF50C /* FilteringResultView.swift */,
+				A8BC32732977BC08004EF50C /* PerfumeCell.swift */,
+				A8BC32782977BF3E004EF50C /* dummyData.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -156,6 +167,7 @@
 				657A090F29765A5500E5B565 /* FirebaseFirestore */,
 				657A091229765B7800E5B565 /* GoogleSignIn */,
 				657A091429765B7800E5B565 /* GoogleSignInSwift */,
+				A8BC32762977BD95004EF50C /* SDWebImageSwiftUI */,
 			);
 			productName = ToucheFinal;
 			productReference = 657A08F52976596900E5B565 /* ToucheFinal.app */;
@@ -188,6 +200,7 @@
 			packageReferences = (
 				657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				657A091129765B7800E5B565 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				A8BC32752977BD95004EF50C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 657A08F62976596900E5B565 /* Products */;
 			projectDirPath = "";
@@ -218,6 +231,7 @@
 			files = (
 				657A092529765EE000E5B565 /* HomeView.swift in Sources */,
 				657A08FB2976596900E5B565 /* ContentView.swift in Sources */,
+				A8BC32792977BF3E004EF50C /* dummyData.swift in Sources */,
 				657A091729765BF000E5B565 /* Perfume.swift in Sources */,
 				657A091E29765E9000E5B565 /* PerfumeStore.swift in Sources */,
 				657A08F92976596900E5B565 /* ToucheFinalApp.swift in Sources */,
@@ -225,7 +239,9 @@
 				657A092029765E9C00E5B565 /* CommentStore.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
 				657A092229765EAC00E5B565 /* UserInfoStore.swift in Sources */,
+				A8BC32742977BC09004EF50C /* PerfumeCell.swift in Sources */,
 				657A091929765CFE00E5B565 /* Comment.swift in Sources */,
+				A8BC32722977AB6A004EF50C /* FilteringResultView.swift in Sources */,
 				A8BC3270297776C1004EF50C /* SearchView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,6 +459,14 @@
 				minimumVersion = 6.2.4;
 			};
 		};
+		A8BC32752977BD95004EF50C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -475,6 +499,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 657A091129765B7800E5B565 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		A8BC32762977BD95004EF50C /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A8BC32752977BD95004EF50C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
