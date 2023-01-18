@@ -18,8 +18,7 @@ struct ToucheFinalApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            ContentView()
-            SephoraFirebaseDetailView()
+            PerfumeTabView()
         }
     }
 }
