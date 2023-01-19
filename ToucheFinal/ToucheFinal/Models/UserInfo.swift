@@ -18,7 +18,8 @@ enum Nation {
 struct UserInfo {
     var userId: String
     var userNation: Nation
+    var userNickName: String
     var userProfileImage: String
-    var perfumeScore: String
-    var likeComment: String
+    var userEmail: String
+    var likedComment: String
 }

@@ -8,7 +8,11 @@
 import Foundation
 
 struct Comment {
-    var commentId : String
-    var commentTime : String
-    var contents : String
+    var commentId: String
+    var commentTime: String
+    var contents: String
+    var perfumeScore: Int
+    var writerId: String
+    var writerNickName: String
+    var writerImage: String
 }
