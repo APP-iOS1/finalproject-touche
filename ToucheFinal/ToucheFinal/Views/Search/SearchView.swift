@@ -5,17 +5,6 @@
 //  Created by 이재희 on 2023/01/18.
 //
 
-/*
- TODO
- [] 0. < 백버튼으로 사용가능한지
- [] 1. TextField: brandName,displayName,keyNotes로 검색가능, placeholder명 정하기
- [] 2. 최근 검색어 아래에 텍스트로만 보일지? 이미지도 같이 보여줄지?
- [] 2-1. 클릭시 해당 검색어 이동하게 할지
- [] 2-2. 최근 검색어 5개만 보이게하기, 데이터 연동
- [] 3. 필터뷰로 이동
- [] 4. 하루끝 참고해서 키보드 올라오는거 참고하기
- [] 5. DeleteAll, x 추가하기 -> x로 삭제 되고, 텍스트 누르면 검색창이동하듯 이동도 해야하는건지?
- */
 import SwiftUI
 
 struct SearchView: View {
@@ -32,7 +21,8 @@ struct SearchView: View {
                     Button {
                         // 최근 검색어(Search history or Recent Searches) 전체 삭제 버튼
                     } label: {
-                        Text("DeleteAll")
+                        Text("DELETE")
+                            .foregroundColor(.black)
                     }
                 }
                 .padding()
@@ -58,7 +48,7 @@ struct SearchView: View {
 //                        }
                         ForEach(testItem, id: \.self) { item in
                             NavigationLink {
-                                SearchFilterView()
+                                // 해당 텍스트에 대한 검색창 나오게 하기 ?
                             } label: {
                                 Text(item)
                                     .foregroundColor(.black)
@@ -77,31 +67,13 @@ struct SearchView: View {
                     .onAppear{
                         //                        vm.fetchUsersCurrentSearch()
                     }
-                
-                Spacer()
-                
-                NavigationLink {
-//                    FilteringResultView()
-                    SearchFilterView()
-                } label: {
-                    Text("Filters")
-                        .foregroundColor(.white)
-                        .frame(width: 130, height: 40)
-                    //                        .padding()
-                        .background(.black)
-                        .cornerRadius(7)
-                        .padding(.bottom)
-                }
-                
-                
             }
         }
         .toolbar(content: {
             ToolbarItem {
                 HStack{
                     Image(systemName: "magnifyingglass").foregroundColor(.black)
-                    // TODO: 1.
-                    TextField("Search Brand, Notes, ", text: $searchText)
+                    TextField("Search products, brands or notes", text: $searchText)
                         .keyboardType(.alphabet)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)    // 첫 영문자 대문자로 시작 막음
@@ -115,16 +87,16 @@ struct SearchView: View {
                                 .foregroundColor(Color(UIColor.systemGray6))
                                 .frame(width: 8, height: 8)
                                 .background(Circle().foregroundColor(Color(UIColor.systemGray2)).frame(width: 16, height: 16))
+                                .padding(.trailing, 5)
                         }
                         
                     }
                     
                 }
                 .frame(width: 320)
-                .padding(11)
+                .padding(7)
                     .background(Color(UIColor.systemGray5))
                     .cornerRadius(7)
-                    .padding([.leading, .trailing], 10)
             }
         })
         .toolbar {
@@ -138,7 +110,6 @@ struct SearchView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationTitle(Text("Filter"))
     }
 }
 

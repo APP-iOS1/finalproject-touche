@@ -158,9 +158,9 @@
 		61FE131D2977D5D9003F0466 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				A8BC32712977AB6A004EF50C /* FilteringResultView.swift */,
 				A8BC326F297776C1004EF50C /* SearchView.swift */,
 				61FE13242977DC3F003F0466 /* SearchFilterView.swift */,
+				A8BC32712977AB6A004EF50C /* FilteringResultView.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
