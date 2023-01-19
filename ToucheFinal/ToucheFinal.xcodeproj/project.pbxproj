@@ -15,6 +15,7 @@
 		2390497E2977920C0097B20A /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2390497D2977920C0097B20A /* GuideView.swift */; };
 		239049802977B9420097B20A /* LogInRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2390497F2977B9420097B20A /* LogInRootView.swift */; };
 		239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239049812977CBBF0097B20A /* WriteCommentView.swift */; };
+		6115A2C929790EFE00BE740E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6115A2C829790EFE00BE740E /* FirebaseStorage */; };
 		61212E5E2978E2DF00D0ED57 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E5D2978E2DF00D0ED57 /* FirebaseFirestore */; };
 		61212E602978E30E00D0ED57 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E5F2978E30E00D0ED57 /* FirebaseFirestoreSwift */; };
 		61212E622978E32E00D0ED57 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61212E612978E32E00D0ED57 /* GoogleService-Info.plist */; };
@@ -106,6 +107,7 @@
 				61212E5E2978E2DF00D0ED57 /* FirebaseFirestore in Frameworks */,
 				657A090C29765A5500E5B565 /* FirebaseDatabase in Frameworks */,
 				657A090A29765A5500E5B565 /* FirebaseAuth in Frameworks */,
+				6115A2C929790EFE00BE740E /* FirebaseStorage in Frameworks */,
 				61212E602978E30E00D0ED57 /* FirebaseFirestoreSwift in Frameworks */,
 				61212E6C2978E4F600D0ED57 /* SwiftSoup in Frameworks */,
 			);
@@ -287,6 +289,7 @@
 				61212E5D2978E2DF00D0ED57 /* FirebaseFirestore */,
 				61212E5F2978E30E00D0ED57 /* FirebaseFirestoreSwift */,
 				61212E6B2978E4F600D0ED57 /* SwiftSoup */,
+				6115A2C829790EFE00BE740E /* FirebaseStorage */,
 			);
 			productName = ToucheFinal;
 			productReference = 657A08F52976596900E5B565 /* ToucheFinal.app */;
@@ -629,6 +632,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 233260DD2977833600771B2A /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */;
 			productName = SegmentedPicker;
+		};
+		6115A2C829790EFE00BE740E /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 		61212E5D2978E2DF00D0ED57 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;

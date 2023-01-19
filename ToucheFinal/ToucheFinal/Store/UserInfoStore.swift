@@ -61,7 +61,6 @@ class UserInfoStore: ObservableObject{
                     let userId = document.documentID
                     let userNation = docData["userNation"] as? Nation ?? .RepublicOfKorea
                     let userProfileImage = docData["userProfileImage"] as? String ?? ""
-                    let perfumeScore = docData["perfumeScore"] as? String ?? "0"
                     let likedComment = docData["likedComment"] as? String ?? "좋아요"
                     let userNickName = docData["userNickName"] as? String ?? "개똥이"
                     let userEmail = docData["userEmail"] as? String ?? "test@test.com"
