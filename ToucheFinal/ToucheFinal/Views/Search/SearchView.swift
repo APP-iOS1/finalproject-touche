@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct SearchView: View {
+    enum Field: Hashable {
+        case searchText
+      }
+    
     @State private var searchText = ""
+    @FocusState private var focusField : Field?
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     let testItem: [String] = ["Jo Malone London", "Jasmine", "Dior", "CHANCE EAU TENDRE Eau de Toilette", "Yves Saint Laurent","Jo Malone London", "Jasmine", "Dior", "CHANCE EAU TENDRE Eau de Toilette", "Yves Saint Laurent"]
     
@@ -63,6 +68,7 @@ struct SearchView: View {
                 .padding([.leading, .trailing])
                 .padding(.top, -7)
                 .onAppear{
+                    focusField = .searchText
                     //                        vm.fetchUsersCurrentSearch()
                 }
             }
@@ -71,6 +77,7 @@ struct SearchView: View {
             ToolbarItem {
                 HStack {
                     TextField("Search products, brands or notes", text: $searchText)
+                        .focused($focusField, equals: .searchText)
                         .keyboardType(.alphabet)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)    // 첫 영문자 대문자로 시작 막음
