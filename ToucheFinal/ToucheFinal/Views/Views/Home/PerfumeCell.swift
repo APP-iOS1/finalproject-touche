@@ -43,14 +43,13 @@ struct PerfumeCell_Previews: PreviewProvider {
                                      brandName: "CHANEL",
                                      displayName: "CHANCE EAU TENDRE Eau de Toilette",
                                      heroImage: "https://www.sephora.com/productimages/sku/s2238145-main-grid.jpg",
-                                     image450: "https://www.sephora.com/productimages/sku/s2238145-main-grid.jpg",
                                      fragranceFamily: "Fresh",
                                      scentType: "Fresh Fruity Florals",
                                      keyNotes: ["Citron", "Jasmine", "Teakwood"],
                                      fragranceDescription: "The delicate and unexpected fruity-floral fragrance for women creates a soft whirlwind of happiness, fantasy, and radiance.",
                                      likedPeople: ["1", "2"],
-                                     commentCount: 154,
-                                     totalPerfumeScore: 616
+                                     commentCount: 5,
+                                     totalPerfumeScore: 8
                                     ))
     }
 }
