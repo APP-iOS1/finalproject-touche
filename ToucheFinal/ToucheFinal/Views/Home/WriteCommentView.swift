@@ -32,6 +32,7 @@ struct WriteCommentView: View {
                         Text(perfume.brandName)
                             .foregroundColor(.gray)
                         Spacer()
+                        
                         HStack {
                             Image(systemName: "person")
                             Text("(\(perfume.commentCount))")
