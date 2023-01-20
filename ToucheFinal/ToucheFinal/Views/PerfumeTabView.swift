@@ -10,7 +10,7 @@ import SwiftUI
 struct PerfumeTabView: View {
     @State private var selectedIndex = 0
     @State private var touchTab = false
-    let tabBarNames = ["Home", "Something", "Profile"]
+    let tabBarNames = ["Home", "Filter", "Profile"]
     var body: some View {
         NavigationStack {
             GeometryReader{geometry in
@@ -20,8 +20,7 @@ struct PerfumeTabView: View {
                         case 0:
                             HomeView()
                         case 1:
-                            ContentView()
-//                            HomeView()
+                            SearchFilterView()
                         default:
                             LogInRootView()
                         }

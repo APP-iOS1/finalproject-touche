@@ -10,6 +10,9 @@ import SDWebImageSwiftUI
 
 struct PerfumeDetailView: View {
     @Namespace var reviewId
+    @State var test: Bool = false
+    @State var isShowingWriteComment: Bool = false
+    
     var perfume: Perfume
     var body: some View {
         ScrollViewReader { proxy in
@@ -28,36 +31,55 @@ struct PerfumeDetailView: View {
                             .padding(.vertical, 40)
                     }
                     .background(Color("customGray"))
-                    
-                    VStack(alignment: .leading){
-                        Text(perfume.brandName)
-                            .unredacted()
-                            .fontWeight(.semibold)
-                            .foregroundColor(.black)
-                        Text(perfume.displayName)
-                            .font(.system(size: 14))
-                            .foregroundColor(.black)
-                        Button {
-                            withAnimation {
-                                proxy.scrollTo(reviewId)
+                    HStack{
+                        VStack(alignment: .leading){
+                            Text(perfume.brandName)
+                                .unredacted()
+                                .fontWeight(.semibold)
+                                .foregroundColor(.black)
+                            Text(perfume.displayName)
+                                .font(.system(size: 14))
+                                .foregroundColor(.black)
+                            Button {
+                                withAnimation {
+                                    proxy.scrollTo(reviewId)
+                                }
+                            } label: {
+                                HStack{
+                                    RatingView(score: .constant(perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
+                                    Text("\("\(perfume.commentCount)개의 댓글 보기")")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.black)
+                                        .underline()
+                                }
                             }
-                        } label: {
-                            HStack{
-                                RatingView(score: .constant(perfume.totalPerfumeScore / perfume.commentCount))
-                                Text("\("\(perfume.commentCount)개의 리뷰 보기")")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.black)
-                                    .underline()
-                            }
+                            .padding(.top, -10)
                         }
-                        .padding(.top, -10)
-                        
+                        Spacer()
+                        VStack(alignment: .leading){
+                            VStack{
+                                Button {
+                                    test.toggle()
+                                } label: {
+                                    Image(systemName: test ? "heart.fill" : "heart")
+                                        .resizable()
+                                        .frame(width: 30, height: 27)
+                                }
+                                Text("\(perfume.likedPeople.count)")
+                                    .padding(.top, -8)
+                                    .foregroundColor(.black)
+                                    .fontWeight(.light)
+                            }
+                            .foregroundColor(.red)
+                        }
+                        .padding(.trailing)
                     }
-                                        .frame(width: abs(geometry.size.width - 20), alignment: .leading)
+                    .frame(width: abs(geometry.size.width - 20), alignment: .leading)
                     .padding(.leading, 20)
                     Divider()
                         .padding(.bottom)
-                    VStack(alignment: .leading, spacing: 5){                       Text("FragranceFamily")
+                    VStack(alignment: .leading, spacing: 5){
+                        Text("FragranceFamily")
                             .bold()
                         Text(perfume.fragranceFamily)
                             .padding(.bottom)
@@ -67,22 +89,27 @@ struct PerfumeDetailView: View {
                             .padding(.bottom)
                         Text("KeyNote")
                             .bold()
-                        HStack{
-                            ForEach(perfume.keyNotes.indices, id: \.self) { index in
-                                if index < (perfume.keyNotes.count - 1) {    Text("\(perfume.keyNotes[index]),")
-                                } else {
-                                    Text(perfume.keyNotes[index])
-                                }
-                            }
-                        }.padding(.bottom)
+                        ForEach(perfume.keyNotes.indices, id: \.self) { index in    Text(perfume.keyNotes[index])
+                        }
+                        
                         Text("Descriptions")
                             .bold()
+                            .padding(.top)
                         Text(perfume.fragranceDescription)
                             .padding(.bottom)
                         Group{
-                            Text("Comments")
-                                .font(.title2)
-                                .bold()
+                            HStack{
+                                Text("Comments")
+                                    .font(.title2)
+                                    .bold()
+                                Spacer()
+                                Button {
+                                    isShowingWriteComment = true
+                                } label: {
+                                    Text("댓글 작성하기")
+                                        .underline()
+                                }.foregroundColor(.black)
+                            }
                             ForEach(commentDummy, id: \.self.commentId) { comment in
                                 Divider()
                                 CommentCell(comment: comment)
@@ -96,6 +123,9 @@ struct PerfumeDetailView: View {
                 }
                 .navigationTitle(perfume.displayName)
                 .navigationBarTitleDisplayMode(.inline)
+                .fullScreenCover(isPresented: $isShowingWriteComment, content: {
+                    WriteCommentView(perfume: perfume)
+                })
             }
         }
     }
@@ -113,7 +143,7 @@ struct PerfumeDetailView_Previews: PreviewProvider {
                                                scentType: "Fresh Fruity Florals",
                                                keyNotes: ["Citron", "Jasmine", "Teakwood"],
                                                fragranceDescription: "The delicate and unexpected fruity-floral fragrance for women creates a soft whirlwind of happiness, fantasy, and radiance.",
-                                               likedPeople: ["1", "2"],
+                                               likedPeople: ["1", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3"],
                                                commentCount: 154,
                                                totalPerfumeScore: 616
                                               ))

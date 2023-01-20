@@ -56,6 +56,7 @@ struct LogInSignUpView: View {
             .frame(width: UIScreen.main.bounds.width, height: 650)
             
         }
+        
     }
 }
 

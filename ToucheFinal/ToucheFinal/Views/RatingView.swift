@@ -9,13 +9,21 @@ import SwiftUI
 
 struct RatingView: View {
     @Binding var score: Int
+    var frame: Int
+    var canClick: Bool
+    
     var body: some View {
         HStack{
-            ForEach(0..<5) { rating in
+            ForEach(1..<6) { rating in
                 Image(systemName: "star.fill")
                     .resizable()
-                    .frame(width: 15, height: 15)
-                    .foregroundColor( score > rating ? .red : .gray)
+                    .frame(width: CGFloat(frame), height: CGFloat(frame))
+                    .foregroundColor( score >= rating ? .red : .gray)
+                    .onTapGesture {
+                        if canClick{
+                            score = rating
+                        }
+                    }
             }
         }
     }
@@ -23,6 +31,6 @@ struct RatingView: View {
 
 struct RatingView_Previews: PreviewProvider {
     static var previews: some View {
-        RatingView(score: .constant(3))
+        RatingView(score: .constant(3), frame: 15, canClick: true)
     }
 }

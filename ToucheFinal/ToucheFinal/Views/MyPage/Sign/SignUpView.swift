@@ -95,6 +95,7 @@ struct SignUpView: View {
             .padding()
             .textFieldStyle(.roundedBorder)
             
+            
             Button {
                 user = true
             } label: {
@@ -105,7 +106,13 @@ struct SignUpView: View {
                     .cornerRadius(7)
             }
             .disabled(isSignUpDisabled)
-        }.onAppear{print("SignUp")}
+            
+            Spacer()
+        }
+        .onAppear{print("SignUp")}
+        
+            
+        
         
     }
     func checkEmail(email: String) -> Bool {
