@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct PerfumeDetailView: View {
+    @EnvironmentObject var perfumeStore: PerfumeStore
     @Namespace var reviewId
     @State var test: Bool = false
     @State var isShowingWriteComment: Bool = false
@@ -127,6 +128,9 @@ struct PerfumeDetailView: View {
                     WriteCommentView(perfume: perfume)
                 })
             }
+        }
+        .onAppear {
+            perfumeStore.createRecentlyViewedPerfume(perfume: perfume)
         }
     }
 }
