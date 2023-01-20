@@ -13,6 +13,7 @@ struct SearchView: View {
       }
     
     @State private var searchText = ""
+    @State private var showingDeleteAlert = false
     @FocusState private var focusField : Field?
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     let testItem: [String] = ["Jo Malone London", "Jasmine", "Dior", "CHANCE EAU TENDRE Eau de Toilette", "Yves Saint Laurent","Jo Malone London", "Jasmine", "Dior", "CHANCE EAU TENDRE Eau de Toilette", "Yves Saint Laurent"]
@@ -26,11 +27,22 @@ struct SearchView: View {
                     Spacer()
                     Button {
                         // 최근 검색어(Search history or Recent Searches) 전체 삭제 버튼
+                        showingDeleteAlert = true
                     } label: {
                         Image(systemName: "trash")
                             .foregroundColor(.black)
                             .padding(.trailing, -4)
                     }
+                    .alert(isPresented: $showingDeleteAlert) {
+                                Alert(
+                                    title: Text("Are you sure you want to delete all?"),
+                                    message: Text("There is no undo"),
+                                    primaryButton: .destructive(Text("Delete")) {
+                                        print("Deleting...")
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
                 }
                 .padding()
                 
@@ -97,7 +109,7 @@ struct SearchView: View {
                     }
                     
                     NavigationLink {
-                        //                        SearchResultView()
+//                                                SearchResultView()
                     } label: {
                         //클릭시 검색, 텍스트 없을 경우 버튼 막기
                         Image(systemName: "magnifyingglass").foregroundColor(.black)

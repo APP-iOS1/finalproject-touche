@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct MyPageView: View {
+
+    var perfume: Perfume
+    var comment: Comment
+    
     @State private var image = UIImage()
-    @State private var userNickname: String = "루나"
+    @State private var userNickname: String = "LUNA"
     @State private var showEditMyProfileView = false
+    @State private var userNation: String = "🏳️"
+    var perfume: Perfume
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
@@ -26,52 +32,68 @@ struct MyPageView: View {
                     .aspectRatio(contentMode: .fill)
                     .clipShape(Circle())
                     .padding(.bottom, 20)
-                
-                Text(userNickname)
-                    .padding(.bottom,3)
-                
+                HStack{
+                    Text(userNickname)
+                    Text(userNation)
+                }
+                .padding(.bottom,3)
                 Button {
                     showEditMyProfileView.toggle()
                 } label: {
                     Text("Edit Profile")
                 }
                 .fullScreenCover(isPresented: $showEditMyProfileView) {
-                    EditMyProfileView(image: $image, userNickname: $userNickname)
+                    EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
                 }
                 
                 Divider()
-                HStack{
-                    Text("Wish List")
-                        .fontWeight(.semibold)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                    
-                    
-                    
+                NavigationLink{
+                    WishListView()
+                }label: {
+                    HStack{
+                        Text("Wish List")
+                            .fontWeight(.semibold)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+
+                    }
+                    .padding(.bottom, 20)
                 }
-                .padding(.bottom, 20)
+                .tint(.black)
                 
                 HStack{
-                    Text("perfume1")
-                    Text("perfume2")
-                    Text("perfume3")
+                    ForEach(0..<3){ _ in
+                        WishListPerfumeCell(perfume: perfume)
+                    }
                 }
+                //.frame(width: 300,)
                 .padding(.bottom, 20)
                 
                 HStack{
                     Text("My Comment")
                         .fontWeight(.semibold)
                     Spacer()
-                    Image(systemName: "chevron.right")
+                    // TODO:
+                    NavigationLink {
+                        // 리스트 형식으로 나의 코멘트 길게 보여주기
+                        MyCommentListView()
+                    } label: {
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.black)
+                    }
+
                 }
-                .padding(.bottom, 20)
+                .padding(.bottom, 5)
                 
-                VStack{
-                    Text("My Comment1")
-                    Text("My Comment2")
-                    Text("My Comment3")
+                HStack{
+                    VStack{
+                        ForEach(0..<3) { _ in
+                            MyPageMyCommentCell(perfume: dummy[0], comment: commentDummy[0])
+                        }
+                    }
+                    .padding(.bottom, 20)
+                    Spacer()
                 }
-                .padding(.bottom, 20)
                 Button {
                     userInfoStore.logOut()
                     dismiss()
@@ -101,6 +123,6 @@ struct MyPageView: View {
 
 struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {
-        MyPageView()
+        MyPageView(perfume: dummy[0], comment: commentDummy[0])
     }
 }

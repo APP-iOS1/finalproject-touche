@@ -18,13 +18,22 @@ struct EditMyProfileView: View {
     @State private var showCameraSheet = false
     @State private var editName: String = ""
     @State private var editImage: UIImage = UIImage()
+    @State private var editNation: String = ""
     
     @Binding var image: UIImage
     @Binding var userNickname: String
+    @Binding var userNation: String
+    
+    var nation: [String] = ["🇫🇷 France", "🇯🇵 Japan", "🇰🇷 Republic of Korea", "🇺🇸 United States"]
+    
     
     var body: some View {
         NavigationStack{
             VStack{
+                
+                Text("Edit Profile")
+                    .padding(.bottom,20)
+               
                 Image(uiImage: self.editImage)
                     .resizable()
                     .cornerRadius(50)
@@ -55,15 +64,29 @@ struct EditMyProfileView: View {
                 
                 HStack{
                     VStack (alignment: .trailing){
-                        Text("User Name")
-                        Text("User ID")
+                        Text("Name")
+                            .padding(.bottom, 10)
+                        Text("ID")
+                            .padding(.bottom, 10)
+                        Text("Nation")
                     }
                     Spacer(minLength: 15)
                     VStack(alignment: .leading){
                         TextField("Edit your Nickname", text: $editName)
-                        Text("사용자가 가입한 email")
+                            .foregroundColor(.gray)
+                            .padding(.bottom,10)
+                        Text("사용자 가입 디폴트 email, 수정 불가")
+                        Picker("Select your nations", selection: $editNation){
+                            ForEach(nation, id: \.self){
+                                Text($0)
+                            }
+                        }
+                        .tint(.gray)
+                        
                     }
                 }
+                Spacer()
+                Spacer()
             }
             .padding(15)
             .sheet(isPresented: $showGallerySheet){
@@ -81,6 +104,7 @@ struct EditMyProfileView: View {
                     Button("Done"){
                         image = editImage
                         userNickname = editName
+                        userNation = editNation
                         dismiss()
                         // 수정 완료 기능
                     }
