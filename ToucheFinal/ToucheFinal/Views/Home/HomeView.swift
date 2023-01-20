@@ -64,7 +64,7 @@ struct HomeView: View {
                     
                     ForEach(mostSearchedBrands, id: \.self) { brand in
                         Text(brand)
-//                            .font(.system(size: 25))
+                        //                            .font(.system(size: 25))
                             .font(.callout)
                             .bold()
                             .fontWeight(.regular)
@@ -75,7 +75,6 @@ struct HomeView: View {
                     // MARK: 최근 클릭한 향수
                     Text("RECENTLY VIEWED")
                         .modifier(TextViewModeifier())
-                    
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack {
                             ForEach(dummy, id: \.self.perfumeId) { perfume in
@@ -88,10 +87,19 @@ struct HomeView: View {
                         }
                         .padding(.leading)
                     }.padding(.bottom, 15)
-                    
                     // MARK: 코멘트 많이 달린 향수
-                    Text("RECENTLY TOP COMMNENTS 20")
-                        .modifier(TextViewModeifier())
+                    HStack{
+                        Text("RECENTLY TOP COMMNENTS 20")
+                            .modifier(TextViewModeifier())
+                        NavigationLink {
+                            SeeMoreView(title: "", perfumes: dummy)
+                        } label: {
+                            Text("More")
+                                .bold()
+                                .underline()
+                        }
+                        .tint(.black)
+                    }
                     ScrollView(.horizontal, showsIndicators: false){
                         LazyHGrid(rows: rows){
                             ForEach(dummy, id: \.self.perfumeId) { perfume in

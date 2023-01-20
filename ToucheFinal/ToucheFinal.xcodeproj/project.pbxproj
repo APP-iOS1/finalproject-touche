@@ -23,6 +23,9 @@
 		61212E662978E37200D0ED57 /* APIStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61212E652978E37200D0ED57 /* APIStore.swift */; };
 		61212E692978E3B100D0ED57 /* LongDescriptionParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61212E682978E3B100D0ED57 /* LongDescriptionParsing.swift */; };
 		61212E6C2978E4F600D0ED57 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E6B2978E4F600D0ED57 /* SwiftSoup */; };
+		6189EA0B297A33B0005E6AA9 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6189EA0A297A33B0005E6AA9 /* String+.swift */; };
+		6189EA0D297A4C07005E6AA9 /* PerfumesGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6189EA0C297A4C07005E6AA9 /* PerfumesGridView.swift */; };
+		6189EA0F297A4F9B005E6AA9 /* SeeMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6189EA0E297A4F9B005E6AA9 /* SeeMoreView.swift */; };
 		61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13172977D587003F0466 /* PerfumeDetailView.swift */; };
 		61FE131A2977D588003F0466 /* PerfumeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13182977D587003F0466 /* PerfumeTabView.swift */; };
 		61FE13212977D7A1003F0466 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13202977D7A1003F0466 /* CommentCell.swift */; };
@@ -70,6 +73,9 @@
 		61212E632978E35A00D0ED57 /* SephoraFirebaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SephoraFirebaseView.swift; sourceTree = "<group>"; };
 		61212E652978E37200D0ED57 /* APIStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStore.swift; sourceTree = "<group>"; };
 		61212E682978E3B100D0ED57 /* LongDescriptionParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongDescriptionParsing.swift; sourceTree = "<group>"; };
+		6189EA0A297A33B0005E6AA9 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		6189EA0C297A4C07005E6AA9 /* PerfumesGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumesGridView.swift; sourceTree = "<group>"; };
+		6189EA0E297A4F9B005E6AA9 /* SeeMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeMoreView.swift; sourceTree = "<group>"; };
 		61FE13172977D587003F0466 /* PerfumeDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeDetailView.swift; sourceTree = "<group>"; };
 		61FE13182977D587003F0466 /* PerfumeTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeTabView.swift; sourceTree = "<group>"; };
 		61FE13202977D7A1003F0466 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentCell.swift; path = ToucheFinal/Views/CommentCell.swift; sourceTree = SOURCE_ROOT; };
@@ -147,6 +153,9 @@
 				239049812977CBBF0097B20A /* WriteCommentView.swift */,
 				61FE13202977D7A1003F0466 /* CommentCell.swift */,
 				61FE13222977D7A8003F0466 /* RatingView.swift */,
+				6189EA0A297A33B0005E6AA9 /* String+.swift */,
+				6189EA0C297A4C07005E6AA9 /* PerfumesGridView.swift */,
+				6189EA0E297A4F9B005E6AA9 /* SeeMoreView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -365,15 +374,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				657A092529765EE000E5B565 /* HomeView.swift in Sources */,
+				6189EA0D297A4C07005E6AA9 /* PerfumesGridView.swift in Sources */,
 				657A08FB2976596900E5B565 /* ContentView.swift in Sources */,
 				A8BC32792977BF3E004EF50C /* dummyData.swift in Sources */,
 				65A7AB3A2977812700DB4860 /* EditMyProfileView.swift in Sources */,
 				61212E642978E35A00D0ED57 /* SephoraFirebaseView.swift in Sources */,
 				61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */,
+				6189EA0F297A4F9B005E6AA9 /* SeeMoreView.swift in Sources */,
 				657A091729765BF000E5B565 /* Perfume.swift in Sources */,
 				61FE13252977DC3F003F0466 /* SearchFilterView.swift in Sources */,
 				657A091E29765E9000E5B565 /* PerfumeStore.swift in Sources */,
 				61212E662978E37200D0ED57 /* APIStore.swift in Sources */,
+				6189EA0B297A33B0005E6AA9 /* String+.swift in Sources */,
 				61FE131A2977D588003F0466 /* PerfumeTabView.swift in Sources */,
 				233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */,
 				233260D82977759900771B2A /* SignUpView.swift in Sources */,
