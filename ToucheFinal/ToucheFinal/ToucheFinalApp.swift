@@ -15,10 +15,12 @@ struct ToucheFinalApp: App {
     init() {
             FirebaseApp.configure()
         }
+    @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
     
     var body: some Scene {
         WindowGroup {
             PerfumeTabView()
+                .environmentObject(userInfoStore)
         }
     }
 }

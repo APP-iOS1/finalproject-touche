@@ -52,6 +52,7 @@ struct EditMyProfileView: View {
                 }
                 
                 Divider()
+                
                 HStack{
                     VStack (alignment: .trailing){
                         Text("User Name")
@@ -63,16 +64,12 @@ struct EditMyProfileView: View {
                         Text("사용자가 가입한 email")
                     }
                 }
-                
             }
             .padding(15)
             .sheet(isPresented: $showGallerySheet){
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$editImage)}
             .sheet(isPresented: $showCameraSheet) {
-                
                 ImagePicker(sourceType: .camera, selectedImage: self.$editImage)
-                
-                
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
