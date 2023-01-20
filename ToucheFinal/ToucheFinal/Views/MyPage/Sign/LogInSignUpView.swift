@@ -10,7 +10,6 @@ import SegmentedPicker
 
 struct LogInSignUpView: View {
     @State var selectedIndex: Int?
-    @Binding var user: Bool
     let titles: [String] = ["Sign In", "Sign Up"]
     
     var body: some View {
@@ -36,32 +35,30 @@ struct LogInSignUpView: View {
                             Color.black.frame(height: 1)
                         }
                     })
-                .onAppear {
-                    
-                }
                 .animation(.easeInOut(duration: 0.3), value: selectedIndex)
                 Spacer()
             }
             .padding(.leading, 15)
-       
+            
             VStack {
                 switch selectedIndex {
                 case 0:
-                    LogInView(user: $user)
+                    LogInView()
                 default:
-                    SignUpView(user: $user)
+                    SignUpView()
                 }
                 Spacer()
             }
             .frame(width: UIScreen.main.bounds.width, height: 650)
-            
-        }
-        
-    }
+            Spacer()
+        } //VStack
+//        .frame(height: 400)
+        .ignoresSafeArea(.keyboard)
+    } // body
 }
 
 struct LogInSignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        LogInSignUpView(user: .constant(true))
+        LogInSignUpView()
     }
 }

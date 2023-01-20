@@ -87,16 +87,12 @@ struct EditMyProfileView: View {
                 }
                 Spacer()
                 Spacer()
-                
             }
             .padding(15)
             .sheet(isPresented: $showGallerySheet){
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$editImage)}
             .sheet(isPresented: $showCameraSheet) {
-                
                 ImagePicker(sourceType: .camera, selectedImage: self.$editImage)
-                
-                
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {

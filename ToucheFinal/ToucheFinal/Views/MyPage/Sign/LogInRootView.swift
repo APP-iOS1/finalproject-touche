@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct LogInRootView: View {
-    @State private var user: Bool = UserDefaults.standard.bool(forKey: "user")
+    @EnvironmentObject var userInfoStore: UserInfoStore
     var body: some View {
-        if user {
+        if userInfoStore.user != nil {
             MyPageView(perfume: dummy[0], comment: commentDummy[0]) // 로그인 되면
         } else { // 로그인 안되면
-            SignOutView(user: $user)
+            SignOutView()
+//            MyPageView()
         }
     }
 }
