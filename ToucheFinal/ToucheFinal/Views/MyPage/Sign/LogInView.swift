@@ -53,8 +53,10 @@ struct LogInView: View {
             } message: {
                 Text("로그인 버튼 눌렀을 때")
             }
-            
+            Spacer()
         }
+        
+        
     }
     
 }
