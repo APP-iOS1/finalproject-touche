@@ -15,15 +15,20 @@ struct RatingView: View {
     var body: some View {
         HStack{
             ForEach(1..<6) { rating in
-                Image(systemName: "star.fill")
-                    .resizable()
-                    .frame(width: CGFloat(frame), height: CGFloat(frame))
-                    .foregroundColor( score >= rating ? .red : .gray)
-                    .onTapGesture {
-                        if canClick{
+                if canClick{
+                    Image(systemName: "star.fill")
+                        .resizable()
+                        .frame(width: CGFloat(frame), height: CGFloat(frame))
+                        .foregroundColor( score >= rating ? .red : .gray)
+                        .onTapGesture {
                             score = rating
                         }
-                    }
+                } else {
+                    Image(systemName: "star.fill")
+                        .resizable()
+                        .frame(width: CGFloat(frame), height: CGFloat(frame))
+                        .foregroundColor( score >= rating ? .red : .gray)
+                }
             }
         }
     }

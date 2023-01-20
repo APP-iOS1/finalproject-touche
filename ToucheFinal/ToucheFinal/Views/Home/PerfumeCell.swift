@@ -18,7 +18,7 @@ struct PerfumeCell: View {
                 .frame(width: 130, height: 130)
             Text(perfume.brandName)
                 .unredacted()
-                .fontWeight(.semibold)
+                .fontWeight(.medium)
                 .foregroundColor(.black)
                 .frame(width: 130, alignment: .leading)
                 .lineLimit(1)
@@ -30,9 +30,22 @@ struct PerfumeCell: View {
                 .lineLimit(1)
             
             HStack{
-                Text("\(Image(systemName: "heart"))\(perfume.likedPeople.count)")
-                Text("\(Image(systemName: "message")) \(perfume.commentCount)" )
-            }.foregroundColor(.black)
+                Image(systemName: perfume.likedPeople.contains("userId") ? "heart.fill" : "heart")
+                    .resizable()
+                    .frame(width: 13, height: 12)
+                    .padding(.trailing, -5)
+                Text("\(perfume.likedPeople.count)")
+                    .font(.system(size: 14))
+                Image(systemName: "message")
+                    .resizable()
+                    .frame(width: 13, height: 13)
+                    .padding(.trailing, -5)
+                Text("\(perfume.commentCount)" )
+                    .font(.system(size: 14))
+            }
+            .foregroundColor(.black)
+            .padding(.top, -7)
+            .padding(.leading, 2)
         }
     }
 }
