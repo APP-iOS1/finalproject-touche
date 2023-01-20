@@ -20,6 +20,8 @@ struct DeleteAccountView: View {
     
     @State private var selection = ReasonForDelete.notUse
     
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    
 //    let reasonForDelete: [String] = ["This app is not useful.", "There is no speciality in the app.", "There is no speciality in the app.", "I'll enter the reason directly."]
     
     @State private var showTextField: Bool = false
@@ -86,7 +88,7 @@ struct DeleteAccountView: View {
                 .opacity(selection == .enterReason ? 1 : 0)
                 
                 Button(action: {
-                    
+                    userInfoStore.deleteAccount()
                 }) {
                     Text("Delete Account")
                         .frame(width: 360, height: 46)
