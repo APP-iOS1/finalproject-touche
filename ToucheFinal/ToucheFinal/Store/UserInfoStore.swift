@@ -44,6 +44,8 @@ final class UserInfoStore: ObservableObject{
     @Published var loginState: LogInState = .none
     @Published var loginPlatform: LoginPlatform = .none
     
+    @Published var signInState: SignInState = .signOut
+    
     /// 현재 로그인한 사용자의 `UserInfo`를 Firestore로 부터 읽어오는 함수
     /// - Parameter user: 특정 회원의 `uid`를 이용하기 위한 파라미터 (User? 타입)
     ///
@@ -156,6 +158,19 @@ final class UserInfoStore: ObservableObject{
     
     /// 계정 삭제 기능
     func deleteAccount() {
-        user?.delete()
+        //  user?.delete()
+        user = Auth.auth().currentUser
+        
+        user?.delete { error in
+            if let e = error {
+                print(e.localizedDescription)
+            } else {
+                print("user deleted successfully")
+            }
+        }
+        
+        self.signInState = .signOut
+        
+        database.document(user?.uid ?? "").delete()
     }
 }
