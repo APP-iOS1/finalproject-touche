@@ -15,9 +15,9 @@ struct ToucheFinalApp: App {
     init() {
             FirebaseApp.configure()
         }
+    @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
     
     var body: some Scene {
-        let userInfoStore: UserInfoStore = UserInfoStore()
         WindowGroup {
             PerfumeTabView()
                 .environmentObject(userInfoStore)
