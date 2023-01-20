@@ -38,7 +38,20 @@ struct CommentCell: View {
                     .bold()
                 Text(comment.contents)
                     .frame(width: 300, alignment: .leading)
-                RatingView(score: .constant(comment.perfumeScore), frame: 15, canClick: false)
+                HStack {
+                    RatingView(score: .constant(comment.perfumeScore), frame: 15, canClick: false)
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: true ? "hand.thumbsup.fill" : "hand.thumbsup")
+                            .resizable()
+                            .frame(width: 18, height: 18)
+                            .foregroundColor(.black)
+                    }
+                    Text("24")
+                        .font(.system(size: 14))
+                        .padding(.leading, -3)
+                }
             }
         }
     }
