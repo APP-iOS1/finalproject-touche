@@ -48,9 +48,21 @@ class PerfumeStore: ObservableObject {
         listener?.remove()
     }
     
-    func create() {
+    func create(perfume: Perfume) {
+        do {
+           try path.collection("Perfume").document(perfume.perfumeId)
+                .setData(from: perfume)
+        } catch {
+            return
+        }
         
     }
-    func update() {}
-    func delete() {}
+    func update(perfume: Perfume) {
+        path.collection("Perfume").document(perfume.perfumeId)
+            .updateData([:])
+    }
+    func delete(perfume: Perfume) {
+        path.collection("Perfume").document(perfume.perfumeId)
+            .delete()
+    }
 }
