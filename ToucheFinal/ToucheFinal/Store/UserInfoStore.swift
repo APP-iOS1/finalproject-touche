@@ -65,20 +65,10 @@ class UserInfoStore: ObservableObject{
                     let userNickName = docData["userNickName"] as? String ?? "개똥이"
                     let userEmail = docData["userEmail"] as? String ?? "test@test.com"
                     
-                    let userInfo: UserInfo =
-                    UserInfo(
-                        userId: userId,
-                        userNation: userNation,
-                        userNickName: userNickName,
-                        userProfileImage: userProfileImage,
-                        userEmail: userEmail,
-                        likedComment: likedComment
-                    )
-                    
-                    self.userStore.append(userInfo)
-                    if self.user?.uid == userId {
-                        self.nickName = self.nickName
-                    }
+//                    self.userStore.append(userInfo)
+//                    if self.user?.uid == userId {
+//                        self.nickName = self.nickName
+//                    }
                 }
             }
         }
@@ -125,15 +115,29 @@ class UserInfoStore: ObservableObject{
     // MARK: - 회원가입 메서드
     // FIXME: 에러처리 필요함
     func signUp(emailAddress: String, password: String, nickname: String) {
-        Auth.auth().createUser(withEmail: emailAddress, password: password) { result, error in
+        Auth.auth().createUser(withEmail: emailAddress, password: password) { [weak self] result, error in
             if let error = error {
                 print("an error occured: \(error.localizedDescription)")
                 return
             } else {
-//                guard let uid = result?.user.uid else { return }
+                guard let uid = result?.user.uid else { return }
                 // MARK: 받아온 닉네임 정보로 사용자의 displayName 설정
-                self.logIn(emailAddress: emailAddress, password: password)
-//                let user = UserInfo(id: uid, email: emailAddress, nickName: nickname)
+                self?.logIn(emailAddress: emailAddress, password: password)
+                
+                let userInfo = UserInfo(
+                    userId: uid,
+                    userNation: .None,
+                    userNickName: "닉네임이 없어요.",
+                    userProfileImage: "",
+                    userEmail: emailAddress,
+                    writtenComments: []
+                )
+                
+                do {
+                    try self?.database.document(userInfo.userId).setData(from: userInfo)
+                } catch {
+                    return
+                }
 //                self.addUser(user)
             }
         }
