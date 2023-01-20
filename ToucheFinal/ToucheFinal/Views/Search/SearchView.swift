@@ -18,8 +18,17 @@ struct SearchView: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     let testItem: [String] = ["Jo Malone London", "Jasmine", "Dior", "CHANCE EAU TENDRE Eau de Toilette", "Yves Saint Laurent","Jo Malone London", "Jasmine", "Dior", "CHANCE EAU TENDRE Eau de Toilette", "Yves Saint Laurent"]
     
+    var searchResults: [Perfume] {
+           if searchText.isEmpty {
+               return dummy
+           } else {
+               return dummy.filter { perfume in
+                   perfume.brandName.lowercased().contains(searchText.lowercased())
+               }
+           }
+       }
+    
     var body: some View {
-        NavigationStack {
             VStack {
                 HStack{
                     Text("RECENT SEARCHES")
@@ -49,12 +58,12 @@ struct SearchView: View {
                 ScrollView(showsIndicators: false) {
                     // TODO: 검색 내역이 없는 경우 텍스트입력하기 (쿠팡참고) + 아래 빈 화면들 (어떤 검색어로 검색할 수 있는지 설명 Or 컬러 활용한 애니메이션 효과 )
                     VStack(alignment: .leading) {
-                        ForEach(testItem, id: \.self) { item in
+                        ForEach(searchResults, id: \.perfumeId) { (result: Perfume) in
                             HStack {
                                 NavigationLink {
                                     // 해당 텍스트에 대한 검색창 나오게 하기 ?
                                 } label: {
-                                    Text(item)
+                                    Text(result.brandName)
                                         .foregroundColor(.black)
                                         .frame(alignment: .leading)
                                     //                                        .padding(.bottom, 5)
@@ -84,47 +93,54 @@ struct SearchView: View {
                     //                        vm.fetchUsersCurrentSearch()
                 }
             }
-        }
-        .toolbar(content: {
-            ToolbarItem {
-                HStack {
-                    TextField("Search products, brands or notes", text: $searchText)
-                        .focused($focusField, equals: .searchText)
-                        .keyboardType(.alphabet)
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)    // 첫 영문자 대문자로 시작 막음
-                    Spacer(minLength: 0)
-                    
-                    if !searchText.isEmpty {
-                        Button {
-                            self.searchText = ""
-                        } label: {
-                            Image(systemName: "xmark")
-                                .resizable()
-                                .foregroundColor(Color(UIColor.systemGray6))
-                                .frame(width: 9, height: 9)
-                                .background(Circle().foregroundColor(Color.black).frame(width: 16, height: 16))
-                            //                                .padding(.trailing, 5)
-                        }
-                    }
-                    
-                    NavigationLink {
-//                                                SearchResultView()
-                    } label: {
-                        //클릭시 검색, 텍스트 없을 경우 버튼 막기
-                        Image(systemName: "magnifyingglass").foregroundColor(.black)
-                    }.disabled(searchText.isEmpty)
-                }
-                .frame(width: 325)
-                .padding(5)
-                .background(.white)
-                .cornerRadius(7)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 7)
-                        .stroke(lineWidth: 1)
-                )
-            }
-        })
+        
+            .navigationTitle("Search")
+            .navigationBarTitleDisplayMode(.inline)
+            .searchable(
+                text: $searchText,
+                placement: SearchFieldPlacement.toolbar,
+                prompt: "Enter the brand, notes, perfume.."
+            )
+//        .toolbar(content: {
+//            ToolbarItem {
+//                HStack {
+//                    TextField("Search products, brands or notes", text: $searchText)
+//                        .focused($focusField, equals: .searchText)
+//                        .keyboardType(.alphabet)
+//                        .autocorrectionDisabled()
+//                        .textInputAutocapitalization(.never)    // 첫 영문자 대문자로 시작 막음
+//                    Spacer(minLength: 0)
+//
+//                    if !searchText.isEmpty {
+//                        Button {
+//                            self.searchText = ""
+//                        } label: {
+//                            Image(systemName: "xmark")
+//                                .resizable()
+//                                .foregroundColor(Color(UIColor.systemGray6))
+//                                .frame(width: 9, height: 9)
+//                                .background(Circle().foregroundColor(Color.black).frame(width: 16, height: 16))
+//                            //                                .padding(.trailing, 5)
+//                        }
+//                    }
+//
+//                    NavigationLink {
+////                                                SearchResultView()
+//                    } label: {
+//                        //클릭시 검색, 텍스트 없을 경우 버튼 막기
+//                        Image(systemName: "magnifyingglass").foregroundColor(.black)
+//                    }.disabled(searchText.isEmpty)
+//                }
+//                .frame(width: 325)
+//                .padding(5)
+//                .background(.white)
+//                .cornerRadius(7)
+//                .overlay(
+//                    RoundedRectangle(cornerRadius: 7)
+//                        .stroke(lineWidth: 1)
+//                )
+//            }
+//        })
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
