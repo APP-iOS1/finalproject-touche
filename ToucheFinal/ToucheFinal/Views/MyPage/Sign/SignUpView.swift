@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @Environment(\.dismiss) var dismiss
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
     @State var email: String = ""
     @State var password: String = ""
     @State var checkPassword: String = ""
     @State var nickName: String = ""
-    
-    @Binding var user: Bool
     
     // 이메일 정규식 검사
     var isEmailRuleSatisfied : Bool {
@@ -97,7 +97,8 @@ struct SignUpView: View {
             
             
             Button {
-                user = true
+                userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
+                dismiss()
             } label: {
                 Text("Sign Up")
                     .frame(width: 360, height: 46)
@@ -123,7 +124,7 @@ struct SignUpView: View {
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView(user: .constant(true))
+        SignUpView()
             
             
     }

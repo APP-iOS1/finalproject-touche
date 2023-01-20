@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct MyPageView: View {
-    
     @State private var image = UIImage()
     @State private var userNickname: String = "루나"
     @State private var showEditMyProfileView = false
+    
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
     var body: some View {
         NavigationStack{
@@ -71,8 +73,8 @@ struct MyPageView: View {
                 }
                 .padding(.bottom, 20)
                 Button {
-                    // 로그아웃 함수 들어갈 자리
-                    UserDefaults.standard.set(false, forKey: "user")
+                    userInfoStore.logOut()
+                    dismiss()
                 } label: {
                     Text("Log Out")
                         .frame(width: 170, height: 50)

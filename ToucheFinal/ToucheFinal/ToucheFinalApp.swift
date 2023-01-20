@@ -17,8 +17,10 @@ struct ToucheFinalApp: App {
         }
     
     var body: some Scene {
+        let userInfoStore: UserInfoStore = UserInfoStore()
         WindowGroup {
             PerfumeTabView()
+                .environmentObject(userInfoStore)
         }
     }
 }
