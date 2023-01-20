@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct MyPageView: View {
-    
+    var perfume: Perfume
+    var comment: Comment
     @State private var image = UIImage()
     @State private var userNickname: String = "루나"
     @State private var showEditMyProfileView = false
@@ -60,16 +61,27 @@ struct MyPageView: View {
                     Text("My Comment")
                         .fontWeight(.semibold)
                     Spacer()
-                    Image(systemName: "chevron.right")
+                    // TODO:
+                    NavigationLink {
+                        // 리스트 형식으로 나의 코멘트 길게 보여주기
+                        MyCommentListView()
+                    } label: {
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.black)
+                    }
+
                 }
-                .padding(.bottom, 20)
+                .padding(.bottom, 5)
                 
-                VStack{
-                    Text("My Comment1")
-                    Text("My Comment2")
-                    Text("My Comment3")
+                HStack{
+                    VStack{
+                        ForEach(0..<3) { _ in
+                            MyPageMyCommentCell(perfume: dummy[0], comment: commentDummy[0])
+                        }
+                    }
+                    .padding(.bottom, 20)
+                    Spacer()
                 }
-                .padding(.bottom, 20)
                 Button {
                     // 로그아웃 함수 들어갈 자리
                     UserDefaults.standard.set(false, forKey: "user")
@@ -99,6 +111,6 @@ struct MyPageView: View {
 
 struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {
-        MyPageView()
+        MyPageView(perfume: dummy[0], comment: commentDummy[0])
     }
 }
