@@ -131,6 +131,7 @@ struct PerfumeDetailView: View {
         }
         .onAppear {
             perfumeStore.createRecentlyViewedPerfume(perfume: perfume)
+            
         }
     }
 }

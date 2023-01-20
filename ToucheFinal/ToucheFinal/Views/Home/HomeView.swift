@@ -91,7 +91,7 @@ struct HomeView: View {
                     }
                     .padding(.bottom, 15)
                     .onAppear {
-                        perfumeStore.readRecentlyViewd7Perfumes()
+                        perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
                     }
                     
                     // MARK: 코멘트 많이 달린 향수

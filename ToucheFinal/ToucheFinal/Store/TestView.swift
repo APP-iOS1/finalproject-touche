@@ -12,20 +12,24 @@ struct TestView: View {
     
     var body: some View {
         VStack {
-            ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self) { perfume in
-                Button {
-                    
-                } label: {
-                    Text(perfume.displayName)
+                ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self) { perfume in
+                    Button {
+                    } label: {
+                        VStack {
+                            Text(perfume.displayName)
+                            Text(perfume.perfumeId)
+                        }.background(Color.mint)
+                            .padding()
+                    }
                 }
-            }
+            
         }
         .onAppear {
-            perfumeStore.readUserInfo()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
-                print(perfumeStore.recentlyViewedPerfumeIds)
-                perfumeStore.readRecentlyViewd7Perfumesss(recentlyViewedPerfumeIds: perfumeStore.recentlyViewedPerfumeIds)
-            }
+            perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+//                print(perfumeStore.recentlyViewedPerfumeIds)
+//                perfumeStore.readRecentlyViewd7Perfumesss(recentlyViewedPerfumeIds: perfumeStore.recentlyViewedPerfumeIds)
+//            }
         }
     }
 }

@@ -27,9 +27,9 @@ class PerfumeStore: ObservableObject {
     @Published var recentlyViewedPerfumeIds: [String] = []
     let path = Firestore.firestore()
     
-//    init() {
-//        read()
-//    }
+    //    init() {
+    //        read()
+    //    }
     
     var listener: ListenerRegistration?
     
@@ -47,144 +47,13 @@ class PerfumeStore: ObservableObject {
             }
     }
     
-    func readTopComment20Perfumes() {
-        self.listener = path.collection("Perfume").order(by: "commentCount", descending: true).limit(to: 20)
-            .addSnapshotListener { [weak self] snapshot, _ in
-                guard let snapshot = snapshot else { return }
-                self?.topComment20Perfumes = snapshot.documents.compactMap { query -> Perfume? in
-                    do {
-                        return try query.data(as: Perfume.self)
-                    } catch {
-                        return nil
-                    }
-                }
-            }
-    }
-    
-    func readRecentlyViewd7Perfumes() {
-        self.listener = path.collection("Perfume").limit(to: 7)
-            .addSnapshotListener { [weak self] snapshot, _ in
-                guard let snapshot = snapshot else { return }
-                self?.recentlyViewed7Perfumes = snapshot.documents.compactMap { query -> Perfume? in
-                    do {
-                        return try query.data(as: Perfume.self)
-                    } catch {
-                        return nil
-                    }
-                }
-            }
-    }
-    
-    func readUserInfo() {
-        self.listener = path.collection("TestUser").document("태형Id")
-            .addSnapshotListener { [weak self] snapshot, _ in
-                guard let snapshot = snapshot else { return }
-                let docData = snapshot.data()
-                let id = snapshot.documentID
-                let recentlyViewedPerfumeIds: [String] = docData?["recentlyViewedPerfumeIds"] as? [String] ?? []
-                self?.recentlyViewedPerfumeIds = recentlyViewedPerfumeIds
-                print(self?.recentlyViewedPerfumeIds)
-                print(recentlyViewedPerfumeIds)
-            }
-    }
-    
-    func readRecentlyViewd7Perfumesss(recentlyViewedPerfumeIds: [String]) {
-//        var recentlyViewedPerfumeIds: [String] = ["P12495", "P12420", "P138300"]
-        var arr: [Perfume] = []
-        
-        self.listener = path.collection("Perfume")
-            .whereField("perfumeId", in: recentlyViewedPerfumeIds).limit(to: 7)
-            .addSnapshotListener { [weak self] snapshot, _ in
-                guard let snapshot = snapshot else { return }
-                arr = snapshot.documents.compactMap { query -> Perfume? in
-                    do {
-                        return try query.data(as: Perfume.self)
-                    } catch {
-                        return nil
-                    }
-                }
-                self?.recentlyViewed7Perfumes.removeAll()
-                for id in recentlyViewedPerfumeIds {
-                    for perfume in arr {
-                        if perfume.perfumeId == id {
-                            self?.recentlyViewed7Perfumes.append(perfume)
-                        }
-                    }
-                }
-            }
-    }
-                    
-        //        for id in recentlyViewedPerfumeIds {
-//                path.collection("Perfume").whereField("perfumeId", in: recentlyViewedPerfumeIds)
-//                    .addSnapshotListener { document, error in
-//
-//                        guard let document else { return }
-
-//                for doc in document.documents {
-//                    let id = doc.documentID
-//                    let docData = doc.data()
-//                    let brandName: String = docData["brandName"] as? String ?? ""
-//                    let commentCount: Int = docData["commentCount"] as? Int ?? 0
-//                    let displayName: String = docData["displayName"] as? String ?? ""
-//                    let fragranceDescription: String = docData["fragranceDescription"] as? String ?? ""
-//                    let fragranceFamily: String = docData["fragranceFamily"] as? String ?? ""
-//                    let heroImage: String = docData["heroImage"] as? String ?? ""
-//                    let image450: String = docData["image450"] as? String ?? ""
-//                    let keyNotes: [String] = docData["keyNotes"] as? [String] ?? []
-//                    let likedPeople: [String] = docData["likedPeople"] as? [String] ?? []
-//                    let scentType: String = docData["scentType"] as? String ?? ""
-//                    let totalPerfumeScore: Int = docData["totalPerfumeScore"] as? Int ?? 0
-//
-//                    var perfume = Perfume(perfumeId: id, brandName: brandName, displayName: displayName, heroImage: heroImage, image450: image450, fragranceFamily: fragranceFamily, scentType: scentType, keyNotes: keyNotes, fragranceDescription: fragranceDescription, likedPeople: likedPeople, commentCount: commentCount, totalPerfumeScore: totalPerfumeScore)
-//
-//                    self.recentlyViewd7Perfumes.append(perfume)
-//                }
-//            }
-//        }
-        
-//        self.listener = path.collection("Perfume")
-//            .whereField("perfumeId", arrayContainsAny: recentlyViewedPerfumeIds).limit(to: 7)
-//            .addSnapshotListener { [weak self] snapshot, _ in
-//                guard let snapshot = snapshot else { return }
-//                self?.recentlyViewd7Perfumes = snapshot.documents.compactMap { query -> Perfume? in
-//                    do {
-//                        return try query.data(as: Perfume.self)
-//                    } catch {
-//                        return nil
-//                    }
-//                }
-//            }
-//    }
-    
-    func createRecentlyViewedPerfume(perfume: Perfume) {
-        let createdAt = Date().timeIntervalSince1970
-        path.collection("TestUser").document("태형Id").collection("RecentlyViewedPerfume").document(perfume.perfumeId)
-            .setData([
-                "perfumeId": perfume.perfumeId,
-                "createdAt": createdAt])
-    }
-    
-//    func readRecentlyViewed7Perfumes() {
-//        self.listener = path.collection("User")
-//            .addSnapshotListener { [weak self] snapshot, _ in
-//                guard let snapshot = snapshot else { return }
-//                self?.topComment20Perfumes = snapshot.documents.compactMap { query -> Perfume? in
-//                    do {
-//                        return try query.data(as: Perfume.self)
-//                    } catch {
-//                        return nil
-//                    }
-//                }
-//            }
-//    }
-    
     func detach() {
         listener?.remove()
     }
     
     func create(perfume: Perfume) {
         do {
-           try path.collection("Perfume").document(perfume.perfumeId)
+            try path.collection("Perfume").document(perfume.perfumeId)
                 .setData(from: perfume)
         } catch {
             return
@@ -199,4 +68,75 @@ class PerfumeStore: ObservableObject {
         path.collection("Perfume").document(perfume.perfumeId)
             .delete()
     }
+    
+    
+    //MARK: - 최근 댓글 많은 순 20개 향수 보여주기
+    /// 향수 콜렉션 안의 향수들을 commentCount 값으로 정렬한 후
+    /// 20개의 데이터를 받아온 후 topComment20Perfumes 배열에 넣어준다.
+    func readTopComment20Perfumes() {
+        self.listener = path.collection("Perfume").order(by: "commentCount", descending: true).limit(to: 20)
+            .addSnapshotListener { [weak self] snapshot, _ in
+                guard let snapshot = snapshot else { return }
+                self?.topComment20Perfumes = snapshot.documents.compactMap { query -> Perfume? in
+                    do {
+                        return try query.data(as: Perfume.self)
+                    } catch {
+                        return nil
+                    }
+                }
+            }
+    }
+    
+    //MARK: - 최근 본 뷰에 향수의 id값 추가하기
+    /// 향수 디테일뷰로 넘어갈 때 마다 향수의 id값을 user의 정보에 담아주는 메소드
+    /// 이 후 향수 id 배열은 Perfume collection에서 쿼리에 사용된다.
+    func createRecentlyViewedPerfume(perfume: Perfume) {
+        //        let createdAt = Date().timeIntervalSince1970
+        // 로그인 분기처리되면 document의 id값을 유저id로 수정 예정
+        path.collection("TestUser").document("태형Id")
+            .updateData([
+                "recentlyViewedPerfumeIds": FieldValue.arrayUnion([perfume.perfumeId])
+            ])
+    }
+    
+    //MARK: - 최근 본 향수의 id값이 유저정보에 담기면 Read + func fetchRecentlyViewd7Perfumes
+    func readViewedPerfumeIdsArrayAtUserInfo() {
+        self.listener = path.collection("TestUser").document("태형Id")
+            .addSnapshotListener { [weak self] snapshot, _ in
+                guard let snapshot = snapshot else { return }
+                let docData = snapshot.data()
+                self?.recentlyViewedPerfumeIds = docData?["recentlyViewedPerfumeIds"] as? [String] ?? []
+                
+
+                self?.fetchRecentlyViewd7Perfumes(recentlyViewedPerfumeIds: self?.recentlyViewedPerfumeIds ?? [])
+            }
+    }
+    
+    //MARK: - 유저정보에 담긴 최근 본 향수의 id값을 받아와서 퍼퓸 컬렉션에서 해당하는 퍼퓸들을 배열에 담아 보여줌
+    func fetchRecentlyViewd7Perfumes(recentlyViewedPerfumeIds: [String]) {
+        path.collection("Perfume")
+            .whereField("perfumeId", in: recentlyViewedPerfumeIds).limit(to: 7).getDocuments {
+                snapshot, error in
+                guard let snapshot = snapshot else { return }
+                var arr: [Perfume] = []
+                arr = snapshot.documents.compactMap { query -> Perfume? in
+                    do {
+                        return try query.data(as: Perfume.self)
+                    } catch {
+                        return nil
+                    }
+                }
+                
+                self.recentlyViewed7Perfumes.removeAll()
+                for id in recentlyViewedPerfumeIds {
+                    for perfume in arr {
+                        if perfume.perfumeId == id {
+                            self.recentlyViewed7Perfumes.insert(perfume, at: 0)
+                        }
+                    }
+                }
+            }
+    }
+    
+
 }
