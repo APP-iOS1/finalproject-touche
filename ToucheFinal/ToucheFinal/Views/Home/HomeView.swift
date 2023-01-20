@@ -92,7 +92,7 @@ struct HomeView: View {
                         Text("RECENTLY TOP COMMNENTS 20")
                             .modifier(TextViewModeifier())
                         NavigationLink {
-                            SeeMoreView(title: "", perfumes: dummy)
+                            PerfumesGridView(perfumes: dummy, title: "")
                         } label: {
                             Text("More")
                                 .bold()
@@ -127,8 +127,6 @@ struct HomeView: View {
         })
         .padding(.top, 0.1)
         .padding(.bottom, 30)
-        .navigationBarBackButtonHidden(true)
-        
     }
 }
 

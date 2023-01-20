@@ -9,32 +9,32 @@ import SwiftUI
 
 struct PerfumesGridView: View {
     var perfumes: [Perfume]
+    var title: String
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())]
     var body: some View {
-        NavigationView{
-            VStack(alignment: .leading) {
-                HStack{
-                    ScrollView {
-                        LazyVGrid(columns: columns, spacing: 10) {
-                            ForEach(dummy, id: \.self.perfumeId) { perfume in
-                                NavigationLink {
-                                    PerfumeDetailView(perfume: perfume)
-                                } label: {
-                                    PerfumeCell(perfume: perfume)
-                                }
+        VStack(alignment: .leading) {
+            HStack{
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        ForEach(dummy, id: \.self.perfumeId) { perfume in
+                            NavigationLink {
+                                PerfumeDetailView(perfume: perfume)
+                            } label: {
+                                PerfumeCell(perfume: perfume)
                             }
                         }
                     }
                 }
             }
-            .padding(.horizontal)
         }
+        .padding(.horizontal)
+        .navigationBarTitle(title)
     }
 }
 struct PerfumesGridView_Previews: PreviewProvider {
     static var previews: some View {
-        PerfumesGridView(perfumes: dummy)
+        PerfumesGridView(perfumes: dummy, title: "7")
     }
 }
