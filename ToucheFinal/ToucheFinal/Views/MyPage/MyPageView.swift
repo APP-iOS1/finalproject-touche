@@ -10,8 +10,10 @@ import SwiftUI
 struct MyPageView: View {
     
     @State private var image = UIImage()
-    @State private var userNickname: String = "루나"
+    @State private var userNickname: String = "LUNA"
     @State private var showEditMyProfileView = false
+    @State private var userNation: String = "🏳️"
+    var perfume: Perfume
     
     var body: some View {
         NavigationStack{
@@ -24,36 +26,41 @@ struct MyPageView: View {
                     .aspectRatio(contentMode: .fill)
                     .clipShape(Circle())
                     .padding(.bottom, 20)
-                
-                Text(userNickname)
-                    .padding(.bottom,3)
-                
+                HStack{
+                    Text(userNickname)
+                    Text(userNation)
+                }
+                .padding(.bottom,3)
                 Button {
                     showEditMyProfileView.toggle()
                 } label: {
                     Text("Edit Profile")
                 }
                 .fullScreenCover(isPresented: $showEditMyProfileView) {
-                    EditMyProfileView(image: $image, userNickname: $userNickname)
+                    EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
                 }
                 
                 Divider()
-                HStack{
-                    Text("Wish List")
-                        .fontWeight(.semibold)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                    
-                    
-                    
+                NavigationLink{
+                    WishListView()
+                }label: {
+                    HStack{
+                        Text("Wish List")
+                            .fontWeight(.semibold)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+
+                    }
+                    .padding(.bottom, 20)
                 }
-                .padding(.bottom, 20)
+                .tint(.black)
                 
                 HStack{
-                    Text("perfume1")
-                    Text("perfume2")
-                    Text("perfume3")
+                    ForEach(0..<3){ _ in
+                        WishListPerfumeCell(perfume: perfume)
+                    }
                 }
+                //.frame(width: 300,)
                 .padding(.bottom, 20)
                 
                 HStack{
@@ -99,6 +106,6 @@ struct MyPageView: View {
 
 struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {
-        MyPageView()
+        MyPageView(perfume: dummy[0])
     }
 }
