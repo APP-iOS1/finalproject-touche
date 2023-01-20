@@ -16,7 +16,6 @@ struct MyPageView: View {
     @State private var userNickname: String = "LUNA"
     @State private var showEditMyProfileView = false
     @State private var userNation: String = "🏳️"
-    var perfume: Perfume
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
