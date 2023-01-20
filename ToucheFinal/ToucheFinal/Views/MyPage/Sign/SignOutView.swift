@@ -51,6 +51,7 @@ struct SignOutView: View {
                 Spacer()
             }
         }
+        .padding(.top, 1)
     }
 }
 

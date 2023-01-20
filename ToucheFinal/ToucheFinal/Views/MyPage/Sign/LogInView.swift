@@ -56,6 +56,8 @@ struct LogInView: View {
             }
             Spacer()
         }
+        .frame(maxHeight: .infinity)
+        
     }
 }
 

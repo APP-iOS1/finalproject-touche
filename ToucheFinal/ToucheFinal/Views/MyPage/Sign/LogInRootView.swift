@@ -14,6 +14,7 @@ struct LogInRootView: View {
             MyPageView() // 로그인 되면
         } else { // 로그인 안되면
             SignOutView()
+//            MyPageView()
         }
     }
 }

@@ -43,31 +43,25 @@ struct DeleteAccountView: View {
                     .padding(.bottom)
                     Text("If you want a delete account,\nPlease fill in the space below.")
                         .padding(.bottom)
+
+                HStack {
+                    Text("Account ID:")
+                        .bold()
+                    Text("User ID")
+                }
                 
                 HStack {
-                    VStack(alignment: .trailing){
-                        Text("Account ID:")
-                        Spacer()
-                        Text("Reason:")
-                    }
-                    .bold()
-                    .frame(height: 50)
-                    
-                    //MARK: Picker 부분
-                    VStack(alignment: .leading){
-                        Text("User ID")
-                        Picker("Select your reason", selection: $selection){
-                            ForEach(ReasonForDelete.allCases, id:\.self) {
-                                Text($0.rawValue)
-                            }
-                        }
-                        .tint(.black)
-                        .frame(width: 290, alignment: .leading)
-                        .padding(-10)
-                    }
-                    .frame(width: 260, height: 50, alignment: .leading)
+                    Text("Reason:")
+                        .bold()
+                    Picker("Select your reason", selection: $selection){
+                                                ForEach(ReasonForDelete.allCases, id:\.self) {
+                                                    Text($0.rawValue)
+                                                }
+                                            }
+                                            .tint(.black)
+                                            .frame(width: 290, alignment: .leading)
+                                            .padding(-10)
                 }
-                .padding(.bottom,20)
                 
                 VStack {
                     VStack {
@@ -94,7 +88,7 @@ struct DeleteAccountView: View {
                 Button(action: {
                     
                 }) {
-                    Text("Send")
+                    Text("Delete Account")
                         .frame(width: 360, height: 46)
                         .background(.black)
                         .foregroundColor(.white)
@@ -111,9 +105,14 @@ struct DeleteAccountView: View {
                     .tint(.black)
                 }
             }
+            .toolbarBackground(Color.white, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .frame(height: 700)
             .padding()
             
+            
         }
+        
     }
 }
 
