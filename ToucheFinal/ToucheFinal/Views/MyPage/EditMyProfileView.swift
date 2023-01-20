@@ -81,7 +81,7 @@ struct EditMyProfileView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Edit"){
+                    Button("Done"){
                         image = editImage
                         userNickname = editName
                         dismiss()

@@ -8,36 +8,70 @@
 import SwiftUI
 
 struct SettingView: View {
+    
+    @State var showSelectNationView: Bool = false
+    @State var showDeleteAccountView: Bool = false
+    
     var body: some View {
+        
         NavigationStack{
+            
             List{
-                
                 Text("SETTINGS")
                     .font(.system(size: 20))
                     .fontWeight(.bold)
                 
-                NavigationLink{
-                    // 알림 설정
+                Button{
+                    Task{
+                        if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                       
+                            await UIApplication.shared.open(url)
+                        }
+                    }
                 } label :{
-                    Text("Notification")
+                    HStack{
+                        Text("Notification")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
                 }
+        
                 
-                NavigationLink{
+                
+                Button{
                     // GPS 설정
                 } label :{
-                    Text("Location Service")
+                    HStack{
+                        Text("Location Service")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
                 }
                 
-                NavigationLink{
-                    // 국가 선택 (Localization)
+                Button {
+                    showSelectNationView.toggle()
                 } label: {
-                    Text("Country / Region - (내가 선택한 국가)")
+                    HStack{
+                        Text("Country / Region - (내가 선택한 국가)")
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                    }
+                }
+                .fullScreenCover(isPresented: $showSelectNationView) {
+                    SelectNationView()
                 }
                 
-                NavigationLink{
-                    // 회원 탈퇴
+                
+                Button{
+                    showDeleteAccountView.toggle()
                 } label :{
-                    Text("Delete Account")
+                    HStack{
+                        Text("Delete Account")
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                    }
+                }.fullScreenCover(isPresented: $showDeleteAccountView){
+                    DeleteAccountView()
                 }
                 
                 Text("SUPPORT")
