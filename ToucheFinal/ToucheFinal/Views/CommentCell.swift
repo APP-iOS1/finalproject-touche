@@ -38,7 +38,7 @@ struct CommentCell: View {
                     .bold()
                 Text(comment.contents)
                     .frame(width: 300, alignment: .leading)
-                RatingView(score: .constant(comment.perfumeScore))
+                RatingView(score: .constant(comment.perfumeScore), frame: 15, canClick: false)
             }
         }
     }

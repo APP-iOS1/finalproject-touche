@@ -46,7 +46,7 @@ struct PerfumeDetailView: View {
                                 }
                             } label: {
                                 HStack{
-                                    RatingView(score: .constant(perfume.totalPerfumeScore / perfume.commentCount))
+                                    RatingView(score: .constant(perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
                                     Text("\("\(perfume.commentCount)개의 댓글 보기")")
                                         .font(.system(size: 14))
                                         .foregroundColor(.black)
@@ -78,7 +78,8 @@ struct PerfumeDetailView: View {
                     .padding(.leading, 20)
                     Divider()
                         .padding(.bottom)
-                    VStack(alignment: .leading, spacing: 5){                       Text("FragranceFamily")
+                    VStack(alignment: .leading, spacing: 5){
+                        Text("FragranceFamily")
                             .bold()
                         Text(perfume.fragranceFamily)
                             .padding(.bottom)
@@ -122,6 +123,9 @@ struct PerfumeDetailView: View {
                 }
                 .navigationTitle(perfume.displayName)
                 .navigationBarTitleDisplayMode(.inline)
+                .fullScreenCover(isPresented: $isShowingWriteComment, content: {
+                    WriteCommentView(perfume: perfume)
+                })
             }
         }
     }
