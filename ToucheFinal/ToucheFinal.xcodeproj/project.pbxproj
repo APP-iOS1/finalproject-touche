@@ -64,6 +64,7 @@
 		A8DDBB44297939FB003AC935 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DDBB43297939FB003AC935 /* SearchResultView.swift */; };
 		AA204A742987664900C59C7F /* PerfumeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A732987664900C59C7F /* PerfumeColor.swift */; };
 		AA204A7729876CED00C59C7F /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A7629876CED00C59C7F /* Color+.swift */; };
+		AA204A7929879D8300C59C7F /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A7829879D8300C59C7F /* FilterView.swift */; };
 		EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5AEDF6297A360000C4F5D8 /* TestView.swift */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,7 @@
 		A8DDBB43297939FB003AC935 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		AA204A732987664900C59C7F /* PerfumeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeColor.swift; sourceTree = "<group>"; };
 		AA204A7629876CED00C59C7F /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		AA204A7829879D8300C59C7F /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		EB5AEDF6297A360000C4F5D8 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				A8BC326F297776C1004EF50C /* SearchView.swift */,
+				AA204A7829879D8300C59C7F /* FilterView.swift */,
 				A8DDBB43297939FB003AC935 /* SearchResultView.swift */,
 				61FE13242977DC3F003F0466 /* SearchFilterView.swift */,
 				A8BC32712977AB6A004EF50C /* FilteringResultView.swift */,
@@ -412,6 +415,7 @@
 				61212E662978E37200D0ED57 /* APIStore.swift in Sources */,
 				6189EA0B297A33B0005E6AA9 /* String+.swift in Sources */,
 				61FE131A2977D588003F0466 /* PerfumeTabView.swift in Sources */,
+				AA204A7929879D8300C59C7F /* FilterView.swift in Sources */,
 				6521E4E3297A571E00E93E52 /* WishListPerfumeCell.swift in Sources */,
 				233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */,
 				A8BAF8DF297A6D1200D1DDCD /* MyCommentListView.swift in Sources */,
