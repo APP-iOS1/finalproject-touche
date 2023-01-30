@@ -24,7 +24,7 @@ struct MyPageMyCommentCell: View {
                     VStack(alignment: .leading) {
                         Text(perfume.brandName)
                             .unredacted()
-                            .fontWeight(.semibold)
+//                            .fontWeight(.semibold)
                             .lineLimit(1)
                         Text(perfume.displayName)
                             .font(.system(size: 14))

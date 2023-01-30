@@ -99,7 +99,7 @@ struct SearchView: View {
             .searchable(
                 text: $searchText,
                 placement: SearchFieldPlacement.toolbar,
-                prompt: "Enter the brand, notes, perfume.."
+                prompt: "Search products, brands"
             )
 //        .toolbar(content: {
 //            ToolbarItem {
