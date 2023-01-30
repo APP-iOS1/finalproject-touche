@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Perfume: Codable {
+struct Perfume: Codable, Hashable {
     var perfumeId: String
     var brandName: String
     var displayName: String
@@ -17,7 +17,7 @@ struct Perfume: Codable {
     var scentType : String
     var keyNotes : [String]
     var fragranceDescription : String
-    var likedPeople: [String]
+    var likedPeople: [String]   //  좋아요 누른 사람의 id가 들어가도록
     var commentCount: Int
     var totalPerfumeScore: Int
 }

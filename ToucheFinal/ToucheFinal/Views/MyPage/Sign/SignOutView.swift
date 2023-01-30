@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SignOutView: View {
-    @Binding var user: Bool
     var body: some View {
         NavigationStack {
             VStack {
@@ -21,7 +20,7 @@ struct SignOutView: View {
                 
                 HStack{
                     NavigationLink {
-                        LogInSignUpView(selectedIndex: 0, user: $user)
+                        LogInSignUpView(selectedIndex: 0)
                     } label: {
                         Text("Sign In")
                             .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 44)
@@ -31,7 +30,7 @@ struct SignOutView: View {
                     }.tint(.black)
                     
                     NavigationLink {
-                        LogInSignUpView(selectedIndex: 1, user: $user)
+                        LogInSignUpView(selectedIndex: 1)
                     } label: {
                         Text("Sign Up")
                             .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 44)
@@ -52,11 +51,12 @@ struct SignOutView: View {
                 Spacer()
             }
         }
+        .padding(.top, 1)
     }
 }
 
 struct SignOutView_Previews: PreviewProvider {
     static var previews: some View {
-        SignOutView(user: .constant(true))
+        SignOutView()
     }
 }

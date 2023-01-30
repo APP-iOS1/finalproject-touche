@@ -11,8 +11,10 @@ struct LogInView: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var isShowingAlert: Bool = false
-    @Binding var user: Bool
+    
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         VStack{
             VStack(alignment: .leading){
@@ -36,8 +38,7 @@ struct LogInView: View {
             .textFieldStyle(.roundedBorder)
             
             Button {
-                user = true
-                UserDefaults.standard.set(self.user, forKey: "user")
+                userInfoStore.logIn(emailAddress: email, password: password)
                 dismiss()
             } label: {
                 Text("Sign In")
@@ -53,14 +54,15 @@ struct LogInView: View {
             } message: {
                 Text("로그인 버튼 눌렀을 때")
             }
-            
+            Spacer()
         }
+        .frame(maxHeight: .infinity)
+        
     }
-    
 }
 
 struct LogInView_Previews: PreviewProvider {
     static var previews: some View {
-        LogInView(user: .constant(true))
+        LogInView()
     }
 }

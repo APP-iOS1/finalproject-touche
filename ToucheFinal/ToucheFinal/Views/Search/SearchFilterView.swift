@@ -7,16 +7,24 @@
 
 import SwiftUI
 
-struct Brand {
+struct Brand: Hashable {
     var name: String
     var isSelected: Bool
 }
 
-struct SearchFilterView: View {
-    
-    let AlphabetList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T", "U", "V", "W", "X", "Y", "Z"]
-    
-    @State private var brands: [Brand] = [
+struct ColorSet: Hashable {
+    var name: Color
+    var description: [String]
+    var isSelected: Bool
+}
+
+struct FragType: Hashable {
+    var name: String
+    var isSelected: Bool
+}
+
+class BrandStore: ObservableObject {
+    @Published var brands: [Brand] = [
         Brand(name: "Carolina Herrera", isSelected: false),
         Brand(name: "CHANEL", isSelected: false),
         Brand(name: "Valentino", isSelected: false),
@@ -97,28 +105,54 @@ struct SearchFilterView: View {
         Brand(name: "Philosophy", isSelected: false),
         Brand(name: "KVD Beauty", isSelected: false),
     ]
-    
-    let fragranceType = [
-        "Fruity Florals",
-        "Warm & Sweet Gourmands",
-        "Warm Florals",
-        "Warm Woods",
-        "Fresh Florals",
-        "Fresh Citrus & Fruits",
-        "Classic Florals",
-        "Woody Spices",
-        "Cool Spices",
-        "Classic Woods",
-        "Citrus & Woods",
-        "Fresh Solar",
-        "Warm & Sheer",
-        "Powdery Florals",
-        "Fresh Aquatics",
-        "Earthy Greens & Herbs"
+}
+
+class ColorSetStore: ObservableObject {
+    @Published var colors: [ColorSet] = [
+        ColorSet(name: Color(.red), description: ["정렬적인", "섹시한", "성숙한"], isSelected: false),
+        ColorSet(name: Color(.orange), description: ["오렌지", "시트러스", "상큼한"], isSelected: false),
+        ColorSet(name: Color(.yellow), description: ["소근소근", "미모사", "오스만투스"], isSelected: false),
+        ColorSet(name: Color(.green), description: ["푸릇한", "숲내음", "이끼", "바질"], isSelected: false),
+        ColorSet(name: Color(.blue), description: ["평온한", "바다", "물내음"], isSelected: false),
+        ColorSet(name: Color(.purple), description: ["신비로운", "샴푸향", "라일락"], isSelected: false),
+        ColorSet(name: Color(.brown), description: ["우디", "편안함", "달콤함", "자상한"], isSelected: false),
+        ColorSet(name: Color(.lightGray), description: ["머스크", "살내음", "포근한"], isSelected: false)
     ]
+}
+
+class FragTypeStore: ObservableObject {
+    @Published var fragTypes: [FragType] = [
+        FragType(name: "Fruity Florals", isSelected: false),
+        FragType(name: "Warm & Sweet Gourmands", isSelected: false),
+        FragType(name: "Warm Florals", isSelected: false),
+        FragType(name: "Warm Woods", isSelected: false),
+        FragType(name: "Fresh Florals", isSelected: false),
+        FragType(name: "Fresh Citrus & Fruits", isSelected: false),
+        FragType(name: "Classic Florals", isSelected: false),
+        FragType(name: "Woody Spices", isSelected: false),
+        FragType(name: "Cool Spices", isSelected: false),
+        FragType(name: "Classic Woods", isSelected: false),
+        FragType(name: "Citrus & Woods", isSelected: false),
+        FragType(name: "Fresh Solar", isSelected: false),
+        FragType(name: "Warm & Sheer", isSelected: false),
+        FragType(name: "Powdery Florals", isSelected: false),
+        FragType(name: "Fresh Aquatics", isSelected: false),
+        FragType(name: "Earthy Greens & Herbs", isSelected: false)
+    ]
+}
+
+struct SearchFilterView: View {
+    
+    let AlphabetList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T", "U", "V", "W", "X", "Y", "Z"]
+    
+    @StateObject var brandStore: BrandStore = BrandStore()
+    @StateObject var colorSetStore: ColorSetStore = ColorSetStore()
+    @StateObject var fragTypeStore: FragTypeStore = FragTypeStore()
     
     @State private var currentCategory: Category = .brand
-    @State private var selectedBrand: [String] = []
+    @State private var selectedBrands: [Brand] = []
+    @State private var selectedColors: [ColorSet] = []
+    @State private var selectedFrags: [FragType] = []
     
     enum Category {
         case brand, color, fragrance
@@ -126,38 +160,68 @@ struct SearchFilterView: View {
     
     var body: some View {
         VStack {
-            // 페이지 상단의 필터링된 브랜드, 컬러를 보여주는 HStack
             
-            //MARK: 필터링 된 브랜드명을 보여주는 뷰 + 필터링된 컬러를 보여주는 뷰
-//            HStack {
-                //TODO: 필터링 된 결과를 보여주는 뷰 추가해야함
-//                VStack(alignment: .leading) {
-//                    ScrollView {
-//                        GridView()
-//                            .frame(width: 300)
-//                    }
-//                }
-                // TODO: 필터링 된 컬러를 보여줄 부분
-//                VStack {
-//                    ForEach(colorStore.colorInfoStore.indices, id: \.self) { idx in
-//                        Button {
-//                            colorStore.colorInfoStore[idx].isSelected = false
-//                        } label: {
-//                            if colorStore.colorInfoStore[idx].isSelected {
-//                                HStack {
-//                                    Circle()
-//                                        .fill(Color(hex:colorStore.colorInfoStore[idx].color_hex))
-//                                        .frame(width: 20, height: 20)
-//                                    Image(systemName: "xmark")
-//                                }
-//                            }
-//                        }
-//                        .foregroundColor(.black)
-//                    }
-//                }
-//                .frame(width: 50)
-//            }
-//            .frame(height: 100)
+            //TODO: 필터 된 아이템 리스트 노출시켜야 함
+            //체크 해제되면 해당 항목이 목록에서 빠지게 만드는 기능구현해야함
+            VStack(spacing: 15) {
+                ScrollView(.horizontal) {
+                    HStack {
+                        //TODO: 조건문 삽입하여 분기처리
+                        Text("Brand:")
+                            .bold()
+                        
+                        ForEach(checkDup(selectedBrands: selectedBrands), id:\.self) { brandName in
+                            Text("\(brandName)")
+                            
+                            Button {
+                               //MARK: 해당버튼을 눌렀을 때, 선택된 브랜드 배열에서 지워주는 로직이 들어가야 함
+                                
+                            } label: {
+                                Image(systemName: "xmark")
+                                    .foregroundColor(.black)
+                            }
+                        }
+                        
+                    }
+                }
+                .padding([.leading, .trailing], 15)
+                
+                Divider()
+                
+                ScrollView(.horizontal) {
+                    //TODO: 조건문 삽입하여 분기처리
+                    HStack {
+                        Text("Color:")
+                            .bold()
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                    }
+                }
+                .padding([.leading, .trailing], 15)
+                
+                Divider()
+                
+                ScrollView(.horizontal) {
+                    //TODO: 조건문 삽입하여 분기처리
+                    HStack {
+                        Text("Type:")
+                            .bold()
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                        Text(brandStore.brands[0].name)
+                    }
+                }
+                .padding([.leading, .trailing], 15)
+            }
             
             Divider()
             
@@ -174,14 +238,15 @@ struct SearchFilterView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("01")
-                                Text("브랜드")
+                                    .bold()
+                                Text("Brands")
                             }
                             Spacer()
                             Rectangle()
                                 .fill(currentCategory == .brand ? Color.black : Color.clear)
                                 .frame(width: 2, height: 40)
                         }
-                        .frame(width: 52)
+                        .frame(width: 65)
                     }
                     .padding(.top, 25)
                     
@@ -194,18 +259,19 @@ struct SearchFilterView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("02")
-                                Text("색상")
+                                    .bold()
+                                Text("Color")
                             }
                             Spacer()
                             Rectangle()
                                 .fill(currentCategory == .color ? Color.black : Color.clear)
                                 .frame(width: 2, height: 40)
                         }
-                        .frame(width: 52)
+                        .frame(width: 65)
                     }
                     
                     Spacer()
-
+                    
                     //타입
                     Button(action: {
                         currentCategory = .fragrance
@@ -213,14 +279,16 @@ struct SearchFilterView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("03")
-                                Text("Fragrance Type")
+                                    .bold()
+                                Text("Fragrance")
+                                Text("Type")
                             }
                             Spacer()
                             Rectangle()
                                 .fill(currentCategory == .fragrance ? Color.black : Color.clear)
                                 .frame(width: 2, height: 40)
                         }
-                        .frame(width: 52)
+                        .frame(width: 84)
                     }
                     Spacer()
                     Spacer()
@@ -240,41 +308,54 @@ struct SearchFilterView: View {
                         // 브랜드 명
                         List (AlphabetList, id: \.self) { alphabet in
                             Section(header: Text("\(alphabet)")) {
-                                ForEach(brands.indices, id: \.self) { idx in
-                                    let nowBrand = brands[idx].name
-                                    if alphabet == String(firstCharacter(brand: nowBrand)) {
+                                ForEach(brandStore.brands.indices, id: \.self) { index in
+                                    let currentBrand = brandStore.brands[index].name
+                                    if alphabet == String(firstCharacter(brand: currentBrand)) {
                                         HStack {
-//                                            SelectedButtonView(selectedBrand: $selectedBrand, idx: idx)
-                                            SelectedButton(idx: idx)
-                                            Text("\(nowBrand)")
+                                            SelectedBrandButton(brandStore: brandStore, index: index)
+                                            
+                                            Text("\(currentBrand)")
                                         }
                                     }
                                 }
                             }
                         }
                         .listStyle(.inset)
+                        
                     } else if currentCategory == .color {
                         // TODO: 색상 리스트 구현
-//                        ScrollView{
-//                            VStack(alignment: .leading, spacing: 15){
-//                                ForEach(colorStore.colorInfoStore.indices, id: \.self) { idx in
-//                                    SelectedColorButtonView(idx: idx)
-//                                }
-//                            }
-//                        }.padding(.top, 50)
-                        
-                        //MARK: 임시로 프래그런스타입 넣어둠
-                        List (fragranceType, id: \.self) { type in
+                        List(colorSetStore.colors.indices, id: \.self) { index in
+                            
+                            let currentColorSet = colorSetStore.colors[index]
+                            
                             HStack {
-                                Text("\(type)")
-                            }
+                                
+                                SelectedColorButton(colorSetStore: colorSetStore, index: index)
+                                
+                                Circle()
+                                    .fill(currentColorSet.name)
+                                    .frame(width: 30, height: 40)
+                                
+                                ForEach(currentColorSet.description.indices) { index in
+                                    if index < currentColorSet.description.count - 1 {
+                                        Text("\(currentColorSet.description[index]),")
+                                    } else {
+                                        Text("\(currentColorSet.description[index])")
+                                    }
+                                }
+                                
+                            }//HStack
                         }
                         .listStyle(.inset)
                         
-                    } else if currentCategory == .fragrance {
-                        List (fragranceType, id: \.self) { type in
+                    } else {
+                        List(fragTypeStore.fragTypes.indices, id: \.self) { index in
+                            
+                            let nowType = fragTypeStore.fragTypes[index].name
+                            
                             HStack {
-                                Text("\(type)")
+                                SelectedFragButton(fragTypeStore: fragTypeStore, index: index)
+                                Text("\(nowType)")
                             }
                         }
                         .listStyle(.inset)
@@ -285,10 +366,9 @@ struct SearchFilterView: View {
             
             // TODO: 초기화, 적용하기 버튼 로직 생성해야함
             HStack {
-
                 // 브랜드, 컬러 초기화 버튼
                 Button {
-                   //some Actions
+                    //some Actions
                 } label: {
                     Label("초기화", systemImage: "arrow.clockwise")
                         .font(.callout)
@@ -296,55 +376,84 @@ struct SearchFilterView: View {
                 }
                 .frame(width: 150, height: 50)
                 .background(.gray.opacity(0.3))
-                .cornerRadius(8)
-
-
+                .cornerRadius(7)
+                
+                
                 //TODO: 초기화와 적용하기 버튼 기능구현
-//                if 사용자가 필터에서 무엇인가를 클릭했을 때 {
-                    // 적용하기 버튼 -> 검색 결과
-                    NavigationLink {
-                        //someActions
-                    } label: {
-                        Text("적용하기")
-                            .foregroundColor(.white)
-                    }
-                    .frame(width: 250, height: 50)
-                    .background(.black)
-                    .cornerRadius(8)
-//                }
+                //                if 사용자가 필터에서 무엇인가를 클릭했을 때 {
+                // 적용하기 버튼 -> 검색 결과
+                NavigationLink {
+                    //someActions
+//                    FilteringResultView()
+                } label: {
+                    Text("적용하기")
+                        .foregroundColor(.white)
+                }
+                .frame(width: 200, height: 50)
+                .background(.black)
+                .cornerRadius(7)
+                //                }
             }
+            .padding(.bottom)
         }
     }
     
-    
-    func SelectedButton(idx: Int) -> some View {
-        
-//        @Binding var selectedBrand: [String]
-        
-        //TODO: 선택 된 브랜드명을 반환해줄 로직이 필요함
+    func SelectedBrandButton(brandStore: BrandStore, index: Int) -> some View {
         
         var buttonColor: Color {
             get {
-                return brands[idx].isSelected ? .black : .clear
+                return brandStore.brands[index].isSelected ? .black : .clear
             }
         }
         
-        
         return Button {
-            brands[idx].isSelected.toggle()
+            brandStore.brands[index].isSelected.toggle()
             
-//            selectedBrand.append(brands[idx].name)
+            for brand in brandStore.brands {
+                if brand.isSelected {
+                    selectedBrands.append(brand)
+                }
+            }
+            //MARK: 선택된 브랜드에서 지워주는 로직 추가해야함
         } label: {
-            //나타나지도 않는 레이블을 쓰는 이유: 접근성 -> 청각장애인
             Label("Toggle Selected", systemImage: "checkmark")
                 .labelStyle(.iconOnly)
                 .foregroundColor(buttonColor)
         }
-        
     }
     
+    func checkDup(selectedBrands: [Brand]) -> [String] {
+        var tempArr: [String] = []
+        
+        for brand in selectedBrands {
+            let temp = brand.name
+            tempArr.append(temp)
+        }
+        
+        let set = Set(tempArr)
+        return Array(set)
+        
+    }
+
 }
 
+//TODO: 각 탭에서 리스트 아이템 클릭시 체크마크 표시해 줄 함수 탭별로 따로 만들기
+//->완
+//매개변수로 목업데이터(배열)을 받을지 말지 고민해봐야 함
+//->완
+//TODO: 해당 기능을 이용하여 뷰 상단에 선택된 리스트 아이템 노출,
+//필터링 조건 -> 모든 탭에 해당하는 아이템이 선택되지 않아도 검색이 되게 해야함
+//해당 아이템을 기반으로 적용하기 기능 구현,
+//초기화 기능 구현
+
+//TODO: 탭에서 아이템 선택 -> 상단에 해당 아이템이름 노출
+//선택된 아이템리스트를 그리는 뷰는 나중에 생각할 것
+//어떤 로직으로 구현할지?
+//isSelected기반으로 필터링? 버튼 클릭시마다 필터? 효율적인가?
+//버튼을 따로 하나 만든다 -> 이미 초기화, 적용하기 버튼이 존재하기 때문에 더이상의 버튼은 아닌듯
+//탭의 아이템을 클릭하면 isSelected프로퍼티 기반으로 true인 것만 배열에 담아주고
+//해당 배열을 뷰에 텍스트형식으로 노출되게 만든다?
+//x버튼을 누르면 지워지는 기능도 넣어야 함
 
 
 struct SearchFilterView_Previews: PreviewProvider {
@@ -354,10 +463,66 @@ struct SearchFilterView_Previews: PreviewProvider {
 }
 
 func firstCharacter(brand: String) -> Character {
-        let first: Character = brand[brand.startIndex]
+    let first: Character = brand[brand.startIndex]
+    
+    return first
+}
 
-        return first
+//func SelectedBrandButton(brandStore: BrandStore, index: Int) -> some View {
+//
+//    var buttonColor: Color {
+//        get {
+//            return brandStore.brands[index].isSelected ? .black : .clear
+//        }
+//    }
+//
+//    return Button {
+//        brandStore.brands[index].isSelected.toggle()
+//
+//        for brand in brandStore.brands {
+//            if brand.isSelected {
+//
+//            }
+//        }
+//    } label: {
+//        Label("Toggle Selected", systemImage: "checkmark")
+//            .labelStyle(.iconOnly)
+//            .foregroundColor(buttonColor)
+//    }
+//}
+
+//MARK: 버튼별 체크마크 생성
+func SelectedColorButton(colorSetStore: ColorSetStore, index: Int) -> some View {
+    
+    var buttonColor: Color {
+        get {
+            return colorSetStore.colors[index].isSelected ? .black : .clear
+        }
     }
+    
+    return Button {
+        colorSetStore.colors[index].isSelected.toggle()
+    } label: {
+        Label("Toggle Selected", systemImage: "checkmark")
+            .labelStyle(.iconOnly)
+            .foregroundColor(buttonColor)
+    }
+}
 
-
+func SelectedFragButton(fragTypeStore: FragTypeStore, index: Int) -> some View {
+    
+    var buttonColor: Color {
+        get {
+            return fragTypeStore.fragTypes[index].isSelected ? .black : .clear
+        }
+    }
+    
+    return Button {
+        fragTypeStore.fragTypes[index].isSelected.toggle()
+    } label: {
+        Label("Toggle Selected", systemImage: "checkmark")
+            .labelStyle(.iconOnly)
+            .foregroundColor(buttonColor)
+    }
+}
 

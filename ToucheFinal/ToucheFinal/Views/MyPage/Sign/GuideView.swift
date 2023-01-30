@@ -13,16 +13,12 @@ struct GuideView: View {
             Spacer()
             HStack {
                 Spacer()
-                
                 Image("love")
                     .resizable()
                     .frame(width: 50, height: 50)
-                
                 Spacer()
-                
                 Text("You can collect only your favorite products.")
                     .frame(width: 200)
-                
                 Spacer()
             }
             
@@ -30,16 +26,12 @@ struct GuideView: View {
             
             HStack {
                 Spacer()
-                
                 Image("comment")
                     .resizable()
                     .frame(width: 50, height: 50)
-                
                 Spacer()
-                
                 Text("You can write reviews of perfumes you have used.")
                     .frame(width: 200)
-                
                 Spacer()
             }
             Spacer()

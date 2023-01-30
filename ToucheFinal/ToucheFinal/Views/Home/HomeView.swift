@@ -11,6 +11,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct HomeView: View {
+    @EnvironmentObject var perfumeStore: PerfumeStore
     @State var isShowingPromotion: Bool = true
     var rows: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
@@ -64,7 +65,7 @@ struct HomeView: View {
                     
                     ForEach(mostSearchedBrands, id: \.self) { brand in
                         Text(brand)
-//                            .font(.system(size: 25))
+                        //                            .font(.system(size: 25))
                             .font(.callout)
                             .bold()
                             .fontWeight(.regular)
@@ -75,10 +76,9 @@ struct HomeView: View {
                     // MARK: 최근 클릭한 향수
                     Text("RECENTLY VIEWED")
                         .modifier(TextViewModeifier())
-                    
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack {
-                            ForEach(dummy, id: \.self.perfumeId) { perfume in
+                            ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
                                 } label: {
@@ -87,14 +87,28 @@ struct HomeView: View {
                             }
                         }
                         .padding(.leading)
-                    }.padding(.bottom, 15)
-                    
+                    }
+                    .padding(.bottom, 15)
+                    .onAppear {
+                        perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
+                    }
+
                     // MARK: 코멘트 많이 달린 향수
-                    Text("RECENTLY TOP COMMNENTS 20")
-                        .modifier(TextViewModeifier())
+                    HStack{
+                        Text("RECENTLY TOP COMMNENTS 20")
+                            .modifier(TextViewModeifier())
+                        NavigationLink {
+                            PerfumesGridView(perfumes: dummy, title: "")
+                        } label: {
+                            Text("More")
+                                .bold()
+                                .underline()
+                        }
+                        .tint(.black)
+                    }
                     ScrollView(.horizontal, showsIndicators: false){
                         LazyHGrid(rows: rows){
-                            ForEach(dummy, id: \.self.perfumeId) { perfume in
+                            ForEach(perfumeStore.topComment20Perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
                                 } label: {
@@ -103,7 +117,11 @@ struct HomeView: View {
                             }
                         }
                         .padding(.leading)
-                    }.frame(height: 450)
+                    }
+                    .frame(height: 450)
+                    .onAppear {
+                        perfumeStore.readTopComment20Perfumes()
+                    }
                 }
             }
         }
@@ -119,8 +137,6 @@ struct HomeView: View {
         })
         .padding(.top, 0.1)
         .padding(.bottom, 30)
-        .navigationBarBackButtonHidden(true)
-        
     }
 }
 
@@ -138,5 +154,6 @@ struct TextViewModeifier: ViewModifier {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(PerfumeStore())
     }
 }
