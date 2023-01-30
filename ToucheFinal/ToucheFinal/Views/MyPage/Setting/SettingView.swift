@@ -14,7 +14,7 @@ struct SettingView: View {
     
     var body: some View {
         
-        NavigationStack{
+        NavigationView {
             
             List{
                 Text("SETTINGS")
@@ -23,10 +23,11 @@ struct SettingView: View {
                 
                 Button{
                     Task{
-                        if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                       
-                            await UIApplication.shared.open(url)
-                        }
+                        // FIXME: - 버전 바꾸면서 에러 발생 수정해주셔야합니다!
+//                        if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+//
+//                            await UIApplication.shared.open(url)
+//                        }
                     }
                 } label :{
                     HStack{

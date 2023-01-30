@@ -17,7 +17,7 @@ struct HomeView: View {
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
 
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
                     // MARK: 프로모션
@@ -124,19 +124,22 @@ struct HomeView: View {
                     }
                 }
             }
+            .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
+                Image(systemName: "magnifyingglass").foregroundColor(.black)
+            })
         }
-        .toolbar(content: {
-            ToolbarItem {
-                NavigationLink {
-                    SearchView()
-                } label: {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.black)
-                }
-            }
-        })
-        .padding(.top, 0.1)
-        .padding(.bottom, 30)
+//        .toolbar(content: {
+//            ToolbarItem {
+//                NavigationLink {
+//                    SearchView()
+//                } label: {
+//                    Image(systemName: "magnifyingglass")
+//                        .foregroundColor(.black)
+//                }
+//            }
+//        })
+//        .padding(.top, 0.1)
+//        .padding(.bottom, 30)
     }
 }
 
@@ -145,7 +148,7 @@ struct TextViewModeifier: ViewModifier {
         content
             .foregroundColor(.black)
             .font(.system(size: 20))
-            .fontWeight(.semibold)
+//            .fontWeight(.semibold)
             .padding()
             .padding(.bottom, -5)
     }

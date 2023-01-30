@@ -19,7 +19,7 @@ struct WishListPerfumeCell: View {
                 .frame(width: 130, height: 130)
             Text(perfume.brandName)
                 .unredacted()
-                .fontWeight(.semibold)
+//                .fontWeight(.semibold)
                 .foregroundColor(.black)
                 .frame(width: 130, alignment: .leading)
                 .lineLimit(1)

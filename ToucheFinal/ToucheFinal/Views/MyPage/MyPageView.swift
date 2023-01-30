@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct MyPageView: View {
-    
+
     var perfume: Perfume
     var comment: Comment
-    
+
     @State private var image = UIImage()
     @State private var userNickname: String = "LUNA"
     @State private var showEditMyProfileView = false
     @State private var userNation: String = "🏳️"
-    
+
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
-    
+
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ScrollView{
                 VStack{
                     Image(uiImage: self.image)
@@ -45,7 +45,7 @@ struct MyPageView: View {
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
                         EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
                     }
-                    
+
                     Divider()
                     NavigationLink{
                         WishListView()
@@ -55,12 +55,12 @@ struct MyPageView: View {
                                 .fontWeight(.semibold)
                             Spacer()
                             Image(systemName: "chevron.right")
-                            
+
                         }
                         .padding(.bottom, 20)
                     }
                     .tint(.black)
-                    
+
                     HStack{
                         ForEach(0..<3){ _ in
                             WishListPerfumeCell(perfume: perfume)
@@ -68,7 +68,7 @@ struct MyPageView: View {
                     }
                     //.frame(width: 300,)
                     .padding(.bottom, 20)
-                    
+
                     HStack{
                         Text("My Comment")
                             .fontWeight(.semibold)
@@ -81,10 +81,10 @@ struct MyPageView: View {
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.black)
                         }
-                        
+
                     }
                     .padding(.bottom, 5)
-                    
+
                     HStack{
                         VStack{
                             ForEach(0..<3) { _ in
@@ -103,7 +103,7 @@ struct MyPageView: View {
                             .background(Color.black)
                             .cornerRadius(7)
                             .foregroundColor(.white)
-                        
+
                     }
                 }
                 .padding(14)
