@@ -62,6 +62,7 @@
 		A8BC32772977BD95004EF50C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = A8BC32762977BD95004EF50C /* SDWebImageSwiftUI */; };
 		A8BC32792977BF3E004EF50C /* dummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC32782977BF3E004EF50C /* dummyData.swift */; };
 		A8DDBB44297939FB003AC935 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DDBB43297939FB003AC935 /* SearchResultView.swift */; };
+		EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5AEDF6297A360000C4F5D8 /* TestView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +112,7 @@
 		A8BC32732977BC08004EF50C /* PerfumeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeCell.swift; sourceTree = "<group>"; };
 		A8BC32782977BF3E004EF50C /* dummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = dummyData.swift; path = Views/dummyData.swift; sourceTree = "<group>"; };
 		A8DDBB43297939FB003AC935 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
+		EB5AEDF6297A360000C4F5D8 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				657A091D29765E9000E5B565 /* PerfumeStore.swift */,
+				EB5AEDF6297A360000C4F5D8 /* TestView.swift */,
 				657A091F29765E9C00E5B565 /* CommentStore.swift */,
 				657A092129765EAC00E5B565 /* UserInfoStore.swift */,
 				61212E652978E37200D0ED57 /* APIStore.swift */,
@@ -412,6 +415,7 @@
 				65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */,
 				65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
+				EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */,
 				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,
 				233260D42977757500771B2A /* LogInView.swift in Sources */,
 				657A092229765EAC00E5B565 /* UserInfoStore.swift in Sources */,

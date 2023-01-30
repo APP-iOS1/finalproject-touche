@@ -17,9 +17,13 @@ struct ToucheFinalApp: App {
         }
     @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
     
+    @StateObject var perfumeStore = PerfumeStore()
+    
     var body: some Scene {
         WindowGroup {
             PerfumeTabView()
+//            TestView()
+                .environmentObject(perfumeStore)
                 .environmentObject(userInfoStore)
         }
     }

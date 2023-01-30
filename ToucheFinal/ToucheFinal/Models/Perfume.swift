@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Perfume: Codable {
+struct Perfume: Codable, Hashable {
     var perfumeId: String
     var brandName: String
     var displayName: String

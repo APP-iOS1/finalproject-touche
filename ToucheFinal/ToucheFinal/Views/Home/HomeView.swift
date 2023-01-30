@@ -11,6 +11,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct HomeView: View {
+    @EnvironmentObject var perfumeStore: PerfumeStore
     @State var isShowingPromotion: Bool = true
     var rows: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
@@ -77,7 +78,7 @@ struct HomeView: View {
                         .modifier(TextViewModeifier())
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack {
-                            ForEach(dummy, id: \.self.perfumeId) { perfume in
+                            ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
                                 } label: {
@@ -86,7 +87,12 @@ struct HomeView: View {
                             }
                         }
                         .padding(.leading)
-                    }.padding(.bottom, 15)
+                    }
+                    .padding(.bottom, 15)
+                    .onAppear {
+                        perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
+                    }
+
                     // MARK: 코멘트 많이 달린 향수
                     HStack{
                         Text("RECENTLY TOP COMMNENTS 20")
@@ -102,7 +108,7 @@ struct HomeView: View {
                     }
                     ScrollView(.horizontal, showsIndicators: false){
                         LazyHGrid(rows: rows){
-                            ForEach(dummy, id: \.self.perfumeId) { perfume in
+                            ForEach(perfumeStore.topComment20Perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
                                 } label: {
@@ -111,7 +117,11 @@ struct HomeView: View {
                             }
                         }
                         .padding(.leading)
-                    }.frame(height: 450)
+                    }
+                    .frame(height: 450)
+                    .onAppear {
+                        perfumeStore.readTopComment20Perfumes()
+                    }
                 }
             }
         }
@@ -144,5 +154,6 @@ struct TextViewModeifier: ViewModifier {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(PerfumeStore())
     }
 }
