@@ -21,7 +21,7 @@ struct MyPageView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             ScrollView{
                 VStack{
                     Image(uiImage: self.image)
@@ -108,19 +108,20 @@ struct MyPageView: View {
                 }
                 .padding(14)
             }
-        }
-        .toolbar{
-            ToolbarItem(placement: .navigationBarTrailing){
-                NavigationLink {
-                    SettingView()
-                } label: {
-                    Image(systemName: "gearshape.fill")
-                        .foregroundColor(.black)
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing){
+                    NavigationLink {
+                        SettingView()
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundColor(.black)
+                    }
                 }
             }
         }
     }
 }
+
 
 struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {

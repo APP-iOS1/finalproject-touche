@@ -13,7 +13,7 @@ struct MyPageMyCommentCell: View {
     var comment: Comment
     
     var body: some View {
-        NavigationStack{
+        VStack{
             NavigationLink {
                 PerfumeDetailView(perfume: perfume)
             } label: {
