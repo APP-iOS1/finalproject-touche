@@ -13,13 +13,14 @@ struct SearchResultView: View {
         GridItem(.flexible())
     ]
     var perfume: Perfume
+    @Binding var searchText: String
     
     var body: some View {
         NavigationView{
             VStack(alignment: .leading) {
                 HStack{
 //                    Image(systemName: "magnifyingglass")
-                    Text("Keyword: ")
+                    Text("Keyword: \(searchText) ")
 //                    ForEach(selectedBrand, id:\.self){ item in
 //                        Text("\(item.brand)")
 //                    }
@@ -70,6 +71,6 @@ struct SearchResultView_Previews: PreviewProvider {
                                            likedPeople: ["1", "2"],
                                            commentCount: 154,
                                            totalPerfumeScore: 616
-                                          ))
+                                          ), searchText: .constant("테스트용"))
     }
 }

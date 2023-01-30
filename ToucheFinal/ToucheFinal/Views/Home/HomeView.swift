@@ -65,7 +65,7 @@ struct HomeView: View {
                     
                     ForEach(mostSearchedBrands, id: \.self) { brand in
                         Text(brand)
-//                            .font(.system(size: 25))
+                        //                            .font(.system(size: 25))
                             .font(.callout)
                             .bold()
                             .fontWeight(.regular)
@@ -76,7 +76,6 @@ struct HomeView: View {
                     // MARK: 최근 클릭한 향수
                     Text("RECENTLY VIEWED")
                         .modifier(TextViewModeifier())
-                    
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack {
                             ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
@@ -93,10 +92,20 @@ struct HomeView: View {
                     .onAppear {
                         perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
                     }
-                    
+
                     // MARK: 코멘트 많이 달린 향수
-                    Text("RECENTLY TOP COMMNENTS 20")
-                        .modifier(TextViewModeifier())
+                    HStack{
+                        Text("RECENTLY TOP COMMNENTS 20")
+                            .modifier(TextViewModeifier())
+                        NavigationLink {
+                            PerfumesGridView(perfumes: dummy, title: "")
+                        } label: {
+                            Text("More")
+                                .bold()
+                                .underline()
+                        }
+                        .tint(.black)
+                    }
                     ScrollView(.horizontal, showsIndicators: false){
                         LazyHGrid(rows: rows){
                             ForEach(perfumeStore.topComment20Perfumes, id: \.self.perfumeId) { perfume in
@@ -128,8 +137,6 @@ struct HomeView: View {
         })
         .padding(.top, 0.1)
         .padding(.bottom, 30)
-        .navigationBarBackButtonHidden(true)
-        
     }
 }
 

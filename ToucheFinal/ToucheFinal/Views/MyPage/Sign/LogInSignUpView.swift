@@ -50,8 +50,11 @@ struct LogInSignUpView: View {
                 Spacer()
             }
             .frame(width: UIScreen.main.bounds.width, height: 650)
-        }
-    }
+            Spacer()
+        } //VStack
+//        .frame(height: 400)
+        .ignoresSafeArea(.keyboard)
+    } // body
 }
 
 struct LogInSignUpView_Previews: PreviewProvider {
