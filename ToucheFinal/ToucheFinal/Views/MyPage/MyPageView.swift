@@ -16,7 +16,9 @@ struct MyPageView: View {
     @State private var userNickname: String = "LUNA"
     @State private var showEditMyProfileView = false
     @State private var userNation: String = "🏳️"
-
+    @State private var rotation: Double = 0
+    @State private var scentTypeCount: [String: Int] = [:]
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
 
@@ -47,6 +49,26 @@ struct MyPageView: View {
                     }
 
                     Divider()
+                    
+                    ZStack {
+                        ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
+                            PalletteCell(color: color.color, degrees: Double(index) * 22.5, name: color.name, count: scentTypeCount[color.name] ?? 1)
+                            
+                            NameText(name: String(color.name.prefix(13)))
+                                .foregroundColor(.white)
+                                .font(.system(size: 12))
+                                .rotationEffect(.radians((.pi * 2 / Double(PerfumeColor.types.count)) * Double(index)))
+                                .zIndex(1)
+                                .rotationEffect(.degrees(164))
+                        }
+                        .overlay(
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 100, height: 100)
+                        )
+                    }
+                    .padding(.vertical, 170)
+                    
                     NavigationLink{
                         WishListView()
                     }label: {
@@ -62,7 +84,7 @@ struct MyPageView: View {
                     .tint(.black)
 
                     HStack{
-                        ForEach(0..<3){ _ in
+                        ForEach(0..<2){ _ in
                             WishListPerfumeCell(perfume: perfume)
                         }
                     }
@@ -119,9 +141,33 @@ struct MyPageView: View {
                 }
             }
         }
+        .onAppear {
+            //        forEach(dummy) { perfume in
+            //            scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
+            //        }
+            for perfume in dummy {
+                scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
+            }
+            
+            print(scentTypeCount)
+        }
     }
 }
 
+struct NameText: View {
+    let name: String
+    var body: some View {
+        HStack (spacing: 0){
+            Text(name)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 35)
+            Rectangle()
+                .foregroundColor(Color.clear)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .frame(height: 40)
+    }
+}
 
 struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {

@@ -65,6 +65,7 @@
 		AA204A742987664900C59C7F /* PerfumeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A732987664900C59C7F /* PerfumeColor.swift */; };
 		AA204A7729876CED00C59C7F /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A7629876CED00C59C7F /* Color+.swift */; };
 		EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5AEDF6297A360000C4F5D8 /* TestView.swift */; };
+		EBB879AA29879FA300167ABA /* PalleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB879A929879FA300167ABA /* PalleteCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +118,7 @@
 		AA204A732987664900C59C7F /* PerfumeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeColor.swift; sourceTree = "<group>"; };
 		AA204A7629876CED00C59C7F /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		EB5AEDF6297A360000C4F5D8 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		EBB879A929879FA300167ABA /* PalleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalleteCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 			children = (
 				61FE131E2977D662003F0466 /* Sign */,
 				657A092629765F1000E5B565 /* MyPageView.swift */,
+				EBB879A929879FA300167ABA /* PalleteCell.swift */,
 				A8BAF8DC297A55FD00D1DDCD /* MyPageMyCommentCell.swift */,
 				A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */,
 				6521E4E2297A571E00E93E52 /* WishListPerfumeCell.swift */,
@@ -429,6 +432,7 @@
 				233260DA297775B700771B2A /* SignOutView.swift in Sources */,
 				65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */,
 				65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */,
+				EBB879AA29879FA300167ABA /* PalleteCell.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
 				EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */,
 				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,

@@ -21,7 +21,8 @@ struct ToucheFinalApp: App {
     
     var body: some Scene {
         WindowGroup {
-            PerfumeTabView()
+//            PerfumeTabView()
+            MyPageView(perfume: dummy[0], comment: commentDummy[0])
 //            TestView()
                 .environmentObject(perfumeStore)
                 .environmentObject(userInfoStore)
