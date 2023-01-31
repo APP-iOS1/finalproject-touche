@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PerfumeColor: Identifiable {
+struct PerfumeColor: Identifiable, Hashable {
     var id = UUID().uuidString
     var name: String
     var hexValue: String
