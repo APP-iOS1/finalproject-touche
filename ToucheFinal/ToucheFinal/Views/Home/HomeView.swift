@@ -123,6 +123,16 @@ struct HomeView: View {
                         perfumeStore.readTopComment20Perfumes()
                     }
                 }
+//                // MARK: - NotoSans 글꼴 이름 찾기
+//                .onAppear{
+//                    UIFont.familyNames.sorted().forEach { familyName in
+//                        print("*** \(familyName) ***")
+//                        UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+//                            print("\(fontName)")
+//                        }
+//                        print("---------------------")
+//                    }
+//                }
             }
             .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                 Image(systemName: "magnifyingglass").foregroundColor(.black)
@@ -140,6 +150,8 @@ struct HomeView: View {
 //        })
 //        .padding(.top, 0.1)
 //        .padding(.bottom, 30)
+        
+       
     }
 }
 

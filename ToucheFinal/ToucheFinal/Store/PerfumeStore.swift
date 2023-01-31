@@ -115,7 +115,8 @@ class PerfumeStore: ObservableObject {
     //MARK: - 유저정보에 담긴 최근 본 향수의 id값을 받아와서 퍼퓸 컬렉션에서 해당하는 퍼퓸들을 배열에 담아 보여줌
     func fetchRecentlyViewd7Perfumes(recentlyViewedPerfumeIds: [String]) {
         path.collection("Perfume")
-            .whereField("perfumeId", in: recentlyViewedPerfumeIds).limit(to: 7).getDocuments {
+            //.whereField("perfumeId", in: recentlyViewedPerfumeIds).limit(to: 7)
+            .getDocuments {
                 snapshot, error in
                 guard let snapshot = snapshot else { return }
                 var arr: [Perfume] = []
