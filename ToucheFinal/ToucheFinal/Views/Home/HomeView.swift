@@ -17,7 +17,7 @@ struct HomeView: View {
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
 
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
                     // MARK: 프로모션
@@ -77,6 +77,26 @@ struct HomeView: View {
                         .padding()
                         .background(Color(.gray).opacity(0.4))
                         .padding(.top, -10)
+                    }
+                    // MARK: Recommend Perfume for You
+                    Text("RECOMMEND PERFUME FOR YOU")
+                        .modifier(TextViewModeifier())
+
+                    ScrollView(.horizontal, showsIndicators: false){
+                        HStack {
+                            ForEach(perfumeStore.topComment20Perfumes, id: \.self.perfumeId) { perfume in
+                                NavigationLink {
+                                    PerfumeDetailView(perfume: perfume)
+                                } label: {
+                                    ColorChipPerfumeCell(perfume: perfume)
+                                }
+                            }
+                        }
+                        .padding(.leading)
+                    }
+                    .padding(.bottom, 15)
+                    .onAppear {
+                        perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
                     }
                     
                     // MARK: 브랜드 검색 순위
@@ -149,19 +169,22 @@ struct HomeView: View {
                      */
                 }
             }
+            .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
+                Image(systemName: "magnifyingglass").foregroundColor(.black)
+            })
         }
-        .toolbar(content: {
-            ToolbarItem {
-                NavigationLink {
-                    SearchView()
-                } label: {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.black)
-                }
-            }
-        })
-        .padding(.top, 0.1)
-        .padding(.bottom, 30)
+//        .toolbar(content: {
+//            ToolbarItem {
+//                NavigationLink {
+//                    SearchView()
+//                } label: {
+//                    Image(systemName: "magnifyingglass")
+//                        .foregroundColor(.black)
+//                }
+//            }
+//        })
+//        .padding(.top, 0.1)
+//        .padding(.bottom, 30)
     }
 }
 
@@ -170,7 +193,7 @@ struct TextViewModeifier: ViewModifier {
         content
             .foregroundColor(.black)
             .font(.system(size: 20))
-            .fontWeight(.semibold)
+//            .fontWeight(.semibold)
             .padding()
             .padding(.bottom, -5)
     }

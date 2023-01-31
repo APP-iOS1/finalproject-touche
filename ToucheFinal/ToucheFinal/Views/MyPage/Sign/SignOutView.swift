@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignOutView: View {
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack {
                 HStack {
                     Text("If you want to use the wish list,\n ")

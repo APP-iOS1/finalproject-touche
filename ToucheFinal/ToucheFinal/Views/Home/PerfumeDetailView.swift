@@ -36,7 +36,7 @@ struct PerfumeDetailView: View {
                         VStack(alignment: .leading){
                             Text(perfume.brandName)
                                 .unredacted()
-                                .fontWeight(.semibold)
+//                                .fontWeight(.semibold)
                                 .foregroundColor(.black)
                             Text(perfume.displayName)
                                 .font(.system(size: 14))
@@ -69,7 +69,7 @@ struct PerfumeDetailView: View {
                                 Text("\(perfume.likedPeople.count)")
                                     .padding(.top, -8)
                                     .foregroundColor(.black)
-                                    .fontWeight(.light)
+//                                    .fontWeight(.light)
                             }
                             .foregroundColor(.red)
                         }
@@ -138,7 +138,7 @@ struct PerfumeDetailView: View {
 
 struct PerfumeDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStack{
+        NavigationView {
             PerfumeDetailView(perfume: Perfume(perfumeId: "P258612",
                                                brandName: "CHANEL",
                                                displayName: "CHANCE EAU TENDRE Eau de Toilette",

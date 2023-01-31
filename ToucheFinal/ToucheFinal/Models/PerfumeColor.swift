@@ -7,6 +7,7 @@
 import Foundation
 import SwiftUI
 
+
 struct Bookmark: Identifiable {
     let id = UUID()
     let name: String
@@ -28,7 +29,8 @@ struct Bookmark: Identifiable {
 }
 
 struct PerfumeColor: Identifiable, Hashable {
-    var id: String = UUID().uuidString
+    var id = UUID().uuidString
+
     var name: String
     var hexValue: String
     var color: Color {

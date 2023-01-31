@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// TODO: - FilterView와 연결하기
+// 1. PerfumesGridView 참고
+// 2. 향수클릭하면 PerfumeDetailView로 뷰로 이동
 struct FilteringResultView: View {
     let columns = [
         GridItem(.flexible()),
