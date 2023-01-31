@@ -24,7 +24,7 @@ struct PalletteCell: View {
             path.addLine(to: center)
         }
         .fill(color)
-        .grayscale(grayOpacity)
+//        .grayscale(grayOpacity)
         .frame(width: 100, height: 100)
     }
 }

@@ -15,118 +15,107 @@ struct TESTVIEWTS: View {
     @State private var animation: Animation? = nil
     @State private var txt = ""
     @State private var isTapped = false
+    @State private var scentTypeCount: [String: Int] = [:]
     
     var body: some View {
-        VStack {
-            Spacer()
+        ScrollView {
+            Text("My Perfume Palette")
+                .font(.largeTitle)
+                .padding(.bottom, 40)
+                .fontWeight(.semibold)
             
-            HStack(spacing: 15) {
-//                Wheel(radius: radius, rotation: angle, pointToCenter: false) {
-//                    contents()
-//                }
+            ZStack {
                 
-//                Wheel(radius: radius, rotation: angle, pointToCenter: true) {
-//                    contents()
-//                }
-                ZStack {
-                    ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
-                        RoundedRectangle(cornerRadius: 30)
-                            .fill(color.color.opacity(0.7))
-                            .frame(width: 70, height: 70)
-                            .overlay {
-                                Text("\(String(color.name.prefix(13)))")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(.white)
-                            }
-                            .opacity(isTapped ? color.name == txt ? 1 : 0 : 0)
-                            .animation(.linear(duration: 0.5))
-                    }
-                    
-                    Wheel(radius: radius, rotation: angle, pointToCenter: true) {
-                        //                    contents(animation: animation)
-                        ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
-                            WheelComponent(animation: animation) {
-  
-                                Circle()
-                                            // .fill(Color.blue)
-                                            // .foregroundColor(.pink)
-                                            // .stroke(Color.red, lineWidth: 20)
-                                            // .stroke(Color.orange, style: StrokeStyle(lineWidth: 30, lineCap: .butt, dash: [30] ))
-                                                .trim(from: 0.7, to: 0.8)
-                                                .stroke(Color.cyan, lineWidth: 50)
-                                                .frame(width: 500, height: 150)
-                                                .padding()
-                                //                .rotationEffect(Angle(degrees: -70))
-//                                RoundedRectangle(cornerRadius: 30)
-//                                    .fill(color.color.opacity(0.7))
-//                                //                                        .grayscale(1.0)
-//                                //                                        .saturation(0.0)
-//                                    .frame(width: 70, height: 70)
-//                                    .overlay {
-//                                        Text("\(String(color.name.prefix(13)))")
-//                                            .font(.system(size: 12))
-//                                            .foregroundColor(.white)
-//                                    }
-                            }
-                            .opacity(isTapped ? color.name == txt ? 0 : 1 : 1)
-                            .onTapGesture {
-                                txt = color.name
-                                print(color.name)
-                                isTapped = true
-                            }
-//                            Button {
-//                                txt = color.name
-//                                print(color.name)
-//                                isTapped = true
-//                            } label: {
-//                                WheelComponent(animation: animation) {
-//
-//                                    RoundedRectangle(cornerRadius: 30)
-//                                    //                                        .offset(x:isTapped ? color.name == txt ? -40 : 0 : 0, y: isTapped ? color.name == txt ? -40 : 0 : 0)
-//                                        .fill(color.color.opacity(0.7))
-//                                    //                                        .grayscale(1.0)
-//                                    //                                        .saturation(0.0)
-//                                        .frame(width: 70, height: 70)
-//                                        .overlay {
-//                                            Text("\(String(color.name.prefix(13)))")
-//                                                .font(.system(size: 12))
-//                                                .foregroundColor(.white)
-//                                            //                                                .offset(x:isTapped ? color.name == txt ? -40 : 0 : 0, y: isTapped ? color.name == txt ? -40 : 0 : 0)
-//                                        }
-//                                }
-//                                .opacity(isTapped ? color.name == txt ? 0 : 1 : 1)
-//                            }
-                        }
-                    } // wheel 끝
+                // 과녁판 테두리 색
+                ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
+                    PalletteCell(color: color.color, degrees: Double(index) * 22.5, name: color.name, count: scentTypeCount[color.name] ?? 1)
+                        .rotationEffect(Angle(degrees: -79))
                 }
+                .overlay(
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 250, height: 250)
+                )
+
+                // 가운데 있는 색
+                ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(color.color)
+                        .frame(width: 70, height: 70)
+                        .overlay {
+                            Text("\(String(color.name.prefix(13)))")
+                                .font(.system(size: 12))
+                                .foregroundColor(.white)
+                        }
+                        .opacity(isTapped ? color.name == txt ? 1 : 0 : 0)
+                        .animation(.linear(duration: 0.5))
+                }
+                
+                Wheel(radius: radius, rotation: angle, pointToCenter: true) {
+                    //                    contents(animation: animation)
+                    ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
+                        WheelComponent(animation: animation) {
+                            RoundedRectangle(cornerRadius: 0)
+                                .fill(color.color.opacity(0))
+                            //                                        .grayscale(1.0)
+                            //                                        .saturation(0.0)
+                                .frame(width: 70, height: 70)
+                                .overlay {
+                                    Text("\(String(color.name.prefix(15)))")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.white)
+                                        .padding(.bottom, 30)
+                                        .padding(.horizontal, 6)
+                                }
+                        }
+                        .opacity(isTapped ? color.name == txt ? 0 : 1 : 1)
+                        .onTapGesture {
+                            txt = color.name
+                            print(color.name)
+                            isTapped = true
+                        }
+                        
+                    }
+                } // wheel 끝
             }
-            .onAppear {
-                // Set the view rotation animation after the view appeared,
-                // to avoid animating initial rotation
-//                DispatchQueue.main.async {
-//                    animation = .easeInOut(duration: 1.0)
-//                }
-//                withAnimation(.linear(duration: 60.0).repeatForever()) {
-//                    angle = (angle == .zero ? .degrees(360) : .zero)
-//                }
-            }
-            
-            Spacer()
-            
-//            Button("Rotate") {
-//                withAnimation(.easeInOut(duration: 4.0).repeatForever()) {
-//                    angle = (angle == .zero ? .degrees(360) : .zero)
-//                }
-//            }
             
             HStack {
-                Text("\(txt)")
+                Text("Scent Type")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                
+                Spacer()
             }
+            .padding(.top, 30)
             
-            Spacer()
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundColor(Color(red: 0.851, green: 0.851, blue: 0.851))
+                .overlay (
+                    Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum nulla libero, vel accumsan sapien blandit ac. Donec nunc ligula, imperdiet eu massa ac, vehicula faucibus neque.")
+                        .padding()
+                )
+                .frame(height: 200)
+
+            HStack {
+                Text("Wish List")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                
+                Spacer()
+            }
+            .padding(.top, 30)
+            
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.white)
+        .padding()
+        .onAppear {
+            
+            //                withAnimation(.linear(duration: 60.0).repeatForever()) {
+            //                    angle = (angle == .zero ? .degrees(360) : .zero)
+            //                }
+            for perfume in dummy {
+                scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
+            }
+        }
     }
     
 //    @ViewBuilder func contents(animation: Animation? = nil) -> some View {
