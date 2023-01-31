@@ -7,15 +7,19 @@
 
 import SwiftUI
 
-import SwiftUI
-
-struct TESTVIEWTS: View {
+struct PaletteView: View {
     @State private var angle: Angle = .zero
     @State private var radius: CGFloat = 140.0
     @State private var animation: Animation? = nil
     @State private var txt = ""
     @State private var isTapped = false
     @State private var scentTypeCount: [String: Int] = [:]
+    @State private var selectedColor: Color = Color("customGray")
+    
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     
     var body: some View {
         ScrollView {
@@ -25,11 +29,11 @@ struct TESTVIEWTS: View {
                 .fontWeight(.semibold)
             
             ZStack {
-                
-                // 과녁판 테두리 색
+                // MARK: - 과녁판 테두리 색
                 ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
                     PalletteCell(color: color.color, degrees: Double(index) * 22.5, name: color.name, count: scentTypeCount[color.name] ?? 1)
                         .rotationEffect(Angle(degrees: -79))
+                        .opacity(isTapped ? 0.3 : 0.3)
                 }
                 .overlay(
                     Circle()
@@ -37,7 +41,7 @@ struct TESTVIEWTS: View {
                         .frame(width: 250, height: 250)
                 )
 
-                // 가운데 있는 색
+                // MARK: - 팔레트 눌렀을때 나오는 가운데 부분
                 ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
                     RoundedRectangle(cornerRadius: 30)
                         .fill(color.color)
@@ -51,6 +55,7 @@ struct TESTVIEWTS: View {
                         .animation(.linear(duration: 0.5))
                 }
                 
+                // MARK: - 팔레트 글씨
                 Wheel(radius: radius, rotation: angle, pointToCenter: true) {
                     //                    contents(animation: animation)
                     ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
@@ -70,15 +75,15 @@ struct TESTVIEWTS: View {
                         }
                         .opacity(isTapped ? color.name == txt ? 0 : 1 : 1)
                         .onTapGesture {
+                            selectedColor = color.color
                             txt = color.name
-                            print(color.name)
                             isTapped = true
                         }
                         
                     }
                 } // wheel 끝
             }
-            
+
             HStack {
                 Text("Scent Type")
                     .font(.title)
@@ -89,12 +94,15 @@ struct TESTVIEWTS: View {
             .padding(.top, 30)
             
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(Color(red: 0.851, green: 0.851, blue: 0.851))
+//                .foregroundColor(Color(red: 0.851, green: 0.851, blue: 0.851))
+                .foregroundColor(selectedColor)
                 .overlay (
                     Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum nulla libero, vel accumsan sapien blandit ac. Donec nunc ligula, imperdiet eu massa ac, vehicula faucibus neque.")
                         .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
                 )
-                .frame(height: 200)
+                .frame(height: 150)
 
             HStack {
                 Text("Wish List")
@@ -105,10 +113,19 @@ struct TESTVIEWTS: View {
             }
             .padding(.top, 30)
             
+            LazyVGrid(columns: columns, spacing: 10) {
+                
+                ForEach(dummy, id: \.self.perfumeId) { data in
+                    NavigationLink {
+                        // 해당 향수 디테일 뷰로 이동
+                    } label: {
+                        ColorChipPerfumeCell(perfume: data)
+                    }
+                }
+            }
         }
         .padding()
         .onAppear {
-            
             //                withAnimation(.linear(duration: 60.0).repeatForever()) {
             //                    angle = (angle == .zero ? .degrees(360) : .zero)
             //                }
@@ -117,26 +134,6 @@ struct TESTVIEWTS: View {
             }
         }
     }
-    
-//    @ViewBuilder func contents(animation: Animation? = nil) -> some View {
-//        ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
-//            Button {
-//                print(color.name)
-//            } label: {
-//                WheelComponent(animation: animation) {
-//                    RoundedRectangle(cornerRadius: 30)
-//                        .fill(color.color.opacity(0.7))
-//                        .frame(width: 70, height: 70)
-//                        .overlay {
-//                            Text("\(String(color.name.prefix(13)))")
-//                                .font(.system(size: 12))
-//                                .foregroundColor(.white)
-//                        }
-//
-//                }
-//            }
-//        }
-//    }
 }
 
 struct Rotation: LayoutValueKey {
@@ -210,8 +207,8 @@ struct Wheel: Layout {
 }
 
 
-struct TESTVIEWTS_Previews: PreviewProvider {
+struct PaletteView_Previews: PreviewProvider {
     static var previews: some View {
-        TESTVIEWTS()
+        PaletteView()
     }
 }
