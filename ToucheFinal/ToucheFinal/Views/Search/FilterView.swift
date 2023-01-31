@@ -9,17 +9,17 @@ import SwiftUI
 import Combine
 
 final class FilterViewModel: ObservableObject {
-    @Published var brands: [Perfume] = []
+    @Published var brands: [Brand] = []
     @Published var colors: [PerfumeColor] = []
     @Published var canApplying: Bool = false
     @Published var tab: Tab = .brand
 
     // grouping: [https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298](https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298)
-    let brandSections = Dictionary(grouping: dummy) { (perfume) -> Character in
-        return perfume.brandName.first!
+    let brandSections = Dictionary(grouping: Brand.dummy) { (brand) -> Character in
+        return brand.name.first!
         }
-        .map { (key: Character, value: [Perfume]) -> (letter: String, perfumes: [Perfume]) in
-            (letter: String(key), perfumes: value)
+        .map { (key: Character, value: [Brand]) -> (letter: String, brands: [Brand]) in
+            (letter: String(key), brands: value)
         }
         .sorted { (left, right) -> Bool in
             left.letter < right.letter
@@ -50,8 +50,8 @@ final class FilterViewModel: ObservableObject {
     }
     
     /// 이미 선택한 브랜드가 있는지 여부 파악
-    func isSelectedBrand(_ perfume: Perfume) -> Bool {
-        return brands.contains(perfume)
+    func isSelectedBrand(_ brand: Brand) -> Bool {
+        return brands.contains(brand)
     }
     
     /// 이미 선택한 컬러가 있는지 여부 파악
@@ -60,13 +60,13 @@ final class FilterViewModel: ObservableObject {
     }
     
     /// 선택한 브랜드 추가
-    func appendBrand(_ perfume: Perfume) {
-        brands.append(perfume)
+    func appendBrand(_ brand: Brand) {
+        brands.append(brand)
     }
     
     /// 선택한 브랜드 삭제
-    func removeBrand(_ perfume: Perfume) {
-        brands = brands.filter { $0.perfumeId != perfume.perfumeId }
+    func removeBrand(_ brand: Brand) {
+        brands = brands.filter { $0.id != brand.id }
     }
     
     /// 선택한 컬러 추가
@@ -97,7 +97,7 @@ final class FilterViewModel: ObservableObject {
 
 struct FilterView: View {
     @StateObject var vm = FilterViewModel()
-    @State var letter: String = ""
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8.0) {
@@ -106,11 +106,23 @@ struct FilterView: View {
             // - BODY
             filterBodyView()
         }
+        .padding(.top, 8.0)
         .padding(.bottom, 40.0 + 30.0)
         // - BUTTON GROUP
         .overlay(alignment: .bottom, content: filterButtonGroupView)
         .navigationBarTitle("Filter")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    self.mode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
         
     }
 }
@@ -132,16 +144,20 @@ private extension FilterView {
             switch vm.tab {
             case .brand:
                 // Brand
-                HStack {
+                HStack(alignment: .bottom) {
                     Text("Brand ")
-                        .font(.body)
+                        .font(.headline)
                         .fontWeight(.bold)
+                    Text(vm.brands.isEmpty ? "Choose the brand to see.." : "")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .fixedSize()
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
                             ForEach(vm.brands, id: \.self) { brand in
                                 
                                 HStack {
-                                    Text(brand.brandName)
+                                    Text(brand.name)
                                         .fontWeight(.light)
                                     Image(systemName: "xmark")
                                 }
@@ -164,10 +180,14 @@ private extension FilterView {
                 
             case .color:
                 // Type
-                HStack {
+                HStack(alignment: .bottom) {
                     Text("Type ")
-                        .font(.body)
+                        .font(.headline)
                         .fontWeight(.bold)
+                    Text(vm.colors.isEmpty ? "Choose the color to see.." : "")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .fixedSize()
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
                             ForEach(vm.colors, id: \.id) { perfumeColor in
@@ -251,15 +271,15 @@ private extension FilterView {
                 ScrollViewReader { proxy in
                     List(vm.brandSections.indices) { index in
                         Section(vm.brandSections[index].letter) {
-                            ForEach(vm.brandSections[index].perfumes, id: \.perfumeId) { perfume in
+                            ForEach(vm.brandSections[index].brands) { brand in
                                 HStack {
                                     Image(systemName: "checkmark")
-                                        .opacity(vm.isSelectedBrand(perfume) ? 1.0 : 0.0)
-                                    Text(perfume.brandName)
+                                        .opacity(vm.isSelectedBrand(brand) ? 1.0 : 0.0)
+                                    Text(brand.name)
                                 }
-                                .id(perfume)
+                                .id(brand)
                                 .onTapGesture{
-                                    vm.isSelectedBrand(perfume) ? vm.removeBrand(perfume) : vm.appendBrand(perfume)
+                                    vm.isSelectedBrand(brand) ? vm.removeBrand(brand) : vm.appendBrand(brand)
                                 }
                             }
                         }
@@ -267,34 +287,35 @@ private extension FilterView {
                     .listStyle(.plain)
                     // quick search
                     .overlay(alignment: .trailing) {
-                        VStack {
+                        VStack(spacing: 2.0) {
                             ForEach(vm.brandSections.indices) { index in
                                 Text(vm.brandSections[index].letter)
+                                    .fontWeight(.light)
                                     .gesture(
                                         TapGesture()
                                             .onEnded({ _ in
-                                                if let perfume = vm.brandSections[index].perfumes.first {
-                                                    proxy.scrollTo(perfume, anchor: .top)
+                                                if let brand = vm.brandSections[index].brands.first {
+                                                    proxy.scrollTo(brand, anchor: .top)
                                                 }
                                             })
                                     )
                                     .gesture(
                                         DragGesture()
                                             .onChanged({ value in
-                                                let step = Int(value.translation.height / 25.0)
+                                                let step = Int(value.translation.height / 21.5)
                                                 if (step > 0 && (step + index) < vm.brandSections.count - 1) {
-                                                    let perfume = vm.brandSections[index+step].perfumes.first
-                                                    proxy.scrollTo(perfume, anchor: .top)
+                                                    let brand = vm.brandSections[index+step].brands.first
+                                                    proxy.scrollTo(brand, anchor: .top)
                                                 } else if (step < 0 && (step + index) > -1),
-                                                  let perfume = vm.brandSections[index+step].perfumes.first {
-                                                    proxy.scrollTo(perfume, anchor: .top)
+                                                  let brand = vm.brandSections[index+step].brands.first {
+                                                    proxy.scrollTo(brand, anchor: .top)
                                                 }
                                             })
                                     )
-                                    .padding(4)
                                     .foregroundColor(.primary)
                             }
                         }
+                        .padding(2.0)
                         .background(Material.ultraThinMaterial)
                         .clipShape(Capsule())
                         .padding(.trailing, 8.0)
@@ -326,6 +347,7 @@ private extension FilterView {
                         VStack {
                             ForEach(vm.colorSections.indices) { index in
                                 Text(vm.colorSections[index].letter)
+                                    .fontWeight(.light)
                                     .gesture(
                                         TapGesture()
                                             .onEnded({ _ in
@@ -337,7 +359,7 @@ private extension FilterView {
                                     .gesture(
                                         DragGesture()
                                             .onChanged({ value in
-                                                let step = Int(value.translation.height / 25.0)
+                                                let step = Int(value.translation.height / 21.5)
                                                 if (step > 0 && (step + index) < vm.colorSections.count - 1) {
                                                     let color = vm.colorSections[index+step].colors.first
                                                     proxy.scrollTo(color, anchor: .top)
@@ -347,10 +369,10 @@ private extension FilterView {
                                                 }
                                             })
                                     )
-                                    .padding(4)
                                     .foregroundColor(.primary)
                             }
                         }
+                        .padding(2.0)
                         .background(Material.ultraThinMaterial)
                         .clipShape(Capsule())
                         .padding(.trailing, 8.0)
@@ -381,11 +403,15 @@ private extension FilterView {
             }
             .tint(.primary)
             
-            Button {
-                // TODO: - 적용 결과를 결과 뷰에 제출해야함.
-                // vm.brands, vm.colors배열을 보내야 한다.
-                // filter result는 필터링된 향수만 나오고, 디테일뷰로 넘어갈 작업만 하면 된다.
-                
+            NavigationLink {
+                switch vm.tab {
+                case .brand:
+                    let queries = vm.brands.map { $0.name }
+                    FilteringResultView(field: "brandName", queries: queries)
+                case .color:
+                    let queries = vm.colors.map { $0.name }
+                    FilteringResultView(field: "scentType", queries: queries)
+                }
             } label: {
                 Text("Apply")
                     .frame(height: 40.0)
