@@ -18,6 +18,10 @@ struct PerfumeTabView: View {
                     switch selectedIndex{
                     case 0:
                         HomeView()
+                    // case 없애버렸음.. 죄송...
+                    // case 1:
+                    // AnyView()
+                    
                     default:
                         LogInRootView()
                     }
