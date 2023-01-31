@@ -23,8 +23,15 @@
 		61212E662978E37200D0ED57 /* APIStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61212E652978E37200D0ED57 /* APIStore.swift */; };
 		61212E692978E3B100D0ED57 /* LongDescriptionParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61212E682978E3B100D0ED57 /* LongDescriptionParsing.swift */; };
 		61212E6C2978E4F600D0ED57 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E6B2978E4F600D0ED57 /* SwiftSoup */; };
+		6174493F29889FD10064BEE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6174493E29889FD00064BEE8 /* Main.storyboard */; };
+		617449412988A0190064BEE8 /* MagneticViewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617449402988A0190064BEE8 /* MagneticViewcontroller.swift */; };
+		617449472988A11E0064BEE8 /* Magnetic in Frameworks */ = {isa = PBXBuildFile; productRef = 617449462988A11E0064BEE8 /* Magnetic */; };
 		6189EA0B297A33B0005E6AA9 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6189EA0A297A33B0005E6AA9 /* String+.swift */; };
 		6189EA0D297A4C07005E6AA9 /* PerfumesGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6189EA0C297A4C07005E6AA9 /* PerfumesGridView.swift */; };
+		618F66C72988F5E300A40BC4 /* Magnetic+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F66C62988F5E300A40BC4 /* Magnetic+.swift */; };
+		618F66C92988F61600A40BC4 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F66C82988F61600A40BC4 /* OnboardingView.swift */; };
+		618F66CB2988F69900A40BC4 /* CGPoint+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F66CA2988F69900A40BC4 /* CGPoint+.swift */; };
+		618F66CD2988FFF800A40BC4 /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F66CC2988FFF800A40BC4 /* SpinnerViewController.swift */; };
 		61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13172977D587003F0466 /* PerfumeDetailView.swift */; };
 		61FE131A2977D588003F0466 /* PerfumeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13182977D587003F0466 /* PerfumeTabView.swift */; };
 		61FE13212977D7A1003F0466 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13202977D7A1003F0466 /* CommentCell.swift */; };
@@ -79,8 +86,14 @@
 		61212E632978E35A00D0ED57 /* SephoraFirebaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SephoraFirebaseView.swift; sourceTree = "<group>"; };
 		61212E652978E37200D0ED57 /* APIStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStore.swift; sourceTree = "<group>"; };
 		61212E682978E3B100D0ED57 /* LongDescriptionParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongDescriptionParsing.swift; sourceTree = "<group>"; };
+		6174493E29889FD00064BEE8 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		617449402988A0190064BEE8 /* MagneticViewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagneticViewcontroller.swift; sourceTree = "<group>"; };
 		6189EA0A297A33B0005E6AA9 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		6189EA0C297A4C07005E6AA9 /* PerfumesGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumesGridView.swift; sourceTree = "<group>"; };
+		618F66C62988F5E300A40BC4 /* Magnetic+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Magnetic+.swift"; sourceTree = "<group>"; };
+		618F66C82988F61600A40BC4 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		618F66CA2988F69900A40BC4 /* CGPoint+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+.swift"; sourceTree = "<group>"; };
+		618F66CC2988FFF800A40BC4 /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
 		61FE13172977D587003F0466 /* PerfumeDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeDetailView.swift; sourceTree = "<group>"; };
 		61FE13182977D587003F0466 /* PerfumeTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeTabView.swift; sourceTree = "<group>"; };
 		61FE13202977D7A1003F0466 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentCell.swift; path = ToucheFinal/Views/CommentCell.swift; sourceTree = SOURCE_ROOT; };
@@ -132,6 +145,7 @@
 				61212E5E2978E2DF00D0ED57 /* FirebaseFirestore in Frameworks */,
 				657A090C29765A5500E5B565 /* FirebaseDatabase in Frameworks */,
 				657A090A29765A5500E5B565 /* FirebaseAuth in Frameworks */,
+				617449472988A11E0064BEE8 /* Magnetic in Frameworks */,
 				6115A2C929790EFE00BE740E /* FirebaseStorage in Frameworks */,
 				61212E602978E30E00D0ED57 /* FirebaseFirestoreSwift in Frameworks */,
 				61212E6C2978E4F600D0ED57 /* SwiftSoup in Frameworks */,
@@ -154,6 +168,19 @@
 				61212E682978E3B100D0ED57 /* LongDescriptionParsing.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		617449442988A02E0064BEE8 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				6174493E29889FD00064BEE8 /* Main.storyboard */,
+				618F66C82988F61600A40BC4 /* OnboardingView.swift */,
+				617449402988A0190064BEE8 /* MagneticViewcontroller.swift */,
+				618F66C62988F5E300A40BC4 /* Magnetic+.swift */,
+				618F66CA2988F69900A40BC4 /* CGPoint+.swift */,
+				618F66CC2988FFF800A40BC4 /* SpinnerViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		61FE131B2977D5B9003F0466 /* Home */ = {
@@ -292,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				61FE13182977D587003F0466 /* PerfumeTabView.swift */,
+				617449442988A02E0064BEE8 /* Onboarding */,
 				61FE131B2977D5B9003F0466 /* Home */,
 				61FE131C2977D5C1003F0466 /* MyPage */,
 				61FE131D2977D5D9003F0466 /* Search */,
@@ -336,6 +364,7 @@
 				61212E5F2978E30E00D0ED57 /* FirebaseFirestoreSwift */,
 				61212E6B2978E4F600D0ED57 /* SwiftSoup */,
 				6115A2C829790EFE00BE740E /* FirebaseStorage */,
+				617449462988A11E0064BEE8 /* Magnetic */,
 			);
 			productName = ToucheFinal;
 			productReference = 657A08F52976596900E5B565 /* ToucheFinal.app */;
@@ -371,6 +400,7 @@
 				233260DD2977833600771B2A /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */,
 				A8BC32752977BD95004EF50C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				61212E6A2978E4F600D0ED57 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				617449452988A11E0064BEE8 /* XCRemoteSwiftPackageReference "Magnetic" */,
 			);
 			productRefGroup = 657A08F62976596900E5B565 /* Products */;
 			projectDirPath = "";
@@ -389,6 +419,7 @@
 				657A09002976596A00E5B565 /* Preview Assets.xcassets in Resources */,
 				657A08FD2976596A00E5B565 /* Assets.xcassets in Resources */,
 				61212E622978E32E00D0ED57 /* GoogleService-Info.plist in Resources */,
+				6174493F29889FD10064BEE8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +434,8 @@
 				6189EA0D297A4C07005E6AA9 /* PerfumesGridView.swift in Sources */,
 				657A08FB2976596900E5B565 /* ContentView.swift in Sources */,
 				A8BC32792977BF3E004EF50C /* dummyData.swift in Sources */,
+				618F66CB2988F69900A40BC4 /* CGPoint+.swift in Sources */,
+				617449412988A0190064BEE8 /* MagneticViewcontroller.swift in Sources */,
 				65A7AB3A2977812700DB4860 /* EditMyProfileView.swift in Sources */,
 				61212E642978E35A00D0ED57 /* SephoraFirebaseView.swift in Sources */,
 				61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */,
@@ -416,6 +449,7 @@
 				233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */,
 				A8BAF8DF297A6D1200D1DDCD /* MyCommentListView.swift in Sources */,
 				233260D82977759900771B2A /* SignUpView.swift in Sources */,
+				618F66CD2988FFF800A40BC4 /* SpinnerViewController.swift in Sources */,
 				239049802977B9420097B20A /* LogInRootView.swift in Sources */,
 				AA204A742987664900C59C7F /* PerfumeColor.swift in Sources */,
 				656A00E929792E08002E37E6 /* DeleteAccountView.swift in Sources */,
@@ -427,6 +461,7 @@
 				2390497E2977920C0097B20A /* GuideView.swift in Sources */,
 				A8BAF8DD297A55FD00D1DDCD /* MyPageMyCommentCell.swift in Sources */,
 				233260DA297775B700771B2A /* SignOutView.swift in Sources */,
+				618F66C72988F5E300A40BC4 /* Magnetic+.swift in Sources */,
 				65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */,
 				65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
@@ -434,6 +469,7 @@
 				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,
 				233260D42977757500771B2A /* LogInView.swift in Sources */,
 				657A092229765EAC00E5B565 /* UserInfoStore.swift in Sources */,
+				618F66C92988F61600A40BC4 /* OnboardingView.swift in Sources */,
 				656A00EB29792FFD002E37E6 /* SelectNationView.swift in Sources */,
 				A8BC32742977BC09004EF50C /* PerfumeCell.swift in Sources */,
 				657A091929765CFE00E5B565 /* Comment.swift in Sources */,
@@ -665,6 +701,14 @@
 				kind = branch;
 			};
 		};
+		617449452988A11E0064BEE8 /* XCRemoteSwiftPackageReference "Magnetic" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/efremidze/Magnetic";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		657A090829765A5500E5B565 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -716,6 +760,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 61212E6A2978E4F600D0ED57 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		617449462988A11E0064BEE8 /* Magnetic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 617449452988A11E0064BEE8 /* XCRemoteSwiftPackageReference "Magnetic" */;
+			productName = Magnetic;
 		};
 		657A090929765A5500E5B565 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
