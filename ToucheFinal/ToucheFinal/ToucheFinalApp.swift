@@ -21,11 +21,12 @@ struct ToucheFinalApp: App {
     
     var body: some Scene {
         WindowGroup {
+//            TESTVIEWTS()
 //            PerfumeTabView()
             MyPageView(perfume: dummy[0], comment: commentDummy[0])
 //            TestView()
-                .environmentObject(perfumeStore)
-                .environmentObject(userInfoStore)
+//                .environmentObject(perfumeStore)
+//                .environmentObject(userInfoStore)
         }
     }
 }
