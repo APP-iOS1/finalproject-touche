@@ -57,6 +57,26 @@ struct HomeView: View {
                         .background(Color(.gray).opacity(0.4))
                         .padding(.top, -10)
                     }
+                    // MARK: Recommend Perfume for You
+                    Text("RECOMMEND PERFUME FOR YOU")
+                        .modifier(TextViewModeifier())
+
+                    ScrollView(.horizontal, showsIndicators: false){
+                        HStack {
+                            ForEach(perfumeStore.topComment20Perfumes, id: \.self.perfumeId) { perfume in
+                                NavigationLink {
+                                    PerfumeDetailView(perfume: perfume)
+                                } label: {
+                                    ColorChipPerfumeCell(perfume: perfume)
+                                }
+                            }
+                        }
+                        .padding(.leading)
+                    }
+                    .padding(.bottom, 15)
+                    .onAppear {
+                        perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
+                    }
                     
                     // MARK: 브랜드 검색 순위
                     Text("BRAND TOP 7")
