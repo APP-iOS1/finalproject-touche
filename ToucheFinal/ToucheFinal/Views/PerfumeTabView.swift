@@ -18,8 +18,6 @@ struct PerfumeTabView: View {
                     switch selectedIndex{
                     case 0:
                         HomeView()
-                    case 1:
-                        SearchFilterView()
                     default:
                         LogInRootView()
                     }

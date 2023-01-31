@@ -106,7 +106,7 @@ struct FilterView: View {
             // - BODY
             filterBodyView()
         }
-        .padding(.bottom, 40.0 + 10.0)
+        .padding(.bottom, 40.0 + 30.0)
         // - BUTTON GROUP
         .overlay(alignment: .bottom, content: filterButtonGroupView)
         .navigationBarTitle("Filter")
@@ -399,5 +399,6 @@ private extension FilterView {
             .disabled(!vm.canApplying)
         }
         .padding(.horizontal, 16.0)
+        .padding(.bottom, 20.0)
     }
 }

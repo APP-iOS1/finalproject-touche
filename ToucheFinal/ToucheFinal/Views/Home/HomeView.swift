@@ -43,7 +43,7 @@ struct HomeView: View {
                      */
 
                     Rectangle()
-                        .frame(height: 350)
+                        .frame(height: 200)
                         .overlay(alignment: .top) {
                             HStack{
                                 Text("NEWLY ADDED\nPERFUME")
@@ -84,7 +84,7 @@ struct HomeView: View {
 
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack {
-                            ForEach(perfumeStore.topComment20Perfumes, id: \.self.perfumeId) { perfume in
+                            ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
                                 } label: {
@@ -99,21 +99,21 @@ struct HomeView: View {
                         perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
                     }
                     
-                    // MARK: 브랜드 검색 순위
-                    Text("BRAND TOP 7")
-                        .modifier(TextViewModeifier())
-                        .padding(.bottom, -15)
-                    
-                    ForEach(mostSearchedBrands, id: \.self) { brand in
-                        Text(brand)
-                        //                            .font(.system(size: 25))
-                            .font(.callout)
-                            .bold()
-                            .fontWeight(.regular)
-                            .foregroundColor(.black)
-                            .lineSpacing(4.5)
-                            .padding(.leading)
-                    }
+//                    // MARK: 브랜드 검색 순위
+//                    Text("BRAND TOP 7")
+//                        .modifier(TextViewModeifier())
+//                        .padding(.bottom, -15)
+//
+//                    ForEach(mostSearchedBrands, id: \.self) { brand in
+//                        Text(brand)
+//                        //                            .font(.system(size: 25))
+//                            .font(.callout)
+//                            .bold()
+//                            .fontWeight(.regular)
+//                            .foregroundColor(.black)
+//                            .lineSpacing(4.5)
+//                            .padding(.leading)
+//                    }
                     // MARK: 최근 클릭한 향수
                     Text("RECENTLY VIEWED")
                         .modifier(TextViewModeifier())
@@ -171,6 +171,12 @@ struct HomeView: View {
             }
             .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                 Image(systemName: "magnifyingglass").foregroundColor(.black)
+            })
+            .navigationBarItems(trailing: NavigationLink(destination: FilterView()) {
+                Image(systemName: "slider.vertical.3").foregroundColor(.black)
+            })
+            .navigationBarItems(leading: NavigationLink(destination: PerfumeDescriptionView()) {
+                Image(systemName: "circle.hexagonpath").foregroundColor(.black)
             })
         }
 //        .toolbar(content: {

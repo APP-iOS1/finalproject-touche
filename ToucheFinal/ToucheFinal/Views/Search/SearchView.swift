@@ -20,7 +20,7 @@ struct SearchView: View {
     
     var searchResults: [Perfume] {
         if searchText.isEmpty {
-            return dummy
+            return []
         } else {
             return dummy.filter { perfume in
                 perfume.brandName.lowercased().contains(searchText.lowercased())
@@ -91,7 +91,9 @@ struct SearchView: View {
                 focusField = .searchText
             }
         }
-        
+        .overlay(content: {
+            Text(searchResults.isEmpty ? "최근에 검색하신 글이 없어요! 🥹😅" : "")
+        })
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
         .searchable(
