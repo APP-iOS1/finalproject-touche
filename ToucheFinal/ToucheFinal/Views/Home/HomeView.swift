@@ -21,9 +21,30 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     // MARK: 프로모션
+                    /*
+                    NavigationLink {
+                        PerfumeDescriptionView()
+                    } label: {
+                        Rectangle()
+                            .frame(height: 350)
+                            .overlay(alignment: .top) {  // 0130 수정 alignment: .bottom을 .top으로 바꿔주었음
+                                
+                                HStack{
+                                    Text("Select Your \nPerfume Colour")
+                                        .font(.largeTitle)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                }
+                            }
+                            .padding()
+                            .background(.black)
+                    }
+                     */
+
                     Rectangle()
                         .frame(height: 350)
-                        .overlay(alignment: .bottom) {
+                        .overlay(alignment: .top) {
                             HStack{
                                 Text("NEWLY ADDED\nPERFUME")
                                     .font(.largeTitle)
@@ -89,11 +110,14 @@ struct HomeView: View {
                         .padding(.leading)
                     }
                     .padding(.bottom, 15)
+                    /*
                     .onAppear {
                         perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
                     }
+                     */
 
                     // MARK: 코멘트 많이 달린 향수
+                    /*
                     HStack{
                         Text("RECENTLY TOP COMMNENTS 20")
                             .modifier(TextViewModeifier())
@@ -122,6 +146,7 @@ struct HomeView: View {
                     .onAppear {
                         perfumeStore.readTopComment20Perfumes()
                     }
+                     */
                 }
             }
         }
