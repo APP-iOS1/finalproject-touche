@@ -16,44 +16,30 @@ struct SearchResultView: View {
     @Binding var searchText: String
     
     var body: some View {
-        NavigationView{
             VStack(alignment: .leading) {
                 HStack{
-//                    Image(systemName: "magnifyingglass")
-                    Text("Keyword: \(searchText) ")
-//                    ForEach(selectedBrand, id:\.self){ item in
-//                        Text("\(item.brand)")
-//                    }
+                    Text("Keyword: \(searchText)")
                 }
                 Divider()
                
-                
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                        
                         ForEach(dummy, id: \.self.perfumeId) { data in
                             NavigationLink {
                                 // 해당 향수 디테일 뷰로 이동
+                                PerfumeDetailView(perfume: data)
                             } label: {
                                 PerfumeCell(perfume: data)
                             }
                         }
-//                        ForEach(queryResult, id: \.self) { value in
-//                            NavigationLink(destination: DetailView(perfume: value), label:{
-//                                LotCommentsCellView(perfume: value)
-//
-//                            })
-//
-//                        }
                     }
                 }
-                
             }
             .padding([.leading, .trailing])
             .onAppear {
 //                self.queryResult = query()
             }
-        }
     }
 }
 
