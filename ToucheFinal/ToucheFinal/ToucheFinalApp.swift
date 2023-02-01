@@ -13,20 +13,25 @@ import FirebaseCore
 struct ToucheFinalApp: App {
     
     init() {
-            FirebaseApp.configure()
-        }
-    @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
+        FirebaseApp.configure()
+    }
     
+    @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
     @StateObject var perfumeStore = PerfumeStore()
+    
+    let colorPalette = ColorPalette()
     
     var body: some Scene {
         WindowGroup {
-//            TESTVIEWTS()
-//            PerfumeTabView()
-            MyPageView(perfume: dummy[0], comment: commentDummy[0])
-//            TestView()
-//                .environmentObject(perfumeStore)
-//                .environmentObject(userInfoStore)
+            //            TESTVIEWTS()
+            PerfumeTabView()
+                .environmentObject(colorPalette)
+                .environmentObject(perfumeStore)
+                .environmentObject(userInfoStore)
+            //            MyPageView(perfume: dummy[0], comment: commentDummy[0])
+            //            TestView()
+            //                .environmentObject(perfumeStore)
+            //                .environmentObject(userInfoStore)
         }
     }
 }

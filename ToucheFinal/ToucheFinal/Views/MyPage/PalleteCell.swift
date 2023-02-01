@@ -17,15 +17,16 @@ struct PalletteCell: View {
     }
     
     var body: some View {
-        Path { path in
-            let center = CGPoint(x: 50, y: 50)
-            path.move(to: center)
-            path.addArc(center: center, radius: 180, startAngle: Angle(degrees: degrees), endAngle: Angle(degrees: degrees - 22), clockwise: true)
-            path.addLine(to: center)
+        GeometryReader { geometry in
+            Path { path in
+                let center = CGPoint(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                path.move(to: center)
+                path.addArc(center: center, radius: 180, startAngle: Angle(degrees: degrees), endAngle: Angle(degrees: degrees - 22), clockwise: true)
+                path.addLine(to: center)
+            }
+            .fill(color)
         }
-        .fill(color)
 //        .grayscale(grayOpacity)
-        .frame(width: 100, height: 100)
     }
 }
 

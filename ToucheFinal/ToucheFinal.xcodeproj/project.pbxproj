@@ -12,9 +12,11 @@
 		233260DA297775B700771B2A /* SignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D9297775B700771B2A /* SignOutView.swift */; };
 		233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260DB297782E900771B2A /* LogInSignUpView.swift */; };
 		233260DF2977833600771B2A /* SegmentedPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 233260DE2977833600771B2A /* SegmentedPicker */; };
+		233378B82989EA5100294C58 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233378B72989EA5100294C58 /* ColorPalette.swift */; };
 		2390497E2977920C0097B20A /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2390497D2977920C0097B20A /* GuideView.swift */; };
 		239049802977B9420097B20A /* LogInRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2390497F2977B9420097B20A /* LogInRootView.swift */; };
 		239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239049812977CBBF0097B20A /* WriteCommentView.swift */; };
+		23E417F3298959BC0051707E /* ColorPaletteUnderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E417F2298959BC0051707E /* ColorPaletteUnderView.swift */; };
 		6115A2C929790EFE00BE740E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6115A2C829790EFE00BE740E /* FirebaseStorage */; };
 		61212E5E2978E2DF00D0ED57 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E5D2978E2DF00D0ED57 /* FirebaseFirestore */; };
 		61212E602978E30E00D0ED57 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E5F2978E30E00D0ED57 /* FirebaseFirestoreSwift */; };
@@ -75,9 +77,11 @@
 		233260D72977759900771B2A /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		233260D9297775B700771B2A /* SignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutView.swift; sourceTree = "<group>"; };
 		233260DB297782E900771B2A /* LogInSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInSignUpView.swift; sourceTree = "<group>"; };
+		233378B72989EA5100294C58 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		2390497D2977920C0097B20A /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		2390497F2977B9420097B20A /* LogInRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRootView.swift; sourceTree = "<group>"; };
 		239049812977CBBF0097B20A /* WriteCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteCommentView.swift; sourceTree = "<group>"; };
+		23E417F2298959BC0051707E /* ColorPaletteUnderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteUnderView.swift; sourceTree = "<group>"; };
 		61212E612978E32E00D0ED57 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61212E632978E35A00D0ED57 /* SephoraFirebaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SephoraFirebaseView.swift; sourceTree = "<group>"; };
 		61212E652978E37200D0ED57 /* APIStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStore.swift; sourceTree = "<group>"; };
@@ -183,7 +187,7 @@
 			children = (
 				61FE131E2977D662003F0466 /* Sign */,
 				657A092629765F1000E5B565 /* MyPageView.swift */,
-				EB7F90D62988B125005C7CFB /* PaletteView.swift */,
+				23E417F2298959BC0051707E /* ColorPaletteUnderView.swift */,
 				EBB879A929879FA300167ABA /* PalleteCell.swift */,
 				A8BAF8DC297A55FD00D1DDCD /* MyPageMyCommentCell.swift */,
 				A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */,
@@ -215,6 +219,7 @@
 				233260DB297782E900771B2A /* LogInSignUpView.swift */,
 				2390497F2977B9420097B20A /* LogInRootView.swift */,
 				2390497D2977920C0097B20A /* GuideView.swift */,
+				EB7F90D62988B125005C7CFB /* PaletteView.swift */,
 			);
 			path = Sign;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 				657A08FA2976596900E5B565 /* ContentView.swift */,
 				65A7AB3729777E6000DB4860 /* ImagePicker.swift */,
 				A8BC32782977BF3E004EF50C /* dummyData.swift */,
+				233378B72989EA5100294C58 /* ColorPalette.swift */,
 				AA204A7529876CDE00C59C7F /* Extension */,
 				61212E672978E39C00D0ED57 /* Util */,
 				657A091C29765E1300E5B565 /* Models */,
@@ -450,9 +456,11 @@
 				A8BC32742977BC09004EF50C /* PerfumeCell.swift in Sources */,
 				657A091929765CFE00E5B565 /* Comment.swift in Sources */,
 				A8DDBB44297939FB003AC935 /* SearchResultView.swift in Sources */,
+				233378B82989EA5100294C58 /* ColorPalette.swift in Sources */,
 				A8BC32722977AB6A004EF50C /* FilteringResultView.swift in Sources */,
 				A8BC3270297776C1004EF50C /* SearchView.swift in Sources */,
 				AA204A7729876CED00C59C7F /* Color+.swift in Sources */,
+				23E417F3298959BC0051707E /* ColorPaletteUnderView.swift in Sources */,
 				61FE13232977D7A9003F0466 /* RatingView.swift in Sources */,
 				61212E692978E3B100D0ED57 /* LongDescriptionParsing.swift in Sources */,
 			);
