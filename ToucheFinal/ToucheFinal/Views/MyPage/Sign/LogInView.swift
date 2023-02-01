@@ -11,6 +11,7 @@ struct LogInView: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var isShowingAlert: Bool = false
+    @FocusState private var isFocused: Bool
     
     @EnvironmentObject var userInfoStore: UserInfoStore
     @Environment(\.dismiss) var dismiss
@@ -18,25 +19,27 @@ struct LogInView: View {
     var body: some View {
         VStack{
             VStack(alignment: .leading){
-                    Text("Email")
+                Text("Email")
                     .padding(.top, 1)
                 
-                    TextField("Enter email", text: $email)
-                        .textInputAutocapitalization(.never)
-                        .frame(height: 40)
-                        .padding(.top, -8.5)
-                        .padding(.bottom, 17)
+                TextField("Enter email", text: $email)
+                    .textInputAutocapitalization(.never) // 대문자 방지
+                    .disableAutocorrection(true) // 자동수정 방지
+                    .keyboardType(.emailAddress) // 이메일용 키보드
+                    .frame(height: 40)
+                    .padding(.top, -8.5)
+                    .padding(.bottom, 17)
                 
-                    Text("Password")
+                Text("Password")
                 
-                    SecureField("Enter password", text: $password)
-                        .textInputAutocapitalization(.never)
-                        .frame(height: 40)
-                        .padding(.top, -8.5)
+                SecureField("Enter password", text: $password)
+                    .textInputAutocapitalization(.never)
+                    .frame(height: 40)
+                    .padding(.top, -8.5)
             }
             .padding()
             .textFieldStyle(.roundedBorder)
-            
+            Spacer()
             Button {
                 userInfoStore.logIn(emailAddress: email, password: password)
                 dismiss()
@@ -54,7 +57,11 @@ struct LogInView: View {
             } message: {
                 Text("로그인 버튼 눌렀을 때")
             }
-            Spacer()
+            
+        }
+        .background(Color.white) // background 컬러 지정안해주면 화면 밖 눌러도 키보드 안내려감.
+        .onTapGesture() {
+            endEditing()
         }
         .frame(maxHeight: .infinity)
         
@@ -64,5 +71,10 @@ struct LogInView: View {
 struct LogInView_Previews: PreviewProvider {
     static var previews: some View {
         LogInView()
+    }
+}
+extension View {
+    func endEditing() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
