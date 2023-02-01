@@ -93,7 +93,7 @@ struct HomeView: View {
                     }
 
                     ScrollView(.horizontal, showsIndicators: false){
-                        HStack {
+                        HStack(spacing: 20.0) {
                             ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
@@ -103,6 +103,7 @@ struct HomeView: View {
                             }
                         }
                         .padding(.leading)
+                        .frame(height: 150.0)
                     }
                     .padding(.bottom, 15)
                     .onAppear {
@@ -208,6 +209,7 @@ struct HomeView: View {
             .navigationBarItems(leading: NavigationLink(destination: PerfumeDescriptionView()) {
                 Image(systemName: "info.circle").foregroundColor(.black)
             })
+            .background( Color("CustomGray") )
         }
 //        .toolbar(content: {
 //            ToolbarItem {
@@ -221,7 +223,6 @@ struct HomeView: View {
 //        })
 //        .padding(.top, 0.1)
 //        .padding(.bottom, 30)
-        
        
     }
 }
