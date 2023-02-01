@@ -11,7 +11,6 @@ import FirebaseCore
 
 @main
 struct ToucheFinalApp: App {
-    
     init() {
             FirebaseApp.configure()
 //            UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")

@@ -269,7 +269,7 @@ private extension FilterView {
             switch vm.tab {
             case .brand:
                 ScrollViewReader { proxy in
-                    List(vm.brandSections.indices) { index in
+                    List(vm.brandSections.indices, id: \.self) { index in
                         Section(vm.brandSections[index].letter) {
                             ForEach(vm.brandSections[index].brands) { brand in
                                 HStack {
@@ -288,7 +288,7 @@ private extension FilterView {
                     // quick search
                     .overlay(alignment: .trailing) {
                         VStack(spacing: 2.0) {
-                            ForEach(vm.brandSections.indices) { index in
+                            ForEach(vm.brandSections.indices, id: \.self) { index in
                                 Text(vm.brandSections[index].letter)
                                     .fontWeight(.light)
                                     .gesture(
@@ -323,7 +323,7 @@ private extension FilterView {
                 }
             case .color:
                 ScrollViewReader { proxy in
-                    List(vm.colorSections.indices) { index in
+                    List(vm.colorSections.indices, id: \.self) { index in
                         Section(vm.colorSections[index].letter) {
                             ForEach(vm.colorSections[index].colors) { color in
                                 HStack {
@@ -345,7 +345,7 @@ private extension FilterView {
                     // quick search
                     .overlay(alignment: .trailing) {
                         VStack {
-                            ForEach(vm.colorSections.indices) { index in
+                            ForEach(vm.colorSections.indices, id: \.self) { index in
                                 Text(vm.colorSections[index].letter)
                                     .fontWeight(.light)
                                     .gesture(

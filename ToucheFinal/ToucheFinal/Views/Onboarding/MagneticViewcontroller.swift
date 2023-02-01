@@ -52,8 +52,8 @@ class MagneticViewcontroller: UIViewController {
     }
     
     func setBtnStyle() {
-        SkipBtn.layer.cornerRadius = 7
-        FinishBtn.layer.cornerRadius = 7
+        SkipBtn.layer.cornerRadius = 25
+        FinishBtn.layer.cornerRadius = 25
     }
     
     func startLoading(isSkip: Bool) {

@@ -9,20 +9,15 @@ import SwiftUI
 
 struct MyCommentListView: View {
     var body: some View {
-        VStack{
-            Spacer()
-            List {
-                ForEach(0..<10) { _ in
-                    VStack{
-                        MyPageMyCommentCell(perfume: dummy[0], comment: commentDummy[0])
-                            .padding(.bottom, 30)
-                    }
+        ScrollView {
+            ForEach(0..<10) { _ in
+                VStack{
+                    MyPageMyCommentCell(perfume: dummy[0], comment: commentDummy[0])
+                        .padding(.bottom, 30)
                 }
-                .frame(height: 80)
-                .navigationTitle("My Comment")
             }
-            .listStyle(.plain)
-            Spacer()
+            //                .frame(height: 80)
+            .navigationTitle("My Comment")
         }
     }
 }

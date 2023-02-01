@@ -135,6 +135,7 @@ struct PaletteView: View {
                 ColorPaletteUnderView()
             }
         }
+        .padding(.top, 0.1)
         .onAppear {
             for perfume in dummy {
                 scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1

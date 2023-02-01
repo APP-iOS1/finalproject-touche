@@ -22,7 +22,7 @@ struct ColorChipPerfumeCell: View {
                         .resizable()
                         .frame(width: 100, height: 100)
                         .cornerRadius(10)
-                    CircleAnimation()
+                    CircleAnimation(perfume: perfume)
                         .offset(x: 40, y: -40)
                 }
             )
@@ -31,25 +31,27 @@ struct ColorChipPerfumeCell: View {
 
 struct CircleAnimation: View {
     @State private var shouldAnimate = false
-    
+    var perfume: Perfume
     var body: some View {
         Circle()
-            .fill(PerfumeColor.types[13].color)
+            .fill(Color(hex: setHexValue(scentType: perfume.scentType)) ?? Color.white)
             .frame(width: 30, height: 30)
             .overlay(
                 ZStack {
                     Circle()
-                        .stroke(PerfumeColor.types[13].color, lineWidth: 100)
+                        .stroke(Color(hex: setHexValue(scentType: perfume.scentType)) ?? Color.white, lineWidth: 100)
                         .scaleEffect(shouldAnimate ? 0.7 : 0)
                 }
                 .opacity(shouldAnimate ? 0.0 : 0.2)
-                .animation(Animation.easeInOut(duration: 3).repeatForever(autoreverses: false))
+                .animation(Animation.easeInOut(duration: 3).repeatForever(autoreverses: false), value: shouldAnimate)
         )
         .onAppear {
             self.shouldAnimate = true
         }
     }
+    
 }
+
 
 struct ColorChipPerfumeCell_Previews: PreviewProvider {
     static var previews: some View {

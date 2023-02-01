@@ -13,7 +13,7 @@ struct PerfumeTabView: View {
     @State private var touchTab = false
     @State var isShowingOnboardingView: Bool = UserDefaults.standard.bool(forKey: "isShowingOnboardingView")
     
-    let tabBarNames = ["Home", "Filter", "Profile"]
+    let tabBarNames = ["Home", "Palette", "Profile"]
     var body: some View {
         GeometryReader{geometry in
             if isShowingOnboardingView {
@@ -25,13 +25,14 @@ struct PerfumeTabView: View {
                         case 0:
                             HomeView()
                         case 1:
-                            SearchFilterView()
+                            PaletteView()
                         default:
                             LogInRootView()
                         }
                     }
                     Spacer()
-                    
+                    Divider()
+                        .offset(y: -6)
                     HStack{
                         Spacer()
                         
@@ -51,6 +52,7 @@ struct PerfumeTabView: View {
                             Spacer()
                         }
                     }
+                    .padding(.top, 12)
                     
                     HStack{
                         switch selectedIndex{

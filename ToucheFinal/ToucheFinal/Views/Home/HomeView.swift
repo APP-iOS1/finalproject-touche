@@ -17,7 +17,7 @@ struct HomeView: View {
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
                     // MARK: 프로모션
@@ -186,7 +186,7 @@ struct HomeView: View {
                 Image(systemName: "slider.vertical.3").foregroundColor(.black)
             })
             .navigationBarItems(leading: NavigationLink(destination: PerfumeDescriptionView()) {
-                Image(systemName: "circle.hexagonpath").foregroundColor(.black)
+                Image(systemName: "info.circle").foregroundColor(.black)
             })
         }
 //        .toolbar(content: {

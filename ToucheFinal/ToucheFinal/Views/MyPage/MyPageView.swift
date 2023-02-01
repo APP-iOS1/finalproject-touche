@@ -48,42 +48,22 @@ struct MyPageView: View {
                     .padding(.bottom, 15)
 
                     Divider()
-                    // 기존 WishList 삭제
-//                    NavigationLink{
-//                        WishListView()
-//                    }label: {
-//                        HStack{
-//                            Text("Wish List")
-//                                .fontWeight(.semibold)
-//                            Spacer()
-//                            Image(systemName: "chevron.right")
-//
-//                        }
-//                        .padding(.bottom, 20)
-//                    }
-//                    .tint(.black)
-//
-//                    HStack{
-//                        ForEach(0..<3){ _ in
-//                            WishListPerfumeCell(perfume: perfume)
-//                        }
-//                    }
-//                    //.frame(width: 300,)
-//                    .padding(.bottom, 20) // 여기까지 삭제
                     VStack{
                         HStack{
-                            Text("My Comment").font(.custom("NotoSans-Regular", size: 19))
-                                //.fontWeight(.semibold)
-                                .offset(x: 8)
-                            Spacer()
                             // TODO:
                             NavigationLink {
                                 // 리스트 형식으로 나의 코멘트 길게 보여주기
                                 MyCommentListView()
                             } label: {
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.black)
-                                    .offset(x: -8)
+                                HStack {
+                                    Text("My Comment").font(.custom("NotoSans-Regular", size: 19))
+                                    //.fontWeight(.semibold)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        
+                                }
+//                                .offset(x: -8)
+                                .foregroundColor(.black)
                             }
                             
                         }
@@ -100,17 +80,6 @@ struct MyPageView: View {
                             Spacer()
                         
                     }
-                    // SettingView로 이동되었습니다.
-//                    Button {
-//                        userInfoStore.logOut()
-//                        dismiss()
-//                    } label: {
-//                        Text("Log Out")
-//                            .frame(width: 170, height: 50)
-//                            .background(Color.black)
-//                            .cornerRadius(7)
-//                            .foregroundColor(.white)
-//                    }
                 }
                 .padding(14)
             }
