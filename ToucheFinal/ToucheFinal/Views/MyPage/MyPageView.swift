@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MyPageView: View {
-    
     var perfume: Perfume
     var comment: Comment
     
@@ -16,12 +15,13 @@ struct MyPageView: View {
     @State private var userNickname: String = "LUNA"
     @State private var showEditMyProfileView = false
     @State private var userNation: String = "🏳️"
+    @State private var rotation: Double = 0
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ScrollView{
                 VStack{
                     Image(uiImage: self.image)
@@ -41,68 +41,44 @@ struct MyPageView: View {
                         showEditMyProfileView.toggle()
                     } label: {
                         Text("Edit Profile")
+//                            .foregroundColor(Color.black)
                     }
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
                         EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
                     }
-                    
+                    .padding(.bottom, 15)
+
                     Divider()
-                    NavigationLink{
-                        WishListView()
-                    }label: {
+                    VStack{
                         HStack{
-                            Text("Wish List")
-                                .fontWeight(.semibold)
-                            Spacer()
-                            Image(systemName: "chevron.right")
+                            // TODO:
+                            NavigationLink {
+                                // 리스트 형식으로 나의 코멘트 길게 보여주기
+                                MyCommentListView()
+                            } label: {
+                                HStack {
+                                    Text("My Comment").font(.custom("NotoSans-Regular", size: 19))
+                                    //.fontWeight(.semibold)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        
+                                }
+//                                .offset(x: -8)
+                                .foregroundColor(.black)
+                            }
                             
                         }
-                        .padding(.bottom, 20)
-                    }
-                    .tint(.black)
-                    
-                    HStack{
-                        ForEach(0..<3){ _ in
-                            WishListPerfumeCell(perfume: perfume)
-                        }
-                    }
-                    //.frame(width: 300,)
-                    .padding(.bottom, 20)
-                    
-                    HStack{
-                        Text("My Comment")
-                            .fontWeight(.semibold)
-                        Spacer()
-                        // TODO:
-                        NavigationLink {
-                            // 리스트 형식으로 나의 코멘트 길게 보여주기
-                            MyCommentListView()
-                        } label: {
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.black)
-                        }
+                        .padding(.top, 15)
+                        .padding(.bottom, 15)
                         
-                    }
-                    .padding(.bottom, 5)
-                    
-                    HStack{
-                        VStack{
-                            ForEach(0..<3) { _ in
-                                MyPageMyCommentCell(perfume: dummy[0], comment: commentDummy[0])
+                            VStack(alignment: .center){
+                                ForEach(0..<3) { _ in
+                                    MyPageMyCommentCell(perfume: dummy[0], comment: commentDummy[0])
+                                        .padding(.bottom, 20)
+                                }
                             }
-                        }
-                        .padding(.bottom, 20)
-                        Spacer()
-                    }
-                    Button {
-                        userInfoStore.logOut()
-                        dismiss()
-                    } label: {
-                        Text("Log Out")
-                            .frame(width: 170, height: 50)
-                            .background(Color.black)
-                            .cornerRadius(7)
-                            .foregroundColor(.white)
+                            .padding(.bottom, 20)
+                            Spacer()
                         
                     }
                 }
@@ -122,6 +98,20 @@ struct MyPageView: View {
     }
 }
 
+struct NameText: View {
+    let name: String
+    var body: some View {
+        HStack (spacing: 0){
+            Text(name)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 35)
+            Rectangle()
+                .foregroundColor(Color.clear)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .frame(height: 40)
+    }
+}
 
 struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {

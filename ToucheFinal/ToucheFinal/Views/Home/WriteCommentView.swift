@@ -15,7 +15,7 @@ struct WriteCommentView: View {
     var perfume: Perfume
     
     var body: some View {
-        NavigationStack{
+        NavigationView {
             VStack {
                 HStack {
                     AsyncImage(url: URL(string: perfume.heroImage)) { image in
@@ -45,9 +45,10 @@ struct WriteCommentView: View {
                 }
                 
                 VStack {
-                    TextField("Review", text: $manager.reviewText, axis: .vertical)
-                        .padding(5)
-                    Spacer()
+                    // FIXME: - 버전 낮추면서 생기는 에러부분 수정해주셔야합니다.
+//                    TextField("Review", text: $manager.reviewText, axis: .vertical)
+//                        .padding(5)
+//                    Spacer()
                 }
                 .frame(width: 330, height: 130)
                 .overlay(
@@ -82,7 +83,9 @@ struct WriteCommentView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Cancel")
+//                        Text("Cancel")
+                        Image(systemName: "xmark")
+                            .foregroundColor(Color.black)
                     }
                 }
             })

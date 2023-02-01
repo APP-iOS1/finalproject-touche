@@ -8,17 +8,29 @@
 import SwiftUI
 
 struct MyCommentListView: View {
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var body: some View {
-        List {
+        ScrollView {
             ForEach(0..<10) { _ in
-            VStack{
+                VStack{
                     MyPageMyCommentCell(perfume: dummy[0], comment: commentDummy[0])
+                        .padding(.bottom, 30)
                 }
             }
-            .frame(height: 80)
+            //                .frame(height: 80)
             .navigationTitle("My Comment")
         }
-        .listStyle(.plain)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    self.mode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

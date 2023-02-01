@@ -10,6 +10,7 @@ import SegmentedPicker
 
 struct LogInSignUpView: View {
     @State var selectedIndex: Int?
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     let titles: [String] = ["Sign In", "Sign Up"]
     
     var body: some View {
@@ -49,11 +50,22 @@ struct LogInSignUpView: View {
                 }
                 Spacer()
             }
-            .frame(width: UIScreen.main.bounds.width, height: 650)
+//            .frame(width: UIScreen.main.bounds.width, height: 650)
             Spacer()
         } //VStack
 //        .frame(height: 400)
-        .ignoresSafeArea(.keyboard)
+//        .ignoresSafeArea(.keyboard)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    self.mode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
     } // body
 }
 

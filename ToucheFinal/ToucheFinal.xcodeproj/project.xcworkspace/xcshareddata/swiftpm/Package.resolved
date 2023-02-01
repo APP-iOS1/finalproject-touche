@@ -109,6 +109,15 @@
       }
     },
     {
+      "identity" : "magnetic",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/efremidze/Magnetic",
+      "state" : {
+        "branch" : "master",
+        "revision" : "63ac15991741c3cc64f70f640a74b22af0b4bc49"
+      }
+    },
+    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",
@@ -138,7 +147,7 @@
     {
       "identity" : "sdwebimageswiftui",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI.git",
+      "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI",
       "state" : {
         "revision" : "61fefe9c284fd41ddef77d02749e88f00c305196",
         "version" : "2.2.2"

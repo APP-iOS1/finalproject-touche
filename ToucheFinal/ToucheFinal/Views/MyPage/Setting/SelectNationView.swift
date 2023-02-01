@@ -28,19 +28,19 @@ enum ToucheNation {
 
 
 struct SelectNationView: View {
-    
+
     @Environment(\.dismiss) var dismiss
-    
+
     @State var nations: [String] = ["Republic Of Korea","France","United States","Japan"].sorted()
-    
+
     @State private var selectingNation: String = ""
-    
+
     @State private var selectedNations: [String] = []
-    
+
     @AppStorage("selectedNation") private var selectedNation: String?
-    
+
     var body: some View {
-        
+
         // 수동으로 바인딩하는 방법
         let selectBinding = Binding<String> (
             get: { selectingNation },
@@ -52,10 +52,10 @@ struct SelectNationView: View {
                     selectedNations = nations
                 }
             }
-            
+
         )
-        
-        NavigationStack{
+
+        NavigationView {
             return VStack{
                 TextField("Search your Nations", text: selectBinding)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -71,16 +71,19 @@ struct SelectNationView: View {
                         } label: {
                             Text(nation)
                         }
-                        
-                        
+
+
                     }
                 }.listStyle(.plain)
             }
-            
+
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){
-                    Button("Cancel"){
+                    Button {
                         dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .foregroundColor(Color.black)
                     }
                 }
             }
@@ -89,13 +92,13 @@ struct SelectNationView: View {
             selectedNations = nations
         }
     }
-    
+
 }
 
 struct SelectNationView_Previews: PreviewProvider {
-    
+
     //    static let sampleData = ["RepublicOfKorea","France","UnitedStates","Japan"].sorted()
-    
+
     static var previews: some View {
         SelectNationView()
     }

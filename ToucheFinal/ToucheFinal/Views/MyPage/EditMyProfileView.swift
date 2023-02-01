@@ -28,7 +28,7 @@ struct EditMyProfileView: View {
     
     
     var body: some View {
-        NavigationStack{
+        NavigationView {
             VStack{
                 
                 Text("Edit Profile")

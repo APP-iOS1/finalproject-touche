@@ -13,29 +13,29 @@ struct DeleteAccountView: View {
         case notSpecial = "There is no speciality in the app."
         case not = "There is no speciality in the app"
         case enterReason = "I'll enter the reason directly."
-        
+
         var id: Self { self }
     }
     @Environment(\.dismiss) var dismiss
-    
+
     @State private var selection = ReasonForDelete.notUse
-    
+
     @EnvironmentObject var userInfoStore: UserInfoStore
-    
+
 //    let reasonForDelete: [String] = ["This app is not useful.", "There is no speciality in the app.", "There is no speciality in the app.", "I'll enter the reason directly."]
-    
+
     @State private var showTextField: Bool = false
     @State private var selectedReason: String = ""
     @State private var reasonForDeleteText: String = ""
-    
+
     var body: some View {
-        NavigationStack{
+        NavigationView {
             VStack(alignment: .leading){
                     Text("Delete Account")
                         .font(.title)
                         .fontWeight(.bold)
                         .padding(.bottom)
-                    
+
                     Text("Do you have any compliments?\nYou can contact our Customer Service first.")
                         .padding(.bottom, 5)
                     HStack{
@@ -51,7 +51,7 @@ struct DeleteAccountView: View {
                         .bold()
                     Text("User ID")
                 }
-                
+
                 HStack {
                     Text("Reason:")
                         .bold()
@@ -64,20 +64,21 @@ struct DeleteAccountView: View {
                                             .frame(width: 290, alignment: .leading)
                                             .padding(-10)
                 }
-                
+
                 VStack {
-                    VStack {
-                        TextField("Review", text: $reasonForDeleteText, axis: .vertical)
-                            .padding(5)
-                        
-                        Spacer()
-                    }
-                    .frame(width: 360, height: 130)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(.gray, lineWidth: 0.5)
-                    )
-                    
+//                    VStack {
+                        // **FIXME: - 버전 낮추면서 생기는 에러부분 수정해주셔야합니다.**
+//                        TextField("Review", text: $reasonForDeleteText, axis: .vertical)
+//                            .padding(5)
+//
+//                        Spacer()
+//                    }
+//                    .frame(width: 360, height: 130)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 5)
+//                            .stroke(.gray, lineWidth: 0.5)
+//                    )
+
                     HStack {
                         Spacer()
                         Text("\(reasonForDeleteText.count)/200")
@@ -86,7 +87,7 @@ struct DeleteAccountView: View {
                 }
                 // enterReson 선택 시 TextField 보임
                 .opacity(selection == .enterReason ? 1 : 0)
-                
+
                 Button(action: {
                     userInfoStore.deleteAccount()
                 }) {
@@ -107,14 +108,15 @@ struct DeleteAccountView: View {
                     .tint(.black)
                 }
             }
-            .toolbarBackground(Color.white, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            // **FIXME: - 버전 낮추면서 생기는 에러부분 수정해주셔야합니다.**
+//            .toolbarBackground(Color.white, for: .navigationBar)
+//            .toolbarBackground(.visible, for: .navigationBar)
             .frame(height: 700)
             .padding()
-            
-            
+
+
         }
-        
+
     }
 }
 
