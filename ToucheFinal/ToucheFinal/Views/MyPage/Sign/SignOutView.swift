@@ -12,7 +12,7 @@ struct SignOutView: View {
         NavigationStack {
             VStack {
                 HStack {
-                    Text("If you want to use the wish list,\n ")
+                    Text("If you want to use more services,")
                     Spacer()
                 }
                 .frame(height: 80)

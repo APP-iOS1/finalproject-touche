@@ -57,7 +57,7 @@ struct LogInView: View {
             } message: {
                 Text("로그인 버튼 눌렀을 때")
             }
-            
+            Spacer()
         }
         .background(Color.white) // background 컬러 지정안해주면 화면 밖 눌러도 키보드 안내려감.
         .onTapGesture() {
