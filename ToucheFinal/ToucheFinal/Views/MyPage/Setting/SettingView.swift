@@ -12,7 +12,7 @@ struct SettingView: View {
     @State var showSelectNationView: Bool = false
     @State var showDeleteAccountView: Bool = false
     @EnvironmentObject var userInfoStore: UserInfoStore
-    
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var body: some View {
         
         NavigationView {
@@ -101,6 +101,17 @@ struct SettingView: View {
             }
             .listStyle(.plain)
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    self.mode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

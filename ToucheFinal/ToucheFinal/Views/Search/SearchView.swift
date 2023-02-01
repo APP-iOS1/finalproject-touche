@@ -159,7 +159,7 @@ struct SearchView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-    }
+    } // body
 }
 
 struct SearchView_Previews: PreviewProvider {

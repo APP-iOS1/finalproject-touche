@@ -41,6 +41,7 @@ struct MyPageView: View {
                         showEditMyProfileView.toggle()
                     } label: {
                         Text("Edit Profile")
+//                            .foregroundColor(Color.black)
                     }
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
                         EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)

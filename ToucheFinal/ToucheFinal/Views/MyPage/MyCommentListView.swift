@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MyCommentListView: View {
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var body: some View {
         ScrollView {
             ForEach(0..<10) { _ in
@@ -19,6 +20,17 @@ struct MyCommentListView: View {
             //                .frame(height: 80)
             .navigationTitle("My Comment")
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    self.mode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
