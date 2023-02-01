@@ -15,6 +15,7 @@ struct PaletteView: View {
     @State private var isTapped = false
     @State private var scentTypeCount: [String: Int] = [:]
     @State private var selectedColor: Color = Color("customGray")
+    
     @EnvironmentObject var colorPaletteCondition: ColorPalette
     
     let columns = [
@@ -140,6 +141,7 @@ struct PaletteView: View {
                 scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
             }
         }
+        
     }
 }
 
@@ -202,7 +204,7 @@ struct Wheel: Layout {
             // Place the subview.
             subview.place(at: point, anchor: .center, proposal: .unspecified)
             
-            DispatchQueue.global().async { 
+            DispatchQueue.global().async {
                 if pointToCenter {
                     subview[Rotation.self]?.wrappedValue = .radians(angle)
                 } else {
