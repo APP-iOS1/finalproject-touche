@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PerfumeDescriptionView: View {
+    @State var seletedColors = (UserDefaults.standard.array(forKey: "selectedFragranceTypes") as? [String] ?? [])
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var perfumeColors: [PerfumeColor] = PerfumeColor.types
     
@@ -18,12 +19,19 @@ struct PerfumeDescriptionView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     //.padding(.leading, 20)
-                
-                Text("(여기에 온보딩에서 선택한 값이 들어갈 예정)")
+                HStack {
+                    ForEach(seletedColors, id: \.self) { color in
+                        Circle()
+                            .fill(Color(scentType: color))
+                            .frame(width: 30, height: 30)
+                    }
+                }
+                Divider()
             }
             .padding(.leading, 20)
             
             PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), perfumeColour: perfumeColors)
+                .padding(.top, -8)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -37,6 +45,7 @@ struct PerfumeDescriptionView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
+    
 }
 
 struct PerfumeDescriptionView_Previews: PreviewProvider {

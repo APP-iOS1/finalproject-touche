@@ -13,7 +13,7 @@ import FirebaseCore
 struct ToucheFinalApp: App {
     init() {
             FirebaseApp.configure()
-//            UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
+            UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
         }
     @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
     @StateObject var perfumeStore = PerfumeStore()
