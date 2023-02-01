@@ -39,7 +39,7 @@ struct CircleAnimation: View {
             .overlay(
                 ZStack {
                     Circle()
-                        .stroke(PerfumeColor.types[13].color, lineWidth: 5)
+                        .stroke(PerfumeColor.types[13].color, lineWidth: 100)
                         .scaleEffect(shouldAnimate ? 0.7 : 0)
                 }
                 .opacity(shouldAnimate ? 0.0 : 0.2)

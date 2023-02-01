@@ -28,10 +28,6 @@ struct ToucheFinalApp: App {
                 .environmentObject(colorPalette)
                 .environmentObject(perfumeStore)
                 .environmentObject(userInfoStore)
-            //            MyPageView(perfume: dummy[0], comment: commentDummy[0])
-            //            TestView()
-            //                .environmentObject(perfumeStore)
-            //                .environmentObject(userInfoStore)
         }
     }
 }
