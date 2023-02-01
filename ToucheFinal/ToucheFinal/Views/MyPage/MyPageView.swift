@@ -16,6 +16,7 @@ struct MyPageView: View {
     @State private var showEditMyProfileView = false
     @State private var userNation: String = "🏳️"
     @State private var rotation: Double = 0
+    @State private var userBio: String = "Crazy in Perfume"
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
@@ -36,6 +37,8 @@ struct MyPageView: View {
                         Text(userNickname)
                         Text(userNation)
                     }
+                    .padding(.bottom,1)
+                    Text("\(userBio)")
                     .padding(.bottom,3)
                     Button {
                         showEditMyProfileView.toggle()
@@ -44,7 +47,7 @@ struct MyPageView: View {
 //                            .foregroundColor(Color.black)
                     }
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
-                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
+                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation, bio: $userBio)
                     }
                     .padding(.bottom, 15)
 
