@@ -9,7 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct PerfumeDetailView: View {
-    
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     @EnvironmentObject var perfumeStore: PerfumeStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     @Namespace var reviewId
@@ -255,6 +255,17 @@ struct PerfumeDetailView: View {
             //            perfumeStore.createRecentlyViewedPerfume(perfume: perfume)
             //
             //        }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        self.mode.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                    }
+                    .foregroundColor(.black)
+                }
+            }
+            .navigationBarBackButtonHidden(true)
     }
 }
 

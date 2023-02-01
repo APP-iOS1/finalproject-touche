@@ -83,7 +83,9 @@ struct WriteCommentView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Cancel")
+//                        Text("Cancel")
+                        Image(systemName: "xmark")
+                            .foregroundColor(Color.black)
                     }
                 }
             })

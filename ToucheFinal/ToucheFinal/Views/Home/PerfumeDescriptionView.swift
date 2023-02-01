@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PerfumeDescriptionView: View {
-    
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var perfumeColors: [PerfumeColor] = PerfumeColor.types
     
     var body: some View {
@@ -25,6 +25,17 @@ struct PerfumeDescriptionView: View {
             
             PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), perfumeColour: perfumeColors)
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    self.mode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
