@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct MyPageView: View {
-
     var perfume: Perfume
     var comment: Comment
-
+    
     @State private var image = UIImage()
     @State private var userNickname: String = "LUNA"
     @State private var showEditMyProfileView = false
     @State private var userNation: String = "🏳️"
-
+    @State private var rotation: Double = 0
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
-
+    
     var body: some View {
         NavigationView {
             ScrollView{
@@ -128,6 +128,20 @@ struct MyPageView: View {
     }
 }
 
+struct NameText: View {
+    let name: String
+    var body: some View {
+        HStack (spacing: 0){
+            Text(name)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 35)
+            Rectangle()
+                .foregroundColor(Color.clear)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .frame(height: 40)
+    }
+}
 
 struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {

@@ -7,27 +7,6 @@
 import Foundation
 import SwiftUI
 
-
-struct Bookmark: Identifiable {
-    let id = UUID()
-    let name: String
-    let icon: String
-    var items: [Bookmark]?
-    
-    // some example websites
-    static let apple = Bookmark(name: "Apple", icon: "1.circle")
-    static let bbc = Bookmark(name: "BBC", icon: "square.and.pencil")
-    static let swift = Bookmark(name: "Swift", icon: "bolt.fill")
-    static let twitter = Bookmark(name: "Twitter", icon: "mic")
-    
-    // some example groups
-    static let example1 = Bookmark(name: "Favorites", icon: "star", items: [Bookmark.apple, Bookmark.bbc, Bookmark.swift, Bookmark.twitter])
-    
-    static let example2 = Bookmark(name: "Recent", icon: "timer", items: [Bookmark.apple, Bookmark.bbc, Bookmark.swift, Bookmark.twitter])
-    
-    static let example3 = Bookmark(name: "Recommended", icon: "hand.thumbsup", items: [Bookmark.apple, Bookmark.bbc, Bookmark.swift, Bookmark.twitter])
-}
-
 struct PerfumeColor: Identifiable, Hashable {
     var id = UUID().uuidString
 
@@ -37,28 +16,7 @@ struct PerfumeColor: Identifiable, Hashable {
         Color(hex: hexValue) ?? Color.clear
     }
     var description: [String]?
-    
-    /*
-    static var types: [PerfumeColor] = [
-        PerfumeColor(name: "Fruity Florals", hexValue: "EC3C3C"),
-        PerfumeColor(name: "Warm & Sweet Gourmands", hexValue: "A11818"),
-        PerfumeColor(name: "Warm Florals", hexValue: "E26262"),
-        PerfumeColor(name: "Warm Woods", hexValue: "895151"),
-        PerfumeColor(name: "Fresh Florals", hexValue: "FF9680"),
-        PerfumeColor(name: "Fresh Citrus & Fruits", hexValue: "FCE182"),
-        PerfumeColor(name: "Classic Florals", hexValue: "EC96E3"),
-        PerfumeColor(name: "Woody Spices", hexValue: "513737"),
-        PerfumeColor(name: "Cool Spices", hexValue: "326D98"),
-        PerfumeColor(name: "Classic Woods", hexValue: "595252"),
-        PerfumeColor(name: "Citrus & Woods", hexValue: "B2A795"),
-        PerfumeColor(name: "Fresh Solar", hexValue: "F0BC00"),
-        PerfumeColor(name: "Warm & Sheer", hexValue: "B8B0B0"),
-        PerfumeColor(name: "Powdery Florals", hexValue: "D933C7"),
-        PerfumeColor(name: "Fresh Aquatics", hexValue: "2C5DDA"),
-        PerfumeColor(name: "Earthy Greens & Herbs", hexValue: "4B9A4E")
-    ]
-     */
-    
+
     static var types: [PerfumeColor] = [
         PerfumeColor(name: "Fruity Florals", hexValue: "EC3C3C", description: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper in arcu vel cursus. Nulla facilisi. Morbi egestas sodales tristique. Vestibulum a metus dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris eget cursus erat. Duis elementum arcu ante. Sed vitae maximus neque. Donec varius velit nec neque ultricies elementum."]),
         PerfumeColor(name: "Warm & Sweet Gourmands", hexValue: "A11818", description: ["Maecenas dictum mattis est porttitor accumsan. Pellentesque vel tempor mauris. Nunc ornare, metus et lobortis accumsan, nisi augue varius nunc, sed porttitor elit magna at magna. Aenean hendrerit purus ante, ac convallis elit lacinia eget. Ut vulputate nec nunc nec volutpat. Etiam quis eros non leo accumsan elementum. Ut eros nisl, interdum et lobortis eget, lacinia vitae erat. Praesent eget maximus est, vitae ornare elit. Pellentesque vulputate neque eget sodales mattis. Pellentesque lacinia dolor sapien, eu lobortis felis scelerisque ac. Praesent suscipit semper erat fringilla euismod. Vestibulum sed tellus turpis."]),
