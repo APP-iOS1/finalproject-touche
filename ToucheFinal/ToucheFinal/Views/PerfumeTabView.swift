@@ -8,70 +8,75 @@
 import SwiftUI
 
 struct PerfumeTabView: View {
+    
     @State private var selectedIndex = 0
     @State private var touchTab = false
+    @State var isShowingOnboardingView: Bool = UserDefaults.standard.bool(forKey: "isShowingOnboardingView")
+    
     let tabBarNames = ["Home", "Filter", "Profile"]
     var body: some View {
         GeometryReader{geometry in
-            VStack{
-                ZStack() {
-                    switch selectedIndex{
-                    case 0:
-                        HomeView()
-                    // case 없애버렸음.. 죄송...
-                    // case 1:
-                    // AnyView()
-                    
-                    default:
-                        LogInRootView()
+            if isShowingOnboardingView {
+                OnboardingView(isShowingOnboardingView: $isShowingOnboardingView)
+            } else {
+                VStack{
+                    ZStack() {
+                        switch selectedIndex{
+                        case 0:
+                            HomeView()
+                        case 1:
+                            SearchFilterView()
+                        default:
+                            LogInRootView()
+                        }
                     }
-                }
-                Spacer()
-                
-                HStack{
                     Spacer()
                     
-                    ForEach(0..<3) { num in
-                        VStack(alignment: .center){
-                            Text(tabBarNames[num])
-                                .font(.system(size: 15, weight: .light))
-                                .foregroundColor(selectedIndex == num ? Color(.black) : Color(.tertiaryLabel))
-                        }
-                        .gesture(
-                            TapGesture()
-                                .onEnded { _ in
-                                    selectedIndex = num
-                                }
-                        )
-                        
+                    HStack{
                         Spacer()
-                    }
-                }
-                
-                HStack{
-                    switch selectedIndex{
-                    case 0 :
-                        Circle()
-                            .foregroundColor(Color(.black))
-                            .frame(width: 101, height: 4)
-                            .padding(.leading, geometry.size.width / -2.4)
-                    case 1:
-                        Circle()
-                            .foregroundColor(Color(.black))
-                            .frame(width: 101, height: 4)
-                            .padding(.leading, geometry.size.width / -50)
                         
-                    case 2:
-                        Circle()
-                            .foregroundColor(Color(.black))
-                            .frame(width: 101, height: 4)
-                            .padding(.leading, geometry.size.width / 1.8)
-                    default :
-                        Circle()
-                            .foregroundColor(Color(.black))
-                            .frame(width: 101, height: 4)
+                        ForEach(0..<3) { num in
+                            VStack(alignment: .center){
+                                Text(tabBarNames[num])
+                                    .font(.system(size: 15, weight: .light))
+                                    .foregroundColor(selectedIndex == num ? Color(.black) : Color(.tertiaryLabel))
+                            }
+                            .gesture(
+                                TapGesture()
+                                    .onEnded { _ in
+                                        selectedIndex = num
+                                    }
+                            )
+                            
+                            Spacer()
+                        }
                     }
-                }.padding(.top, -5)
+                    
+                    HStack{
+                        switch selectedIndex{
+                        case 0 :
+                            Circle()
+                                .foregroundColor(Color(.black))
+                                .frame(width: 101, height: 4)
+                                .padding(.leading, geometry.size.width / -2.4)
+                        case 1:
+                            Circle()
+                                .foregroundColor(Color(.black))
+                                .frame(width: 101, height: 4)
+                                .padding(.leading, geometry.size.width / -50)
+                            
+                        case 2:
+                            Circle()
+                                .foregroundColor(Color(.black))
+                                .frame(width: 101, height: 4)
+                                .padding(.leading, geometry.size.width / 1.8)
+                        default :
+                            Circle()
+                                .foregroundColor(Color(.black))
+                                .frame(width: 101, height: 4)
+                        }
+                    }.padding(.top, -5)
+                }
             }
         }
     }
