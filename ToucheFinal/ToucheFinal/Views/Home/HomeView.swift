@@ -79,8 +79,18 @@ struct HomeView: View {
                         .padding(.top, -10)
                     }
                     // MARK: Recommend Perfume for You
-                    Text("RECOMMEND PERFUME FOR YOU")
-                        .modifier(TextViewModeifier())
+                    HStack(alignment: .bottom) {
+                        Text("RECOMMEND PERFUME FOR YOU")
+                            .modifier(TextViewModeifier(isTitleSection: true))
+                        Spacer()
+                        Button {
+                            // TODO: 더보기 액션
+                        } label: {
+                            Text("more")
+                                .modifier(TextViewModeifier(isTitleSection: false))
+                        }
+
+                    }
 
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack {
@@ -115,8 +125,18 @@ struct HomeView: View {
 //                            .padding(.leading)
 //                    }
                     // MARK: 최근 클릭한 향수
-                    Text("RECENTLY VIEWED")
-                        .modifier(TextViewModeifier())
+                    HStack(alignment: .bottom) {
+                        Text("RECENTLY VIEWED")
+                            .modifier(TextViewModeifier(isTitleSection: true))
+                        Spacer()
+                        Button {
+                            // TODO: 더보기 액션
+                        } label: {
+                            Text("more")
+                                .modifier(TextViewModeifier(isTitleSection: false))
+                        }
+
+                    }
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack {
                             ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
@@ -207,11 +227,13 @@ struct HomeView: View {
 }
 
 struct TextViewModeifier: ViewModifier {
+    let isTitleSection: Bool
     func body(content: Content) -> some View {
         content
-            .foregroundColor(.black)
-            .font(.system(size: 20))
-//            .fontWeight(.semibold)
+            .foregroundColor(.primary)
+            .font(isTitleSection ? .headline : .caption)
+            .fontWeight(isTitleSection ? .semibold : .regular)
+            .underline(!isTitleSection, pattern: .solid, color: .primary)
             .padding()
             .padding(.bottom, -5)
     }
