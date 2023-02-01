@@ -147,7 +147,7 @@
     {
       "identity" : "sdwebimageswiftui",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI.git",
+      "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI",
       "state" : {
         "revision" : "61fefe9c284fd41ddef77d02749e88f00c305196",
         "version" : "2.2.2"

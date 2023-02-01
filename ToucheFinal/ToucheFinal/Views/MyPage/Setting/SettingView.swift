@@ -11,10 +11,11 @@ struct SettingView: View {
     
     @State var showSelectNationView: Bool = false
     @State var showDeleteAccountView: Bool = false
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
     var body: some View {
         
-        NavigationStack{
+        NavigationView {
             
             List{
                 Text("SETTINGS")
@@ -23,10 +24,11 @@ struct SettingView: View {
                 
                 Button{
                     Task{
-                        if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                       
-                            await UIApplication.shared.open(url)
-                        }
+                        // FIXME: - 버전 바꾸면서 에러 발생 수정해주셔야합니다!
+//                        if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+//
+//                            await UIApplication.shared.open(url)
+//                        }
                     }
                 } label :{
                     HStack{
@@ -63,6 +65,19 @@ struct SettingView: View {
                 
                 
                 Button{
+                    userInfoStore.logOut()
+                    //dismiss()
+                } label :{
+                    HStack{
+                        Text("Log Out")
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                    }
+                }
+                
+                
+                
+                Button{
                     showDeleteAccountView.toggle()
                 } label :{
                     HStack{
@@ -73,16 +88,16 @@ struct SettingView: View {
                 }.fullScreenCover(isPresented: $showDeleteAccountView){
                     DeleteAccountView()
                 }
-                
-                Text("SUPPORT")
-                    .font(.system(size: 20))
-                    .fontWeight(.bold)
-                    .padding(.top,50)
-                Text("Contact US")
-                Text("Help and Inforamtion")
-                Text("Privacy Policy")
-                Text("Terms & Conditions")
-                
+                Group{
+                    Text("SUPPORT")
+                        .font(.system(size: 20))
+                        .fontWeight(.bold)
+                        .padding(.top,50)
+                    Text("Contact US")
+                    Text("Help and Inforamtion")
+                    Text("Privacy Policy")
+                    Text("Terms & Conditions")
+                }
             }
             .listStyle(.plain)
         }

@@ -18,7 +18,7 @@ struct PerfumeCell: View {
                 .frame(width: 130, height: 130)
             Text(perfume.brandName)
                 .unredacted()
-                .fontWeight(.medium)
+//                .fontWeight(.medium)
                 .foregroundColor(.black)
                 .frame(width: 130, alignment: .leading)
                 .lineLimit(1)
