@@ -15,9 +15,12 @@ struct PaletteView: View {
     @State private var isTapped = false
     @State private var scentTypeCount: [String: Int] = [:]
     @State private var selectedColor: Color = Color("customGray")
-    
+    @State var isSignin: Bool = false
+    @State var navLinkActive = false
+
     @EnvironmentObject var colorPaletteCondition: ColorPalette
-    
+    @EnvironmentObject var userInfoStore: UserInfoStore
+
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -119,14 +122,51 @@ struct PaletteView: View {
                 }
                 .padding(.top, 30)
                 
-                LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(dummy, id: \.self.perfumeId) { data in
-                        NavigationLink {
-                            // 해당 향수 디테일 뷰로 이동
-                        } label: {
-                            ColorChipPerfumeCell(perfume: data)
+                if userInfoStore.user != nil {
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        ForEach(dummy, id: \.self.perfumeId) { data in
+                            NavigationLink {
+                                // 해당 향수 디테일 뷰로 이동
+                            } label: {
+                                ColorChipPerfumeCell(perfume: data)
+                            }
                         }
                     }
+                } else {
+                    Spacer()
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Image("love")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                        Spacer()
+                        VStack(alignment: .leading) {
+                            Text("If you sign in...")
+                                .padding(.bottom, 10)
+                            Text("You can collect only your favorite products.")
+                        }
+                            .frame(width: 200)
+                        Spacer()
+                    }
+                    .onTapGesture(perform: {
+                        isSignin.toggle()
+                    })
+                    .alert(
+                        """
+                        If you want to use Liked / Comments,
+                        Please sign in
+                        """
+                        ,isPresented: $isSignin
+                    ) {
+                        Button("Cancel", role: .cancel) {}
+                        Button {
+                            navLinkActive = true
+                        } label: {
+                            Text("Sign In")
+                        }
+                    }
+
                 }
             }
             .padding()
@@ -135,6 +175,9 @@ struct PaletteView: View {
                 ColorPaletteUnderView()
             }
         }
+        .sheet(isPresented: $navLinkActive, content: {
+            LogInSignUpView()
+        })
         .padding(.top, 0.1)
         .onAppear {
             for perfume in dummy {
@@ -204,7 +247,7 @@ struct Wheel: Layout {
             // Place the subview.
             subview.place(at: point, anchor: .center, proposal: .unspecified)
             
-            DispatchQueue.main.async {
+            DispatchQueue.global().async {
                 if pointToCenter {
                     subview[Rotation.self]?.wrappedValue = .radians(angle)
                 } else {
@@ -220,5 +263,6 @@ struct PaletteView_Previews: PreviewProvider {
     static var previews: some View {
         PaletteView()
             .environmentObject(ColorPalette())
+            .environmentObject(UserInfoStore())
     }
 }

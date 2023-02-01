@@ -53,7 +53,8 @@ struct PerfumeDetailView: View {
                                     }
                                 } label: {
                                     HStack{
-                                        RatingView(score: .constant(perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
+//                                        RatingView(score: .constant(perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
+                                        RatingView(score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
                                         Text("\("\(perfume.commentCount)개의 댓글 보기")")
                                             .font(.system(size: 14))
                                             .foregroundColor(.black)
@@ -284,7 +285,8 @@ struct PerfumeDetailView_Previews: PreviewProvider {
                                                likedPeople: ["1", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3"],
                                                commentCount: 154,
                                                totalPerfumeScore: 616
-                                              ))
+                                              )).environmentObject(PerfumeStore())
+                .environmentObject(UserInfoStore())
         }
     }
 }
