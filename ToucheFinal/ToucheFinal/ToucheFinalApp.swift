@@ -25,6 +25,7 @@ struct ToucheFinalApp: App {
 //            TestView()
                 .environmentObject(perfumeStore)
                 .environmentObject(userInfoStore)
+//            FilterView()
         }
     }
 }
