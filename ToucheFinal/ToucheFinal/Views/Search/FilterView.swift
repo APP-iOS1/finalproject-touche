@@ -293,7 +293,7 @@ private extension FilterView {
                             ForEach(vm.brandSections.indices, id: \.self) { index in
                                 Text(vm.brandSections[index].letter)
                                     .fontWeight(.light)
-                                    .padding(.horizontal, 16.0)
+                                    .padding(.horizontal, 8.0)
                                     .gesture(
                                         TapGesture()
                                             .onEnded({ _ in
@@ -356,7 +356,7 @@ private extension FilterView {
                             ForEach(vm.colorSections.indices, id: \.self) { index in
                                 Text(vm.colorSections[index].letter)
                                     .fontWeight(.light)
-                                    .padding(.horizontal, 16.0)
+                                    .padding(.horizontal, 8.0)
                                     .gesture(
                                         TapGesture()
                                             .onEnded({ _ in
