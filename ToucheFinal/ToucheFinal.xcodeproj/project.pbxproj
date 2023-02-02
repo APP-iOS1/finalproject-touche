@@ -79,6 +79,7 @@
 		65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB3729777E6000DB4860 /* ImagePicker.swift */; };
 		65A7AB3A2977812700DB4860 /* EditMyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB392977812700DB4860 /* EditMyProfileView.swift */; };
 		65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB3B2977AFAD00DB4860 /* SettingView.swift */; };
+		76BA7516298B4610009B0925 /* Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BA7515298B4610009B0925 /* Modifier.swift */; };
 		A89E60DB2988CD7500BAB55E /* ColorChipPerfumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89E60DA2988CD7500BAB55E /* ColorChipPerfumeCell.swift */; };
 		A8BAF8DD297A55FD00D1DDCD /* MyPageMyCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAF8DC297A55FD00D1DDCD /* MyPageMyCommentCell.swift */; };
 		A8BAF8DF297A6D1200D1DDCD /* MyCommentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */; };
@@ -163,6 +164,7 @@
 		65A7AB3729777E6000DB4860 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		65A7AB392977812700DB4860 /* EditMyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyProfileView.swift; sourceTree = "<group>"; };
 		65A7AB3B2977AFAD00DB4860 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		76BA7515298B4610009B0925 /* Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifier.swift; sourceTree = "<group>"; };
 		A89E60DA2988CD7500BAB55E /* ColorChipPerfumeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipPerfumeCell.swift; sourceTree = "<group>"; };
 		A8BAF8DC297A55FD00D1DDCD /* MyPageMyCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMyCommentCell.swift; sourceTree = "<group>"; };
 		A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommentListView.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				61FE13222977D7A8003F0466 /* RatingView.swift */,
 				6189EA0C297A4C07005E6AA9 /* PerfumesGridView.swift */,
 				A8EDB1D1298A24E30055D7B9 /* TestAnimationView.swift */,
+				76BA7515298B4610009B0925 /* Modifier.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				A8BAF8DF297A6D1200D1DDCD /* MyCommentListView.swift in Sources */,
 				233260D82977759900771B2A /* SignUpView.swift in Sources */,
 				618F66CD2988FFF800A40BC4 /* SpinnerViewController.swift in Sources */,
+				76BA7516298B4610009B0925 /* Modifier.swift in Sources */,
 				239049802977B9420097B20A /* LogInRootView.swift in Sources */,
 				AA204A742987664900C59C7F /* PerfumeColor.swift in Sources */,
 				EB7F90D72988B125005C7CFB /* PaletteView.swift in Sources */,

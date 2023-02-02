@@ -24,11 +24,10 @@ struct SettingView: View {
                 
                 Button{
                     Task{
-                        // FIXME: - 버전 바꾸면서 에러 발생 수정해주셔야합니다!
-//                        if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-//
-//                            await UIApplication.shared.open(url)
-//                        }
+                        if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+
+                            await UIApplication.shared.open(url)
+                        }
                     }
                 } label :{
                     HStack{

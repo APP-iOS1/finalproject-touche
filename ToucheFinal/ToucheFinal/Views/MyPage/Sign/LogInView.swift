@@ -39,7 +39,6 @@ struct LogInView: View {
             }
             .padding()
             .textFieldStyle(.roundedBorder)
-            Spacer()
             Button {
                 userInfoStore.logIn(emailAddress: email, password: password)
                 dismiss()
