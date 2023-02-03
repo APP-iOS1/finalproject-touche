@@ -13,11 +13,16 @@ import FirebaseAuth
 final class UserInfoStore: ObservableObject{
     @Published var userInfo: UserInfo?
     @Published var notice = ""
+    @Published var errorMessage = ""
+    @Published var currentUserNickname = Auth.auth().currentUser?.displayName
     private let database = Firestore.firestore().collection("User")
+    lazy var userNickname = Auth.auth().currentUser?.displayName ?? ""
+    
     var user: User? {
         didSet { // 저장된 user 정보가 바뀌면 호출되어서 값을 업데이트
             objectWillChange.send()
             notice = "didSet"
+            currentUserNickname = Auth.auth().currentUser?.displayName
         }
     }
     
@@ -173,4 +178,50 @@ final class UserInfoStore: ObservableObject{
         
         database.document(user?.uid ?? "").delete()
     }
+    
+    /// 닉네임 중복확인을 해주는 함수
+    final func isNicknameDuplicated(nickName: String) async throws -> Bool {
+        do {
+            let target = try await database.whereField("userNickName", isEqualTo: nickName).getDocuments()
+            
+            if target.isEmpty {
+                print("중복되지 않은 닉네임")
+                return false //중복되지 않은 닉네임
+            } else {
+                print("중복된 닉네임")
+                return true //중복된 닉네임
+            }
+        } catch {
+            throw(error)
+        }
+    }
+    
+    /// 사용 중인 유저의 닉네임을 반환
+    final func getNickName(uid: String) async -> String {
+        do {
+            let target = try await database.document("\(uid)").getDocument()
+            
+            let docData = target.data()
+            let tmpName: String = docData?["userNickName"] as? String ?? ""
+            
+            print("유저닉네임: \(tmpName)")
+            return tmpName
+        } catch {
+            print(error.localizedDescription)
+            return "error"
+        }
+    }
+    
+    /// 사용 중인 유저의 닉네임을 수정
+    final func updateUserNickName(uid: String, nickname: String) async -> Void {
+        let path = database
+        do {
+            try await path.document(uid).updateData(["userNickName": nickname])
+        } catch {
+#if DEBUG
+            print("\(error.localizedDescription)")
+#endif
+        }
+    }
+    
 }
