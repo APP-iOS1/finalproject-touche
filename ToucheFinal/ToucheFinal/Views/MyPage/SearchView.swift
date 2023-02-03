@@ -31,66 +31,46 @@ struct SearchView: View {
     
     var body: some View {
         VStack {
-            HStack{
-                Text("RECENT SEARCHES")
-                    .bold()
-                Spacer()
-                Button {
-                    // 최근 검색어(Search history or Recent Searches) 전체 삭제 기능 - alert 후 전체 삭제
-                    showingDeleteAlert = true
-                } label: {
-                    Image(systemName: "trash")
-                        .foregroundColor(.black)
-                        .padding(.trailing, -4)
-                }
-                .alert(isPresented: $showingDeleteAlert) {
-                    Alert(
-                        title: Text("Are you sure you want to delete all?"),
-                        message: Text("There is no undo"),
-                        primaryButton: .destructive(Text("Delete")) {
-                            print("Deleting...")
-                        },
-                        secondaryButton: .cancel()
-                    )
-                }
-            }
-            .padding()
-            
-            // MARK: - 최근검색어(RECENT SEARCHES) 검색한 내용이 텍스트로 쌓이는 부분
+            // MARK: -
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    //                        Text(searchText)
-                    //                        ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
-                    ForEach(searchResults, id: \.perfumeId) { (result: Perfume) in
-                        HStack {
-                            NavigationLink {
-                                // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
-                                SearchResultView(perfume: result, searchText: $searchText)
-                            } label: {
-                                Text(result.brandName)
-                                    .foregroundColor(.black)
-                                    .frame(alignment: .leading)
-                                    .font(.callout)
-                            }
-                            Spacer()
-                            Button {
-                                // 해당 텍스트만 삭제 기능
-                            } label: {
-                                Image(systemName: "xmark")
-                                    .resizable()
-                                    .foregroundColor(Color(UIColor.systemGray2))
-                                    .frame(width: 10, height: 10)
+                    VStack(alignment: .leading) {
+                        //                        Text(searchText)
+                        //                        ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
+                        ForEach(searchResults, id: \.perfumeId) { (result: Perfume) in
+                            HStack {
+                                NavigationLink {
+                                    // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
+                                    SearchResultView(perfume: result, searchText: $searchText)
+                                } label: {
+                                    GeometryReader { geo in
+                                        HStack{
+                                                Text(result.brandName)
+                                                    .font(.system(size: 18))
+                                                    .foregroundColor(.black)
+                                                    .offset(x: geo.size.width / 12)
+                                            Spacer()
+                                            Button {
+                                                // 해당 텍스트만 삭제 기능
+                                            } label: {
+                                                Image(systemName: "arrow.up.right")
+                                                    .foregroundColor(Color(UIColor.systemGray2))
+                                                    
+                                            }
+                                            .padding(.trailing, 15)
+                                        }
+                                    }
+                                    .padding(.top, 18)
+                                }
                             }
                         }
                     }
-                }
-            }
+            } // ScrollView 종료
             .padding([.leading, .trailing])
             .padding(.top, -7)
             .onAppear{
                 focusField = .searchText
             }
-        }
+        }// Vstack 종료
         .overlay(content: {
             Text(searchResults.isEmpty ? "최근에 검색하신 글이 없어요! 🥹😅" : "")
         })
@@ -167,3 +147,29 @@ struct SearchView_Previews: PreviewProvider {
         SearchView()
     }
 }
+
+// MARK : 최근 검색어 텍스트 쌓기
+//HStack{
+//    Text("RECENT SEARCHES")
+//        .bold()
+//    Spacer()
+//    Button {
+//        // 최근 검색어(Search history or Recent Searches) 전체 삭제 기능 - alert 후 전체 삭제
+//        showingDeleteAlert = true
+//    } label: {
+//        Image(systemName: "trash")
+//            .foregroundColor(.black)
+//            .padding(.trailing, -4)
+//    }
+//    .alert(isPresented: $showingDeleteAlert) {
+//        Alert(
+//            title: Text("Are you sure you want to delete all?"),
+//            message: Text("There is no undo"),
+//            primaryButton: .destructive(Text("Delete")) {
+//                print("Deleting...")
+//            },
+//            secondaryButton: .cancel()
+//        )
+//    }
+//}
+//.padding()
