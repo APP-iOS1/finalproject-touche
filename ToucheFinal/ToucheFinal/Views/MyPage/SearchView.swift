@@ -19,15 +19,13 @@ struct SearchView: View {
     @State private var showingDeleteAlert = false
     @FocusState private var focusField : Field?
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-   
-    let suggestions = ["Jo Malone London", "Jasmine", "Dior", "CHANCE EAU TENDRE Eau de Toilette", "Yves Saint Laurent", "CHANEL"]
     
-    var searchResults: [Perfume] {
+    var searchResults: [Brand] {
         if searchText.isEmpty {
             return []
         } else {
-            return dummy.filter { perfume in
-                perfume.brandName.lowercased().contains(searchText.lowercased())
+            return Brand.dummy.filter { brand in
+                brand.name.lowercased().contains(searchText.lowercased())
                 //                   perfume.displayName.lowercased().contains(searchText.lowercased())
             }
         }
@@ -35,73 +33,72 @@ struct SearchView: View {
     
     var body: some View {
         VStack {
-
-            // MARK: -
-
-            HStack{
-                Text(!searchText.isEmpty && !suggestions.filter { $0.hasPrefix(searchText) }.isEmpty ? "RECOMMEDED SEARCHES" : "RECENT SEARCHES")
-                    .bold()
-                Spacer()
-                
-                if recentSearches.isEmpty {
+            if searchText.isEmpty {
+                HStack{
+                    Text("RECENT SEARCHES")
+                        .bold()
+                    Spacer()
                     
-                } else {
-                    Button {
-                        // 최근 검색어(Search history or Recent Searches) 전체 삭제 기능 - alert 후 전체 삭제
-                        showingDeleteAlert = true
-                    } label: {
-                        Image(systemName: "trash")
-                            .foregroundColor(.black)
-                            .padding(.trailing, -4)
+                    if recentSearches.isEmpty {
+                        
+                    } else {
+                        Button {
+                            // 최근 검색어(Search history or Recent Searches) 전체 삭제 기능 - alert 후 전체 삭제
+                            showingDeleteAlert = true
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundColor(.black)
+                                .padding(.trailing, -4)
+                        }
+                        .alert(isPresented: $showingDeleteAlert) {
+                            Alert(
+                                title: Text("Are you sure you want to delete all?"),
+                                message: Text("There is no undo"),
+                                primaryButton: .destructive(Text("Delete")) {
+                                    print("Deleting...")
+                                    recentSearches.removeAll()
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
                     }
-                    .alert(isPresented: $showingDeleteAlert) {
-                        Alert(
-                            title: Text("Are you sure you want to delete all?"),
-                            message: Text("There is no undo"),
-                            primaryButton: .destructive(Text("Delete")) {
-                                print("Deleting...")
-                                recentSearches.removeAll()
-                            },
-                            secondaryButton: .cancel()
-                        )
-                    }
+                    
                 }
-                
+                .padding()
             }
-            .padding()
             
-                        ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading) {
-                        //                        Text(searchText)
-                        //                        ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
-                        ForEach(searchResults, id: \.perfumeId) { (result: Perfume) in
-                            HStack {
-                                NavigationLink {
-                                    // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
-                                    SearchResultView(perfume: result, searchText: $searchText)
-                                } label: {
-                                    GeometryReader { geo in
-                                        HStack{
-                                                Text(result.brandName)
-                                                    .font(.system(size: 18))
-                                                    .foregroundColor(.black)
-                                                    .offset(x: geo.size.width / 12)
-                                            Spacer()
-                                            Button {
-                                                // 해당 텍스트만 삭제 기능
-                                            } label: {
-                                                Image(systemName: "arrow.up.right")
-                                                    .foregroundColor(Color(UIColor.systemGray2))
-                                                    
-                                            }
-                                            .padding(.trailing, 15)
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading) {
+                    ForEach(searchResults) { (result: Brand) in
+                        HStack {
+                            NavigationLink {
+                                // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
+//                                SearchResultView(perfume: result, searchText: $searchText)
+                                FilteringResultView(field: "brandName", queries: [result.name])
+                            } label: {
+                                GeometryReader { geo in
+                                    HStack{
+                                        Text(result.name)
+                                            .font(.system(size: 18))
+                                            .foregroundColor(.black)
+                                            .offset(x: geo.size.width / 12)
+                                        Spacer()
+                                        NavigationLink {
+//                                            stackSearchText(text: result.name)
+                                            FilteringResultView(field: "brandName", queries: [result.name])
+                                        } label: {
+                                            Image(systemName: "arrow.up.right")
+                                                .foregroundColor(Color(UIColor.systemGray2))
+                                            
                                         }
+                                        .padding(.trailing, 15)
                                     }
-                                    .padding(.top, 18)
                                 }
+                                .padding(.top, 18)
                             }
                         }
                     }
+                }
             } // ScrollView 종료
             // MARK: - 추천 단어 표시 해주는 부분
             // if !searchText.isEmpty && !suggestions.filter { $0.hasPrefix(searchText) }.isEmpty {
@@ -136,45 +133,49 @@ struct SearchView: View {
             // }
             
             // MARK: - 최근검색어(RECENT SEARCHES) 검색한 내용이 텍스트로 쌓이는 부분
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    ForEach(recentSearches, id: \.self) { recentSearch in
-                        HStack {
-                            NavigationLink {
-                                // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
-                                FilteringResultView(field: "brandName", queries: [recentSearch])
-                                
-                            } label: {
-                                Text(recentSearch)
-                                    .foregroundColor(.black)
-                                    .frame(alignment: .leading)
-                                    .font(.callout)
-                            }
-                            Spacer()
-                            Button {
-                                // 해당 텍스트만 삭제 기능
-                                recentSearches.remove(at: recentSearches.firstIndex(of: recentSearch) ?? 0)
-                            } label: {
-                                Image(systemName: "xmark")
-                                    .resizable()
-                                    .foregroundColor(Color(UIColor.systemGray2))
-                                    .frame(width: 10, height: 10)
+            if recentSearches.isEmpty {
+                
+            } else {
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                        ForEach(recentSearches, id: \.self) { recentSearch in
+                            HStack {
+                                NavigationLink {
+                                    // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
+                                    FilteringResultView(field: "brandName", queries: [recentSearch])
+                                    
+                                } label: {
+                                    Text(recentSearch)
+                                        .foregroundColor(.black)
+                                        .frame(alignment: .leading)
+                                        .font(.callout)
+                                }
+                                Spacer()
+                                Button {
+                                    // 해당 텍스트만 삭제 기능
+                                    recentSearches.remove(at: recentSearches.firstIndex(of: recentSearch) ?? 0)
+                                } label: {
+                                    Image(systemName: "xmark")
+                                        .resizable()
+                                        .foregroundColor(Color(UIColor.systemGray2))
+                                        .frame(width: 10, height: 10)
+                                }
                             }
                         }
                     }
+                    
+                    // 키보드에서 Search 누르면 이동하는 뷰
+                    NavigationLink(destination: FilteringResultView(field: "brandName", queries: [searchText]), isActive: $isSearchActive) {
+                        EmptyView()
+                    }
+                    
                 }
-                
-                // 키보드에서 Search 누르면 이동하는 뷰
-                NavigationLink(destination: FilteringResultView(field: "brandName", queries: [searchText]), isActive: $isSearchActive) {
-                    EmptyView()
-                }
-                
-            }
 
-            .padding([.leading, .trailing])
-            .padding(.top, -7)
-            .onAppear{
-                focusField = .searchText
+                .padding([.leading, .trailing])
+                .padding(.top, -7)
+                .onAppear{
+                    focusField = .searchText
+                }
             }
         }// Vstack 종료
         .overlay(content: {
@@ -196,13 +197,7 @@ struct SearchView: View {
             isSearchActive.toggle()
 //            queryText = searchText
             
-            // 최근 검색어 개수 줄이기
-            if recentSearches.count > 5 {
-                recentSearches.removeLast()
-                recentSearches.insert(searchText, at: 0)
-            } else {
-                recentSearches.insert(searchText, at: 0)
-            }
+            stackSearchText(text: searchText)
             
 //            searchText = ""
         }
@@ -218,6 +213,16 @@ struct SearchView: View {
         }
         .navigationBarBackButtonHidden(true)
     } // body
+    
+    func stackSearchText(text: String) {
+        // 최근 검색어 개수 줄이기
+        if recentSearches.count > 5 {
+            recentSearches.removeLast()
+            recentSearches.insert(text, at: 0)
+        } else {
+            recentSearches.insert(text, at: 0)
+        }
+    }
 }
 
 struct SearchView_Previews: PreviewProvider {
