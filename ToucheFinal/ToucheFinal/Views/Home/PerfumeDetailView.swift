@@ -53,7 +53,6 @@ struct PerfumeDetailView: View {
                                     }
                                 } label: {
                                     HStack{
-//                                        RatingView(score: .constant(perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
                                         RatingView(score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
                                         Text("\("\(perfume.commentCount)개의 댓글 보기")")
                                             .font(.system(size: 14))

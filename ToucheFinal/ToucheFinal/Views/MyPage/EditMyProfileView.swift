@@ -19,21 +19,25 @@ struct EditMyProfileView: View {
     @State private var editName: String = ""
     @State private var editImage: UIImage = UIImage()
     @State private var editNation: String = ""
+  
     
     @Binding var image: UIImage
     @Binding var userNickname: String
     @Binding var userNation: String
+   
     
     var nation: [String] = ["🇫🇷 France", "🇯🇵 Japan", "🇰🇷 Republic of Korea", "🇺🇸 United States"]
     
     
     var body: some View {
         NavigationView {
+            GeometryReader{ geometry in
             VStack{
                 
-                Text("Edit Profile")
-                    .padding(.bottom,20)
-               
+                Divider()
+                    .frame(width: 390)
+                    .padding(.bottom, 15)
+                    
                 Image(uiImage: self.editImage)
                     .resizable()
                     .cornerRadius(50)
@@ -59,36 +63,64 @@ struct EditMyProfileView: View {
                         isShowingDialog = false
                     }
                 }
+                .padding(.bottom, 15)
                 
                 Divider()
+                    .frame(maxWidth: .infinity)
                 
-                HStack{
-                    VStack (alignment: .trailing){
+                //
+                
+                VStack(alignment: .leading){
+                    HStack{
                         Text("Name")
-                            .padding(.bottom, 10)
-                        Text("ID")
-                            .padding(.bottom, 10)
-                        Text("Nation")
-                    }
-                    Spacer(minLength: 15)
-                    VStack(alignment: .leading){
+                            .font(.system(size: 19))
+                            .padding(.trailing, 35)
                         TextField("Edit your Nickname", text: $editName)
                             .foregroundColor(.gray)
-                            .padding(.bottom,10)
-                        Text("사용자 가입 디폴트 email, 수정 불가")
-                        Picker("Select your nations", selection: $editNation){
-                            ForEach(nation, id: \.self){
-                                Text($0)
-                            }
+                    }
+                    .padding()
+                    Divider()
+                        .offset(x: geometry.size.width / 3.9)
+                       
+                    HStack{
+                        Text("Email")
+                            .font(.system(size: 19))
+                            .padding(.trailing, 39)
+                        Text("Email")
+                    }
+                    .padding()
+                    Divider()
+                        .offset(x: geometry.size.width / 3.9)
+                       
+                    HStack{
+                        Text("Location")
+                            .font(.system(size: 19))
+                            .padding(.trailing, 35)
+                            .offset(x: geometry.size.width / 22, y: geometry.size.height / 300)
+                        Button{
+                            editNation = "🇺🇸"
+                        } label: {
+                        Text("🇺🇸")
                         }
-                        .tint(.gray)
+                        .buttonStyle(.customButton)
+                        .offset(x: geometry.size.width / -25)
                         
+                        Button {
+                            editNation = "🇰🇷"
+                        } label: {
+                            Text("🇰🇷")
+                        }
+                        .buttonStyle(.customButton)
+                        .offset(x: geometry.size.width / -15)
                     }
                 }
-                Spacer()
-                Spacer()
-            }
-            .padding(15)
+                Divider()
+                    .frame(maxWidth: .infinity)
+                
+
+            }//VStack 종료
+        } // Geometry 종료
+            
             .sheet(isPresented: $showGallerySheet){
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$editImage)}
             .sheet(isPresented: $showCameraSheet) {
@@ -105,20 +137,25 @@ struct EditMyProfileView: View {
                         image = editImage
                         userNickname = editName
                         userNation = editNation
+            
                         dismiss()
                         // 수정 완료 기능
                     }
                 }
             }
-        }
+            .navigationTitle(Text("Edit Profile"))
+            .navigationBarTitleDisplayMode(.inline)
+        }// NavigationView 종료
         .onAppear{
             editName = userNickname
+            editNation = userNation
         }
+       
     }
 }
 
-//struct EditMyProfileView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EditMyProfileView()
-//    }
-//}
+struct EditMyProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        EditMyProfileView(image: .constant(UIImage()), userNickname: .constant(""), userNation: .constant(""))
+    }
+}
