@@ -60,7 +60,6 @@ struct FilteringResultView: View {
                         
                     }
                 }
-                
             }
         }
         .padding(.horizontal)
