@@ -15,46 +15,24 @@ final class FilterViewModel: ObservableObject {
     @Published var tab: Tab = .brand
 
     // grouping: [https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298](https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298)
-    
-    var brandSections: [(letter: String, brands: [Brand])]  {
-        let filtered = Brand.dummy.filter {
-            if search.isEmpty {
-                return true
-            } else {
-                return $0.name.lowercased().contains(search.lowercased())
-            }
+    let brandSections = Dictionary(grouping: Brand.dummy) { (brand) -> Character in
+        return brand.name.first!
         }
-
-        return Dictionary(grouping: filtered) { (brand) -> Character in
-                return brand.name.first!
-            }
         .map { (key: Character, value: [Brand]) -> (letter: String, brands: [Brand]) in
             (letter: String(key), brands: value)
         }
         .sorted { (left, right) -> Bool in
             left.letter < right.letter
         }
-    }
-    
-    var colorSections: [(letter: String, colors: [PerfumeColor])]  {
-        let filtered = PerfumeColor.types.filter {
-            if search.isEmpty {
-                return true
-            } else {
-                return $0.name.lowercased().contains(search.lowercased())
-            }
+    let colorSections = Dictionary(grouping: PerfumeColor.types) { (perfumeColor) -> Character in
+        return perfumeColor.name.first!
         }
-
-        return Dictionary(grouping: filtered) { (brand) -> Character in
-                return brand.name.first!
-            }
         .map { (key: Character, value: [PerfumeColor]) -> (letter: String, colors: [PerfumeColor]) in
             (letter: String(key), colors: value)
         }
         .sorted { (left, right) -> Bool in
             left.letter < right.letter
         }
-    }
     
     enum Tab {
         case brand
@@ -105,12 +83,8 @@ final class FilterViewModel: ObservableObject {
     func toggleTab(_ tab: FilterViewModel.Tab) {
         self.tab = tab
         switch self.tab {
-        case .brand:
-            colors.removeAll()
-            search = ""
-        case .color:
-            brands.removeAll()
-            search = ""
+        case .brand: colors.removeAll()
+        case .color: brands.removeAll()
         }
     }
     
@@ -118,7 +92,6 @@ final class FilterViewModel: ObservableObject {
     func clear() {
         brands.removeAll()
         colors.removeAll()
-        search = ""
     }
 }
 
@@ -133,17 +106,10 @@ struct FilterView: View {
             // - BODY
             filterBodyView()
         }
-        .padding(.top, 4.0)
-        .padding(.bottom, vm.canApplying ? 40.0 + 30.0 : 0.0)
+        .padding(.top, 8.0)
+        .padding(.bottom, 40.0 + 30.0)
         // - BUTTON GROUP
         .overlay(alignment: .bottom, content: filterButtonGroupView)
-        .overlay(alignment: .center) {
-            Text((vm.brandSections.isEmpty || vm.colorSections.isEmpty) ? "No Results here.." : "")
-                .foregroundStyle(.tertiary)
-                .ignoresSafeArea(.keyboard)
-        }
-        .searchable(text: $vm.search, prompt: "Search")
-        .scrollDismissesKeyboard(.interactively)
         .navigationBarTitle("Filter")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -157,6 +123,7 @@ struct FilterView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        
     }
 }
 
