@@ -6,14 +6,13 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 
 struct MyPageView: View {
     var perfume: Perfume
     var comment: Comment
     
     @State private var image = UIImage()
-    @State private var userNickname: String = ""
+    @State private var userNickname: String = "LUNA"
     @State private var showEditMyProfileView = false
     @State private var userNation: String = "🏳️"
     @State private var rotation: Double = 0
@@ -25,64 +24,29 @@ struct MyPageView: View {
         NavigationView {
             ScrollView{
                 VStack{
-                    HStack {
-                        Image(uiImage: self.image)
-                            .resizable()
-                            .cornerRadius(50)
-                            .frame(width: 100, height: 100)
-                            .background(Color.black.opacity(0.2))
-                            .aspectRatio(contentMode: .fill)
-                            .clipShape(Circle())
-                        VStack{
-                            HStack{
-                                Text("Location :")
-                                Text(userNation)
-                            }
-                            .padding(.bottom,1)
-                            HStack{
-                                Text("Name :")
-                                Text("\(userNickname)")
-                            }
-                            .padding(.bottom,9)
-                            Button {
-                                                    showEditMyProfileView.toggle()
-                                                } label: {
-                                                    Text("Edit Profile")
-                            //                            .foregroundColor(Color.black)
-                                                }
-                                                .fullScreenCover(isPresented: $showEditMyProfileView) {
-                                                    EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
-                                                }
-                        }
-                        .padding(.leading)
+                    Image(uiImage: self.image)
+                        .resizable()
+                        .cornerRadius(50)
+                        .frame(width: 100, height: 100)
+                        .background(Color.black.opacity(0.2))
+                        .aspectRatio(contentMode: .fill)
+                        .clipShape(Circle())
+                        .padding(.bottom, 20)
+                    HStack{
+                        Text(userNickname)
+                        Text(userNation)
                     }
-                    .padding(.bottom,20)
-                    
-                    
-//                    마이 프로필 세로 형태
-//                    Image(uiImage: self.image)
-//                        .resizable()
-//                        .cornerRadius(50)
-//                        .frame(width: 100, height: 100)
-//                        .background(Color.black.opacity(0.2))
-//                        .aspectRatio(contentMode: .fill)
-//                        .clipShape(Circle())
-//                        .padding(.bottom, 20)
-//                    HStack{
-//                        Text(userNickname)
-//                        Text(userNation)
-//                    }
-//                    .padding(.bottom,1)
-//                    Button {
-//                        showEditMyProfileView.toggle()
-//                    } label: {
-//                        Text("Edit Profile")
-////                            .foregroundColor(Color.black)
-//                    }
-//                    .fullScreenCover(isPresented: $showEditMyProfileView) {
-//                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
-//                    }
-//                    .padding(.bottom, 15)
+                    .padding(.bottom,3)
+                    Button {
+                        showEditMyProfileView.toggle()
+                    } label: {
+                        Text("Edit Profile")
+//                            .foregroundColor(Color.black)
+                    }
+                    .fullScreenCover(isPresented: $showEditMyProfileView) {
+                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
+                    }
+                    .padding(.bottom, 15)
 
                     Divider()
                     VStack{
@@ -93,7 +57,7 @@ struct MyPageView: View {
                                 MyCommentListView()
                             } label: {
                                 HStack {
-                                    Text("My Comment")
+                                    Text("My Comment").font(.custom("NotoSans-Regular", size: 19))
                                     //.fontWeight(.semibold)
                                     Spacer()
                                     Image(systemName: "chevron.right")
@@ -125,14 +89,11 @@ struct MyPageView: View {
                     NavigationLink {
                         SettingView()
                     } label: {
-                        Image(systemName: "gearshape")
+                        Image(systemName: "gearshape.fill")
                             .foregroundColor(.black)
                     }
                 }
             }
-        }
-        .task {
-            userNickname = await userInfoStore.getNickName(uid: Auth.auth().currentUser?.uid ?? "")
         }
     }
 }

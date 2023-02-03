@@ -23,5 +23,4 @@ struct UserInfo: Codable {
     var userProfileImage: String
     var userEmail: String
     var writtenComments: [String]
-    var recentlyPerfumesId: [String]
 }
