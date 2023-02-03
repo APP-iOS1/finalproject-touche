@@ -82,6 +82,7 @@ struct PerfumeTabView: View {
                 }
                 .onAppear {
                     print(selectedColors)
+                    
                 }
             }
         }

@@ -15,16 +15,17 @@ final class UserInfoStore: ObservableObject{
     @Published var recentlyPerfumesId: [String] = []
     @Published var notice = ""
     @Published var errorMessage = ""
-    @Published var currentUserNickname = Auth.auth().currentUser?.displayName
-    @Published var isDuplicated: Bool = false
+    @Published var isDuplicated: Bool?
     private let database = Firestore.firestore().collection("User")
     lazy var userNickname = Auth.auth().currentUser?.displayName ?? ""
     
+    var currentUser = Auth.auth().currentUser?.uid
     var user: User? {
         didSet { // 저장된 user 정보가 바뀌면 호출되어서 값을 업데이트
             objectWillChange.send()
             notice = "didSet"
             currentUserNickname = Auth.auth().currentUser?.displayName
+            currentUser = Auth.auth().currentUser?.uid
         }
     }
     
@@ -159,6 +160,7 @@ final class UserInfoStore: ObservableObject{
             try Auth.auth().signOut()
             userInfo = nil
             user = nil
+            currentUser = nil
         } catch let signOutError {
             notice = "Error signing out: \(signOutError.localizedDescription)"
         }
