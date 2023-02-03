@@ -98,6 +98,7 @@ final class FilterViewModel: ObservableObject {
 struct FilterView: View {
     @StateObject var vm = FilterViewModel()
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8.0) {
@@ -272,15 +273,16 @@ private extension FilterView {
                     List(vm.brandSections.indices, id: \.self) { index in
                         Section(vm.brandSections[index].letter) {
                             ForEach(vm.brandSections[index].brands) { brand in
-                                HStack {
-                                    Image(systemName: "checkmark")
-                                        .opacity(vm.isSelectedBrand(brand) ? 1.0 : 0.0)
-                                    Text(brand.name)
+                                Button {
+                                    vm.isSelectedBrand(brand) ? vm.removeBrand(brand) : vm.appendBrand(brand)
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "checkmark")
+                                            .opacity(vm.isSelectedBrand(brand) ? 1.0 : 0.0)
+                                        Text(brand.name)
+                                    }
                                 }
                                 .id(brand)
-                                .onTapGesture{
-                                    vm.isSelectedBrand(brand) ? vm.removeBrand(brand) : vm.appendBrand(brand)
-                                }
                             }
                         }
                     }
@@ -291,11 +293,13 @@ private extension FilterView {
                             ForEach(vm.brandSections.indices, id: \.self) { index in
                                 Text(vm.brandSections[index].letter)
                                     .fontWeight(.light)
+                                    .padding(.horizontal, 8.0)
                                     .gesture(
                                         TapGesture()
                                             .onEnded({ _ in
                                                 if let brand = vm.brandSections[index].brands.first {
                                                     proxy.scrollTo(brand, anchor: .top)
+                                                    feedbackGenerator.impactOccurred()
                                                 }
                                             })
                                     )
@@ -310,6 +314,9 @@ private extension FilterView {
                                                   let brand = vm.brandSections[index+step].brands.first {
                                                     proxy.scrollTo(brand, anchor: .top)
                                                 }
+                                            })
+                                            .onEnded({ _ in
+                                                feedbackGenerator.impactOccurred()
                                             })
                                     )
                                     .foregroundColor(.primary)
@@ -326,18 +333,19 @@ private extension FilterView {
                     List(vm.colorSections.indices, id: \.self) { index in
                         Section(vm.colorSections[index].letter) {
                             ForEach(vm.colorSections[index].colors) { color in
-                                HStack {
-                                    Image(systemName: "checkmark")
-                                        .opacity(vm.isSelectedColor(color) ? 1.0 : 0.0)
-                                    Circle()
-                                        .frame(width: 20)
-                                        .foregroundColor(color.color)
-                                    Text(color.name)
+                                Button {
+                                    vm.isSelectedColor(color) ? vm.removeColor(color) : vm.apppendColor(color)
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "checkmark")
+                                            .opacity(vm.isSelectedColor(color) ? 1.0 : 0.0)
+                                        Circle()
+                                            .frame(width: 20)
+                                            .foregroundColor(color.color)
+                                        Text(color.name)
+                                    }
                                 }
                                 .id(color)
-                                .onTapGesture{
-                                    vm.isSelectedColor(color) ? vm.removeColor(color) : vm.apppendColor(color)
-                                }
                             }
                         }
                     }
@@ -348,11 +356,13 @@ private extension FilterView {
                             ForEach(vm.colorSections.indices, id: \.self) { index in
                                 Text(vm.colorSections[index].letter)
                                     .fontWeight(.light)
+                                    .padding(.horizontal, 8.0)
                                     .gesture(
                                         TapGesture()
                                             .onEnded({ _ in
                                                 if let color = vm.colorSections[index].colors.first {
                                                     proxy.scrollTo(color, anchor: .top)
+                                                    feedbackGenerator.impactOccurred()
                                                 }
                                             })
                                     )
@@ -367,6 +377,9 @@ private extension FilterView {
                                                   let color = vm.colorSections[index+step].colors.first {
                                                     proxy.scrollTo(color, anchor: .top)
                                                 }
+                                            })
+                                            .onEnded({ _ in
+                                                feedbackGenerator.impactOccurred()
                                             })
                                     )
                                     .foregroundColor(.primary)

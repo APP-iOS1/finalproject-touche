@@ -69,6 +69,7 @@ struct DeleteAccountView: View {
                     VStack {
 
                         TextField("Enter your Text", text: $reasonForDeleteText, axis: .vertical)
+
                             .padding(5)
 
                         Spacer()

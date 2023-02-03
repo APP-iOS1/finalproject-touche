@@ -22,5 +22,6 @@ struct LogInRootView: View {
 struct LogInRootView_Previews: PreviewProvider {
     static var previews: some View {
         LogInRootView()
+            .environmentObject(UserInfoStore())
     }
 }
