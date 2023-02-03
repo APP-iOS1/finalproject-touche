@@ -46,8 +46,11 @@ class PerfumeStore: ObservableObject {
                         case .added:
                             self?.perfumes.append(perfume)
                         case .modified:
-                            guard let perfumeIndex = self?.perfumes.firstIndex(of: perfume) else {return}
-                            self?.perfumes[perfumeIndex] = perfume
+                            for index in 0..<(self?.perfumes.count ?? 0) {
+                                if self?.perfumes[index].perfumeId == perfume.perfumeId {
+                                    self?.perfumes[index] = perfume
+                                }
+                            }
                         case .removed:
                             guard let perfumeIndex = self?.perfumes.firstIndex(of: perfume) else {return}
                             self?.perfumes.remove(at: perfumeIndex)
@@ -121,7 +124,7 @@ class PerfumeStore: ObservableObject {
                 let docData = snapshot.data()
                 self?.recentlyViewedPerfumeIds = docData?["recentlyViewedPerfumeIds"] as? [String] ?? []
                 
-
+                
                 self?.fetchRecentlyViewd7Perfumes(recentlyViewedPerfumeIds: self?.recentlyViewedPerfumeIds ?? [])
             }
     }
@@ -129,7 +132,7 @@ class PerfumeStore: ObservableObject {
     //MARK: - 유저정보에 담긴 최근 본 향수의 id값을 받아와서 퍼퓸 컬렉션에서 해당하는 퍼퓸들을 배열에 담아 보여줌
     func fetchRecentlyViewd7Perfumes(recentlyViewedPerfumeIds: [String]) {
         path.collection("Perfume")
-//            .whereField("perfumeId", in: recentlyViewedPerfumeIds).limit(to: 7)
+        //            .whereField("perfumeId", in: recentlyViewedPerfumeIds).limit(to: 7)
             .getDocuments {
                 snapshot, error in
                 guard let snapshot = snapshot else { return }
@@ -153,5 +156,28 @@ class PerfumeStore: ObservableObject {
             }
     }
     
-
+    func addLikePerfume(perfume: Perfume, userId: String) async {
+        do {
+            try await path.collection("Perfume").document(perfume.perfumeId)
+                .updateData([
+                    "likedPeople": FieldValue.arrayUnion([userId])
+                ])
+        } catch {
+            fatalError()
+        }
+    }
+    func deleteLikePerfume(perfume: Perfume, userId: String) async {
+        do {
+            try await path.collection("Perfume").document(perfume.perfumeId)
+                .updateData([
+                    "likedPeople": FieldValue.arrayRemove([userId])
+                ])
+        }catch {
+            fatalError()
+        }
+    }
+    
+    func readDetailViewPerfumeInfo() {
+        
+    }
 }
