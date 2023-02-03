@@ -145,14 +145,16 @@ private extension FilterView {
             switch vm.tab {
             case .brand:
                 // Brand
-                HStack(alignment: .bottom) {
+                HStack(alignment: .center) {
                     Text("Brand ")
                         .font(.headline)
                         .fontWeight(.bold)
-                    Text(vm.brands.isEmpty ? "Choose the brand to see.." : "")
+                    Text(vm.brands.isEmpty ? "Choose the brand below to see.." : "")
                         .font(.body)
                         .foregroundColor(.secondary)
                         .fixedSize()
+                        .frame(height: 10)
+                        .padding(.vertical, 10)
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
                             ForEach(vm.brands, id: \.self) { brand in
@@ -181,14 +183,16 @@ private extension FilterView {
                 
             case .color:
                 // Type
-                HStack(alignment: .bottom) {
+                HStack(alignment: .center) {
                     Text("Type ")
                         .font(.headline)
                         .fontWeight(.bold)
-                    Text(vm.colors.isEmpty ? "Choose the color to see.." : "")
+                    Text(vm.colors.isEmpty ? "Choose the color below to see.." : "")
                         .font(.body)
                         .foregroundColor(.secondary)
                         .fixedSize()
+                        .frame(height: 10)
+                        .padding(.vertical, 10)
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
                             ForEach(vm.colors, id: \.id) { perfumeColor in
