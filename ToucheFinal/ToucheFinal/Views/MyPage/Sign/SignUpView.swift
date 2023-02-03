@@ -55,6 +55,9 @@ struct SignUpView: View {
                     Text("Email")
                     
                     TextField("Enter email", text: $email)
+                        .textInputAutocapitalization(.never) // 대문자 방지
+                        .disableAutocorrection(true) // 자동수정 방지
+                        .keyboardType(.emailAddress) // 이메일용 키보드
                         .frame(height: 40)
                         .padding(.top, -6)
                         
@@ -110,6 +113,8 @@ struct SignUpView: View {
                     }
                     
                     TextField("Enter user name", text: $nickName)
+                        .textInputAutocapitalization(.never) // 대문자 방지
+                        .disableAutocorrection(true) // 자동수정 방지
                         .frame(height: 40)
                         .padding(.top, -6)
 //                        .padding(.bottom, 10)

@@ -10,22 +10,27 @@ import SDWebImageSwiftUI
 
 struct ColorChipPerfumeCell: View {
     var perfume: Perfume
-    @State private var shouldAnimate = false
+//    @State private var shouldAnimate = false
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 10)
-            .fill(Color(UIColor.systemGray5))
-            .frame(width: 130, height: 130)
-            .overlay(
-                ZStack {
-                    WebImage(url: URL(string: perfume.heroImage))
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                        .cornerRadius(10)
-                    CircleAnimation(perfume: perfume)
-                        .offset(x: 40, y: -40)
-                }
-            )
+        ZStack {
+            RoundedRectangle(cornerRadius: 10.0)
+                .fill(Color.white)
+                .frame(width: 200.0, height: 200.0)
+                .padding(2.0)
+                .shadow(
+                    color: Color(hex: setHexValue(scentType: perfume.scentType))?
+                        .opacity(0.2) ?? .primary.opacity(0.2),
+                    radius: 4,
+                    x: 2,
+                    y: 2
+                )
+            
+            WebImage(url: URL(string: perfume.heroImage))
+                .resizable()
+                .aspectRatio(1.0, contentMode: .fit)
+                .frame(width: 180)
+        }
     }
 }
 

@@ -19,10 +19,12 @@ struct EditMyProfileView: View {
     @State private var nickNameCheck: Bool = false
     @State private var editImage: UIImage = UIImage()
     @State private var editNation: String = ""
+  
     
     @Binding var image: UIImage
     @Binding var userNickname: String
     @Binding var userNation: String
+   
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
@@ -31,11 +33,18 @@ struct EditMyProfileView: View {
     
     var body: some View {
         NavigationView {
+            GeometryReader{ geometry in
             VStack{
                 
+
                 Text("Edit Profile")
                     .padding(.bottom,20)
-                
+
+                Divider()
+                    .frame(width: 390)
+                    .padding(.bottom, 15)
+                    
+
                 Image(uiImage: self.editImage)
                     .resizable()
                     .cornerRadius(50)
@@ -61,24 +70,20 @@ struct EditMyProfileView: View {
                         isShowingDialog = false
                     }
                 }
+                .padding(.bottom, 15)
                 
                 Divider()
+                    .frame(maxWidth: .infinity)
                 
-                HStack{
-                    VStack (alignment: .trailing){
+                //
+                
+                VStack(alignment: .leading){
+                    HStack{
                         Text("Name")
-                            .padding(.bottom, 10)
-                        Text("ID")
-                            .padding(.bottom, 10)
-                        Text("Nation")
-                    }
-                    
-                    Spacer(minLength: 15)
-                    VStack(alignment: .leading){
-                        HStack {
-                            TextField("Edit your Nickname", text: $editName)
-                                .foregroundColor(.black)
-                                .padding(.bottom,10)
+                            .font(.system(size: 19))
+                            .padding(.trailing, 35)
+                        TextField("Edit your Nickname", text: $editName)
+                            .foregroundColor(.gray)
                             // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
                                 .onChange(of: editName) { value in
                                     if editName.count > 0 && editName.count < 20 {
@@ -97,20 +102,50 @@ struct EditMyProfileView: View {
                             }
                             // 인스타처럼 밑줄 그어주기 ?
                         }
-                        Text("사용자 가입 디폴트 email, 수정 불가")
-                            .foregroundColor(.gray)
-                        Picker("Select your nations", selection: $editNation){
-                            ForEach(nation, id: \.self){
-                                Text($0)
-                            }
+                    }
+                    .padding()
+                    Divider()
+                        .offset(x: geometry.size.width / 3.9)
+                       
+                    HStack{
+                        Text("Email")
+                            .font(.system(size: 19))
+                            .padding(.trailing, 39)
+                        Text("Email")
+                    }
+                    .padding()
+                    Divider()
+                        .offset(x: geometry.size.width / 3.9)
+                       
+                    HStack{
+                        Text("Location")
+                            .font(.system(size: 19))
+                            .padding(.trailing, 35)
+                            .offset(x: geometry.size.width / 22, y: geometry.size.height / 300)
+                        Button{
+                            editNation = "🇺🇸"
+                        } label: {
+                        Text("🇺🇸")
                         }
-                        .tint(.gray)
+                        .buttonStyle(.customButton)
+                        .offset(x: geometry.size.width / -25)
+                        
+                        Button {
+                            editNation = "🇰🇷"
+                        } label: {
+                            Text("🇰🇷")
+                        }
+                        .buttonStyle(.customButton)
+                        .offset(x: geometry.size.width / -15)
                     }
                 }
-                Spacer()
-                Spacer()
-            }
-            .padding(15)
+                Divider()
+                    .frame(maxWidth: .infinity)
+                
+
+            }//VStack 종료
+        } // Geometry 종료
+            
             .sheet(isPresented: $showGallerySheet){
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$editImage)}
             .sheet(isPresented: $showCameraSheet) {
@@ -149,15 +184,19 @@ struct EditMyProfileView: View {
                     // TODO: done - disable 설정하기, 닉네임설정 후 활성화 + 중복확인 기능 추가
                 }
             }
-        }
+            .navigationTitle(Text("Edit Profile"))
+            .navigationBarTitleDisplayMode(.inline)
+        }// NavigationView 종료
         .onAppear{
             editName = userNickname
+            editNation = userNation
         }
+       
     }
 }
 
-//struct EditMyProfileView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EditMyProfileView()
-//    }
-//}
+struct EditMyProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        EditMyProfileView(image: .constant(UIImage()), userNickname: .constant(""), userNation: .constant(""))
+    }
+}

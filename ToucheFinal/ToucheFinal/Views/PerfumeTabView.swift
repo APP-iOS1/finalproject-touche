@@ -12,7 +12,7 @@ struct PerfumeTabView: View {
     @State private var selectedIndex = 0
     @State private var touchTab = false
     @State var isShowingOnboardingView: Bool = UserDefaults.standard.bool(forKey: "isShowingOnboardingView")
-    
+    let selectedColors = (UserDefaults.standard.array(forKey: "selectedFragranceTypes") as? [String] ?? [])
     let tabBarNames = ["Home", "Palette", "Profile"]
     var body: some View {
         GeometryReader{geometry in
@@ -25,7 +25,7 @@ struct PerfumeTabView: View {
                         case 0:
                             HomeView()
                         case 1:
-                            PaletteView()
+                            PaletteView() 
                         default:
                             LogInRootView()
                         }
@@ -77,10 +77,24 @@ struct PerfumeTabView: View {
                                 .foregroundColor(Color(.black))
                                 .frame(width: 101, height: 4)
                         }
-                    }.padding(.top, -5)
+                    }
+                    .padding(.top, -5)
+                }
+                .onAppear {
+                    print(selectedColors)
                 }
             }
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+    }
+    func randomColor(color: [String]) -> [String] {
+        var randColors: Set<String> = []
+        while randColors.count != min(10, color.count) {
+            if let randColor = color.randomElement() {
+                randColors.insert(randColor)
+            }
+        }
+        return Array(randColors)
     }
 }
 
@@ -88,5 +102,8 @@ struct PerfumeTabView: View {
 struct PerfumeTabView_Previews: PreviewProvider {
     static var previews: some View {
         PerfumeTabView()
+            .environmentObject(ColorPalette())
+            .environmentObject(PerfumeStore())
+            .environmentObject(UserInfoStore())
     }
 }

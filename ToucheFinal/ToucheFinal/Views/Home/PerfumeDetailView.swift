@@ -53,7 +53,7 @@ struct PerfumeDetailView: View {
                                     }
                                 } label: {
                                     HStack{
-                                        RatingView(score: .constant(perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
+                                        RatingView(score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
                                         Text("\("\(perfume.commentCount)개의 댓글 보기")")
                                             .font(.system(size: 14))
                                             .foregroundColor(.black)
@@ -112,13 +112,11 @@ struct PerfumeDetailView: View {
                                     Text("\(perfume.likedPeople.count)")
                                         .padding(.top, -8)
                                         .foregroundColor(.black)
-                                    //                                    .fontWeight(.light)
+                                        .fontWeight(.light)
                                 }
                             }
                             .padding(.trailing)
-                            .fullScreenCover(isPresented: $navLinkActive, content: {
-                                LogInSignUpView()
-                            })
+                            .modifier(SignInFullCover(isShowing: $navLinkActive))
                         }
                         .frame(width: abs(geometry.size.width - 20), alignment: .leading)
                         .padding(.leading, 20)
@@ -189,9 +187,8 @@ struct PerfumeDetailView: View {
                             .id(reviewId)
                             .padding(.horizontal, 20)
                             .padding(.bottom, 40)
-                            .fullScreenCover(isPresented: $navLinkActive, content: {
-                                LogInSignUpView()
-                            })
+                            .modifier(SignInFullCover(isShowing: $navLinkActive))
+                            
                         } else {
                             VStack(alignment: .leading, spacing: 5){
                                 Text("FragranceFamily")
@@ -244,11 +241,14 @@ struct PerfumeDetailView: View {
                             .padding(.bottom, 40)
                         }
                     }//ScrollView
+                    .onAppear{
+                        updateRecentlyPerfumes()
+                    }
                     .navigationTitle(perfume.displayName)
                     .navigationBarTitleDisplayMode(.inline)
-                    .fullScreenCover(isPresented: $isShowingWriteComment, content: {
-                        WriteCommentView(perfume: perfume)
-                    })
+                    .fullScreenCover(isPresented: $isShowingWriteComment){
+                        WriteCommentView(perfume: perfume, isShowingWriteComment: $isShowingWriteComment)
+                    }
                 }
             }
             //        .onAppear {
@@ -267,6 +267,19 @@ struct PerfumeDetailView: View {
             }
             .navigationBarBackButtonHidden(true)
     }
+    func updateRecentlyPerfumes() {
+        var recentlyPerfumesId: [String] = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+        if let perfumeIndex = recentlyPerfumesId.firstIndex(of: perfume.perfumeId) {
+            recentlyPerfumesId.remove(at: perfumeIndex)
+            recentlyPerfumesId.insert(perfume.perfumeId, at: 0)
+        } else {
+            if recentlyPerfumesId.count == 7 {
+                recentlyPerfumesId.removeLast()
+            }
+            recentlyPerfumesId.insert(perfume.perfumeId, at: 0)
+        }
+        UserDefaults.standard.setValue(recentlyPerfumesId, forKey: "recentlyPerfumesId")
+    }
 }
 
 struct PerfumeDetailView_Previews: PreviewProvider {
@@ -284,7 +297,8 @@ struct PerfumeDetailView_Previews: PreviewProvider {
                                                likedPeople: ["1", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3"],
                                                commentCount: 154,
                                                totalPerfumeScore: 616
-                                              ))
+                                              )).environmentObject(PerfumeStore())
+                .environmentObject(UserInfoStore())
         }
     }
 }

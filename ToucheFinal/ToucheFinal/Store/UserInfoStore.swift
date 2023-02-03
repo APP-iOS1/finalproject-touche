@@ -12,6 +12,7 @@ import FirebaseAuth
 /// 유저정보를 다루는 store
 final class UserInfoStore: ObservableObject{
     @Published var userInfo: UserInfo?
+    @Published var recentlyPerfumesId: [String] = []
     @Published var notice = ""
     @Published var errorMessage = ""
     @Published var currentUserNickname = Auth.auth().currentUser?.displayName
@@ -136,7 +137,8 @@ final class UserInfoStore: ObservableObject{
                     userNickName: nickname,
                     userProfileImage: "",
                     userEmail: emailAddress,
-                    writtenComments: []
+                    writtenComments: [],
+                    recentlyPerfumesId: []
                 )
                 // MARK: Firestore에 User Collection에 저장.
                 do {
@@ -179,6 +181,7 @@ final class UserInfoStore: ObservableObject{
         database.document(user?.uid ?? "").delete()
     }
     
+
     /// 닉네임 중복확인을 해주는 함수
     final func isNicknameDuplicated(nickName: String) async throws -> Bool {
         do {
@@ -223,5 +226,10 @@ final class UserInfoStore: ObservableObject{
 #endif
         }
     }
-    
+
+    func updateRecentlyPerfumes() {
+        database.document()
+//            .setData([])
+    }
+
 }
