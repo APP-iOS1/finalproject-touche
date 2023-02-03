@@ -13,7 +13,7 @@ struct PaletteView: View {
     @State private var animation: Animation? = nil
     @State private var txt = ""
     @State private var isTapped = false
-    @State private var scentTypeCount: [String: Int] = [:]
+    @State private var scentTypeCount: [String: Double] = [:]
     @State private var selectedColor: Color = Color("customGray")
     @State var isSignin: Bool = false
     @State var navLinkActive = false
@@ -43,9 +43,9 @@ struct PaletteView: View {
                                     color: color.color,
                                     degrees: Double(index) * 22.5,
                                     name: color.name,
-                                    count: scentTypeCount[color.name] ?? 1)
+                                    count: scentTypeCount[color.name] ?? 0)
                                 .rotationEffect(Angle(degrees: -79))
-                                .opacity(isTapped ? 1 : 1)
+//                                .opacity(isTapped ? (color.name == txt ? 1 : 0.5) : 0.5)
                             }
                         }
                         .clipShape(
@@ -57,15 +57,24 @@ struct PaletteView: View {
                         ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(color.color)
-                                .frame(width: 70, height: 70)
+                                .frame(width: 80, height: 80)
                                 .overlay {
-                                    Text("\(String(color.name.prefix(13)))")
+                                    //                                    Text("\(String(color.name.prefix(13)))")
+                                    Text("\(String(color.name))")
                                         .font(.system(size: 12))
                                         .bold()
                                         .foregroundColor(.white)
                                 }
-                                .opacity(isTapped ? color.name == txt ? 1 : 0 : 0)
+                                .opacity(isTapped ? (color.name == txt ? 1 : 0) : 0)
                                 .animation(.linear(duration: 0.5), value: txt)
+                                .onTapGesture {
+                                    if isTapped {
+                                        colorPaletteCondition.selectedColor = .clear
+                                        colorPaletteCondition.selectedCircle = .clear
+                                        txt = ""
+                                        isTapped = false
+                                    }
+                                }
                         }
                         
                         // MARK: - 팔레트 글씨
@@ -79,12 +88,12 @@ struct PaletteView: View {
                                             Text("\(String(color.name.prefix(15)))")
                                                 .font(.system(size: 12))
                                                 .bold()
-                                                .foregroundColor(.white)
+                                                .foregroundColor(isTapped ? (color.name == txt ? color.color : .white) : .white)
                                                 .padding(.bottom, 30)
                                                 .padding(.horizontal, 6)
                                         }
                                 }
-                                .opacity(isTapped ? color.name == txt ? 0 : 1 : 1)
+                                .opacity(isTapped ? (color.name == txt ? 0 : 1) : 1)
                                 .onTapGesture {
                                     colorPaletteCondition.selectedColor = color.color
                                     colorPaletteCondition.selectedCircle = color.color
@@ -92,28 +101,27 @@ struct PaletteView: View {
                                     isTapped = true
                                 }
                             }
-                        } // wheel 끝
+                        }
                     }
                     
+                    //MARK: -Scent type
                     HStack {
                         Text("Scent Type")
                             .font(.title)
                             .fontWeight(.semibold)
-                        
                         Spacer()
                     }
                     .padding(.top, 30)
                     
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(Color("customGray"))
-                        .overlay (
-                            Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum nulla libero, vel accumsan sapien blandit ac. Donec nunc ligula, imperdiet eu massa ac, vehicula faucibus neque.")
-                                .padding()
-                                .background(Color("customGray"))
-                                .cornerRadius(10)
-                        )
-                        .frame(height: 150)
+                    // scent type에 대한 설명
+                    Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum nulla libero, vel accumsan sapien blandit ac. Donec nunc ligula, imperdiet eu massa ac, vehicula faucibus neque.")
+                        .padding()
+                        .background(Color("customGray"))
+                        .cornerRadius(10)
+//                        .frame(height: 150)
+
                     
+                    //MARK: -Wish list
                     HStack {
                         Text("Wish List")
                             .font(.title)
@@ -124,11 +132,11 @@ struct PaletteView: View {
                     .padding(.top, 30)
                     
                     if userInfoStore.user != nil {
-                        LazyVGrid(columns: columns, spacing: 10) {
+                        LazyVGrid(columns: columns, spacing: 15) {
                             ForEach(dummy, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)                            } label: {
-                                        ColorChipPerfumeCell(perfume: perfume)
+                                        PerfumeCell(perfume: perfume, frameWidth: 150)
                                     }
                             }
                         }

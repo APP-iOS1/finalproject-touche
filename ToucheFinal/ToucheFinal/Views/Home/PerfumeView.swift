@@ -326,7 +326,7 @@ struct PerfumeView: View {
                         .navigationTitle(perfume.displayName)
                         .navigationBarTitleDisplayMode(.inline)
                         .fullScreenCover(isPresented: $isShowingWriteComment, content: {
-                            WriteCommentView(perfume: perfume)
+                            WriteCommentView(perfume: perfume, isShowingWriteComment: $isShowingWriteComment)
                         })
                     }
                 }

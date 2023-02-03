@@ -19,8 +19,8 @@ struct ColorPaletteUnderView: View {
                 )
 
                 // 동그라미 선택시 colorPaletteUnder의 선택된 동그라미가 커지는 효과
-                .frame(width: 30.0, height: 30.0)
-                .scaleEffect(colorPaletteCondition.selectedColor == colorPaletteCondition.selectedCircle ? 80 : 1)
+                .frame(width: 30.0/*, height: 30.0*/)
+                .scaleEffect(colorPaletteCondition.selectedColor == colorPaletteCondition.selectedCircle ? 130 : 1)
         }
         .padding(7)
         .padding(.horizontal)
