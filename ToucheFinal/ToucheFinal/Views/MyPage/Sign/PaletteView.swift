@@ -204,7 +204,7 @@ struct Wheel: Layout {
             // Place the subview.
             subview.place(at: point, anchor: .center, proposal: .unspecified)
             
-            DispatchQueue.main.async {
+            DispatchQueue.global().async {
                 if pointToCenter {
                     subview[Rotation.self]?.wrappedValue = .radians(angle)
                 } else {

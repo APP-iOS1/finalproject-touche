@@ -36,7 +36,7 @@ struct WriteCommentView: View {
                         HStack {
                             Image(systemName: "person")
                             Text("(\(perfume.commentCount))")
-                            RatingView(score: .constant(perfume.totalPerfumeScore/perfume.commentCount), frame: 15, canClick: false)
+                            RatingView(score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
                         }
                         Spacer()
                     }

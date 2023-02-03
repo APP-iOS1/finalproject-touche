@@ -19,23 +19,25 @@ struct EditMyProfileView: View {
     @State private var editName: String = ""
     @State private var editImage: UIImage = UIImage()
     @State private var editNation: String = ""
-    @State private var editBio: String = ""
+  
     
     @Binding var image: UIImage
     @Binding var userNickname: String
     @Binding var userNation: String
-    @Binding var bio: String
+   
     
     var nation: [String] = ["🇫🇷 France", "🇯🇵 Japan", "🇰🇷 Republic of Korea", "🇺🇸 United States"]
     
     
     var body: some View {
         NavigationView {
+            GeometryReader{ geometry in
             VStack{
                 
                 Divider()
                     .frame(width: 390)
-                    .offset(y:-17)
+                    .padding(.bottom, 15)
+                    
                 Image(uiImage: self.editImage)
                     .resizable()
                     .cornerRadius(50)
@@ -64,72 +66,59 @@ struct EditMyProfileView: View {
                 .padding(.bottom, 15)
                 
                 Divider()
-                    .frame(width: 390)
+                    .frame(maxWidth: .infinity)
                 
                 //
-                HStack{
-                    VStack(alignment: .leading){
-                        Text("ID")
-                            .padding(.bottom, 6)
-                        Text("Bio")
-                            .padding(.bottom, 6)
+                
+                VStack(alignment: .leading){
+                    HStack{
                         Text("Name")
-                            .padding(.bottom, 6)
-                        Text("Nation")
-                        // 소개
-                    }
-                    .font(.custom("NotoSans-Light", size: 17.5))
-                    VStack(alignment: .leading){
+                            .font(.system(size: 19))
+                            .padding(.trailing, 35)
                         TextField("Edit your Nickname", text: $editName)
                             .foregroundColor(.gray)
-                            .padding(.bottom,5)
-                            .offset(x: 20.5,y: 6)
-                        Divider()
-                            .frame(width: 295)
-                            .offset(x: 15, y: 2)
-                            
-                        TextField("Introduce Myself", text: $editBio)
-                            .offset(x: 20.5, y: 2)
-                        Divider()
-                            .frame(width: 295)
-                            .offset(x: 15, y: 0)
-                        Text("Email")
-                            .offset(x: 20.5, y: 0)
-                        Divider()
-                            .frame(width: 295)
-                            .offset(x: 15, y: -8)
-                        HStack{
-                            Button{
-                                
-                            } label: {
-                                    Text("🇰🇷")
-                                    
-                            }
-                            .offset(x: 21, y: -9)
-                            Button {
-                                
-                            } label: {
-                                Text("🇺🇸")
-                            }
-                            .offset(x: 30, y: -9)
-                        }
-//                        Picker("Select your nations", selection: $editNation){
-//                            ForEach(nation, id: \.self){
-//                                Text($0)
-//                            }
-//                        }
-//                        .tint(.gray)
                     }
-                    .font(.custom("NotoSans-Light", size: 17.5))
+                    .padding()
+                    Divider()
+                        .offset(x: geometry.size.width / 3.9)
+                       
+                    HStack{
+                        Text("Email")
+                            .font(.system(size: 19))
+                            .padding(.trailing, 39)
+                        Text("Email")
+                    }
+                    .padding()
+                    Divider()
+                        .offset(x: geometry.size.width / 3.9)
+                       
+                    HStack{
+                        Text("Nation")
+                            .font(.system(size: 19))
+                            .padding(.trailing, 35)
+                            .offset(x: geometry.size.width / 22, y: geometry.size.height / 300)
+                        Button{
+                            editNation = "🇺🇸"
+                        } label: {
+                        Text("🇺🇸")
+                        }
+                        .buttonStyle(.customButton)
+                        
+                        Button {
+                            editNation = "🇰🇷"
+                        } label: {
+                            Text("🇰🇷")
+                        }
+                        .buttonStyle(.customButton)
+                    }
                 }
                 Divider()
-                    .frame(width: 390)
+                    .frame(maxWidth: .infinity)
                 
-                Spacer()
-                Spacer()
+
             }//VStack 종료
-        
-            .padding(15)
+        } // Geometry 종료
+            
             .sheet(isPresented: $showGallerySheet){
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$editImage)}
             .sheet(isPresented: $showCameraSheet) {
@@ -146,18 +135,18 @@ struct EditMyProfileView: View {
                         image = editImage
                         userNickname = editName
                         userNation = editNation
-                        bio = editBio
+            
                         dismiss()
                         // 수정 완료 기능
                     }
                 }
             }
-            // MARK: FIX 요청 - 커스텀 폰트 적용 안됨
             .navigationTitle(Text("Edit Profile"))
             .navigationBarTitleDisplayMode(.inline)
         }// NavigationView 종료
         .onAppear{
             editName = userNickname
+            editNation = userNation
         }
        
     }
@@ -165,6 +154,6 @@ struct EditMyProfileView: View {
 
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        EditMyProfileView(image: .constant(UIImage()), userNickname: .constant(""), userNation: .constant(""), bio: .constant(""))
+        EditMyProfileView(image: .constant(UIImage()), userNickname: .constant(""), userNation: .constant(""))
     }
 }
