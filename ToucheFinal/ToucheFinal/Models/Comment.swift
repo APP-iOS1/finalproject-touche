@@ -7,12 +7,13 @@
 
 import Foundation
 
-struct Comment {
+struct Comment: Codable, Hashable {
     var commentId: String
-    var commentTime: String
+    var commentTime: Double
     var contents: String
     var perfumeScore: Int
     var writerId: String
     var writerNickName: String
     var writerImage: String
+    var likedPeople: [String]
 }

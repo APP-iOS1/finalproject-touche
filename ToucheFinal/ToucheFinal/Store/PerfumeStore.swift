@@ -8,177 +8,109 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-/// 우선순위 정하기
-///
-/// 1. PerfumeStore CRUD -> Read, (Create, Update, Delete)
-///     - read : getDocumets( ) : 1번 불러오기 vs addSnapListner( ) : 변화있을때마다 새로 불러와줌. / 김태형, 김태성
-///             > 일반 addSnapshotListener 써도 무방하다. [https://fomaios.tistory.com/entry/Firebase-addSnapshotListener-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0](https://fomaios.tistory.com/entry/Firebase-addSnapshotListener-%ED%9A%A8%EC%9C%A8%EaC%A0%81%EC%9C%BC%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)
-///     - paging : 한번에 몇개가져올지? / 홍진표
-///             > 아직 미완료
-///     - 복합 query: 어떤 기준으로 필터링해서 데이터를 불러올지? / 서광현
-///             > 필터링은 서버단에서 해도 가능하다. / 복합 인덱스를 설정하는 이슈가 있는데, 파이어스토어에서 콘솔로 안내해준다.
-/// 2. Log-in
-///     - 해결 : UserInfoStore
 
+@MainActor
 class PerfumeStore: ObservableObject {
-    static let shared = PerfumeStore()
-    
-    @Published var perfumes: [Perfume] = []
+
+    @Published var recomendedPerfumes: [Perfume] = []
     @Published var topComment20Perfumes: [Perfume] = []
-    @Published var recentlyViewed7Perfumes: [Perfume] = []
-    @Published var recentlyViewedPerfumeIds: [String] = []
+    @Published var recentlyViewedPerfumes: [Perfume] = []
+    @Published var SelectedScentTypePerfumes: [Perfume] = []
+    @Published var likedPerfumes: [Perfume] = []
     
-    private init() {}
+    let database = Firestore.firestore().collection("Perfume")
     
-    let path = Firestore.firestore()
-    
-    var listener: ListenerRegistration?
-    
-    func read() {
-        path.collection("Perfume")
-            .addSnapshotListener { [weak self] snapshot, _ in
-                guard let snapshot = snapshot else { return }
-                
-                snapshot.documentChanges.forEach { diff in
-                    do {
-                        let perfume = try diff.document.data(as: Perfume.self)
-                        
-                        switch diff.type {
-                        case .added:
-                            self?.perfumes.append(perfume)
-                        case .modified:
-                            for index in 0..<(self?.perfumes.count ?? 0) {
-                                if self?.perfumes[index].perfumeId == perfume.perfumeId {
-                                    self?.perfumes[index] = perfume
-                                }
-                            }
-                        case .removed:
-                            guard let perfumeIndex = self?.perfumes.firstIndex(of: perfume) else {return}
-                            self?.perfumes.remove(at: perfumeIndex)
-                        default :
-                            break
-                        }
-                    } catch {
-                        
-                    }
-                }
-            }
-    }
-    
-    func detach() {
-        listener?.remove()
-    }
-    
-    func create(perfume: Perfume) {
+    func readRecomendedPerfumes(perfumesId: [String]) async {
         do {
-            try path.collection("Perfume").document(perfume.perfumeId)
-                .setData(from: perfume)
-        } catch {
-            return
-        }
-        
-    }
-    func update(perfume: Perfume) {
-        path.collection("Perfume").document(perfume.perfumeId)
-            .updateData([:])
-    }
-    func delete(perfume: Perfume) {
-        path.collection("Perfume").document(perfume.perfumeId)
-            .delete()
+            var tempPerfumes: [Perfume] = []
+            let snapshot = try await database.whereField("scentType", in: perfumesId).getDocuments()
+            for document in snapshot.documents {
+                let perfume =  try document.data(as: Perfume.self)
+                tempPerfumes.append(perfume)
+            }
+            recomendedPerfumes = Array(Set(tempPerfumes))
+        } catch {}
     }
     
-    
-    //MARK: - 최근 댓글 많은 순 20개 향수 보여주기
-    /// 향수 콜렉션 안의 향수들을 commentCount 값으로 정렬한 후
-    /// 20개의 데이터를 받아온 후 topComment20Perfumes 배열에 넣어준다.
-    func readTopComment20Perfumes() {
-        self.listener = path.collection("Perfume").order(by: "commentCount", descending: true).limit(to: 20)
-            .addSnapshotListener { [weak self] snapshot, _ in
-                guard let snapshot = snapshot else { return }
-                self?.topComment20Perfumes = snapshot.documents.compactMap { query -> Perfume? in
-                    do {
-                        return try query.data(as: Perfume.self)
-                    } catch {
-                        return nil
-                    }
+    func readRecentlyPerfumes(perfumesId: [String]) async {
+        do {
+            var tempPerfumes: [Perfume] = []
+            let snapshot = try await database.whereField("perfumeId", in: perfumesId ).getDocuments()
+            for document in snapshot.documents {
+                let perfume =  try document.data(as: Perfume.self)
+                tempPerfumes.append(perfume)
+            }
+            if !tempPerfumes.isEmpty {
+                for perfumeId in perfumesId.reversed() {
+                    tempPerfumes.insert(tempPerfumes.filter{$0.perfumeId == perfumeId}[0], at: 0)
                 }
             }
+            recentlyViewedPerfumes = Array(tempPerfumes.prefix(min(tempPerfumes.count / 2, 7)))
+
+        } catch {}
     }
     
-    //MARK: - 최근 본 뷰에 향수의 id값 추가하기
-    /// 향수 디테일뷰로 넘어갈 때 마다 향수의 id값을 user의 정보에 담아주는 메소드
-    /// 이 후 향수 id 배열은 Perfume collection에서 쿼리에 사용된다.
-    func createRecentlyViewedPerfume(perfume: Perfume) {
-        //        let createdAt = Date().timeIntervalSince1970
-        // 로그인 분기처리되면 document의 id값을 유저id로 수정 예정
-        path.collection("TestUser").document("태형Id")
-            .updateData([
-                "recentlyViewedPerfumeIds": FieldValue.arrayUnion([perfume.perfumeId])
-            ])
-    }
-    
-    //MARK: - 최근 본 향수의 id값이 유저정보에 담기면 Read + func fetchRecentlyViewd7Perfumes
-    func readViewedPerfumeIdsArrayAtUserInfo() {
-        self.listener = path.collection("TestUser").document("태형Id")
-            .addSnapshotListener { [weak self] snapshot, _ in
-                guard let snapshot = snapshot else { return }
-                let docData = snapshot.data()
-                self?.recentlyViewedPerfumeIds = docData?["recentlyViewedPerfumeIds"] as? [String] ?? []
-                
-                
-                self?.fetchRecentlyViewd7Perfumes(recentlyViewedPerfumeIds: self?.recentlyViewedPerfumeIds ?? [])
+    func readSelectedScentTypePerfumes(scentType: String) async {
+        do {
+            var tempPerfumes: [Perfume] = []
+            let snapshot = try await database.whereField("scentType", isEqualTo: scentType).getDocuments()
+            for document in snapshot.documents {
+                let perfume =  try document.data(as: Perfume.self)
+                tempPerfumes.append(perfume)
             }
+            SelectedScentTypePerfumes = Array(Set(tempPerfumes))
+        } catch {}
     }
     
-    //MARK: - 유저정보에 담긴 최근 본 향수의 id값을 받아와서 퍼퓸 컬렉션에서 해당하는 퍼퓸들을 배열에 담아 보여줌
-    func fetchRecentlyViewd7Perfumes(recentlyViewedPerfumeIds: [String]) {
-        path.collection("Perfume")
-        //            .whereField("perfumeId", in: recentlyViewedPerfumeIds).limit(to: 7)
-            .getDocuments {
-                snapshot, error in
-                guard let snapshot = snapshot else { return }
-                var arr: [Perfume] = []
-                arr = snapshot.documents.compactMap { query -> Perfume? in
-                    do {
-                        return try query.data(as: Perfume.self)
-                    } catch {
-                        return nil
-                    }
-                }
-                
-                self.recentlyViewed7Perfumes.removeAll()
-                for id in recentlyViewedPerfumeIds {
-                    for perfume in arr {
-                        if perfume.perfumeId == id {
-                            self.recentlyViewed7Perfumes.insert(perfume, at: 0)
-                        }
-                    }
-                }
+    func likedPerfumes(userId: String) async {
+        do {
+            var tempPerfumes: [Perfume] = []
+            let snapshot = try await database.whereField("likedPeople",arrayContains: userId).getDocuments()
+            for document in snapshot.documents {
+                let perfume =  try document.data(as: Perfume.self)
+                tempPerfumes.append(perfume)
             }
+            likedPerfumes = tempPerfumes.sorted {$0.likedPeople.count > $1.likedPeople.count}
+        } catch {}
     }
     
     func addLikePerfume(perfume: Perfume, userId: String) async {
         do {
-            try await path.collection("Perfume").document(perfume.perfumeId)
+            try await database.document(perfume.perfumeId)
                 .updateData([
                     "likedPeople": FieldValue.arrayUnion([userId])
                 ])
-        } catch {
-            fatalError()
-        }
+        } catch {}
+        
     }
+    
     func deleteLikePerfume(perfume: Perfume, userId: String) async {
         do {
-            try await path.collection("Perfume").document(perfume.perfumeId)
+            try await database.document(perfume.perfumeId)
                 .updateData([
                     "likedPeople": FieldValue.arrayRemove([userId])
                 ])
-        }catch {
-            fatalError()
-        }
+        } catch {}
+        
     }
     
-    func readDetailViewPerfumeInfo() {
+    func updateCommentCount(perfumeId: String, score: Int) async {
+        do {
+            let perfume = await fetchPerfume(perfumeId: perfumeId)
+            try await database.document(perfume.perfumeId)
+                .updateData([
+                    "commentCount": (perfume.commentCount + 1),
+                    "totalPerfumeScore": (perfume.totalPerfumeScore + score)
+                ])
+        } catch {}
+    }
         
+    func fetchPerfume(perfumeId: String) async -> Perfume {
+        var perfume: [Perfume] = []
+        do {
+            let snapshot = try await database.document(perfumeId).getDocument()
+            perfume.append(try snapshot.data(as: Perfume.self))
+        } catch {}
+        return perfume[0]
     }
 }

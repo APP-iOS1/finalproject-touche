@@ -9,7 +9,10 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct CommentCell: View {
-    var comment: Comment
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var commentStore: CommentStore
+    @State var  comment: Comment
+    let perfumeId: String
     var body: some View {
         HStack(alignment: .top){
             if comment.writerImage == "" {
@@ -41,14 +44,25 @@ struct CommentCell: View {
                 HStack {
                     RatingView(score: .constant(comment.perfumeScore), frame: 15, canClick: false)
                     Button {
+                        Task {
+                            guard let userId = userInfoStore.user?.uid else {return}
+                            if comment.likedPeople.contains(userId) {
+                            // 해당 uid 제거
+                                await commentStore.deleteLikeComment(perfumeId: perfumeId, commentId: comment.commentId, userId: userId)
+                            } else {
+                                // 해당 uid 추가
+                                await commentStore.addLikePerfume(perfumeId: perfumeId, commentId: comment.commentId, userId: userId)
+                            }
+                            comment = await commentStore.fetchComment(perfumeId: perfumeId, commentId: comment.commentId)
+                        }
                         
                     } label: {
-                        Image(systemName: true ? "hand.thumbsup.fill" : "hand.thumbsup")
+                        Image(systemName: comment.likedPeople.contains(userInfoStore.user?.uid ?? "") ? "hand.thumbsup.fill" : "hand.thumbsup")
                             .resizable()
                             .frame(width: 18, height: 18)
                             .foregroundColor(.black)
                     }
-                    Text("24")
+                    Text("\(comment.likedPeople.count)")
                         .font(.system(size: 14))
                         .padding(.leading, -3)
                 }
@@ -59,6 +73,6 @@ struct CommentCell: View {
 
 struct CommentCell_Previews: PreviewProvider {
     static var previews: some View {
-        CommentCell(comment: Comment(commentId: "123", commentTime: "", contents: "goodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgood", perfumeScore: 4, writerId: "", writerNickName: "Ned", writerImage: ""))
+        CommentCell(comment: Comment(commentId: "123", commentTime: 0, contents: "goodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgood", perfumeScore: 4, writerId: "", writerNickName: "Ned", writerImage: "", likedPeople: []), perfumeId: "")
     }
 }

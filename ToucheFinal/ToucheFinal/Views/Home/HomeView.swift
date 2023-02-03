@@ -15,8 +15,8 @@ struct HomeView: View {
     
     @State private var isShowingPromotion: Bool = true
     @State private var perfumes: [Perfume] = []
-    @StateObject var homewViewModel = HomeViewModel()
-    
+        
+    @EnvironmentObject var perfumeStore: PerfumeStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     var rows: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
@@ -78,7 +78,7 @@ struct HomeView: View {
                         
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: 24.0) {
-                                ForEach(homewViewModel.recomendedPerfume.prefix(6), id: \.self.perfumeId) { perfume in
+                                ForEach(perfumeStore.recomendedPerfumes.prefix(6), id: \.self.perfumeId) { perfume in
                                     NavigationLink {
                                         PerfumeDetailView(perfume: perfume)
                                     } label: {
@@ -108,7 +108,7 @@ struct HomeView: View {
                             }
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack(spacing: 24.0) {
-                                    ForEach(homewViewModel.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
+                                    ForEach(perfumeStore.recentlyViewedPerfumes, id: \.self.perfumeId) { perfume in
                                         NavigationLink {
                                             PerfumeDetailView(perfume: perfume)
                                         } label: {
@@ -162,20 +162,24 @@ struct HomeView: View {
                     }
                 }
                 .onAppear{
-                    if false {    //  로그인이 아닌 상태일 때
-                        
-                        //  **비동기 처리**
-                        userInfoStore.fetchUser(user: userInfoStore.user)   //  애가 끝나기 전에
-                        homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: userInfoStore.userInfo?.recentlyPerfumesId ?? [])  //  너가 실행됨
+                    if userInfoStore.user != nil {    //  로그인 상태일 때
+                        Task {
+                            await userInfoStore.fetchUser(user: userInfoStore.user)
+                            guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
+                            await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                        }
                     } else {    //  로그인 했을 경우
-                     
-                        let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
-                        homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: recentlyPerfumesId)
+                        Task {
+                            let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+                            await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                        }
                     }
                     
-                    let selectedScentType = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+                    Task {
+                        let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+                        await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
+                    }
                     
-                    homewViewModel.filterRecommendedPerfumes(selectedScentTypes: selectedScentType)
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                     Image(systemName: "magnifyingglass").foregroundColor(.black)
@@ -188,6 +192,9 @@ struct HomeView: View {
                 })
             }
         }
+    }
+    func setRecomendedPerfumesId(perfumesId: [String]) -> [String] {
+        return Array(perfumesId.prefix(10))
     }
 }
 struct TextViewModeifier: ViewModifier {
@@ -207,5 +214,6 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .environmentObject(UserInfoStore())
+            .environmentObject(PerfumeStore())
     }
 }

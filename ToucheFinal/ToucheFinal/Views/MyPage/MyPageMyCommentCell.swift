@@ -69,6 +69,6 @@ struct MyPageMyCommentCell_Previews: PreviewProvider {
                                      likedPeople: ["1", "2"],
                                      commentCount: 154,
                                      totalPerfumeScore: 616
-                                    ), comment: Comment(commentId: "123", commentTime: "", contents: "This just smells like mercedes benz intense, it's violet + jasmine and some citrus. Floral & citrusy, very similar to mercedes benz intens", perfumeScore: 4, writerId: "", writerNickName: "Ned", writerImage: ""))
+                                    ), comment: Comment(commentId: "123", commentTime: 0, contents: "This just smells like mercedes benz intense, it's violet + jasmine and some citrus. Floral & citrusy, very similar to mercedes benz intens", perfumeScore: 4, writerId: "", writerNickName: "Ned", writerImage: "", likedPeople: []))
     }
 }

@@ -20,6 +20,7 @@ struct MyPageView: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var commentStore: CommentStore
     
     var body: some View {
         NavigationView {
@@ -45,14 +46,14 @@ struct MyPageView: View {
                             }
                             .padding(.bottom,9)
                             Button {
-                                                    showEditMyProfileView.toggle()
-                                                } label: {
-                                                    Text("Edit Profile")
-                            //                            .foregroundColor(Color.black)
-                                                }
-                                                .fullScreenCover(isPresented: $showEditMyProfileView) {
-                                                    EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
-                                                }
+                                showEditMyProfileView.toggle()
+                            } label: {
+                                Text("Edit Profile")
+                                //                            .foregroundColor(Color.black)
+                            }
+                            .fullScreenCover(isPresented: $showEditMyProfileView) {
+                                EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
+                            }
                         }
                         .padding(.leading)
                     }

@@ -8,37 +8,77 @@
 import Foundation
 import FirebaseFirestore
 
+@MainActor
 class CommentStore: ObservableObject {
+    @Published var comments: [Comment] = []
     let database = Firestore.firestore().collection("Perfume")
     
-//    func fetchComments(perfumeId: String) {
-//        var tempComments: [Comment] = []
-//        database.document(perfumeId).collection("Comment")
-//            .getDocuments { (snapshot, error) in
-//                tempComments.removeAll()
-//                if let snapshot {
-//                    for document in snapshot.documents{
-//                        let docData = document.data()
-//                        let id: String = document.documentID
-//                        let commentContent: String = docData["commentContent"] as? String ?? ""
-//                        let createdAt: Double = docData["createdAt"] as? Double ?? 0
-//                        let userID: String = docData["userID"] as? String ?? ""
-//                        let userNickName: String = docData["userNickName"] as? String ?? ""
-//                        
-//                        let comment: Comment = Comment(id: id, commentContent: commentContent, createdAt: createdAt, userID: userID, userNickName: userNickName)
-//                        
-//                        self.tempComments.append(comment)
-//                        
-//                        let commentId: String = docData["commentContent"] as? String ?? ""
-//                        let commentTime: String = docData["commentContent"] as? String ?? ""
-//                        let contents: String = docData["commentContent"] as? String ?? ""
-//                        let perfumeScore: Int = docData["commentContent"] as? Int ?? 0
-//                        let writerId: String = docData["commentContent"] as? String ?? ""
-//                        let writerNickName: String = docData["commentContent"] as? String ?? ""
-//                        let writerImage: String = docData["commentContent"] as? String ?? ""
-//                    }
-//                }
-//            }
-//    }
+    func fetchComments(perfumeId: String) async {
+        do {
+            var tempComments: [Comment] = []
+            let snapshot = try await database.document(perfumeId).collection("Comment").getDocuments()
+            for document in snapshot.documents{
+                let comment = try document.data(as: Comment.self)
+                tempComments.append(comment)
+            }
+            comments = tempComments
+        } catch {}
+    }
     
+    func setComment(comment: Comment, perfumeId: String) async {
+        do {
+            try await database.document(perfumeId).collection("Comment").document(comment.commentId)
+                .setData([
+                    "commentId": comment.commentId,
+                    "commentTime": comment.commentTime,
+                    "contents": comment.contents,
+                    "perfumeScore": comment.perfumeScore,
+                    "writerId": comment.writerId,
+                    "writerNickName": comment.writerNickName,
+                    "writerImage": comment.writerImage,
+                    "likedPeople": comment.likedPeople
+                ])
+        } catch {}
+    }
+    
+    //    func likedComment(userId: String, perfumeId: String) async {
+    //        do {
+    //            var tempPerfumes: [Perfume] = []
+    //            let snapshot = try await database.document(perfumeId).collection("Comment").whereField("likedPeople",arrayContains: userId).getDocuments()
+    //            for document in snapshot.documents {
+    //                let perfume =  try document.data(as: Perfume.self)
+    //                tempPerfumes.append(perfume)
+    //            }
+    ////            likedPerfumes = tempPerfumes.sorted {$0.likedPeople.count > $1.likedPeople.count}
+    //        } catch {}
+    //    }
+    
+    func addLikePerfume(perfumeId: String, commentId: String, userId: String) async {
+        do {
+            try await database.document(perfumeId).collection("Comment").document(commentId)
+                .updateData([
+                    "likedPeople": FieldValue.arrayUnion([userId])
+                ])
+        } catch {}
+        
+    }
+    
+    func deleteLikeComment(perfumeId: String, commentId: String, userId: String) async {
+        do {
+            try await database.document(perfumeId).collection("Comment").document(commentId)
+                .updateData([
+                    "likedPeople": FieldValue.arrayRemove([userId])
+                ])
+        } catch {}
+        
+    }
+    func fetchComment(perfumeId: String, commentId: String) async -> Comment {
+        var comment: [Comment] = []
+        do {
+            let snapshot = try await database.document(perfumeId).collection("Comment").document(commentId).getDocument()
+            comment.append(try snapshot.data(as: Comment.self))
+        } catch {}
+        return comment[0]
+    }
 }
+

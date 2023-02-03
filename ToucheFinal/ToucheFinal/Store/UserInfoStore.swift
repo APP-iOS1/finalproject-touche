@@ -10,6 +10,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 /// 유저정보를 다루는 store
+@MainActor
 final class UserInfoStore: ObservableObject{
     @Published var userInfo: UserInfo?
     @Published var recentlyPerfumesId: [String] = []
@@ -58,19 +59,13 @@ final class UserInfoStore: ObservableObject{
     /// - Parameter user: 특정 회원의 `uid`를 이용하기 위한 파라미터 (User? 타입)
     ///
     /// - 유저의 `uid`를 이용해 Firestore의 uid document에서 데이터를 불러온다.
-    func fetchUser(user: User?) {
+    func fetchUser(user: User?) async {
         guard let uid = user?.uid else { return }
-        
-        database.document(uid).getDocument() { [weak self] snapshot, _ in
-            if let snapshot = snapshot {
-                do {
-                    self?.userInfo = try snapshot.data(as: UserInfo.self)
-                } catch {
-                    return
-                }
-            }
-        }
-        self.notice = "fetchUser"
+        do {
+            let snapshot = try await database.document(uid).getDocument()
+            userInfo = try snapshot.data(as: UserInfo.self)
+            self.notice = "fetchUser"
+        } catch {}
     }
     
     /// 이 클래스가 실행하면, 먼저 로그인 여부를 따져서 이전에 로그인했으면 자동 로그인을 지원한다.
@@ -101,12 +96,13 @@ final class UserInfoStore: ObservableObject{
     ///   - password: 사용자의 password
     ///
     ///  - 로그인이 성공하면, 자동으로 현재 사용자의 `UserInfo`를 할당함.
-    func logIn(emailAddress: String, password: String) {
-        Auth.auth().signIn(withEmail: emailAddress, password: password, completion: { result, _ in
-            self.fetchUser(user: result?.user)
-        })
-        self.loginState = .success
-        self.notice = "login"
+    func logIn(emailAddress: String, password: String) async {
+        do {
+            let result = try await Auth.auth().signIn(withEmail: emailAddress, password: password)
+            await fetchUser(user: result.user)
+            self.loginState = .success
+            self.notice = "login"
+        } catch {}
     }
     
     
@@ -123,36 +119,28 @@ final class UserInfoStore: ObservableObject{
     ///     c. 가입된 유저의 정보를 `UserInfo`데이터모델로 생성한다.
     ///     d. 생성한 `UserInfo`데이터모델을 Firestore에 "./User/{uid}/"경로에 저장한다.
     ///     e. 현재 가입한 유저의 `userInfo`정보를 최신화 한다.
-    func signUp(emailAddress: String, password: String, nickname: String) {
-        Auth.auth().createUser(withEmail: emailAddress, password: password) { [weak self] result, error in
-            if let error = error {
-                self?.notice = "an error occured: \(error.localizedDescription)"
-                return
-            } else {
-                // MARK: 회원가입 성공하면, uid 받아오기.
-                guard let uid = result?.user.uid else { return }
-                // MARK: 곧바로 로그인.
-                self?.logIn(emailAddress: emailAddress, password: password)
-                // MARK: UserInfo로 변환
-                let userInfo = UserInfo(
-                    userId: uid,
-                    userNation: .None,
-                    userNickName: nickname,
-                    userProfileImage: "",
-                    userEmail: emailAddress,
-                    writtenComments: [],
-                    recentlyPerfumesId: []
-                )
-                // MARK: Firestore에 User Collection에 저장.
-                do {
-                    try self?.database.document(userInfo.userId).setData(from: userInfo)
-                } catch {
-                    return
-                }
-                // MARK: 현재 유저의 userInfo 불러오기
-                self?.fetchUser(user: result?.user)
-            }
-        }
+    func signUp(emailAddress: String, password: String, nickname: String) async {
+        do {
+            // MARK: 회원가입 성공하면, uid 받아오기.
+            let result = try await Auth.auth().createUser(withEmail: emailAddress, password: password)
+            // MARK: 곧바로 로그인.
+            await logIn(emailAddress: emailAddress, password: password)
+            
+            // MARK: UserInfo로 변환
+            guard let uid = user?.uid else {return}
+            // MARK: Firestore에 User Collection에 저장.
+            try await database.document(uid).setData([
+                "userId": uid,
+                "userNation": ".None",
+                "userNickName": nickname,
+                "userProfileImage": "",
+                "userEmail": emailAddress,
+                "writtenComments": [],
+                "recentlyPerfumesId": []])
+            // MARK: 현재 유저의 userInfo 불러오기
+            await fetchUser(user: result.user)
+        } catch { }
+                
     }
     
     /// 로그아웃 기능
@@ -247,9 +235,12 @@ final class UserInfoStore: ObservableObject{
         }
     }
 
-    func updateRecentlyPerfumes() {
-        database.document()
-//            .setData([])
+    func updateRecentlyPerfumes(recentlyPerfumesId: [String]) async {
+        do {
+            guard let userId = user?.uid else {return}
+            try await database.document(userId)
+                .updateData(["recentlyPerfumesId": recentlyPerfumesId])
+        } catch {}
     }
 
 }

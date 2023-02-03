@@ -40,8 +40,10 @@ struct LogInView: View {
             .padding()
             .textFieldStyle(.roundedBorder)
             Button {
-                userInfoStore.logIn(emailAddress: email, password: password)
-                dismiss()
+                Task {
+                    await userInfoStore.logIn(emailAddress: email, password: password)
+                    dismiss()
+                }
             } label: {
                 Text("Sign In")
                     .frame(width: 360, height: 46)

@@ -13,18 +13,20 @@ import FirebaseCore
 struct ToucheFinalApp: App {
     init() {
             FirebaseApp.configure()
-            PerfumeStore.shared.read()
             UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
         }
-    @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
-    
-    let colorPalette = ColorPalette()
     
     var body: some Scene {
+        let userInfoStore = UserInfoStore()
+        let perfumeStore = PerfumeStore()
+        let colorPalette = ColorPalette()
+        let commentStore = CommentStore()
         WindowGroup {
             PerfumeTabView()
                 .environmentObject(colorPalette)
                 .environmentObject(userInfoStore)
+                .environmentObject(perfumeStore)
+                .environmentObject(commentStore)
         }
     }
 }

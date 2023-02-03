@@ -174,9 +174,11 @@ struct SignUpView: View {
             
             
             Button {
-                userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
-                userInfoStore.isDuplicated = nil
-                dismiss()
+                Task {
+                    await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
+                    userInfoStore.isDuplicated = nil
+                    dismiss()
+                }
             } label: {
                 Text("Sign Up")
                     .frame(width: 360, height: 46)

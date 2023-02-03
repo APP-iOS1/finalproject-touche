@@ -9,11 +9,17 @@ import SwiftUI
 
 struct WriteCommentView: View {
 //    @State private var reviewText: String = ""
-    @State private var score: Int = 0
-    @StateObject var manager = TFManager()
+    @EnvironmentObject var perfumeStore: PerfumeStore
+    @EnvironmentObject var userInfoSore: UserInfoStore
+    @EnvironmentObject var commentStore: CommentStore
     @Environment(\.dismiss) var dismiss
-    var perfume: Perfume
+    
+    @StateObject var manager = TFManager()
+    @State private var score: Int = 0
+    
     @Binding var isShowingWriteComment: Bool
+    
+    var perfume: Perfume
     var placeholderString: String = "Review"
     
     var body: some View {
@@ -82,9 +88,17 @@ struct WriteCommentView: View {
                 RatingView(score: $score, frame: 30, canClick: true)
                     .padding([.horizontal, .bottom])
                 
-                Button(action: {
-                    isShowingWriteComment.toggle()
-                }) {
+                Button{
+                    Task {
+                        guard let userInfo = userInfoSore.userInfo else {return}
+                        let comment = Comment(commentId: UUID().uuidString, commentTime: Date().timeIntervalSince1970, contents: manager.reviewText, perfumeScore: score , writerId: userInfo.userId, writerNickName: userInfo.userNickName, writerImage: userInfo.userEmail, likedPeople: [])
+                        
+                        await commentStore.setComment(comment: comment, perfumeId: perfume.perfumeId)
+                        await commentStore.fetchComments(perfumeId: perfume.perfumeId)
+                        await perfumeStore.updateCommentCount(perfumeId: perfume.perfumeId, score: score)
+                        isShowingWriteComment.toggle()
+                    }
+                }label: {
                     Text("Post Review")
                         .frame(width: 330, height: 46)
                         .background(.black)
@@ -106,7 +120,6 @@ struct WriteCommentView: View {
                     }
                 }
             }
-
         }
     }
 }
@@ -126,7 +139,8 @@ class TFManager: ObservableObject {
 
 struct WriteCommentView_Previews: PreviewProvider {
     static var previews: some View {
-        WriteCommentView(perfume: Perfume(perfumeId: "P258612",
+        WriteCommentView(isShowingWriteComment: .constant(true),
+                         perfume: Perfume(perfumeId: "P258612",
                                           brandName: "CHANEL",
                                           displayName: "CHANCE EAU TENDRE Eau de Toilette",
                                           heroImage: "https://www.sephora.com/productimages/sku/s2238145-main-grid.jpg",
@@ -138,6 +152,6 @@ struct WriteCommentView_Previews: PreviewProvider {
                                           likedPeople: ["1", "2"],
                                           commentCount: 154,
                                           totalPerfumeScore: 616
-                                         ), isShowingWriteComment: .constant(true))
+                                         ))
     }
 }
