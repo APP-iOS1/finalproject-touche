@@ -16,7 +16,7 @@ struct ColorChipPerfumeCell: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10.0)
                 .fill(Color.white)
-                .frame(width: 200.0, height: 200.0)
+                .frame(width: 120.0, height: 140.0)
                 .padding(2.0)
                 .shadow(
                     color: Color(hex: setHexValue(scentType: perfume.scentType))?
@@ -29,7 +29,7 @@ struct ColorChipPerfumeCell: View {
             WebImage(url: URL(string: perfume.heroImage))
                 .resizable()
                 .aspectRatio(1.0, contentMode: .fit)
-                .frame(width: 180)
+                .frame(width: 100)
         }
     }
 }

@@ -20,7 +20,7 @@ class MagneticViewcontroller: UIViewController {
         }
     }
     
-    var selectedScentTypes: [String : Bool] = [:]
+    var selectedFragranceTypes: [String : Bool] = [:]
     var tabBtn: (() -> Void)?
     
     var magnetic: Magnetic {
@@ -54,7 +54,6 @@ class MagneticViewcontroller: UIViewController {
     func setBtnStyle() {
         SkipBtn.layer.cornerRadius = 25
         FinishBtn.layer.cornerRadius = 25
-        FinishBtn.isEnabled = false
     }
     
     func startLoading(isSkip: Bool) {
@@ -88,13 +87,13 @@ class MagneticViewcontroller: UIViewController {
     @IBAction func finish(_ sender: UIControl?) {
         var FragranceTypes: [String] = []
         
-        selectedScentTypes.forEach { key, value in
+        selectedFragranceTypes.forEach { key, value in
             if value {
                 FragranceTypes.append(key)
             }
         }
         
-        UserDefaults.standard.set(FragranceTypes, forKey: "selectedScentTypes")
+        UserDefaults.standard.set(FragranceTypes, forKey: "selectedFragranceTypes")
         UserDefaults.standard.set(false, forKey: "isShowingOnboardingView")
         
         startLoading(isSkip: false)
@@ -102,7 +101,7 @@ class MagneticViewcontroller: UIViewController {
     
     // TODO: skip클릭시 모든 FragranceType 저장 필요(현재는 더미데이터 사용)
     @IBAction func skip(_ sender: UIControl?) {
-        UserDefaults.standard.set(PerfumeColor.types.map{$0.name}, forKey: "selectedScentTypes")
+        UserDefaults.standard.set(PerfumeColor.types.map{$0.name}, forKey: "selectedFragranceTypes")
         UserDefaults.standard.set(false, forKey: "isShowingOnboardingView")
                 
         startLoading(isSkip: true)
@@ -114,14 +113,12 @@ extension MagneticViewcontroller: MagneticDelegate {
     
     func magnetic(_ magnetic: Magnetic, didSelect node: Node) {
         guard let name = node.name else {return}
-        selectedScentTypes[name] = true
-        FinishBtn.isEnabled = true
+        selectedFragranceTypes[name] = true
     }
     
     func magnetic(_ magnetic: Magnetic, didDeselect node: Node) {
         guard let name = node.name else {return}
-        selectedScentTypes[name] = false
-        FinishBtn.isEnabled = !selectedScentTypes.isEmpty
+        selectedFragranceTypes[name] = false
     }
     
     func magnetic(_ magnetic: Magnetic, didRemove node: Node) {}
