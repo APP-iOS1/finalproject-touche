@@ -21,7 +21,7 @@ struct HomeView: View {
     
     var rows: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -63,15 +63,17 @@ struct HomeView: View {
                         .padding(.top, -10)
                     }
                     // MARK: Recommend Perfume for You
-                    HStack(alignment: .bottom) {
-                        Text("RECOMMEND PERFUME FOR YOU")
-                            .modifier(TextViewModeifier(isTitleSection: true))
-                        Spacer()
-                        Button {
-                            // TODO: 더보기 액션
-                        } label: {
-                            Text("more")
-                                .modifier(TextViewModeifier(isTitleSection: false))
+                    VStack(alignment: .leading, spacing: 0.0) {
+                        HStack(alignment: .bottom) {
+                            Text("RECOMMEND PERFUME FOR YOU")
+                                .modifier(TextViewModeifier(isTitleSection: true))
+                            Spacer()
+                            Button {
+                                // TODO: 더보기 액션
+                            } label: {
+                                Text("more")
+                                    .modifier(TextViewModeifier(isTitleSection: false))
+                            }
                         }
                         
                         ScrollView(.horizontal, showsIndicators: false){
@@ -185,20 +187,9 @@ struct HomeView: View {
                     Image(systemName: "info.circle").foregroundColor(.black)
                 })
             }
-            .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
-                Image(systemName: "magnifyingglass").foregroundColor(.black)
-            })
-            .navigationBarItems(trailing: NavigationLink(destination: FilterView()) {
-                Image(systemName: "slider.vertical.3").foregroundColor(.black)
-            })
-            .navigationBarItems(leading: NavigationLink(destination: PerfumeDescriptionView()) {
-                Image(systemName: "info.circle").foregroundColor(.black)
-            })
-            .background( Color("CustomGray") )
         }
     }
 }
-
 struct TextViewModeifier: ViewModifier {
     let isTitleSection: Bool
     func body(content: Content) -> some View {

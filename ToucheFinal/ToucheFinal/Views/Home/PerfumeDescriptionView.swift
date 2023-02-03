@@ -49,6 +49,7 @@ struct PerfumeDescriptionView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
+    
 }
 
 struct PerfumeDescriptionView_Previews: PreviewProvider {

@@ -13,10 +13,10 @@ import FirebaseCore
 struct ToucheFinalApp: App {
     init() {
             FirebaseApp.configure()
-//            UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
+            PerfumeStore.shared.read()
+            //UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
         }
     @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
-    @StateObject var perfumeStore = PerfumeStore()
     
     let colorPalette = ColorPalette()
     
@@ -25,7 +25,6 @@ struct ToucheFinalApp: App {
             //            TESTVIEWTS()
             PerfumeTabView()
                 .environmentObject(colorPalette)
-                .environmentObject(perfumeStore)
                 .environmentObject(userInfoStore)
         }
     }
