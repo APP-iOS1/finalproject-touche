@@ -59,6 +59,10 @@ struct SignUpView: View {
                 Group {
                     HStack {
                         Text("Email")
+                        if userInfoStore.isDuplicated == false {
+                            Image(systemName: "checkmark.circle")
+                                .foregroundColor(.green)
+                        }
                         Spacer()
                         
                         Button {

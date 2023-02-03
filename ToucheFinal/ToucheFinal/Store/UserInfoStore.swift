@@ -24,7 +24,7 @@ final class UserInfoStore: ObservableObject{
         didSet { // 저장된 user 정보가 바뀌면 호출되어서 값을 업데이트
             objectWillChange.send()
             notice = "didSet"
-            currentUserNickname = Auth.auth().currentUser?.displayName
+//            currentUserNickname = Auth.auth().currentUser?.displayName
             currentUser = Auth.auth().currentUser?.uid
         }
     }

@@ -35,14 +35,6 @@ struct EditMyProfileView: View {
         NavigationView {
             GeometryReader{ geometry in
             VStack{
-                Text("Edit Profile")
-                    .padding(.bottom,20)
-
-                Divider()
-                    .frame(width: 390)
-                    .padding(.bottom, 15)
-                    
-
                 Image(uiImage: self.editImage)
                     .resizable()
                     .cornerRadius(50)

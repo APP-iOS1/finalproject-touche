@@ -162,7 +162,7 @@ struct HomeView: View {
                     }
                 }
                 .onAppear{
-                    if (userInfoStore.user != nil) {    //  로그인이 아닌 상태일 때
+                    if false {    //  로그인이 아닌 상태일 때
                         
                         //  **비동기 처리**
                         userInfoStore.fetchUser(user: userInfoStore.user)   //  애가 끝나기 전에
