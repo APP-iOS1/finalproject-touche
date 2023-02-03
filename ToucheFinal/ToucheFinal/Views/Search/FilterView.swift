@@ -112,7 +112,7 @@ struct FilterView: View {
         .padding(.bottom, 40.0 + 30.0)
         // - BUTTON GROUP
         .overlay(alignment: .bottom, content: filterButtonGroupView)
-        .searchable(text: $vm.search, placement: .NavigationBarDrawerDisplayMode.automatic, prompt: "Search")
+//        .searchable(text: $vm.search, placement: .NavigationBarDrawerDisplayMode.automatic, prompt: "Search")
         .navigationBarTitle("Filter")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
