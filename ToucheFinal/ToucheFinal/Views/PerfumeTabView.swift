@@ -12,7 +12,7 @@ struct PerfumeTabView: View {
     @State private var selectedIndex = 0
     @State private var touchTab = false
     @State var isShowingOnboardingView: Bool = UserDefaults.standard.bool(forKey: "isShowingOnboardingView")
-    
+    let selectedColors = (UserDefaults.standard.array(forKey: "selectedFragranceTypes") as? [String] ?? [])
     let tabBarNames = ["Home", "Palette", "Profile"]
     var body: some View {
         GeometryReader{geometry in
@@ -79,8 +79,20 @@ struct PerfumeTabView: View {
                         }
                     }.padding(.top, -5)
                 }
+                .onAppear {
+                    print(selectedColors)
+                }
             }
         }
+    }
+    func randomColor(color: [String]) -> [String] {
+        var randColors: Set<String> = []
+        while randColors.count != min(10, color.count) {
+            if let randColor = color.randomElement() {
+                randColors.insert(randColor)
+            }
+        }
+        return Array(randColors)
     }
 }
 

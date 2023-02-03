@@ -19,11 +19,13 @@ struct PerfumeDescriptionView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     //.padding(.leading, 20)
-                HStack {
-                    ForEach(seletedColors, id: \.self) { color in
-                        Circle()
-                            .fill(Color(scentType: color))
-                            .frame(width: 30, height: 30)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(seletedColors, id: \.self) { color in
+                            Circle()
+                                .fill(Color(scentType: color))
+                                .frame(width: 30, height: 30)
+                        }
                     }
                 }
                 Divider()

@@ -50,8 +50,12 @@ extension Color {
         case "Warm & Sweet Gourmands":
             color = Color(hex: "A11818") ?? Color(.white)
         case "Fruity Florals":
-            color = Color(hex: "EC96E3") ?? Color(.white)
+            color = Color(hex: "EC3C3C") ?? Color(.white)
         case "Powdery Florals":
+            color = Color(hex: "D933C7") ?? Color(.white)
+        case "Classic Florals":
+            color = Color(hex: "EC96E3") ?? Color(.white)
+        case "Warm Florals":
             color = Color(hex: "E26262") ?? Color(.white)
         case "Fresh Florals":
             color = Color(hex: "FF9680") ?? Color(.white)
@@ -81,3 +85,4 @@ extension Color {
         self = color
     }
 }
+
