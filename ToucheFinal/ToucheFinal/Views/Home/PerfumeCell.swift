@@ -8,54 +8,10 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-//struct PerfumeCell: View {
-//    var perfume: Perfume
-//
-//    var body: some View {
-//        VStack(alignment: .leading) {
-//            WebImage(url: URL(string: perfume.heroImage))
-//                .resizable()
-//                .frame(width: 130, height: 130)
-//            Text(perfume.brandName)
-//                .unredacted()
-////                .fontWeight(.medium)
-//                .foregroundColor(.black)
-//                .frame(width: 130, alignment: .leading)
-//                .lineLimit(1)
-//
-//            Text(perfume.displayName)
-//                .font(.system(size: 14))
-//                .foregroundColor(.black)
-//                .frame(width: 130, alignment: .leading)
-//                .lineLimit(1)
-//
-//            HStack{
-//                Image(systemName: perfume.likedPeople.contains("userId") ? "heart.fill" : "heart")
-//                    .resizable()
-//                    .frame(width: 13, height: 12)
-//                    .padding(.trailing, -5)
-//                Text("\(perfume.likedPeople.count)")
-//                    .font(.system(size: 14))
-//                Image(systemName: "message")
-//                    .resizable()
-//                    .frame(width: 13, height: 13)
-//                    .padding(.trailing, -5)
-//                Text("\(perfume.commentCount)" )
-//                    .font(.system(size: 14))
-//            }
-//            .foregroundColor(.black)
-//            .padding(.top, -7)
-//            .padding(.leading, 2)
-//        }
-//    }
-//}
-
 struct PerfumeCell: View {
     let perfume: Perfume
     var frameWidth: CGFloat = 130
     @State private var shouldAnimate: Bool = false
-//    @Binding var show: Bool
-//    var animation: Namespace.ID
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -124,11 +80,6 @@ struct PerfumeCell: View {
         .onDisappear {
             shouldAnimate = false
         }
-//        .onTapGesture {
-//            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-//                show.toggle()
-//            }
-//        }
     }
 }
 
