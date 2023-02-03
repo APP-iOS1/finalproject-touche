@@ -10,12 +10,14 @@ import SwiftUI
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestoreSwift
-@MainActor
+
 struct HomeView: View {
     
     @State private var isShowingPromotion: Bool = true
     @State private var perfumes: [Perfume] = []
     @StateObject var homewViewModel = HomeViewModel()
+    
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
     var rows: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
@@ -24,28 +26,6 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
-                    // MARK: 프로모션
-                    /*
-                     NavigationLink {
-                     PerfumeDescriptionView()
-                     } label: {
-                     Rectangle()
-                     .frame(height: 350)
-                     .overlay(alignment: .top) {  // 0130 수정 alignment: .bottom을 .top으로 바꿔주었음
-                     
-                     HStack{
-                     Text("Select Your \nPerfume Colour")
-                     .font(.largeTitle)
-                     .fontWeight(.semibold)
-                     .foregroundColor(.white)
-                     Spacer()
-                     }
-                     }
-                     .padding()
-                     .background(.black)
-                     }
-                     */
-                    
                     Rectangle()
                         .frame(height: 200)
                         .overlay(alignment: .top) {
@@ -103,7 +83,7 @@ struct HomeView: View {
                                         PerfumeDetailView(perfume: perfume)
                                     } label: {
                                         PerfumeCell(perfume: perfume)
-                                        //                                        PerfumeCellModified(perfume: perfume, show: $show, animation: animation)
+//                                        PerfumeCellModified(perfume: perfume, show: $show, animation: animation)
                                     }
                                 }
                             }
@@ -111,25 +91,7 @@ struct HomeView: View {
                             .padding(.top, -11)
                         }
                         .frame(height: 240)
-                        .onAppear {
-//                            perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
-                        }
-                        
-                        //                    // MARK: 브랜드 검색 순위
-                        //                    Text("BRAND TOP 7")
-                        //                        .modifier(TextViewModeifier())
-                        //                        .padding(.bottom, -15)
-                        //
-                        //                    ForEach(mostSearchedBrands, id: \.self) { brand in
-                        //                        Text(brand)
-                        //                        //                            .font(.system(size: 25))
-                        //                            .font(.callout)
-                        //                            .bold()
-                        //                            .fontWeight(.regular)
-                        //                            .foregroundColor(.black)
-                        //                            .lineSpacing(4.5)
-                        //                            .padding(.leading)
-                        //                    }
+
                         // MARK: 최근 클릭한 향수
                         VStack(alignment: .leading, spacing: 0.0) {
                             HStack(alignment: .bottom) {
@@ -198,24 +160,22 @@ struct HomeView: View {
                          }
                          */
                     }
-                    //                // MARK: - NotoSans 글꼴 이름 찾기
-                    //                .onAppear{
-                    //                    UIFont.familyNames.sorted().forEach { familyName in
-                    //                        print("*** \(familyName) ***")
-                    //                        UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
-                    //                            print("\(fontName)")
-                    //                        }
-                    //                        print("---------------------")
-                    //                    }
-                    //                }
                 }
                 .onAppear{
+                    if (userInfoStore.user != nil) {    //  로그인이 아닌 상태일 때
+                        
+                        //  **비동기 처리**
+                        userInfoStore.fetchUser(user: userInfoStore.user)   //  애가 끝나기 전에
+                        homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: userInfoStore.userInfo?.recentlyPerfumesId ?? [])  //  너가 실행됨
+                    } else {    //  로그인 했을 경우
+                     
+                        let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+                        homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: recentlyPerfumesId)
+                    }
+                    
                     let selectedScentType = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
-                    let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
-                    //                let recentlyPerfumesId: [String] = []
-                    homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: recentlyPerfumesId)
+                    
                     homewViewModel.filterRecommendedPerfumes(selectedScentTypes: selectedScentType)
-                    print(recentlyPerfumesId)
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                     Image(systemName: "magnifyingglass").foregroundColor(.black)
@@ -228,18 +188,6 @@ struct HomeView: View {
                 })
             }
         }
-        //        .toolbar(content: {
-        //            ToolbarItem {
-        //                NavigationLink {
-        //                    SearchView()
-        //                } label: {
-        //                    Image(systemName: "magnifyingglass")
-        //                        .foregroundColor(.black)
-        //                }
-        //            }
-        //        })
-        //        .padding(.top, 0.1)
-        //        .padding(.bottom, 30)
     }
 }
 struct TextViewModeifier: ViewModifier {
@@ -255,9 +203,9 @@ struct TextViewModeifier: ViewModifier {
     }
 }
 
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView()
-//            .environmentObject(PerfumeStore())
-//    }
-//}
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView()
+            .environmentObject(UserInfoStore())
+    }
+}

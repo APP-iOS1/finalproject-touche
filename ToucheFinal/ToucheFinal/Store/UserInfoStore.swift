@@ -60,7 +60,8 @@ final class UserInfoStore: ObservableObject{
     /// - 유저의 `uid`를 이용해 Firestore의 uid document에서 데이터를 불러온다.
     func fetchUser(user: User?) {
         guard let uid = user?.uid else { return }
-        database.document(uid).getDocument { [weak self] snapshot, _ in
+        
+        database.document(uid).getDocument() { [weak self] snapshot, _ in
             if let snapshot = snapshot {
                 do {
                     self?.userInfo = try snapshot.data(as: UserInfo.self)

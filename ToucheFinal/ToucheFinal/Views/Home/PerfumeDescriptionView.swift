@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PerfumeDescriptionView: View {
-    @State var seletedColors = (UserDefaults.standard.array(forKey: "selectedFragranceTypes") as? [String] ?? [])
+    @State var seletedColors = (UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? [])
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var perfumeColors: [PerfumeColor] = PerfumeColor.types
     
@@ -18,7 +18,7 @@ struct PerfumeDescriptionView: View {
                 Text("Select: ")
                     .font(.title)
                     .fontWeight(.bold)
-                    //.padding(.leading, 20)
+                //.padding(.leading, 20)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(seletedColors, id: \.self) { color in
@@ -28,11 +28,13 @@ struct PerfumeDescriptionView: View {
                         }
                     }
                 }
+                .padding(.leading, -5)
+                
                 Divider()
             }
             .padding(.leading, 20)
             
-            PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), perfumeColour: perfumeColors)
+            PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), selectedColours: $seletedColors, perfumeColour: perfumeColors)
                 .padding(.top, -8)
         }
         .toolbar {
@@ -60,30 +62,79 @@ struct PerfumeDescriptionView_Previews: PreviewProvider {
 struct PerfumeDescriptionDetailView: View {
     
     @State var flags: [Bool]
+    @Binding var selectedColours: [String]
+    
     var perfumeColour: [PerfumeColor]
     
     var body: some View {
-        List {
+        ScrollView {
             ForEach(Array(perfumeColour.enumerated()), id: \.1.id) { idx, value in
-                DisclosureGroup(isExpanded: $flags[idx]) {
-                    ForEach(value.description ?? [], id: \.self) { desc in
-                        Text(desc)
-                    }
-                } label: {
+                /*
+                 DisclosureGroup(isExpanded: $flags[idx]) {
+                 ForEach(value.description ?? [], id: \.self) { desc in
+                 Text(desc)
+                 }
+                 } label: {
+                 HStack {
+                 Circle()
+                 .fill(value.color)
+                 .frame(width: 30, height: 30)
+                 
+                 Text(value.name)
+                 }
+                 }
+                 .contentShape(Rectangle())
+                 .onTapGesture {
+                 withAnimation {
+                 self.flags[idx].toggle()
+                 }
+                 }
+                 */
+                
+                HStack {
                     HStack {
                         Circle()
                             .fill(value.color)
                             .frame(width: 30, height: 30)
                         
                         Text(value.name)
+                            .fontWeight(.bold)
                     }
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    withAnimation {
-                        self.flags[idx].toggle()
+                    //  .border(.black)
+                    .onTapGesture {
+                        if let index = selectedColours.firstIndex(of: value.name) {
+                            
+                            if (selectedColours.count > 1) {
+                                
+                                selectedColours.remove(at: index)
+                            }
+                        } else {
+                            
+                            selectedColours.append(value.name)
+                        }
+                        
+                        UserDefaults.standard.set(selectedColours, forKey: "selectedScentTypes")
                     }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .rotationEffect(Angle(degrees: flags[idx] ? 90 : 0))
+                        .onTapGesture {
+                            withAnimation {
+                                self.flags[idx].toggle()
+                            }
+                        }
                 }
+                .padding(.horizontal)
+                .padding(.top, 10)
+                
+                if (flags[idx]) {
+                    Text(value.description?[0] ?? "")
+                        .padding([.horizontal, .bottom])
+                }
+                
+                Divider()
             }
         }
         .listStyle(.plain)

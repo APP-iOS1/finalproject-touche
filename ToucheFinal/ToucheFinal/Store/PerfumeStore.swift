@@ -42,6 +42,7 @@ class PerfumeStore: ObservableObject {
                 snapshot.documentChanges.forEach { diff in
                     do {
                         let perfume = try diff.document.data(as: Perfume.self)
+                        
                         switch diff.type {
                         case .added:
                             self?.perfumes.append(perfume)
