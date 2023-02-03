@@ -9,14 +9,14 @@ import SwiftUI
 
 import SwiftUI
 import FirebaseAuth
-
+import FirebaseFirestoreSwift
+@MainActor
 struct HomeView: View {
-    @State private var show = true
-    @Namespace private var animation
-    @State private var hasScrolled = false
-    
-    @EnvironmentObject var perfumeStore: PerfumeStore
-    @State var isShowingPromotion: Bool = true
+
+    @State private var isShowingPromotion: Bool = true
+    @State private var perfumes: [Perfume] = []
+    @StateObject var homewViewModel = HomeViewModel()
+   
     var rows: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
     
@@ -98,7 +98,7 @@ struct HomeView: View {
                         
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: 24.0) {
-                                ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
+                            ForEach(homewViewModel.recomendedPerfume.prefix(6), id: \.self.perfumeId) { perfume in
                                     NavigationLink {
                                         PerfumeDetailView(perfume: perfume)
                                     } label: {
@@ -114,7 +114,6 @@ struct HomeView: View {
                         .onAppear {
                             perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
                         }
-                    }
                     
                     //                    // MARK: 브랜드 검색 순위
                     //                    Text("BRAND TOP 7")
@@ -147,7 +146,7 @@ struct HomeView: View {
                         }
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: 24.0) {
-                                ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
+                            ForEach(homewViewModel.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
                                     NavigationLink {
                                         PerfumeDetailView(perfume: perfume)
                                     } label: {
@@ -209,6 +208,14 @@ struct HomeView: View {
                 //                    }
                 //                }
             }
+            .onAppear{
+                let selectedScentType = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+                let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+//                let recentlyPerfumesId: [String] = []
+                homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: recentlyPerfumesId)
+                homewViewModel.filterRecommendedPerfumes(selectedScentTypes: selectedScentType)
+                print(recentlyPerfumesId)
+            }
             .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                 Image(systemName: "magnifyingglass").foregroundColor(.black)
             })
@@ -247,9 +254,9 @@ struct TextViewModeifier: ViewModifier {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-            .environmentObject(PerfumeStore())
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView()
+//            .environmentObject(PerfumeStore())
+//    }
+//}

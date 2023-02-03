@@ -241,6 +241,9 @@ struct PerfumeDetailView: View {
                             .padding(.bottom, 40)
                         }
                     }//ScrollView
+                    .onAppear{
+                        updateRecentlyPerfumes()
+                    }
                     .navigationTitle(perfume.displayName)
                     .navigationBarTitleDisplayMode(.inline)
                     .fullScreenCover(isPresented: $isShowingWriteComment){
@@ -263,6 +266,19 @@ struct PerfumeDetailView: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
+    }
+    func updateRecentlyPerfumes() {
+        var recentlyPerfumesId: [String] = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+        if let perfumeIndex = recentlyPerfumesId.firstIndex(of: perfume.perfumeId) {
+            recentlyPerfumesId.remove(at: perfumeIndex)
+            recentlyPerfumesId.insert(perfume.perfumeId, at: 0)
+        } else {
+            if recentlyPerfumesId.count == 7 {
+                recentlyPerfumesId.removeLast()
+            }
+            recentlyPerfumesId.insert(perfume.perfumeId, at: 0)
+        }
+        UserDefaults.standard.setValue(recentlyPerfumesId, forKey: "recentlyPerfumesId")
     }
 }
 
