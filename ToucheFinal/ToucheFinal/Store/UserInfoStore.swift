@@ -15,7 +15,6 @@ final class UserInfoStore: ObservableObject{
     @Published var recentlyPerfumesId: [String] = []
     @Published var notice = ""
     @Published var errorMessage = ""
-    @Published var currentUserNickname = Auth.auth().currentUser?.displayName
     @Published var isDuplicated: Bool?
     private let database = Firestore.firestore().collection("User")
 

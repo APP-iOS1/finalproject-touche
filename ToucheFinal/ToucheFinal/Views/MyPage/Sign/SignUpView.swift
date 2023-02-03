@@ -13,7 +13,7 @@ struct SignUpView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     @State var email: String = ""
-    @State private var isDuplicatedCheck: Bool = true
+    @State private var emailCheck: Bool?
     @State private var nickNameCheck: Bool?
     @State var password: String = ""
     @State var checkPassword: String = ""
@@ -59,18 +59,16 @@ struct SignUpView: View {
                 Group {
                     HStack {
                         Text("Email")
-                        // false = 합격(중복x사용가능ㅇ) , true = 탈락(중복임 바꿔야해)
-                        if userInfoStore.isDuplicated == false {
-                            Image(systemName: "checkmark.circle")
-                                .foregroundColor(.green)
-                        }
                         Spacer()
                         
                         Button {
                             userInfoStore.duplicateCheck(emailAddress: email)
                         } label: {
-                            Text("중복확인")
+                            Text("Check")
+                                .underline()
+                                .foregroundColor(email.isEmpty ? .gray : .black)
                         }
+                        .disabled(email.isEmpty)
                     }
                     TextField("Enter email", text: $email)
                         .textInputAutocapitalization(.never) // 대문자 방지
@@ -143,8 +141,11 @@ struct SignUpView: View {
                                 }
                             }
                         } label: {
-                            Text("중복확인")
+                            Text("Check")
+                                .underline()
+                                .foregroundColor(nickName.isEmpty ? .gray : .black)
                         }
+                        .disabled(nickName.isEmpty)
 
                     }
                     
@@ -156,7 +157,7 @@ struct SignUpView: View {
 //                        .padding(.bottom, 10)
                     
                     // 중복된 닉네임-true
-                    if nickNameCheck == true {
+                    if nickNameCheck == true && !nickName.isEmpty {
                         Text("Already exists.")
                             .font(.caption)
                             .foregroundColor(.red)
@@ -170,6 +171,7 @@ struct SignUpView: View {
             
             Button {
                 userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
+                userInfoStore.isDuplicated = nil
                 dismiss()
             } label: {
                 Text("Sign Up")
