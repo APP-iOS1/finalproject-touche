@@ -39,7 +39,23 @@ class PerfumeStore: ObservableObject {
                 guard let snapshot = snapshot else { return }
                 self?.perfumes = snapshot.documents.compactMap { query -> Perfume? in
                     do {
-                        return try query.data(as: Perfume.self)
+                        let perfume = try diff.document.data(as: Perfume.self)
+                        
+                        switch diff.type {
+                        case .added:
+                            self?.perfumes.append(perfume)
+                        case .modified:
+                            for index in 0..<(self?.perfumes.count ?? 0) {
+                                if self?.perfumes[index].perfumeId == perfume.perfumeId {
+                                    self?.perfumes[index] = perfume
+                                }
+                            }
+                        case .removed:
+                            guard let perfumeIndex = self?.perfumes.firstIndex(of: perfume) else {return}
+                            self?.perfumes.remove(at: perfumeIndex)
+                        default :
+                            break
+                        }
                     } catch {
                         return nil
                     }

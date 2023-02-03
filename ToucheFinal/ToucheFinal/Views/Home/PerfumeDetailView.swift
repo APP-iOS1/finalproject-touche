@@ -110,11 +110,162 @@ struct PerfumeDetailView: View {
 //                                        Text("")
 //                                    })
                                     
-                                    Text("\(perfume.likedPeople.count)")
-                                        .padding(.top, -8)
-                                        .foregroundColor(.black)
-                                    //                                    .fontWeight(.light)
-                                }
+//                                     Text("\(perfume.likedPeople.count)")
+//                                         .padding(.top, -8)
+//                                         .foregroundColor(.black)
+//                                         .fontWeight(.light)
+//                                 }
+//                             }
+//                             .padding(.trailing)
+//                             .modifier(SignInFullCover(isShowing: $navLinkActive))
+//                         }
+//                         .frame(width: abs(geometry.size.width - 20), alignment: .leading)
+//                         .padding(.leading, 20)
+//                         Divider()
+//                             .padding(.bottom)
+                        
+//                         if userInfoStore.user == nil {
+//                             VStack(alignment: .leading, spacing: 5){
+//                                 Text("FragranceFamily")
+//                                     .bold()
+//                                 Text(perfume.fragranceFamily)
+//                                     .padding(.bottom)
+//                                 Text("ScentType")
+//                                     .bold()
+//                                 Text(perfume.scentType)
+//                                     .padding(.bottom)
+//                                 Text("KeyNote")
+//                                     .bold()
+//                                 ForEach(perfume.keyNotes.indices, id: \.self) { index in    Text(perfume.keyNotes[index])
+//                                 }
+                                
+//                                 Text("Descriptions")
+//                                     .bold()
+//                                     .padding(.top)
+//                                 Text(perfume.fragranceDescription)
+//                                     .padding(.bottom)
+//                                 Group{
+//                                     HStack{
+//                                         Text("Comments")
+//                                             .font(.title2)
+//                                             .bold()
+//                                         Spacer()
+//                                         Button {
+//                                             alertActive = true
+                                            
+//                                             //MARK: alert없이 바로 로그인페이지로 이동시키기
+//                                             //                                        if userInfoStore.user != nil {
+//                                             //                                            isShowingWriteComment = true
+//                                             //                                        } else {
+//                                             //                                            navLinkActive = true
+//                                             //                                        }
+//                                         } label: {
+//                                             Text("댓글 작성하기")
+//                                                 .underline()
+//                                         }.foregroundColor(.black)
+//                                             .alert(
+//                                                 """
+//                                                 If you want to use Liked / Comments,
+//                                                 Please sign in
+//                                                 """
+//                                                 ,isPresented: $alertActive
+//                                             ) {
+//                                                 Button("Cancel", role: .cancel) {}
+//                                                 Button {
+//                                                     navLinkActive = true
+//                                                 } label: {
+//                                                     Text("Sign In")
+//                                                 }
+//                                             }
+//                                     }
+//                                     ForEach(commentDummy, id: \.self.commentId) { comment in
+//                                         Divider()
+//                                         CommentCell(comment: comment)
+//                                         //                                Divider()
+//                                     }
+//                                 }
+//                             }
+//                             .id(reviewId)
+//                             .padding(.horizontal, 20)
+//                             .padding(.bottom, 40)
+//                             .modifier(SignInFullCover(isShowing: $navLinkActive))
+                            
+//                         } else {
+//                             VStack(alignment: .leading, spacing: 5){
+//                                 Text("FragranceFamily")
+//                                     .bold()
+//                                 Text(perfume.fragranceFamily)
+//                                     .padding(.bottom)
+//                                 Text("ScentType")
+//                                     .bold()
+//                                 Text(perfume.scentType)
+//                                     .padding(.bottom)
+//                                 Text("KeyNote")
+//                                     .bold()
+//                                 ForEach(perfume.keyNotes.indices, id: \.self) { index in    Text(perfume.keyNotes[index])
+//                                 }
+                                
+//                                 Text("Descriptions")
+//                                     .bold()
+//                                     .padding(.top)
+//                                 Text(perfume.fragranceDescription)
+//                                     .padding(.bottom)
+//                                 Group{
+//                                     HStack{
+//                                         Text("Comments")
+//                                             .font(.title2)
+//                                             .bold()
+//                                         Spacer()
+//                                         Button {
+//                                             isShowingWriteComment = true
+                                            
+//                                             //MARK: alert없이 바로 로그인페이지로 이동시키기
+//                                             //                                        if userInfoStore.user != nil {
+//                                             //                                            isShowingWriteComment = true
+//                                             //                                        } else {
+//                                             //                                            navLinkActive = true
+//                                             //                                        }
+//                                         } label: {
+//                                             Text("댓글 작성하기")
+//                                                 .underline()
+//                                         }.foregroundColor(.black)
+//                                     }
+//                                     ForEach(commentDummy, id: \.self.commentId) { comment in
+//                                         Divider()
+//                                         CommentCell(comment: comment)
+//                                         //                                Divider()
+//                                     }
+//                                 }
+//                             }
+//                             .id(reviewId)
+//                             .padding(.horizontal, 20)
+//                             .padding(.bottom, 40)
+//                         }
+//                     }//ScrollView
+//                     .navigationTitle(perfume.displayName)
+//                     .navigationBarTitleDisplayMode(.inline)
+//                     .fullScreenCover(isPresented: $isShowingWriteComment){
+//                         WriteCommentView(perfume: perfume, isShowingWriteComment: $isShowingWriteComment)
+// >>>>>>> origin/develop
+                    }
+                }
+            } // VSTACK
+            
+            Spacer()
+            
+            // Like
+            VStack(spacing: 16.0){
+                Button {
+                    switch userInfoStore.currentUser {
+                    case nil:
+                        alertActive = true
+                    default:
+                        if perfume.likedPeople.contains(userInfoStore.currentUser ?? "") {
+                            // 해당 uid 제거
+                            Task {
+                                await perfumeStore.deleteLikePerfume(perfume: perfume, userId: userInfoStore.currentUser ?? "")
+//                                perfume.likedPeople.remove(at: perfume.likedPeople.firstIndex(of: userInfoStore.currentUser ?? "") ?? 0)
+                                perfume = perfumeStore.perfumes.filter{ $0.perfumeId == perfume.perfumeId }[0]
                             }
                             .padding(.trailing)
                             .fullScreenCover(isPresented: $navLinkActive, content: {
@@ -266,7 +417,36 @@ struct PerfumeDetailView: View {
                     .foregroundColor(.black)
                 }
             }
-            .navigationBarBackButtonHidden(true)
+            .tint(.primary)
+            
+            ForEach(commentDummy, id: \.self.commentId) { comment in
+                Divider()
+                CommentCell(comment: comment)
+            }
+        }
+        .onAppear{
+            updateRecentlyPerfumes()
+        }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        .padding(.horizontal, 20)
+        .autocapitalization(.none)
+        .autocorrectionDisabled(true)
+        .scrollDismissesKeyboard(.interactively)
+    }
+    func updateRecentlyPerfumes() {
+        var recentlyPerfumesId: [String] = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+        if let perfumeIndex = recentlyPerfumesId.firstIndex(of: perfume.perfumeId) {
+            recentlyPerfumesId.remove(at: perfumeIndex)
+            recentlyPerfumesId.insert(perfume.perfumeId, at: 0)
+        } else {
+            if recentlyPerfumesId.count == 7 {
+                recentlyPerfumesId.removeLast()
+            }
+            recentlyPerfumesId.insert(perfume.perfumeId, at: 0)
+        }
+        UserDefaults.standard.setValue(recentlyPerfumesId, forKey: "recentlyPerfumesId")
     }
 }
 
