@@ -14,7 +14,7 @@ struct ToucheFinalApp: App {
     init() {
             FirebaseApp.configure()
             PerfumeStore.shared.read()
-            UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
+//            UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
         }
     @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
     

@@ -16,7 +16,7 @@ struct EditMyProfileView: View {
     @State private var showCameraSheet = false
     @State private var editName: String = ""
     @State private var editIsValid: Bool =  false
-    @State private var nickNameCheck: Bool = false
+    @State private var nickNameCheck: Bool = false  // nickname t/f확인용
     @State private var editImage: UIImage = UIImage()
     @State private var editNation: String = ""
   
@@ -156,18 +156,17 @@ struct EditMyProfileView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-
                     Button("Done"){
                         Task {
                             // TODO: 닉네임 수정시 중복확인하는 부분 done에서는 안돼는 상황
-//                            do {
-//                                let target = try await userInfoStore.isNicknameDuplicated(nickName: editName)
-//                                nickNameCheck = target
-//                            } catch {
-//                                throw(error)
-//                            }
+                            do {
+                                let target = try await userInfoStore.isNicknameDuplicated(nickName: editName)
+                                nickNameCheck = target
+                            } catch {
+                                throw(error)
+                            }
                             
-                            if editIsValid {
+                            if editIsValid && nickNameCheck == false {
                                 // 수정 완료 기능
                                 image = editImage
                                 userNickname = editName
