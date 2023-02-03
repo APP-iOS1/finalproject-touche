@@ -21,27 +21,41 @@ import FirebaseFirestoreSwift
 ///     - 해결 : UserInfoStore
 
 class PerfumeStore: ObservableObject {
+    static let shared = PerfumeStore()
+    
     @Published var perfumes: [Perfume] = []
     @Published var topComment20Perfumes: [Perfume] = []
     @Published var recentlyViewed7Perfumes: [Perfume] = []
     @Published var recentlyViewedPerfumeIds: [String] = []
-    let path = Firestore.firestore()
     
-    //    init() {
-    //        read()
-    //    }
+    private init() {}
+    
+    let path = Firestore.firestore()
     
     var listener: ListenerRegistration?
     
     func read() {
-        self.listener = path.collection("Perfume")
+        path.collection("Perfume")
             .addSnapshotListener { [weak self] snapshot, _ in
                 guard let snapshot = snapshot else { return }
-                self?.perfumes = snapshot.documents.compactMap { query -> Perfume? in
+                
+                snapshot.documentChanges.forEach { diff in
                     do {
-                        return try query.data(as: Perfume.self)
+                        let perfume = try diff.document.data(as: Perfume.self)
+                        switch diff.type {
+                        case .added:
+                            self?.perfumes.append(perfume)
+                        case .modified:
+                            guard let perfumeIndex = self?.perfumes.firstIndex(of: perfume) else {return}
+                            self?.perfumes[perfumeIndex] = perfume
+                        case .removed:
+                            guard let perfumeIndex = self?.perfumes.firstIndex(of: perfume) else {return}
+                            self?.perfumes.remove(at: perfumeIndex)
+                        default :
+                            break
+                        }
                     } catch {
-                        return nil
+                        
                     }
                 }
             }

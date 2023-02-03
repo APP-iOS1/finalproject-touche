@@ -10,41 +10,48 @@ import SDWebImageSwiftUI
 
 struct PerfumeCell: View {
     let perfume: Perfume
+    var frameWidth: CGFloat = 130
     @State private var shouldAnimate: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 2.0) {
+        VStack(alignment: .leading, spacing: 10) {
             WebImage(url: URL(string: perfume.heroImage))
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 130)
-            
-            Text(perfume.brandName)
-                .font(.headline)
-                .foregroundColor(.primary)
-                .lineLimit(1)
-            
-            Text(perfume.displayName)
-                .font(.footnote)
-                .fontWeight(.light)
-                .foregroundColor(.primary)
-                .lineLimit(1)
-            
-            HStack(alignment: .center) {
-                Image(systemName: perfume.likedPeople.contains("userId") ? "heart.fill" : "heart")
-                    .resizable()
-                    .frame(width: 13, height: 12)
-                Text("\(perfume.likedPeople.count)")
-                    .font(.system(size: 14))
-                Image(systemName: "message")
-                    .resizable()
-                    .frame(width: 13, height: 13)
-                Text("\(perfume.commentCount)" )
-                    .font(.system(size: 14))
+                .frame(width: frameWidth)
+                .padding(.top, 20)
+//                .matchedGeometryEffect(id: "image", in: animation)
+            VStack(alignment: .leading) {
+                Text(perfume.brandName)
+                    .font(.footnote)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+                
+                Text(perfume.displayName)
+                    .font(.footnote)
+                    .fontWeight(.light)
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+            }
+            HStack(alignment: .center, spacing: 10) {
+                HStack(spacing: 3) {
+                    Image(systemName: perfume.likedPeople.contains("userId") ? "heart.fill" : "heart")
+                        .resizable()
+                        .frame(width: 13, height: 12)
+                    Text("\(perfume.likedPeople.count)")
+                        .font(.system(size: 14))
+                }
+                HStack(spacing: 3) {                    Image(systemName: "message")
+                        .resizable()
+                        .frame(width: 13, height: 13)
+                    Text("\(perfume.commentCount)" )
+                        .font(.system(size: 14))
+                }
             }
             .foregroundColor(.secondary)
         }
-        .frame(width: 130)
+        .frame(width: frameWidth)
         .padding(10.0)
         .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .circular))
         .background(

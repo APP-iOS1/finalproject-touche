@@ -13,6 +13,8 @@ struct SignUpView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     @State var email: String = ""
+    @State private var isDuplicatedCheck: Bool = true
+    @State private var nickNameCheck: Bool = false
     @State var password: String = ""
     @State var checkPassword: String = ""
     @State var nickName: String = ""
@@ -31,12 +33,17 @@ struct SignUpView: View {
     var isPasswordSame: Bool {
         return ((password == checkPassword) && !password.isEmpty) || checkPassword.isEmpty
     }
+    
+    // 닉네임 확인 - 중복 false && !nickName.isEmpty
+    var isNickNameSatisfied: Bool {
+        return nickNameCheck == false && !nickName.isEmpty
+    }
 
     // 회원가입 버튼
     var isSignUpDisabled: Bool {
         
         // 조건을 다 만족하면 회원가입 버튼 abled
-        if isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && !nickName.isEmpty {
+        if isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && isNickNameSatisfied {
             return false
         } else { return true }// 하나라도 만족하지 않는다면 disabled
     }
@@ -45,19 +52,42 @@ struct SignUpView: View {
         VStack{
             VStack(alignment: .leading){
                 Group {
-                    Text("Email")
-                    
+                    HStack {
+                        Text("Email")
+                        
+                        Spacer()
+                        
+                        Button {
+                            userInfoStore.duplicateCheck(emailAddress: email)
+                        } label: {
+                            Text("중복확인")
+                        }
+                    }
                     TextField("Enter email", text: $email)
                         .textInputAutocapitalization(.never) // 대문자 방지
                         .disableAutocorrection(true) // 자동수정 방지
                         .keyboardType(.emailAddress) // 이메일용 키보드
                         .frame(height: 40)
                         .padding(.top, -6)
-                        
-                    Text(!isEmailRuleSatisfied ? "Please enter a vaild email." : "")
-                        .font(.caption)
-                        .foregroundColor(.red)
-                        .padding(.top, -9)
+                    
+                    //MARK: 중복확인을 통과했을 때 어떻게 처리할지?
+                    //signup 버튼과 같이 이메일 중복여부를 체크한 이후 텍스트필드에서 입력을 하나 지우면
+                    //여전히 중복됐음을 알리는 텍스트가 잔존하는 문제
+                    if !isEmailRuleSatisfied {
+                        Text("Please enter a vaild email.")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .padding(.top, -9)
+                    } else if userInfoStore.isDuplicated {
+                        Text("This email address already exists.")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .padding(.top, -9)
+                    }
+                    else {
+                        Text("")
+                            .padding(.top, -9)
+                    }
                 }
                 .padding(.vertical, 1)
                 
@@ -87,14 +117,36 @@ struct SignUpView: View {
                 .padding(.vertical, 1)
                 
                 Group{
-                    Text("User name")
+                    HStack {
+                        Text("User name")
+                        Spacer()
+                        Button {
+                            Task {
+                                do {
+                                    let target = try await userInfoStore.isNicknameDuplicated(nickName: nickName)
+                                    nickNameCheck = target
+                                } catch {
+                                    throw(error)
+                                }
+                            }
+                        } label: {
+                            Text("중복확인")
+                        }
+
+                    }
                     
                     TextField("Enter user name", text: $nickName)
                         .textInputAutocapitalization(.never) // 대문자 방지
                         .disableAutocorrection(true) // 자동수정 방지
                         .frame(height: 40)
                         .padding(.top, -6)
-                        .padding(.bottom, 10)
+//                        .padding(.bottom, 10)
+                    
+                    Text(nickNameCheck ? "Already exists." : "")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                        .padding(.top, -9)
+                    //
                 }
             }
             .padding()
