@@ -350,9 +350,6 @@ private extension PerfumeDetailView {
 //                             .padding(.bottom, 40)
 //                         }
 //                     }//ScrollView
-//                     .onAppear{
-//                         updateRecentlyPerfumes()
-//                     }
 //                     .navigationTitle(perfume.displayName)
 //                     .navigationBarTitleDisplayMode(.inline)
 //                     .fullScreenCover(isPresented: $isShowingWriteComment){
@@ -469,6 +466,9 @@ private extension PerfumeDetailView {
                 Divider()
                 CommentCell(comment: comment)
             }
+        }
+        .onAppear{
+            updateRecentlyPerfumes()
         }
         .onTapGesture {
             hideKeyboard()
