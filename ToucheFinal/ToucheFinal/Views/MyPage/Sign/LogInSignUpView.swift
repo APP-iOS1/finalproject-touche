@@ -9,10 +9,10 @@ import SwiftUI
 import SegmentedPicker
 
 struct LogInSignUpView: View {
-    @State var selectedIndex: Int?
+    @State var selectedIndex: Int = 0
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     let titles: [String] = ["Sign In", "Sign Up"]
-    
+    var backButtonMark = "chevron.left"
     var body: some View {
         VStack {
             Spacer()
@@ -21,7 +21,7 @@ struct LogInSignUpView: View {
                     titles,
                     selectedIndex: Binding(
                         get: { selectedIndex },
-                        set: { selectedIndex = $0}),
+                        set: { selectedIndex = $0 ?? 0}),
                     selectionAlignment: .bottom,
                     content: { item, isSelected in
                         Text(item)
@@ -60,7 +60,7 @@ struct LogInSignUpView: View {
                 Button {
                     self.mode.wrappedValue.dismiss()
                 } label: {
-                    Image(systemName: "chevron.left")
+                    Image(systemName: backButtonMark)
                 }
                 .foregroundColor(.black)
             }

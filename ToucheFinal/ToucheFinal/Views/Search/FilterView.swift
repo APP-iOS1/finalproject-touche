@@ -13,6 +13,7 @@ final class FilterViewModel: ObservableObject {
     @Published var colors: [PerfumeColor] = []
     @Published var canApplying: Bool = false
     @Published var tab: Tab = .brand
+    @Published var search: String = ""
 
     // grouping: [https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298](https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298)
     let brandSections = Dictionary(grouping: Brand.dummy) { (brand) -> Character in
@@ -98,6 +99,7 @@ final class FilterViewModel: ObservableObject {
 struct FilterView: View {
     @StateObject var vm = FilterViewModel()
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8.0) {
@@ -110,6 +112,7 @@ struct FilterView: View {
         .padding(.bottom, 40.0 + 30.0)
         // - BUTTON GROUP
         .overlay(alignment: .bottom, content: filterButtonGroupView)
+//        .searchable(text: $vm.search, placement: .NavigationBarDrawerDisplayMode.automatic, prompt: "Search")
         .navigationBarTitle("Filter")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -123,6 +126,7 @@ struct FilterView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+    
         
     }
 }
@@ -144,14 +148,10 @@ private extension FilterView {
             switch vm.tab {
             case .brand:
                 // Brand
-                HStack(alignment: .bottom) {
+                HStack(alignment: .center) {
                     Text("Brand ")
                         .font(.headline)
                         .fontWeight(.bold)
-                    Text(vm.brands.isEmpty ? "Choose the brand to see.." : "")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .fixedSize()
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
                             ForEach(vm.brands, id: \.self) { brand in
@@ -180,14 +180,10 @@ private extension FilterView {
                 
             case .color:
                 // Type
-                HStack(alignment: .bottom) {
+                HStack(alignment: .center) {
                     Text("Type ")
                         .font(.headline)
                         .fontWeight(.bold)
-                    Text(vm.colors.isEmpty ? "Choose the color to see.." : "")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .fixedSize()
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
                             ForEach(vm.colors, id: \.id) { perfumeColor in
@@ -272,112 +268,43 @@ private extension FilterView {
                     List(vm.brandSections.indices, id: \.self) { index in
                         Section(vm.brandSections[index].letter) {
                             ForEach(vm.brandSections[index].brands) { brand in
-                                HStack {
-                                    Image(systemName: "checkmark")
-                                        .opacity(vm.isSelectedBrand(brand) ? 1.0 : 0.0)
-                                    Text(brand.name)
+                                Button {
+                                    vm.isSelectedBrand(brand) ? vm.removeBrand(brand) : vm.appendBrand(brand)
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "checkmark")
+                                            .opacity(vm.isSelectedBrand(brand) ? 1.0 : 0.0)
+                                        Text(brand.name)
+                                    }
                                 }
                                 .id(brand)
-                                .onTapGesture{
-                                    vm.isSelectedBrand(brand) ? vm.removeBrand(brand) : vm.appendBrand(brand)
-                                }
                             }
                         }
                     }
                     .listStyle(.plain)
-                    // quick search
-                    .overlay(alignment: .trailing) {
-                        VStack(spacing: 2.0) {
-                            ForEach(vm.brandSections.indices, id: \.self) { index in
-                                Text(vm.brandSections[index].letter)
-                                    .fontWeight(.light)
-                                    .gesture(
-                                        TapGesture()
-                                            .onEnded({ _ in
-                                                if let brand = vm.brandSections[index].brands.first {
-                                                    proxy.scrollTo(brand, anchor: .top)
-                                                }
-                                            })
-                                    )
-                                    .gesture(
-                                        DragGesture()
-                                            .onChanged({ value in
-                                                let step = Int(value.translation.height / 21.5)
-                                                if (step > 0 && (step + index) < vm.brandSections.count - 1) {
-                                                    let brand = vm.brandSections[index+step].brands.first
-                                                    proxy.scrollTo(brand, anchor: .top)
-                                                } else if (step < 0 && (step + index) > -1),
-                                                  let brand = vm.brandSections[index+step].brands.first {
-                                                    proxy.scrollTo(brand, anchor: .top)
-                                                }
-                                            })
-                                    )
-                                    .foregroundColor(.primary)
-                            }
-                        }
-                        .padding(2.0)
-                        .background(Material.ultraThinMaterial)
-                        .clipShape(Capsule())
-                        .padding(.trailing, 8.0)
-                    }
                 }
             case .color:
                 ScrollViewReader { proxy in
                     List(vm.colorSections.indices, id: \.self) { index in
                         Section(vm.colorSections[index].letter) {
                             ForEach(vm.colorSections[index].colors) { color in
-                                HStack {
-                                    Image(systemName: "checkmark")
-                                        .opacity(vm.isSelectedColor(color) ? 1.0 : 0.0)
-                                    Circle()
-                                        .frame(width: 20)
-                                        .foregroundColor(color.color)
-                                    Text(color.name)
+                                Button {
+                                    vm.isSelectedColor(color) ? vm.removeColor(color) : vm.apppendColor(color)
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "checkmark")
+                                            .opacity(vm.isSelectedColor(color) ? 1.0 : 0.0)
+                                        Circle()
+                                            .frame(width: 20)
+                                            .foregroundColor(color.color)
+                                        Text(color.name)
+                                    }
                                 }
                                 .id(color)
-                                .onTapGesture{
-                                    vm.isSelectedColor(color) ? vm.removeColor(color) : vm.apppendColor(color)
-                                }
                             }
                         }
                     }
                     .listStyle(.plain)
-                    // quick search
-                    .overlay(alignment: .trailing) {
-                        VStack {
-                            ForEach(vm.colorSections.indices, id: \.self) { index in
-                                Text(vm.colorSections[index].letter)
-                                    .fontWeight(.light)
-                                    .gesture(
-                                        TapGesture()
-                                            .onEnded({ _ in
-                                                if let color = vm.colorSections[index].colors.first {
-                                                    proxy.scrollTo(color, anchor: .top)
-                                                }
-                                            })
-                                    )
-                                    .gesture(
-                                        DragGesture()
-                                            .onChanged({ value in
-                                                let step = Int(value.translation.height / 21.5)
-                                                if (step > 0 && (step + index) < vm.colorSections.count - 1) {
-                                                    let color = vm.colorSections[index+step].colors.first
-                                                    proxy.scrollTo(color, anchor: .top)
-                                                } else if (step < 0 && (step + index) > -1),
-                                                  let color = vm.colorSections[index+step].colors.first {
-                                                    proxy.scrollTo(color, anchor: .top)
-                                                }
-                                            })
-                                    )
-                                    .foregroundColor(.primary)
-                            }
-                        }
-                        .padding(2.0)
-                        .background(Material.ultraThinMaterial)
-                        .clipShape(Capsule())
-                        .padding(.trailing, 8.0)
-                    }
-                    
                 }
             }
         }
@@ -426,5 +353,8 @@ private extension FilterView {
         }
         .padding(.horizontal, 16.0)
         .padding(.bottom, 20.0)
+        .opacity(vm.canApplying ? 1.0 : 0.0)
+        .offset(y: vm.canApplying ? 0.0 : 100.0)
+        .animation(.spring(), value: vm.canApplying)
     }
 }

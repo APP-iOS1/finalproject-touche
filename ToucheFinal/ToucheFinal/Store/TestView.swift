@@ -37,6 +37,5 @@ struct TestView: View {
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
         TestView()
-            .environmentObject(PerfumeStore())
     }
 }
