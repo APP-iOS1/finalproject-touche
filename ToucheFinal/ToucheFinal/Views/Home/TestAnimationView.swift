@@ -4,7 +4,7 @@
 ////
 ////  Created by 이재희 on 2023/02/01.
 ////
-//
+/// fabula에서 가져온 파일 - 하트 애니메이션 효과
 //import SwiftUI
 //
 //public struct TestAnimationView: View {

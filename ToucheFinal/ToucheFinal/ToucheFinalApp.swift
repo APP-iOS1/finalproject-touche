@@ -22,7 +22,6 @@ struct ToucheFinalApp: App {
     
     var body: some Scene {
         WindowGroup {
-            //            TESTVIEWTS()
             PerfumeTabView()
                 .environmentObject(colorPalette)
                 .environmentObject(userInfoStore)

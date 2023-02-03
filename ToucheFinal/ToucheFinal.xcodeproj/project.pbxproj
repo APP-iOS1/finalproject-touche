@@ -44,26 +44,7 @@
 		61FE13252977DC3F003F0466 /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13242977DC3F003F0466 /* SearchFilterView.swift */; };
 		656A00E929792E08002E37E6 /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A00E829792E08002E37E6 /* DeleteAccountView.swift */; };
 		656A00EB29792FFD002E37E6 /* SelectNationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A00EA29792FFD002E37E6 /* SelectNationView.swift */; };
-		6571BCFA2988DD2000233538 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCE82988DD1F00233538 /* NotoSans-Bold.ttf */; };
-		6571BCFB2988DD2000233538 /* NotoSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCE92988DD1F00233538 /* NotoSans-MediumItalic.ttf */; };
-		6571BCFC2988DD2000233538 /* NotoSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCEA2988DD1F00233538 /* NotoSans-ThinItalic.ttf */; };
-		6571BCFD2988DD2000233538 /* NotoSans-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCEB2988DD1F00233538 /* NotoSans-ExtraLight.ttf */; };
-		6571BCFE2988DD2000233538 /* NotoSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCEC2988DD1F00233538 /* NotoSans-Black.ttf */; };
-		6571BCFF2988DD2000233538 /* NotoSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCED2988DD1F00233538 /* NotoSans-Italic.ttf */; };
-		6571BD002988DD2000233538 /* NotoSans-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCEE2988DD1F00233538 /* NotoSans-BlackItalic.ttf */; };
-		6571BD012988DD2000233538 /* NotoSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCEF2988DD1F00233538 /* NotoSans-LightItalic.ttf */; };
-		6571BD022988DD2000233538 /* NotoSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF02988DD2000233538 /* NotoSans-ExtraBold.ttf */; };
-		6571BD032988DD2000233538 /* NotoSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF12988DD2000233538 /* NotoSans-SemiBoldItalic.ttf */; };
-		6571BD042988DD2000233538 /* NotoSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF22988DD2000233538 /* NotoSans-Light.ttf */; };
-		6571BD052988DD2000233538 /* NotoSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF32988DD2000233538 /* NotoSans-Medium.ttf */; };
-		6571BD062988DD2000233538 /* NotoSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF42988DD2000233538 /* NotoSans-Thin.ttf */; };
-		6571BD072988DD2000233538 /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF52988DD2000233538 /* NotoSans-Regular.ttf */; };
-		6571BD082988DD2000233538 /* NotoSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF62988DD2000233538 /* NotoSans-ExtraBoldItalic.ttf */; };
-		6571BD092988DD2000233538 /* NotoSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF72988DD2000233538 /* NotoSans-BoldItalic.ttf */; };
-		6571BD0A2988DD2000233538 /* NotoSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF82988DD2000233538 /* NotoSans-SemiBold.ttf */; };
-		6571BD0B2988DD2000233538 /* NotoSans-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BCF92988DD2000233538 /* NotoSans-ExtraLightItalic.ttf */; };
 		657A08F92976596900E5B565 /* ToucheFinalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A08F82976596900E5B565 /* ToucheFinalApp.swift */; };
-		657A08FB2976596900E5B565 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A08FA2976596900E5B565 /* ContentView.swift */; };
 		657A08FD2976596A00E5B565 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657A08FC2976596A00E5B565 /* Assets.xcassets */; };
 		657A09002976596A00E5B565 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657A08FF2976596A00E5B565 /* Preview Assets.xcassets */; };
 		657A090A29765A5500E5B565 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 657A090929765A5500E5B565 /* FirebaseAuth */; };
@@ -139,27 +120,8 @@
 		656A00E829792E08002E37E6 /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
 		656A00EA29792FFD002E37E6 /* SelectNationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNationView.swift; sourceTree = "<group>"; };
 		656A00EC29795B5B002E37E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		6571BCE82988DD1F00233538 /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
-		6571BCE92988DD1F00233538 /* NotoSans-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-MediumItalic.ttf"; sourceTree = "<group>"; };
-		6571BCEA2988DD1F00233538 /* NotoSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-ThinItalic.ttf"; sourceTree = "<group>"; };
-		6571BCEB2988DD1F00233538 /* NotoSans-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-ExtraLight.ttf"; sourceTree = "<group>"; };
-		6571BCEC2988DD1F00233538 /* NotoSans-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Black.ttf"; sourceTree = "<group>"; };
-		6571BCED2988DD1F00233538 /* NotoSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Italic.ttf"; sourceTree = "<group>"; };
-		6571BCEE2988DD1F00233538 /* NotoSans-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-BlackItalic.ttf"; sourceTree = "<group>"; };
-		6571BCEF2988DD1F00233538 /* NotoSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		6571BCF02988DD2000233538 /* NotoSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-ExtraBold.ttf"; sourceTree = "<group>"; };
-		6571BCF12988DD2000233538 /* NotoSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		6571BCF22988DD2000233538 /* NotoSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Light.ttf"; sourceTree = "<group>"; };
-		6571BCF32988DD2000233538 /* NotoSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Medium.ttf"; sourceTree = "<group>"; };
-		6571BCF42988DD2000233538 /* NotoSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Thin.ttf"; sourceTree = "<group>"; };
-		6571BCF52988DD2000233538 /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
-		6571BCF62988DD2000233538 /* NotoSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		6571BCF72988DD2000233538 /* NotoSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-BoldItalic.ttf"; sourceTree = "<group>"; };
-		6571BCF82988DD2000233538 /* NotoSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-SemiBold.ttf"; sourceTree = "<group>"; };
-		6571BCF92988DD2000233538 /* NotoSans-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		657A08F52976596900E5B565 /* ToucheFinal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToucheFinal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		657A08F82976596900E5B565 /* ToucheFinalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToucheFinalApp.swift; sourceTree = "<group>"; };
-		657A08FA2976596900E5B565 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		657A08FC2976596A00E5B565 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		657A08FF2976596A00E5B565 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		657A091629765BF000E5B565 /* Perfume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perfume.swift; sourceTree = "<group>"; };
@@ -280,13 +242,11 @@
 			children = (
 				61FE131E2977D662003F0466 /* Sign */,
 				657A092629765F1000E5B565 /* MyPageView.swift */,
-				23E417F2298959BC0051707E /* ColorPaletteUnderView.swift */,
-				EBB879A929879FA300167ABA /* PalleteCell.swift */,
 				A8BAF8DC297A55FD00D1DDCD /* MyPageMyCommentCell.swift */,
 				A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */,
 				65A7AB392977812700DB4860 /* EditMyProfileView.swift */,
 				65C7E5A6298C1371006C54C3 /* CustomNationButton.swift */,
-				A8BC326F297776C1004EF50C /* SearchView.swift */,
+				65A7AB3729777E6000DB4860 /* ImagePicker.swift */,
 				61FE131F2977D6A3003F0466 /* Setting */,
 			);
 			path = MyPage;
@@ -295,6 +255,7 @@
 		61FE131D2977D5D9003F0466 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				A8BC326F297776C1004EF50C /* SearchView.swift */,
 				AA204A7829879D8300C59C7F /* FilterView.swift */,
 				A8DDBB43297939FB003AC935 /* SearchResultView.swift */,
 				61FE13242977DC3F003F0466 /* SearchFilterView.swift */,
@@ -312,7 +273,6 @@
 				233260DB297782E900771B2A /* LogInSignUpView.swift */,
 				2390497F2977B9420097B20A /* LogInRootView.swift */,
 				2390497D2977920C0097B20A /* GuideView.swift */,
-				EB7F90D62988B125005C7CFB /* PaletteView.swift */,
 			);
 			path = Sign;
 			sourceTree = "<group>";
@@ -325,31 +285,6 @@
 				656A00E829792E08002E37E6 /* DeleteAccountView.swift */,
 			);
 			path = Setting;
-			sourceTree = "<group>";
-		};
-		6571BCE72988DCCF00233538 /* Fonts_NotoSans */ = {
-			isa = PBXGroup;
-			children = (
-				6571BCEC2988DD1F00233538 /* NotoSans-Black.ttf */,
-				6571BCEE2988DD1F00233538 /* NotoSans-BlackItalic.ttf */,
-				6571BCE82988DD1F00233538 /* NotoSans-Bold.ttf */,
-				6571BCF72988DD2000233538 /* NotoSans-BoldItalic.ttf */,
-				6571BCF02988DD2000233538 /* NotoSans-ExtraBold.ttf */,
-				6571BCF62988DD2000233538 /* NotoSans-ExtraBoldItalic.ttf */,
-				6571BCEB2988DD1F00233538 /* NotoSans-ExtraLight.ttf */,
-				6571BCF92988DD2000233538 /* NotoSans-ExtraLightItalic.ttf */,
-				6571BCED2988DD1F00233538 /* NotoSans-Italic.ttf */,
-				6571BCF22988DD2000233538 /* NotoSans-Light.ttf */,
-				6571BCEF2988DD1F00233538 /* NotoSans-LightItalic.ttf */,
-				6571BCF32988DD2000233538 /* NotoSans-Medium.ttf */,
-				6571BCE92988DD1F00233538 /* NotoSans-MediumItalic.ttf */,
-				6571BCF52988DD2000233538 /* NotoSans-Regular.ttf */,
-				6571BCF82988DD2000233538 /* NotoSans-SemiBold.ttf */,
-				6571BCF12988DD2000233538 /* NotoSans-SemiBoldItalic.ttf */,
-				6571BCF42988DD2000233538 /* NotoSans-Thin.ttf */,
-				6571BCEA2988DD1F00233538 /* NotoSans-ThinItalic.ttf */,
-			);
-			path = Fonts_NotoSans;
 			sourceTree = "<group>";
 		};
 		657A08EC2976596900E5B565 = {
@@ -375,11 +310,7 @@
 				656A00EC29795B5B002E37E6 /* Info.plist */,
 				61212E612978E32E00D0ED57 /* GoogleService-Info.plist */,
 				657A08F82976596900E5B565 /* ToucheFinalApp.swift */,
-				657A08FA2976596900E5B565 /* ContentView.swift */,
-				65A7AB3729777E6000DB4860 /* ImagePicker.swift */,
 				A8BC32782977BF3E004EF50C /* dummyData.swift */,
-				233378B72989EA5100294C58 /* ColorPalette.swift */,
-				6571BCE72988DCCF00233538 /* Fonts_NotoSans */,
 				AA204A7529876CDE00C59C7F /* Extension */,
 				61212E672978E39C00D0ED57 /* Util */,
 				657A091C29765E1300E5B565 /* Models */,
@@ -419,6 +350,7 @@
 				657A091F29765E9C00E5B565 /* CommentStore.swift */,
 				657A092129765EAC00E5B565 /* UserInfoStore.swift */,
 				61212E652978E37200D0ED57 /* APIStore.swift */,
+				233378B72989EA5100294C58 /* ColorPalette.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -430,10 +362,21 @@
 				617449442988A02E0064BEE8 /* Onboarding */,
 				61FE131B2977D5B9003F0466 /* Home */,
 				61FE131C2977D5C1003F0466 /* MyPage */,
+				A885E44D298D1A140096BD3E /* Palette */,
 				61FE131D2977D5D9003F0466 /* Search */,
 				61212E632978E35A00D0ED57 /* SephoraFirebaseView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A885E44D298D1A140096BD3E /* Palette */ = {
+			isa = PBXGroup;
+			children = (
+				EB7F90D62988B125005C7CFB /* PaletteView.swift */,
+				23E417F2298959BC0051707E /* ColorPaletteUnderView.swift */,
+				EBB879A929879FA300167ABA /* PalleteCell.swift */,
+			);
+			path = Palette;
 			sourceTree = "<group>";
 		};
 		AA204A7529876CDE00C59C7F /* Extension */ = {
@@ -528,28 +471,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6571BD012988DD2000233538 /* NotoSans-LightItalic.ttf in Resources */,
-				6571BCFF2988DD2000233538 /* NotoSans-Italic.ttf in Resources */,
-				6571BD062988DD2000233538 /* NotoSans-Thin.ttf in Resources */,
-				6571BD042988DD2000233538 /* NotoSans-Light.ttf in Resources */,
-				6571BD072988DD2000233538 /* NotoSans-Regular.ttf in Resources */,
-				6571BCFA2988DD2000233538 /* NotoSans-Bold.ttf in Resources */,
-				6571BD0A2988DD2000233538 /* NotoSans-SemiBold.ttf in Resources */,
-				6571BD0B2988DD2000233538 /* NotoSans-ExtraLightItalic.ttf in Resources */,
-				6571BD032988DD2000233538 /* NotoSans-SemiBoldItalic.ttf in Resources */,
-				6571BCFD2988DD2000233538 /* NotoSans-ExtraLight.ttf in Resources */,
 				657A09002976596A00E5B565 /* Preview Assets.xcassets in Resources */,
-				6571BD022988DD2000233538 /* NotoSans-ExtraBold.ttf in Resources */,
-				6571BCFB2988DD2000233538 /* NotoSans-MediumItalic.ttf in Resources */,
-				6571BD002988DD2000233538 /* NotoSans-BlackItalic.ttf in Resources */,
 				657A08FD2976596A00E5B565 /* Assets.xcassets in Resources */,
-				6571BD082988DD2000233538 /* NotoSans-ExtraBoldItalic.ttf in Resources */,
-				6571BD092988DD2000233538 /* NotoSans-BoldItalic.ttf in Resources */,
-				6571BCFE2988DD2000233538 /* NotoSans-Black.ttf in Resources */,
-				6571BCFC2988DD2000233538 /* NotoSans-ThinItalic.ttf in Resources */,
 				61212E622978E32E00D0ED57 /* GoogleService-Info.plist in Resources */,
 				6174493F29889FD10064BEE8 /* Main.storyboard in Resources */,
-				6571BD052988DD2000233538 /* NotoSans-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,7 +489,6 @@
 				657A092529765EE000E5B565 /* HomeView.swift in Sources */,
 				6189EA0D297A4C07005E6AA9 /* PerfumesGridView.swift in Sources */,
 				A89E60DB2988CD7500BAB55E /* ColorChipPerfumeCell.swift in Sources */,
-				657A08FB2976596900E5B565 /* ContentView.swift in Sources */,
 				A8BC32792977BF3E004EF50C /* dummyData.swift in Sources */,
 				618F66CB2988F69900A40BC4 /* CGPoint+.swift in Sources */,
 				617449412988A0190064BEE8 /* MagneticViewcontroller.swift in Sources */,
