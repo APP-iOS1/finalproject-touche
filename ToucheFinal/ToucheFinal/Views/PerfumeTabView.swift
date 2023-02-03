@@ -103,7 +103,6 @@ struct PerfumeTabView_Previews: PreviewProvider {
     static var previews: some View {
         PerfumeTabView()
             .environmentObject(ColorPalette())
-            .environmentObject(PerfumeStore())
             .environmentObject(UserInfoStore())
     }
 }

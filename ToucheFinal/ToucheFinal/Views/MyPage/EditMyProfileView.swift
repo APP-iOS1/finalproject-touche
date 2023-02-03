@@ -35,8 +35,6 @@ struct EditMyProfileView: View {
         NavigationView {
             GeometryReader{ geometry in
             VStack{
-                
-
                 Text("Edit Profile")
                     .padding(.bottom,20)
 
@@ -143,7 +141,7 @@ struct EditMyProfileView: View {
                     .frame(maxWidth: .infinity)
                 
 
-            }//VStack 종료
+//            }//VStack 종료
         } // Geometry 종료
             
             .sheet(isPresented: $showGallerySheet){

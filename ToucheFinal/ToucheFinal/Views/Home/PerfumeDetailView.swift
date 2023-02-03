@@ -297,7 +297,7 @@ struct PerfumeDetailView_Previews: PreviewProvider {
                                                likedPeople: ["1", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3"],
                                                commentCount: 154,
                                                totalPerfumeScore: 616
-                                              )).environmentObject(PerfumeStore())
+                                              ))
                 .environmentObject(UserInfoStore())
         }
     }

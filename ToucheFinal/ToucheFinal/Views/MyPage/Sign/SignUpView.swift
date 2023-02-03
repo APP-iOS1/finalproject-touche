@@ -52,19 +52,42 @@ struct SignUpView: View {
         VStack{
             VStack(alignment: .leading){
                 Group {
-                    Text("Email")
-                    
+                    HStack {
+                        Text("Email")
+                        
+                        Spacer()
+                        
+                        Button {
+                            userInfoStore.duplicateCheck(emailAddress: email)
+                        } label: {
+                            Text("중복확인")
+                        }
+                    }
                     TextField("Enter email", text: $email)
                         .textInputAutocapitalization(.never) // 대문자 방지
                         .disableAutocorrection(true) // 자동수정 방지
                         .keyboardType(.emailAddress) // 이메일용 키보드
                         .frame(height: 40)
                         .padding(.top, -6)
-                        
-                    Text(!isEmailRuleSatisfied ? "Please enter a vaild email." : "")
-                        .font(.caption)
-                        .foregroundColor(.red)
-                        .padding(.top, -9)
+                    
+                    //MARK: 중복확인을 통과했을 때 어떻게 처리할지?
+                    //signup 버튼과 같이 이메일 중복여부를 체크한 이후 텍스트필드에서 입력을 하나 지우면
+                    //여전히 중복됐음을 알리는 텍스트가 잔존하는 문제
+                    if !isEmailRuleSatisfied {
+                        Text("Please enter a vaild email.")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .padding(.top, -9)
+                    } else if userInfoStore.isDuplicated {
+                        Text("This email address already exists.")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .padding(.top, -9)
+                    }
+                    else {
+                        Text("")
+                            .padding(.top, -9)
+                    }
                 }
                 .padding(.vertical, 1)
                 

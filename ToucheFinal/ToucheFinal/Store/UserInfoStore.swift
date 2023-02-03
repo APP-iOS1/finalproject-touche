@@ -16,6 +16,7 @@ final class UserInfoStore: ObservableObject{
     @Published var notice = ""
     @Published var errorMessage = ""
     @Published var currentUserNickname = Auth.auth().currentUser?.displayName
+    @Published var isDuplicated: Bool = false
     private let database = Firestore.firestore().collection("User")
     lazy var userNickname = Auth.auth().currentUser?.displayName ?? ""
     
@@ -181,6 +182,22 @@ final class UserInfoStore: ObservableObject{
         database.document(user?.uid ?? "").delete()
     }
     
+    /// 이메일 중복 체크
+    func duplicateCheck(emailAddress: String) {
+
+            Auth.auth().fetchSignInMethods(forEmail: emailAddress) { providers, error in
+                if let error {
+                    print(error.localizedDescription)
+                } else if providers != nil {
+                    print("이미 등록된 이메일 입니다.")
+                    self.isDuplicated = true
+                    print("조건문의 isDuplicated 값은 (self.isDuplicated)")
+                } else {
+                    print("계정 정보가 없습니다.")
+                    self.isDuplicated = false
+                }
+            }
+    }
 
     /// 닉네임 중복확인을 해주는 함수
     final func isNicknameDuplicated(nickName: String) async throws -> Bool {

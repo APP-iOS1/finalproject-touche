@@ -12,11 +12,11 @@ import FirebaseAuth
 import FirebaseFirestoreSwift
 @MainActor
 struct HomeView: View {
-
+    
     @State private var isShowingPromotion: Bool = true
     @State private var perfumes: [Perfume] = []
     @StateObject var homewViewModel = HomeViewModel()
-   
+    
     var rows: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
     
@@ -98,7 +98,7 @@ struct HomeView: View {
                         
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: 24.0) {
-                            ForEach(homewViewModel.recomendedPerfume.prefix(6), id: \.self.perfumeId) { perfume in
+                                ForEach(homewViewModel.recomendedPerfume.prefix(6), id: \.self.perfumeId) { perfume in
                                     NavigationLink {
                                         PerfumeDetailView(perfume: perfume)
                                     } label: {
@@ -112,136 +112,136 @@ struct HomeView: View {
                         }
                         .frame(height: 240)
                         .onAppear {
-                            perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
+//                            perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
                         }
-                    
-                    //                    // MARK: 브랜드 검색 순위
-                    //                    Text("BRAND TOP 7")
-                    //                        .modifier(TextViewModeifier())
-                    //                        .padding(.bottom, -15)
-                    //
-                    //                    ForEach(mostSearchedBrands, id: \.self) { brand in
-                    //                        Text(brand)
-                    //                        //                            .font(.system(size: 25))
-                    //                            .font(.callout)
-                    //                            .bold()
-                    //                            .fontWeight(.regular)
-                    //                            .foregroundColor(.black)
-                    //                            .lineSpacing(4.5)
-                    //                            .padding(.leading)
-                    //                    }
-                    // MARK: 최근 클릭한 향수
-                    VStack(alignment: .leading, spacing: 0.0) {
-                        HStack(alignment: .bottom) {
-                            Text("RECENTLY VIEWED")
-                                .modifier(TextViewModeifier(isTitleSection: true))
-                            Spacer()
-                            Button {
-                                // TODO: 더보기 액션
-                            } label: {
-                                Text("more")
-                                    .modifier(TextViewModeifier(isTitleSection: false))
+                        
+                        //                    // MARK: 브랜드 검색 순위
+                        //                    Text("BRAND TOP 7")
+                        //                        .modifier(TextViewModeifier())
+                        //                        .padding(.bottom, -15)
+                        //
+                        //                    ForEach(mostSearchedBrands, id: \.self) { brand in
+                        //                        Text(brand)
+                        //                        //                            .font(.system(size: 25))
+                        //                            .font(.callout)
+                        //                            .bold()
+                        //                            .fontWeight(.regular)
+                        //                            .foregroundColor(.black)
+                        //                            .lineSpacing(4.5)
+                        //                            .padding(.leading)
+                        //                    }
+                        // MARK: 최근 클릭한 향수
+                        VStack(alignment: .leading, spacing: 0.0) {
+                            HStack(alignment: .bottom) {
+                                Text("RECENTLY VIEWED")
+                                    .modifier(TextViewModeifier(isTitleSection: true))
+                                Spacer()
+                                Button {
+                                    // TODO: 더보기 액션
+                                } label: {
+                                    Text("more")
+                                        .modifier(TextViewModeifier(isTitleSection: false))
+                                }
+                                
                             }
-                            
-                        }
-                        ScrollView(.horizontal, showsIndicators: false){
-                            HStack(spacing: 24.0) {
-                            ForEach(homewViewModel.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
-                                    NavigationLink {
-                                        PerfumeDetailView(perfume: perfume)
-                                    } label: {
-                                        PerfumeCell(perfume: perfume)
+                            ScrollView(.horizontal, showsIndicators: false){
+                                HStack(spacing: 24.0) {
+                                    ForEach(homewViewModel.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
+                                        NavigationLink {
+                                            PerfumeDetailView(perfume: perfume)
+                                        } label: {
+                                            PerfumeCell(perfume: perfume)
+                                        }
                                     }
                                 }
+                                .padding()
+                                .padding(.top, -11)
                             }
-                            .padding()
-                            .padding(.top, -11)
+                            .frame(height: 240)
+                            
                         }
-                        .frame(height: 240)
+                        /*
+                         .onAppear {
+                         perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
+                         }
+                         */
                         
+                        // MARK: 코멘트 많이 달린 향수
+                        /*
+                         HStack{
+                         Text("RECENTLY TOP COMMNENTS 20")
+                         .modifier(TextViewModeifier())
+                         NavigationLink {
+                         PerfumesGridView(perfumes: dummy, title: "")
+                         } label: {
+                         Text("More")
+                         .bold()
+                         .underline()
+                         }
+                         .tint(.black)
+                         }
+                         ScrollView(.horizontal, showsIndicators: false){
+                         LazyHGrid(rows: rows){
+                         ForEach(perfumeStore.topComment20Perfumes, id: \.self.perfumeId) { perfume in
+                         NavigationLink {
+                         PerfumeDetailView(perfume: perfume)
+                         } label: {
+                         PerfumeCell(perfume: perfume)
+                         }
+                         }
+                         }
+                         .padding(.leading)
+                         }
+                         .frame(height: 450)
+                         .onAppear {
+                         perfumeStore.readTopComment20Perfumes()
+                         }
+                         */
                     }
-                    /*
-                     .onAppear {
-                     perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
-                     }
-                     */
-                    
-                    // MARK: 코멘트 많이 달린 향수
-                    /*
-                     HStack{
-                     Text("RECENTLY TOP COMMNENTS 20")
-                     .modifier(TextViewModeifier())
-                     NavigationLink {
-                     PerfumesGridView(perfumes: dummy, title: "")
-                     } label: {
-                     Text("More")
-                     .bold()
-                     .underline()
-                     }
-                     .tint(.black)
-                     }
-                     ScrollView(.horizontal, showsIndicators: false){
-                     LazyHGrid(rows: rows){
-                     ForEach(perfumeStore.topComment20Perfumes, id: \.self.perfumeId) { perfume in
-                     NavigationLink {
-                     PerfumeDetailView(perfume: perfume)
-                     } label: {
-                     PerfumeCell(perfume: perfume)
-                     }
-                     }
-                     }
-                     .padding(.leading)
-                     }
-                     .frame(height: 450)
-                     .onAppear {
-                     perfumeStore.readTopComment20Perfumes()
-                     }
-                     */
+                    //                // MARK: - NotoSans 글꼴 이름 찾기
+                    //                .onAppear{
+                    //                    UIFont.familyNames.sorted().forEach { familyName in
+                    //                        print("*** \(familyName) ***")
+                    //                        UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+                    //                            print("\(fontName)")
+                    //                        }
+                    //                        print("---------------------")
+                    //                    }
+                    //                }
                 }
-                //                // MARK: - NotoSans 글꼴 이름 찾기
-                //                .onAppear{
-                //                    UIFont.familyNames.sorted().forEach { familyName in
-                //                        print("*** \(familyName) ***")
-                //                        UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
-                //                            print("\(fontName)")
-                //                        }
-                //                        print("---------------------")
-                //                    }
-                //                }
+                .onAppear{
+                    let selectedScentType = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+                    let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+                    //                let recentlyPerfumesId: [String] = []
+                    homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: recentlyPerfumesId)
+                    homewViewModel.filterRecommendedPerfumes(selectedScentTypes: selectedScentType)
+                    print(recentlyPerfumesId)
+                }
+                .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
+                    Image(systemName: "magnifyingglass").foregroundColor(.black)
+                })
+                .navigationBarItems(trailing: NavigationLink(destination: FilterView()) {
+                    Image(systemName: "slider.vertical.3").foregroundColor(.black)
+                })
+                .navigationBarItems(leading: NavigationLink(destination: PerfumeDescriptionView()) {
+                    Image(systemName: "info.circle").foregroundColor(.black)
+                })
             }
-            .onAppear{
-                let selectedScentType = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
-                let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
-//                let recentlyPerfumesId: [String] = []
-                homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: recentlyPerfumesId)
-                homewViewModel.filterRecommendedPerfumes(selectedScentTypes: selectedScentType)
-                print(recentlyPerfumesId)
-            }
-            .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
-                Image(systemName: "magnifyingglass").foregroundColor(.black)
-            })
-            .navigationBarItems(trailing: NavigationLink(destination: FilterView()) {
-                Image(systemName: "slider.vertical.3").foregroundColor(.black)
-            })
-            .navigationBarItems(leading: NavigationLink(destination: PerfumeDescriptionView()) {
-                Image(systemName: "info.circle").foregroundColor(.black)
-            })
         }
+        //        .toolbar(content: {
+        //            ToolbarItem {
+        //                NavigationLink {
+        //                    SearchView()
+        //                } label: {
+        //                    Image(systemName: "magnifyingglass")
+        //                        .foregroundColor(.black)
+        //                }
+        //            }
+        //        })
+        //        .padding(.top, 0.1)
+        //        .padding(.bottom, 30)
     }
-    //        .toolbar(content: {
-    //            ToolbarItem {
-    //                NavigationLink {
-    //                    SearchView()
-    //                } label: {
-    //                    Image(systemName: "magnifyingglass")
-    //                        .foregroundColor(.black)
-    //                }
-    //            }
-    //        })
-    //        .padding(.top, 0.1)
-    //        .padding(.bottom, 30)
 }
-
 struct TextViewModeifier: ViewModifier {
     let isTitleSection: Bool
     func body(content: Content) -> some View {
