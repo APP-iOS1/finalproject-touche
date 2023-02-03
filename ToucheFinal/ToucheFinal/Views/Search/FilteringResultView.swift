@@ -50,7 +50,7 @@ struct FilteringResultView: View {
             Divider()
             
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 24) {
+                LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(perfumes.wrappedValue, id: \.perfumeId) { perfume in
                         NavigationLink {
                             PerfumeDetailView(perfume: perfume)
@@ -60,6 +60,7 @@ struct FilteringResultView: View {
                         
                     }
                 }
+                
             }
         }
         .padding(.horizontal)
