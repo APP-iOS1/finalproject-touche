@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		232679D1298CC9FD006DEE1C /* PaletteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232679D0298CC9FD006DEE1C /* PaletteViewModel.swift */; };
 		233260D42977757500771B2A /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D32977757500771B2A /* LogInView.swift */; };
 		233260D82977759900771B2A /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D72977759900771B2A /* SignUpView.swift */; };
 		233260DA297775B700771B2A /* SignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D9297775B700771B2A /* SignOutView.swift */; };
@@ -106,6 +107,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		232679D0298CC9FD006DEE1C /* PaletteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteViewModel.swift; sourceTree = "<group>"; };
 		233260D32977757500771B2A /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		233260D72977759900771B2A /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		233260D9297775B700771B2A /* SignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutView.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 			children = (
 				61BCBD67298C2650009FDCF1 /* HomeViewModel.swift */,
 				61E6CDFF298C9C22002D8FD8 /* PerfumeDetailViewModel.swift */,
+				232679D0298CC9FD006DEE1C /* PaletteViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */,
 				65A7AB392977812700DB4860 /* EditMyProfileView.swift */,
 				65C7E5A6298C1371006C54C3 /* CustomNationButton.swift */,
+				A8BC326F297776C1004EF50C /* SearchView.swift */,
 				61FE131F2977D6A3003F0466 /* Setting */,
 			);
 			path = MyPage;
@@ -291,7 +295,6 @@
 		61FE131D2977D5D9003F0466 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				A8BC326F297776C1004EF50C /* SearchView.swift */,
 				AA204A7829879D8300C59C7F /* FilterView.swift */,
 				A8DDBB43297939FB003AC935 /* SearchResultView.swift */,
 				61FE13242977DC3F003F0466 /* SearchFilterView.swift */,
@@ -566,6 +569,7 @@
 				618F66CB2988F69900A40BC4 /* CGPoint+.swift in Sources */,
 				617449412988A0190064BEE8 /* MagneticViewcontroller.swift in Sources */,
 				65A7AB3A2977812700DB4860 /* EditMyProfileView.swift in Sources */,
+				232679D1298CC9FD006DEE1C /* PaletteViewModel.swift in Sources */,
 				61212E642978E35A00D0ED57 /* SephoraFirebaseView.swift in Sources */,
 				E8EA934129877DFD009FAFB4 /* PerfumeDescriptionView.swift in Sources */,
 				61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */,

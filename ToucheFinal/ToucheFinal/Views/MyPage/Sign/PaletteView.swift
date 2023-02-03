@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct PaletteView: View {
     @State private var angle: Angle = .zero
     @State private var radius: CGFloat = 140.0
@@ -20,6 +22,8 @@ struct PaletteView: View {
     
     @EnvironmentObject var colorPaletteCondition: ColorPalette
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @StateObject var paletteViewModel = PaletteViewModel()
+    let perfumeStore = PerfumeStore.shared
     
     let columns = [
         GridItem(.flexible()),
@@ -73,6 +77,7 @@ struct PaletteView: View {
                                         colorPaletteCondition.selectedCircle = .clear
                                         txt = ""
                                         isTapped = false
+                                        paletteViewModel.filterLikedScentTypePerfumes(scentType: color.name)
                                     }
                                 }
                         }
@@ -99,9 +104,14 @@ struct PaletteView: View {
                                     colorPaletteCondition.selectedCircle = color.color
                                     txt = color.name
                                     isTapped = true
+                                    paletteViewModel.filterLikedScentTypePerfumes(scentType: color.name)
                                 }
+                                
                             }
                         }
+                    }
+                    .onChange(of: perfumeStore.perfumes) { _ in
+                        paletteViewModel.filterLikedScentTypePerfumes(scentType: txt)
                     }
                     
                     //MARK: -Scent type
@@ -133,7 +143,7 @@ struct PaletteView: View {
                     
                     if userInfoStore.user != nil {
                         LazyVGrid(columns: columns, spacing: 15) {
-                            ForEach(dummy, id: \.self.perfumeId) { perfume in
+                            ForEach(paletteViewModel.likedScentTypePerfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)                            } label: {
                                         PerfumeCell(perfume: perfume, frameWidth: 150)
@@ -186,7 +196,9 @@ struct PaletteView: View {
             .modifier(SignInFullCover(isShowing: $navLinkActive))
             .padding(.top, 0.1)
             .onAppear {
-                for perfume in dummy {
+                paletteViewModel.filterLikedPerfumes(userId: userInfoStore.currentUser ?? "")
+                
+                for perfume in paletteViewModel.likedPerfumes {
                     scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
                 }
             }
@@ -255,7 +267,7 @@ struct Wheel: Layout {
             
             DispatchQueue.global().async {
                 if pointToCenter {
-//                    subview[Rotation.self]?.wrappedValue = .radians(angle)
+                    subview[Rotation.self]?.wrappedValue = .radians(angle)
                 } else {
                     subview[Rotation.self]?.wrappedValue = .zero
                 }

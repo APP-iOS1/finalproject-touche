@@ -12,7 +12,7 @@ struct PerfumeDetailView: View {
     /// dismiss action
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     /// firebase data
-    @EnvironmentObject var perfumeStore: PerfumeStore
+//    @EnvironmentObject var perfumeStore: PerfumeStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     /// moving to commentView
     @Namespace var reviewId
@@ -25,8 +25,10 @@ struct PerfumeDetailView: View {
     /// trigger to move signinView
     @State var navLinkActive = false
     /// perfume data
-    let perfume: Perfume
     
+    var perfumeStore = PerfumeStore.shared
+    @State var perfume: Perfume
+    @StateObject var paletteViewModel = PaletteViewModel()
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -364,9 +366,36 @@ private extension PerfumeDetailView {
             // Like
             VStack(spacing: 16.0){
                 Button {
-                    heartState.toggle()
+                    switch userInfoStore.currentUser {
+                    case nil:
+                        alertActive = true
+                    default:
+                        if perfume.likedPeople.contains(userInfoStore.currentUser ?? "") {
+                            // 해당 uid 제거
+                            Task {
+                                await perfumeStore.deleteLikePerfume(perfume: perfume, userId: userInfoStore.currentUser ?? "")
+//                                perfume.likedPeople.remove(at: perfume.likedPeople.firstIndex(of: userInfoStore.currentUser ?? "") ?? 0)
+                                perfume = perfumeStore.perfumes.filter{ $0.perfumeId == perfume.perfumeId }[0]
+                            }
+                                  print(perfume.likedPeople)
+                        } else {
+                            // 해당 uid 추가
+                            Task {
+                                await perfumeStore.addLikePerfume(perfume: perfume, userId: userInfoStore.currentUser ?? "")
+                                perfume = perfumeStore.perfumes.filter{ $0.perfumeId == perfume.perfumeId }[0]
+                            }
+
+//                            perfume.likedPeople.append(userInfoStore.currentUser ?? "")
+                            
+                            print(perfume.perfumeId)
+                            print(perfume.likedPeople)
+                            heartState.toggle()
+                        }
+                        
+                    }
                 } label: {
-                    Image(systemName: heartState ? "heart.fill" : "heart")
+                    // likedPeople에 uid 여부
+                    Image(systemName: perfume.likedPeople.contains(userInfoStore.currentUser ?? "") ? "heart.fill" : "heart")
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundColor(Color(hex: setHexValue(scentType: perfume.scentType)))
@@ -378,6 +407,11 @@ private extension PerfumeDetailView {
                     .fontWeight(.light)
                 
             } // VSTACK
+            .onDisappear {
+//                paletteViewModel.filterLikedPerfumes(userId: userInfoStore.currentUser ?? "")
+                paletteViewModel.filterLikedScentTypePerfumes(scentType: perfume.scentType)
+                print("disappear")
+            }
             
         } // HSTACK
         .padding(.horizontal, 20)
@@ -434,7 +468,7 @@ private extension PerfumeDetailView {
         // MARK: - Comments
         ScrollView {
             Button {
-                switch userInfoStore.userInfo {
+                switch userInfoStore.currentUser {
                 case nil:
                     alertActive = true
                 default:
