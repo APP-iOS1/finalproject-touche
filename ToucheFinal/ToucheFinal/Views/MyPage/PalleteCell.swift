@@ -11,9 +11,19 @@ struct PalletteCell: View {
     var color: Color
     var degrees: Double
     var name: String
-    var count: Int
-    var grayOpacity: Double {
-        Double(1 / count)
+    var count: Double
+    var opacity: Double {
+
+        switch count {
+        case 0:
+            return 0.2
+        case 1:
+            return 0.4
+        case 2:
+            return 0.6
+        default:
+            return 1
+        }
     }
     
     var body: some View {
@@ -26,7 +36,7 @@ struct PalletteCell: View {
             }
             .fill(color)
         }
-//        .grayscale(grayOpacity)
+        .opacity(opacity)
     }
 }
 
