@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		232679D1298CC9FD006DEE1C /* PaletteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232679D0298CC9FD006DEE1C /* PaletteViewModel.swift */; };
 		233260D42977757500771B2A /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D32977757500771B2A /* LogInView.swift */; };
 		233260D82977759900771B2A /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D72977759900771B2A /* SignUpView.swift */; };
 		233260DA297775B700771B2A /* SignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233260D9297775B700771B2A /* SignOutView.swift */; };
@@ -35,8 +34,6 @@
 		618F66C92988F61600A40BC4 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F66C82988F61600A40BC4 /* OnboardingView.swift */; };
 		618F66CB2988F69900A40BC4 /* CGPoint+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F66CA2988F69900A40BC4 /* CGPoint+.swift */; };
 		618F66CD2988FFF800A40BC4 /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F66CC2988FFF800A40BC4 /* SpinnerViewController.swift */; };
-		61BCBD68298C2650009FDCF1 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BCBD67298C2650009FDCF1 /* HomeViewModel.swift */; };
-		61E6CE00298C9C22002D8FD8 /* PerfumeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6CDFF298C9C22002D8FD8 /* PerfumeDetailViewModel.swift */; };
 		61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13172977D587003F0466 /* PerfumeDetailView.swift */; };
 		61FE131A2977D588003F0466 /* PerfumeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13182977D587003F0466 /* PerfumeTabView.swift */; };
 		61FE13212977D7A1003F0466 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13202977D7A1003F0466 /* CommentCell.swift */; };
@@ -82,8 +79,6 @@
 		65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB3729777E6000DB4860 /* ImagePicker.swift */; };
 		65A7AB3A2977812700DB4860 /* EditMyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB392977812700DB4860 /* EditMyProfileView.swift */; };
 		65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB3B2977AFAD00DB4860 /* SettingView.swift */; };
-		65C7E5A7298C1371006C54C3 /* CustomNationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C7E5A6298C1371006C54C3 /* CustomNationButton.swift */; };
-		76BA7516298B4610009B0925 /* Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BA7515298B4610009B0925 /* Modifier.swift */; };
 		A89E60DB2988CD7500BAB55E /* ColorChipPerfumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89E60DA2988CD7500BAB55E /* ColorChipPerfumeCell.swift */; };
 		A8BAF8DD297A55FD00D1DDCD /* MyPageMyCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAF8DC297A55FD00D1DDCD /* MyPageMyCommentCell.swift */; };
 		A8BAF8DF297A6D1200D1DDCD /* MyCommentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */; };
@@ -94,11 +89,9 @@
 		A8BC32792977BF3E004EF50C /* dummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BC32782977BF3E004EF50C /* dummyData.swift */; };
 		A8DDBB44297939FB003AC935 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DDBB43297939FB003AC935 /* SearchResultView.swift */; };
 		A8EDB1D2298A24E30055D7B9 /* TestAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8EDB1D1298A24E30055D7B9 /* TestAnimationView.swift */; };
-		AA1B9A7B298C9EAA008817B4 /* HexParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B9A7A298C9EAA008817B4 /* HexParsing.swift */; };
 		AA204A742987664900C59C7F /* PerfumeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A732987664900C59C7F /* PerfumeColor.swift */; };
 		AA204A7729876CED00C59C7F /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A7629876CED00C59C7F /* Color+.swift */; };
 		AA204A7929879D8300C59C7F /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A7829879D8300C59C7F /* FilterView.swift */; };
-		AAA5F6EC298BB00B00DA8B09 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA5F6EB298BB00A00DA8B09 /* View+.swift */; };
 		E8EA934129877DFD009FAFB4 /* PerfumeDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */; };
 		EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5AEDF6297A360000C4F5D8 /* TestView.swift */; };
 		EB7F90D72988B125005C7CFB /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F90D62988B125005C7CFB /* PaletteView.swift */; };
@@ -107,7 +100,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		232679D0298CC9FD006DEE1C /* PaletteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteViewModel.swift; sourceTree = "<group>"; };
 		233260D32977757500771B2A /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		233260D72977759900771B2A /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		233260D9297775B700771B2A /* SignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutView.swift; sourceTree = "<group>"; };
@@ -129,8 +121,6 @@
 		618F66C82988F61600A40BC4 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		618F66CA2988F69900A40BC4 /* CGPoint+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+.swift"; sourceTree = "<group>"; };
 		618F66CC2988FFF800A40BC4 /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
-		61BCBD67298C2650009FDCF1 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		61E6CDFF298C9C22002D8FD8 /* PerfumeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeDetailViewModel.swift; sourceTree = "<group>"; };
 		61FE13172977D587003F0466 /* PerfumeDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeDetailView.swift; sourceTree = "<group>"; };
 		61FE13182977D587003F0466 /* PerfumeTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfumeTabView.swift; sourceTree = "<group>"; };
 		61FE13202977D7A1003F0466 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentCell.swift; path = ToucheFinal/Views/CommentCell.swift; sourceTree = SOURCE_ROOT; };
@@ -173,8 +163,6 @@
 		65A7AB3729777E6000DB4860 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		65A7AB392977812700DB4860 /* EditMyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyProfileView.swift; sourceTree = "<group>"; };
 		65A7AB3B2977AFAD00DB4860 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
-		65C7E5A6298C1371006C54C3 /* CustomNationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNationButton.swift; sourceTree = "<group>"; };
-		76BA7515298B4610009B0925 /* Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifier.swift; sourceTree = "<group>"; };
 		A89E60DA2988CD7500BAB55E /* ColorChipPerfumeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipPerfumeCell.swift; sourceTree = "<group>"; };
 		A8BAF8DC297A55FD00D1DDCD /* MyPageMyCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMyCommentCell.swift; sourceTree = "<group>"; };
 		A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommentListView.swift; sourceTree = "<group>"; };
@@ -184,11 +172,9 @@
 		A8BC32782977BF3E004EF50C /* dummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = dummyData.swift; path = Views/dummyData.swift; sourceTree = "<group>"; };
 		A8DDBB43297939FB003AC935 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		A8EDB1D1298A24E30055D7B9 /* TestAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAnimationView.swift; sourceTree = "<group>"; };
-		AA1B9A7A298C9EAA008817B4 /* HexParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexParsing.swift; sourceTree = "<group>"; };
 		AA204A732987664900C59C7F /* PerfumeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeColor.swift; sourceTree = "<group>"; };
 		AA204A7629876CED00C59C7F /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		AA204A7829879D8300C59C7F /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
-		AAA5F6EB298BB00A00DA8B09 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeDescriptionView.swift; sourceTree = "<group>"; };
 		EB5AEDF6297A360000C4F5D8 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		EB7F90D62988B125005C7CFB /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
@@ -230,7 +216,6 @@
 			isa = PBXGroup;
 			children = (
 				61212E682978E3B100D0ED57 /* LongDescriptionParsing.swift */,
-				AA1B9A7A298C9EAA008817B4 /* HexParsing.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -244,16 +229,6 @@
 				618F66CC2988FFF800A40BC4 /* SpinnerViewController.swift */,
 			);
 			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		61BCBD66298C2628009FDCF1 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				61BCBD67298C2650009FDCF1 /* HomeViewModel.swift */,
-				61E6CDFF298C9C22002D8FD8 /* PerfumeDetailViewModel.swift */,
-				232679D0298CC9FD006DEE1C /* PaletteViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		61FE131B2977D5B9003F0466 /* Home */ = {
@@ -270,7 +245,6 @@
 				61FE13222977D7A8003F0466 /* RatingView.swift */,
 				6189EA0C297A4C07005E6AA9 /* PerfumesGridView.swift */,
 				A8EDB1D1298A24E30055D7B9 /* TestAnimationView.swift */,
-				76BA7515298B4610009B0925 /* Modifier.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -285,8 +259,6 @@
 				A8BAF8DC297A55FD00D1DDCD /* MyPageMyCommentCell.swift */,
 				A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */,
 				65A7AB392977812700DB4860 /* EditMyProfileView.swift */,
-				65C7E5A6298C1371006C54C3 /* CustomNationButton.swift */,
-				A8BC326F297776C1004EF50C /* SearchView.swift */,
 				61FE131F2977D6A3003F0466 /* Setting */,
 			);
 			path = MyPage;
@@ -295,6 +267,7 @@
 		61FE131D2977D5D9003F0466 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				A8BC326F297776C1004EF50C /* SearchView.swift */,
 				AA204A7829879D8300C59C7F /* FilterView.swift */,
 				A8DDBB43297939FB003AC935 /* SearchResultView.swift */,
 				61FE13242977DC3F003F0466 /* SearchFilterView.swift */,
@@ -383,7 +356,6 @@
 				AA204A7529876CDE00C59C7F /* Extension */,
 				61212E672978E39C00D0ED57 /* Util */,
 				657A091C29765E1300E5B565 /* Models */,
-				61BCBD66298C2628009FDCF1 /* ViewModel */,
 				657A092329765EB300E5B565 /* Store */,
 				657A092829765F1600E5B565 /* Views */,
 				657A08FC2976596A00E5B565 /* Assets.xcassets */,
@@ -443,7 +415,6 @@
 				6189EA0A297A33B0005E6AA9 /* String+.swift */,
 				618F66C62988F5E300A40BC4 /* Magnetic+.swift */,
 				618F66CA2988F69900A40BC4 /* CGPoint+.swift */,
-				AAA5F6EB298BB00A00DA8B09 /* View+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -560,7 +531,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65C7E5A7298C1371006C54C3 /* CustomNationButton.swift in Sources */,
 				657A092529765EE000E5B565 /* HomeView.swift in Sources */,
 				6189EA0D297A4C07005E6AA9 /* PerfumesGridView.swift in Sources */,
 				A89E60DB2988CD7500BAB55E /* ColorChipPerfumeCell.swift in Sources */,
@@ -569,7 +539,6 @@
 				618F66CB2988F69900A40BC4 /* CGPoint+.swift in Sources */,
 				617449412988A0190064BEE8 /* MagneticViewcontroller.swift in Sources */,
 				65A7AB3A2977812700DB4860 /* EditMyProfileView.swift in Sources */,
-				232679D1298CC9FD006DEE1C /* PaletteViewModel.swift in Sources */,
 				61212E642978E35A00D0ED57 /* SephoraFirebaseView.swift in Sources */,
 				E8EA934129877DFD009FAFB4 /* PerfumeDescriptionView.swift in Sources */,
 				61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */,
@@ -581,12 +550,10 @@
 				6189EA0B297A33B0005E6AA9 /* String+.swift in Sources */,
 				61FE131A2977D588003F0466 /* PerfumeTabView.swift in Sources */,
 				AA204A7929879D8300C59C7F /* FilterView.swift in Sources */,
-				61BCBD68298C2650009FDCF1 /* HomeViewModel.swift in Sources */,
 				233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */,
 				A8BAF8DF297A6D1200D1DDCD /* MyCommentListView.swift in Sources */,
 				233260D82977759900771B2A /* SignUpView.swift in Sources */,
 				618F66CD2988FFF800A40BC4 /* SpinnerViewController.swift in Sources */,
-				76BA7516298B4610009B0925 /* Modifier.swift in Sources */,
 				239049802977B9420097B20A /* LogInRootView.swift in Sources */,
 				AA204A742987664900C59C7F /* PerfumeColor.swift in Sources */,
 				EB7F90D72988B125005C7CFB /* PaletteView.swift in Sources */,
@@ -603,7 +570,6 @@
 				65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */,
 				65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */,
 				EBB879AA29879FA300167ABA /* PalleteCell.swift in Sources */,
-				61E6CE00298C9C22002D8FD8 /* PerfumeDetailViewModel.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
 				EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */,
 				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,
@@ -614,9 +580,7 @@
 				A8BC32742977BC09004EF50C /* PerfumeCell.swift in Sources */,
 				657A091929765CFE00E5B565 /* Comment.swift in Sources */,
 				A8DDBB44297939FB003AC935 /* SearchResultView.swift in Sources */,
-				AAA5F6EC298BB00B00DA8B09 /* View+.swift in Sources */,
 				233378B82989EA5100294C58 /* ColorPalette.swift in Sources */,
-				AA1B9A7B298C9EAA008817B4 /* HexParsing.swift in Sources */,
 				A8BC32722977AB6A004EF50C /* FilteringResultView.swift in Sources */,
 				A8BC3270297776C1004EF50C /* SearchView.swift in Sources */,
 				AA204A7729876CED00C59C7F /* Color+.swift in Sources */,
@@ -751,7 +715,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ToucheFinal/Preview Content\"";
-				DEVELOPMENT_TEAM = WPL7Q42L8U;
+				DEVELOPMENT_TEAM = 3TF2M45P38;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;
@@ -782,7 +746,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ToucheFinal/Preview Content\"";
-				DEVELOPMENT_TEAM = WPL7Q42L8U;
+				DEVELOPMENT_TEAM = 3TF2M45P38;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;

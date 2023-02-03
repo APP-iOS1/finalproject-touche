@@ -13,13 +13,10 @@ struct WriteCommentView: View {
     @StateObject var manager = TFManager()
     @Environment(\.dismiss) var dismiss
     var perfume: Perfume
-    @Binding var isShowingWriteComment: Bool
-    var placeholderString: String = "Review"
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack {
-                Spacer()
                 HStack {
                     AsyncImage(url: URL(string: perfume.heroImage)) { image in
                         image
@@ -39,7 +36,7 @@ struct WriteCommentView: View {
                         HStack {
                             Image(systemName: "person")
                             Text("(\(perfume.commentCount))")
-                            RatingView(score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount), frame: 15, canClick: false)
+                            RatingView(score: .constant(perfume.totalPerfumeScore/perfume.commentCount), frame: 15, canClick: false)
                         }
                         Spacer()
                     }
@@ -48,19 +45,11 @@ struct WriteCommentView: View {
                 }
                 
                 VStack {
+                    // FIXME: - 버전 낮추면서 생기는 에러부분 수정해주셔야합니다.
 //                    TextField("Review", text: $manager.reviewText, axis: .vertical)
-                    //                        .padding(5)
-                    TextEditor(text: $manager.reviewText)
-                        .scrollContentBackground(.hidden)
-                        .foregroundColor(manager.reviewText == placeholderString ? .gray : .primary)
-                        .onTapGesture {
-                            if manager.reviewText == placeholderString {
-                                manager.reviewText = ""
-                            }
-                        }
-                    Spacer()
+//                        .padding(5)
+//                    Spacer()
                 }
-                .padding(5)
                 .frame(width: 330, height: 130)
                 .overlay(
                     RoundedRectangle(cornerRadius: 5)
@@ -68,22 +57,16 @@ struct WriteCommentView: View {
                 )
                 HStack {
                     Spacer()
-                    if manager.reviewText == "Review" {
-                        Text("\(0)/200")
-                            .foregroundColor(.gray)
-                            .padding(.trailing, 13)
-                    } else {
-                        Text("\(manager.reviewText.count)/200")
-                            .foregroundColor(.gray)
-                            .padding(.trailing, 13)
-                    }
+                    Text("\(manager.reviewText.count)/200")
+                        .foregroundColor(.gray)
+                        .padding(.trailing, 13)
                 }
                 
                 RatingView(score: $score, frame: 30, canClick: true)
                     .padding([.horizontal, .bottom])
                 
                 Button(action: {
-                    isShowingWriteComment.toggle()
+                    
                 }) {
                     Text("Post Review")
                         .frame(width: 330, height: 46)
@@ -95,27 +78,24 @@ struct WriteCommentView: View {
                 Spacer()
             }
             .padding()
-            .toolbar {
+            .toolbar(content: {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        isShowingWriteComment.toggle()
+                        dismiss()
                     } label: {
-                        //                        Text("Cancel")
+//                        Text("Cancel")
                         Image(systemName: "xmark")
                             .foregroundColor(Color.black)
                     }
                 }
-            }
-
+            })
         }
     }
 }
 
-
-
 // 150자 글자 수 제한
 class TFManager: ObservableObject {
-    @Published var reviewText = "Review" {
+    @Published var reviewText = ""{
         didSet {
             if reviewText.count > 200 && oldValue.count <= 200 {
                 reviewText = oldValue
@@ -138,6 +118,6 @@ struct WriteCommentView_Previews: PreviewProvider {
                                           likedPeople: ["1", "2"],
                                           commentCount: 154,
                                           totalPerfumeScore: 616
-                                         ), isShowingWriteComment: .constant(true))
+                                         ))
     }
 }

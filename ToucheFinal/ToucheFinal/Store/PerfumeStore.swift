@@ -21,25 +21,23 @@ import FirebaseFirestoreSwift
 ///     - 해결 : UserInfoStore
 
 class PerfumeStore: ObservableObject {
-    static let shared = PerfumeStore()
-    
     @Published var perfumes: [Perfume] = []
     @Published var topComment20Perfumes: [Perfume] = []
     @Published var recentlyViewed7Perfumes: [Perfume] = []
     @Published var recentlyViewedPerfumeIds: [String] = []
-    
-    private init() {}
-    
     let path = Firestore.firestore()
+    
+    //    init() {
+    //        read()
+    //    }
     
     var listener: ListenerRegistration?
     
     func read() {
-        path.collection("Perfume")
+        self.listener = path.collection("Perfume")
             .addSnapshotListener { [weak self] snapshot, _ in
                 guard let snapshot = snapshot else { return }
-                
-                snapshot.documentChanges.forEach { diff in
+                self?.perfumes = snapshot.documents.compactMap { query -> Perfume? in
                     do {
                         let perfume = try diff.document.data(as: Perfume.self)
                         
@@ -59,7 +57,7 @@ class PerfumeStore: ObservableObject {
                             break
                         }
                     } catch {
-                        
+                        return nil
                     }
                 }
             }
@@ -125,7 +123,7 @@ class PerfumeStore: ObservableObject {
                 let docData = snapshot.data()
                 self?.recentlyViewedPerfumeIds = docData?["recentlyViewedPerfumeIds"] as? [String] ?? []
                 
-                
+
                 self?.fetchRecentlyViewd7Perfumes(recentlyViewedPerfumeIds: self?.recentlyViewedPerfumeIds ?? [])
             }
     }
@@ -133,7 +131,7 @@ class PerfumeStore: ObservableObject {
     //MARK: - 유저정보에 담긴 최근 본 향수의 id값을 받아와서 퍼퓸 컬렉션에서 해당하는 퍼퓸들을 배열에 담아 보여줌
     func fetchRecentlyViewd7Perfumes(recentlyViewedPerfumeIds: [String]) {
         path.collection("Perfume")
-        //            .whereField("perfumeId", in: recentlyViewedPerfumeIds).limit(to: 7)
+//            .whereField("perfumeId", in: recentlyViewedPerfumeIds).limit(to: 7)
             .getDocuments {
                 snapshot, error in
                 guard let snapshot = snapshot else { return }
@@ -157,28 +155,5 @@ class PerfumeStore: ObservableObject {
             }
     }
     
-    func addLikePerfume(perfume: Perfume, userId: String) async {
-        do {
-            try await path.collection("Perfume").document(perfume.perfumeId)
-                .updateData([
-                    "likedPeople": FieldValue.arrayUnion([userId])
-                ])
-        } catch {
-            fatalError()
-        }
-    }
-    func deleteLikePerfume(perfume: Perfume, userId: String) async {
-        do {
-            try await path.collection("Perfume").document(perfume.perfumeId)
-                .updateData([
-                    "likedPeople": FieldValue.arrayRemove([userId])
-                ])
-        }catch {
-            fatalError()
-        }
-    }
-    
-    func readDetailViewPerfumeInfo() {
-        
-    }
+
 }
