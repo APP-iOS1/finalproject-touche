@@ -283,6 +283,7 @@
 				A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */,
 				65A7AB392977812700DB4860 /* EditMyProfileView.swift */,
 				65C7E5A6298C1371006C54C3 /* CustomNationButton.swift */,
+				A8BC326F297776C1004EF50C /* SearchView.swift */,
 				61FE131F2977D6A3003F0466 /* Setting */,
 			);
 			path = MyPage;
@@ -291,7 +292,6 @@
 		61FE131D2977D5D9003F0466 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				A8BC326F297776C1004EF50C /* SearchView.swift */,
 				AA204A7829879D8300C59C7F /* FilterView.swift */,
 				A8DDBB43297939FB003AC935 /* SearchResultView.swift */,
 				61FE13242977DC3F003F0466 /* SearchFilterView.swift */,

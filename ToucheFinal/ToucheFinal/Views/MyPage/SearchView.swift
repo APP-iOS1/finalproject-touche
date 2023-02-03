@@ -35,6 +35,9 @@ struct SearchView: View {
     
     var body: some View {
         VStack {
+
+            // MARK: -
+
             HStack{
                 Text(!searchText.isEmpty && !suggestions.filter { $0.hasPrefix(searchText) }.isEmpty ? "RECOMMEDED SEARCHES" : "RECENT SEARCHES")
                     .bold()
@@ -67,37 +70,70 @@ struct SearchView: View {
             }
             .padding()
             
-            // MARK: - 추천 단어 표시 해주는 부분
-            if !searchText.isEmpty && !suggestions.filter { $0.hasPrefix(searchText) }.isEmpty {
-                ScrollView(showsIndicators: false) {
+                        ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
-                        ForEach(suggestions.filter { $0.hasPrefix(searchText) }, id: \.self) { suggestion in
+                        //                        Text(searchText)
+                        //                        ForEach(perfumeStore.recentlyViewed7Perfumes, id: \.self.perfumeId) { perfume in
+                        ForEach(searchResults, id: \.perfumeId) { (result: Perfume) in
                             HStack {
                                 NavigationLink {
                                     // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
-                                    FilteringResultView(field: "brandName", queries: [suggestion])
+                                    SearchResultView(perfume: result, searchText: $searchText)
                                 } label: {
-                                    Text(suggestion)
-                                        .foregroundColor(.black)
-                                        .frame(alignment: .leading)
-                                        .font(.callout)
-                                }
-                                Spacer()
-                                NavigationLink {
-                                    FilteringResultView(field: "brandName", queries: [suggestion])
-                                } label: {
-                                    Image(systemName: "magnifyingglass")
-                                        .resizable()
-                                        .foregroundColor(Color(UIColor.systemGray2))
-                                        .frame(width: 10, height: 10)
+                                    GeometryReader { geo in
+                                        HStack{
+                                                Text(result.brandName)
+                                                    .font(.system(size: 18))
+                                                    .foregroundColor(.black)
+                                                    .offset(x: geo.size.width / 12)
+                                            Spacer()
+                                            Button {
+                                                // 해당 텍스트만 삭제 기능
+                                            } label: {
+                                                Image(systemName: "arrow.up.right")
+                                                    .foregroundColor(Color(UIColor.systemGray2))
+                                                    
+                                            }
+                                            .padding(.trailing, 15)
+                                        }
+                                    }
+                                    .padding(.top, 18)
                                 }
                             }
                         }
                     }
-                }
-                .padding([.leading, .trailing])
-                .padding(.top, -7)
-            }
+            } // ScrollView 종료
+            // MARK: - 추천 단어 표시 해주는 부분
+            // if !searchText.isEmpty && !suggestions.filter { $0.hasPrefix(searchText) }.isEmpty {
+            //     ScrollView(showsIndicators: false) {
+            //         VStack(alignment: .leading) {
+            //             ForEach(suggestions.filter { $0.hasPrefix(searchText) }, id: \.self) { suggestion in
+            //                 HStack {
+            //                     NavigationLink {
+            //                         // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
+            //                         FilteringResultView(field: "brandName", queries: [suggestion])
+            //                     } label: {
+            //                         Text(suggestion)
+            //                             .foregroundColor(.black)
+            //                             .frame(alignment: .leading)
+            //                             .font(.callout)
+            //                     }
+            //                     Spacer()
+            //                     NavigationLink {
+            //                         FilteringResultView(field: "brandName", queries: [suggestion])
+            //                     } label: {
+            //                         Image(systemName: "magnifyingglass")
+            //                             .resizable()
+            //                             .foregroundColor(Color(UIColor.systemGray2))
+            //                             .frame(width: 10, height: 10)
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            //     .padding([.leading, .trailing])
+            //     .padding(.top, -7)
+            // }
             
             // MARK: - 최근검색어(RECENT SEARCHES) 검색한 내용이 텍스트로 쌓이는 부분
             ScrollView(showsIndicators: false) {
@@ -134,12 +170,13 @@ struct SearchView: View {
                 }
                 
             }
+
             .padding([.leading, .trailing])
             .padding(.top, -7)
             .onAppear{
                 focusField = .searchText
             }
-        }
+        }// Vstack 종료
         .overlay(content: {
 //            Text(recentSearches.isEmpty ? "최근에 검색하신 글이 없어요! 🥹😅" : "")
         })
@@ -188,3 +225,29 @@ struct SearchView_Previews: PreviewProvider {
         SearchView()
     }
 }
+
+// MARK : 최근 검색어 텍스트 쌓기
+//HStack{
+//    Text("RECENT SEARCHES")
+//        .bold()
+//    Spacer()
+//    Button {
+//        // 최근 검색어(Search history or Recent Searches) 전체 삭제 기능 - alert 후 전체 삭제
+//        showingDeleteAlert = true
+//    } label: {
+//        Image(systemName: "trash")
+//            .foregroundColor(.black)
+//            .padding(.trailing, -4)
+//    }
+//    .alert(isPresented: $showingDeleteAlert) {
+//        Alert(
+//            title: Text("Are you sure you want to delete all?"),
+//            message: Text("There is no undo"),
+//            primaryButton: .destructive(Text("Delete")) {
+//                print("Deleting...")
+//            },
+//            secondaryButton: .cancel()
+//        )
+//    }
+//}
+//.padding()
