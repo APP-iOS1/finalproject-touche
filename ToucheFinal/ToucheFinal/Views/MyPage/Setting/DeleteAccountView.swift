@@ -66,19 +66,18 @@ struct DeleteAccountView: View {
                 }
 
                 VStack {
-                    VStack {
-
-                        TextField("Enter your Text", text: $reasonForDeleteText, axis: .vertical)
-
-                            .padding(5)
-
-                        Spacer()
-                    }
-                    .frame(width: 360, height: 130)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(.gray, lineWidth: 0.5)
-                    )
+//                    VStack {
+                        // **FIXME: - 버전 낮추면서 생기는 에러부분 수정해주셔야합니다.**
+//                        TextField("Review", text: $reasonForDeleteText, axis: .vertical)
+//                            .padding(5)
+//
+//                        Spacer()
+//                    }
+//                    .frame(width: 360, height: 130)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 5)
+//                            .stroke(.gray, lineWidth: 0.5)
+//                    )
 
                     HStack {
                         Spacer()
@@ -109,8 +108,9 @@ struct DeleteAccountView: View {
                     .tint(.black)
                 }
             }
-            .toolbarBackground(Color.white, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            // **FIXME: - 버전 낮추면서 생기는 에러부분 수정해주셔야합니다.**
+//            .toolbarBackground(Color.white, for: .navigationBar)
+//            .toolbarBackground(.visible, for: .navigationBar)
             .frame(height: 700)
             .padding()
 
