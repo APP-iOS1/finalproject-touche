@@ -60,7 +60,7 @@ struct SettingView: View {
                             showSelectNationView.toggle()
                         } label: {
                             HStack{
-                                Text("Country / Region - (내가 선택한 국가)")
+                                Text("Country / Region")
                                 Spacer()
                                 //Image(systemName: "chevron.right")
                             }

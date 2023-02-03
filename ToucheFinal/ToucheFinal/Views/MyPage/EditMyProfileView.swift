@@ -93,7 +93,7 @@ struct EditMyProfileView: View {
                         .offset(x: geometry.size.width / 3.9)
                        
                     HStack{
-                        Text("Nation")
+                        Text("Location")
                             .font(.system(size: 19))
                             .padding(.trailing, 35)
                             .offset(x: geometry.size.width / 22, y: geometry.size.height / 300)
@@ -103,6 +103,7 @@ struct EditMyProfileView: View {
                         Text("🇺🇸")
                         }
                         .buttonStyle(.customButton)
+                        .offset(x: geometry.size.width / -25)
                         
                         Button {
                             editNation = "🇰🇷"
@@ -110,6 +111,7 @@ struct EditMyProfileView: View {
                             Text("🇰🇷")
                         }
                         .buttonStyle(.customButton)
+                        .offset(x: geometry.size.width / -15)
                     }
                 }
                 Divider()
