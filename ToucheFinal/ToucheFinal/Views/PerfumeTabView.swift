@@ -25,7 +25,7 @@ struct PerfumeTabView: View {
                         case 0:
                             HomeView()
                         case 1:
-                            PaletteView()
+                            PaletteView() 
                         default:
                             LogInRootView()
                         }
@@ -77,13 +77,15 @@ struct PerfumeTabView: View {
                                 .foregroundColor(Color(.black))
                                 .frame(width: 101, height: 4)
                         }
-                    }.padding(.top, -5)
+                    }
+                    .padding(.top, -5)
                 }
                 .onAppear {
                     print(selectedColors)
                 }
             }
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
     func randomColor(color: [String]) -> [String] {
         var randColors: Set<String> = []
@@ -100,5 +102,8 @@ struct PerfumeTabView: View {
 struct PerfumeTabView_Previews: PreviewProvider {
     static var previews: some View {
         PerfumeTabView()
+            .environmentObject(ColorPalette())
+            .environmentObject(PerfumeStore())
+            .environmentObject(UserInfoStore())
     }
 }

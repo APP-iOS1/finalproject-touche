@@ -112,13 +112,11 @@ struct PerfumeDetailView: View {
                                     Text("\(perfume.likedPeople.count)")
                                         .padding(.top, -8)
                                         .foregroundColor(.black)
-                                    //                                    .fontWeight(.light)
+                                        .fontWeight(.light)
                                 }
                             }
                             .padding(.trailing)
-                            .fullScreenCover(isPresented: $navLinkActive, content: {
-                                LogInSignUpView()
-                            })
+                            .modifier(SignInFullCover(isShowing: $navLinkActive))
                         }
                         .frame(width: abs(geometry.size.width - 20), alignment: .leading)
                         .padding(.leading, 20)
@@ -189,9 +187,8 @@ struct PerfumeDetailView: View {
                             .id(reviewId)
                             .padding(.horizontal, 20)
                             .padding(.bottom, 40)
-                            .fullScreenCover(isPresented: $navLinkActive, content: {
-                                LogInSignUpView()
-                            })
+                            .modifier(SignInFullCover(isShowing: $navLinkActive))
+                            
                         } else {
                             VStack(alignment: .leading, spacing: 5){
                                 Text("FragranceFamily")
@@ -249,9 +246,9 @@ struct PerfumeDetailView: View {
                     }
                     .navigationTitle(perfume.displayName)
                     .navigationBarTitleDisplayMode(.inline)
-                    .fullScreenCover(isPresented: $isShowingWriteComment, content: {
-                        WriteCommentView(perfume: perfume)
-                    })
+                    .fullScreenCover(isPresented: $isShowingWriteComment){
+                        WriteCommentView(perfume: perfume, isShowingWriteComment: $isShowingWriteComment)
+                    }
                 }
             }
             //        .onAppear {
@@ -300,7 +297,8 @@ struct PerfumeDetailView_Previews: PreviewProvider {
                                                likedPeople: ["1", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3", "2", "3"],
                                                commentCount: 154,
                                                totalPerfumeScore: 616
-                                              ))
+                                              )).environmentObject(PerfumeStore())
+                .environmentObject(UserInfoStore())
         }
     }
 }
