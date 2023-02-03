@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct PaletteView: View {
     @State private var angle: Angle = .zero
     @State private var radius: CGFloat = 140.0
@@ -20,6 +21,8 @@ struct PaletteView: View {
     
     @EnvironmentObject var colorPaletteCondition: ColorPalette
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @StateObject var paletteViewModel = PaletteViewModel()
+    
     
     let columns = [
         GridItem(.flexible()),
@@ -73,6 +76,7 @@ struct PaletteView: View {
                                         colorPaletteCondition.selectedCircle = .clear
                                         txt = ""
                                         isTapped = false
+                                        paletteViewModel.filterLikedScentTypePerfumes(scentType: color.name)
                                     }
                                 }
                         }
@@ -133,7 +137,7 @@ struct PaletteView: View {
                     
                     if userInfoStore.user != nil {
                         LazyVGrid(columns: columns, spacing: 15) {
-                            ForEach(dummy, id: \.self.perfumeId) { perfume in
+                            ForEach(paletteViewModel.likedScentTypePerfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)                            } label: {
                                         PerfumeCell(perfume: perfume, frameWidth: 150)
@@ -186,9 +190,11 @@ struct PaletteView: View {
             .modifier(SignInFullCover(isShowing: $navLinkActive))
             .padding(.top, 0.1)
             .onAppear {
-                for perfume in dummy {
+                paletteViewModel.filterLikedPerfumes(userId: userInfoStore.userInfo?.userId ?? "")
+                for perfume in paletteViewModel.likedPerfumes {
                     scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
                 }
+                print(paletteViewModel.likedPerfumes)
             }
         }
     }
