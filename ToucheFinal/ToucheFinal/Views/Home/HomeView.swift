@@ -110,7 +110,7 @@ struct HomeView: View {
                             .padding()
                             .padding(.top, -11)
                         }
-                        .frame(height: 200)
+                        .frame(height: 240)
                         .onAppear {
                             perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
                         }
@@ -157,7 +157,8 @@ struct HomeView: View {
                             .padding()
                             .padding(.top, -11)
                         }
-                        .frame(height: 200)
+                        .frame(height: 240)
+                        
                     }
                     /*
                      .onAppear {
