@@ -13,10 +13,14 @@ class HomeViewModel: ObservableObject {
     let perfumeStore = PerfumeStore.shared
     
     func filterRecommendedPerfumes(selectedScentTypes: [String]) {
-        recomendedPerfume = perfumeStore.perfumes.filter{selectedScentTypes.contains($0.scentType)}
+        recomendedPerfume = Array(Set(perfumeStore.perfumes.filter{selectedScentTypes.contains($0.scentType)}))
     }
     
     func filterRecentlyViewed7Perfumes(perfumesId: [String]) {
-        recentlyViewed7Perfumes = perfumeStore.perfumes.filter{perfumesId.contains($0.perfumeId)}
+        var perfumes: [Perfume] = []
+        for id in perfumesId {
+            perfumes += perfumeStore.perfumes.filter{ $0.perfumeId == id }
+        }
+        recentlyViewed7Perfumes = perfumes
     }
 }

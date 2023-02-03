@@ -87,7 +87,7 @@ struct HomeView: View {
 
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack {
-                            ForEach(homewViewModel.recomendedPerfume, id: \.self.perfumeId) { perfume in
+                            ForEach(homewViewModel.recomendedPerfume.prefix(6), id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
                                 } label: {
@@ -181,8 +181,11 @@ struct HomeView: View {
             }
             .onAppear{
                 let selectedScentType = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
-                homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: ["P12420", "P12495"])
-                homewViewModel.filterRecommendedPerfumes(selectedScentTypes: randomColor(scentTypes: selectedScentType))
+                let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+//                let recentlyPerfumesId: [String] = []
+                homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: recentlyPerfumesId)
+                homewViewModel.filterRecommendedPerfumes(selectedScentTypes: selectedScentType)
+                print(recentlyPerfumesId)
             }
             .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                 Image(systemName: "magnifyingglass").foregroundColor(.black)
@@ -208,19 +211,6 @@ struct HomeView: View {
 //        .padding(.bottom, 30)
         
        
-    }
-    
-    func randomColor(scentTypes: [String]) -> [String] {
-        var randomcolor: Set<String> = []
-        if scentTypes.count > 10 {
-            while randomcolor.count == 10 {
-                if let color = scentTypes.randomElement() {
-                    randomcolor.insert(color)
-                }
-            }
-            return Array(randomcolor)
-        }
-        return scentTypes
     }
 }
 

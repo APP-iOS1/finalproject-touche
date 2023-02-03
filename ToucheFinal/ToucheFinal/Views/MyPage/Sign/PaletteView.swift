@@ -141,7 +141,6 @@ struct PaletteView: View {
                 scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
             }
         }
-        
     }
 }
 

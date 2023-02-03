@@ -12,6 +12,7 @@ import FirebaseAuth
 /// 유저정보를 다루는 store
 final class UserInfoStore: ObservableObject{
     @Published var userInfo: UserInfo?
+    @Published var recentlyPerfumesId: [String] = []
     @Published var notice = ""
     private let database = Firestore.firestore().collection("User")
     var user: User? {
@@ -131,7 +132,8 @@ final class UserInfoStore: ObservableObject{
                     userNickName: nickname,
                     userProfileImage: "",
                     userEmail: emailAddress,
-                    writtenComments: []
+                    writtenComments: [],
+                    recentlyPerfumesId: []
                 )
                 // MARK: Firestore에 User Collection에 저장.
                 do {
@@ -172,5 +174,10 @@ final class UserInfoStore: ObservableObject{
         self.signInState = .signOut
         
         database.document(user?.uid ?? "").delete()
+    }
+    
+    func updateRecentlyPerfumes() {
+        database.document()
+//            .setData([])
     }
 }
