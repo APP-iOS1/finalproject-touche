@@ -14,10 +14,15 @@ struct SignUpView: View {
     
     @State var email: String = ""
     @State private var isDuplicatedCheck: Bool = true
-    @State private var nickNameCheck: Bool = false
+    @State private var nickNameCheck: Bool?
     @State var password: String = ""
     @State var checkPassword: String = ""
     @State var nickName: String = ""
+    
+    // 이메일 중복처리 확인
+//    var isEmailDuplicatedSatisfied: Bool {
+//        return userInfoStore.isDuplicated == true
+//    }
     
     // 이메일 정규식 검사
     var isEmailRuleSatisfied : Bool {
@@ -43,7 +48,7 @@ struct SignUpView: View {
     var isSignUpDisabled: Bool {
         
         // 조건을 다 만족하면 회원가입 버튼 abled
-        if isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && isNickNameSatisfied {
+        if userInfoStore.isDuplicated == false && isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && isNickNameSatisfied {
             return false
         } else { return true }// 하나라도 만족하지 않는다면 disabled
     }
@@ -54,7 +59,11 @@ struct SignUpView: View {
                 Group {
                     HStack {
                         Text("Email")
-                        
+                        // false = 합격(중복x사용가능ㅇ) , true = 탈락(중복임 바꿔야해)
+                        if userInfoStore.isDuplicated == false {
+                            Image(systemName: "checkmark.circle")
+                                .foregroundColor(.green)
+                        }
                         Spacer()
                         
                         Button {
@@ -78,7 +87,7 @@ struct SignUpView: View {
                             .font(.caption)
                             .foregroundColor(.red)
                             .padding(.top, -9)
-                    } else if userInfoStore.isDuplicated {
+                    } else if userInfoStore.isDuplicated == true {
                         Text("This email address already exists.")
                             .font(.caption)
                             .foregroundColor(.red)
@@ -118,7 +127,11 @@ struct SignUpView: View {
                 
                 Group{
                     HStack {
-                        Text("User name")
+                        Text("Nickname")
+                        if nickNameCheck == false {
+                            Image(systemName: "checkmark.circle")
+                                .foregroundColor(.green)
+                        }
                         Spacer()
                         Button {
                             Task {
@@ -142,11 +155,13 @@ struct SignUpView: View {
                         .padding(.top, -6)
 //                        .padding(.bottom, 10)
                     
-                    Text(nickNameCheck ? "Already exists." : "")
-                        .font(.caption)
-                        .foregroundColor(.red)
-                        .padding(.top, -9)
-                    //
+                    // 중복된 닉네임-true
+                    if nickNameCheck == true {
+                        Text("Already exists.")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .padding(.top, -9)
+                    }
                 }
             }
             .padding()
@@ -159,7 +174,7 @@ struct SignUpView: View {
             } label: {
                 Text("Sign Up")
                     .frame(width: 360, height: 46)
-                    .background(.black)
+                    .background(isSignUpDisabled ? .gray : .black)
                     .foregroundColor(.white)
                     .cornerRadius(7)
             }
