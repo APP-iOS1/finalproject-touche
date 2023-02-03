@@ -10,12 +10,14 @@ import SwiftUI
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestoreSwift
-@MainActor
+
 struct HomeView: View {
     
     @State private var isShowingPromotion: Bool = true
     @State private var perfumes: [Perfume] = []
     @StateObject var homewViewModel = HomeViewModel()
+    
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
     var rows: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
@@ -160,9 +162,19 @@ struct HomeView: View {
                     }
                 }
                 .onAppear{
+                    if (userInfoStore.user != nil) {    //  로그인이 아닌 상태일 때
+                        
+                        //  **비동기 처리**
+                        userInfoStore.fetchUser(user: userInfoStore.user)   //  애가 끝나기 전에
+                        homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: userInfoStore.userInfo?.recentlyPerfumesId ?? [])  //  너가 실행됨
+                    } else {    //  로그인 했을 경우
+                     
+                        let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+                        homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: recentlyPerfumesId)
+                    }
+                    
                     let selectedScentType = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
-                    let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
-                    homewViewModel.filterRecentlyViewed7Perfumes(perfumesId: recentlyPerfumesId)
+                    
                     homewViewModel.filterRecommendedPerfumes(selectedScentTypes: selectedScentType)
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
@@ -194,5 +206,6 @@ struct TextViewModeifier: ViewModifier {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(UserInfoStore())
     }
 }

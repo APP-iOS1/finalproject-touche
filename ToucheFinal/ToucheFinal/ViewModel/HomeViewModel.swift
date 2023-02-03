@@ -18,6 +18,7 @@ class HomeViewModel: ObservableObject {
     
     func filterRecentlyViewed7Perfumes(perfumesId: [String]) {
         var perfumes: [Perfume] = []
+        
         for id in perfumesId {
             perfumes += perfumeStore.perfumes.filter{ $0.perfumeId == id }
         }
