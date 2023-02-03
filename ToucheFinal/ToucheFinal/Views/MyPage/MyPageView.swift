@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct MyPageView: View {
     var perfume: Perfume
     var comment: Comment
     
     @State private var image = UIImage()
-    @State private var userNickname: String = "LUNA"
+    @State private var userNickname: String = ""
     @State private var showEditMyProfileView = false
     @State private var userNation: String = "🏳️"
     @State private var rotation: Double = 0
@@ -40,7 +41,7 @@ struct MyPageView: View {
                             .padding(.bottom,1)
                             HStack{
                                 Text("Name :")
-                                Text(userNickname)
+                                Text("\(userNickname)")
                             }
                             .padding(.bottom,9)
                             Button {
@@ -129,6 +130,9 @@ struct MyPageView: View {
                     }
                 }
             }
+        }
+        .task {
+            userNickname = await userInfoStore.getNickName(uid: Auth.auth().currentUser?.uid ?? "")
         }
     }
 }

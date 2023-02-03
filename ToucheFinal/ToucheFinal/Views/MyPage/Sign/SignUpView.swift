@@ -13,6 +13,8 @@ struct SignUpView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     @State var email: String = ""
+    @State private var isDuplicatedCheck: Bool = true
+    @State private var nickNameCheck: Bool = false
     @State var password: String = ""
     @State var checkPassword: String = ""
     @State var nickName: String = ""
@@ -31,12 +33,17 @@ struct SignUpView: View {
     var isPasswordSame: Bool {
         return ((password == checkPassword) && !password.isEmpty) || checkPassword.isEmpty
     }
+    
+    // 닉네임 확인 - 중복 false && !nickName.isEmpty
+    var isNickNameSatisfied: Bool {
+        return nickNameCheck == false && !nickName.isEmpty
+    }
 
     // 회원가입 버튼
     var isSignUpDisabled: Bool {
         
         // 조건을 다 만족하면 회원가입 버튼 abled
-        if isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && !nickName.isEmpty {
+        if isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && isNickNameSatisfied {
             return false
         } else { return true }// 하나라도 만족하지 않는다면 disabled
     }
@@ -87,14 +94,36 @@ struct SignUpView: View {
                 .padding(.vertical, 1)
                 
                 Group{
-                    Text("User name")
+                    HStack {
+                        Text("User name")
+                        Spacer()
+                        Button {
+                            Task {
+                                do {
+                                    let target = try await userInfoStore.isNicknameDuplicated(nickName: nickName)
+                                    nickNameCheck = target
+                                } catch {
+                                    throw(error)
+                                }
+                            }
+                        } label: {
+                            Text("중복확인")
+                        }
+
+                    }
                     
                     TextField("Enter user name", text: $nickName)
                         .textInputAutocapitalization(.never) // 대문자 방지
                         .disableAutocorrection(true) // 자동수정 방지
                         .frame(height: 40)
                         .padding(.top, -6)
-                        .padding(.bottom, 10)
+//                        .padding(.bottom, 10)
+                    
+                    Text(nickNameCheck ? "Already exists." : "")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                        .padding(.top, -9)
+                    //
                 }
             }
             .padding()
