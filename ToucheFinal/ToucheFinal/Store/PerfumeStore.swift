@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 
 @MainActor
 class PerfumeStore: ObservableObject {
-
+    
     @Published var recomendedPerfumes: [Perfume] = []
     @Published var topComment20Perfumes: [Perfume] = []
     @Published var recentlyViewedPerfumes: [Perfume] = []
@@ -46,7 +46,7 @@ class PerfumeStore: ObservableObject {
                 }
             }
             recentlyViewedPerfumes = Array(tempPerfumes.prefix(min(tempPerfumes.count / 2, 7)))
-
+            
         } catch {}
     }
     
@@ -104,7 +104,7 @@ class PerfumeStore: ObservableObject {
                 ])
         } catch {}
     }
-        
+    
     func fetchPerfume(perfumeId: String) async -> Perfume {
         var perfume: [Perfume] = []
         do {
@@ -112,5 +112,16 @@ class PerfumeStore: ObservableObject {
             perfume.append(try snapshot.data(as: Perfume.self))
         } catch {}
         return perfume[0]
+    }
+    
+    func deletePerfumeComment(perfumeId: String, score: Int) async {
+        do {
+            let perfume = await fetchPerfume(perfumeId: perfumeId)
+            try await database.document(perfume.perfumeId)
+                .updateData([
+                    "commentCount": (perfume.commentCount - 1),
+                    "totalPerfumeScore": (perfume.totalPerfumeScore - score)
+                ])
+        } catch {}
     }
 }

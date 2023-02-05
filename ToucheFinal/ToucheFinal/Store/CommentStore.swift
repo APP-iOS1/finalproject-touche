@@ -72,6 +72,7 @@ class CommentStore: ObservableObject {
         } catch {}
         
     }
+    
     func fetchComment(perfumeId: String, commentId: String) async -> Comment {
         var comment: [Comment] = []
         do {
@@ -79,6 +80,13 @@ class CommentStore: ObservableObject {
             comment.append(try snapshot.data(as: Comment.self))
         } catch {}
         return comment[0]
+    }
+    
+    func deleteComment(perfumeId: String, commentId: String) async {
+        do {
+            try await database.document(perfumeId).collection("Comment").document(commentId)
+                .delete()
+        } catch {}
     }
 }
 

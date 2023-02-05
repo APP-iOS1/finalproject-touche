@@ -500,7 +500,7 @@ private extension PerfumeDetailView {
             
             ForEach(commentStore.comments, id: \.self.commentId) { comment in
                 Divider()
-                CommentCell(comment: comment, perfumeId: perfume.perfumeId)
+                CommentCell(comment: comment, perfume: $perfume)
             }
         }
         .onTapGesture {

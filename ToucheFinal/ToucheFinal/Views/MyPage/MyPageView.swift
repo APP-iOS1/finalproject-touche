@@ -135,7 +135,8 @@ struct MyPageView: View {
         .task {
             userNickname = await userInfoStore.getNickName(uid: Auth.auth().currentUser?.uid ?? "")
             await userInfoStore.fetchUser(user: userInfoStore.user)
-            await userInfoStore.readWrittenComment()
+            await userInfoStore.readWrittenComments()
+            print(userInfoStore.writtenCommentsAndPerfumes)
         }
     }
 }

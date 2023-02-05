@@ -253,7 +253,7 @@ final class UserInfoStore: ObservableObject{
         } catch {}
     }
     
-    func readWrittenComment() async {
+    func readWrittenComments() async {
         let path = Firestore.firestore().collection("Perfume")
         do {
             var tempCommentAndPerfume: [(Perfume, Comment)] = []
@@ -268,6 +268,14 @@ final class UserInfoStore: ObservableObject{
                 tempCommentAndPerfume.append((perfume, comment))
                 }
             writtenCommentsAndPerfumes = tempCommentAndPerfume
+        } catch {}
+    }
+    
+    func deleteWrittenComment(perfumeId: String, commentId: String) async {
+        let path = Firestore.firestore().collection("Perfume")
+        do {
+            try await path.document(perfumeId).collection("Comment").document(commentId)
+                .delete()
         } catch {}
     }
 }
