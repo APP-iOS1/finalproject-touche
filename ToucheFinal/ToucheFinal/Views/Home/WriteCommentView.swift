@@ -10,7 +10,7 @@ import SwiftUI
 struct WriteCommentView: View {
 //    @State private var reviewText: String = ""
     @EnvironmentObject var perfumeStore: PerfumeStore
-    @EnvironmentObject var userInfoSore: UserInfoStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var commentStore: CommentStore
     @Environment(\.dismiss) var dismiss
     
@@ -90,12 +90,14 @@ struct WriteCommentView: View {
                 
                 Button{
                     Task {
-                        guard let userInfo = userInfoSore.userInfo else {return}
-                        let comment = Comment(commentId: UUID().uuidString, commentTime: Date().timeIntervalSince1970, contents: manager.reviewText, perfumeScore: score , writerId: userInfo.userId, writerNickName: userInfo.userNickName, writerImage: userInfo.userEmail, likedPeople: [])
+                        guard let userInfo = userInfoStore.userInfo else {return}
+                        await userInfoStore.fetchUser(user: userInfoStore.user)
+                        let comment = Comment(commentId: UUID().uuidString, commentTime: Date().timeIntervalSince1970, contents: manager.reviewText, perfumeScore: score , writerId: userInfo.userId, writerNickName: userInfo.userNickName, writerImage: userInfo.userProfileImage, likedPeople: [])
                         
                         await commentStore.setComment(comment: comment, perfumeId: perfume.perfumeId)
                         await commentStore.fetchComments(perfumeId: perfume.perfumeId)
                         await perfumeStore.updateCommentCount(perfumeId: perfume.perfumeId, score: score)
+                        await userInfoStore.updateWrittenComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
                         isShowingWriteComment.toggle()
                     }
                 }label: {

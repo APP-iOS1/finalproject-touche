@@ -59,32 +59,32 @@ struct MyPageView: View {
                     }
                     .padding(.bottom,20)
                     
-                    
-//                    마이 프로필 세로 형태
-//                    Image(uiImage: self.image)
-//                        .resizable()
-//                        .cornerRadius(50)
-//                        .frame(width: 100, height: 100)
-//                        .background(Color.black.opacity(0.2))
-//                        .aspectRatio(contentMode: .fill)
-//                        .clipShape(Circle())
-//                        .padding(.bottom, 20)
-//                    HStack{
-//                        Text(userNickname)
-//                        Text(userNation)
-//                    }
-//                    .padding(.bottom,1)
-//                    Button {
-//                        showEditMyProfileView.toggle()
-//                    } label: {
-//                        Text("Edit Profile")
-////                            .foregroundColor(Color.black)
-//                    }
-//                    .fullScreenCover(isPresented: $showEditMyProfileView) {
-//                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
-//                    }
-//                    .padding(.bottom, 15)
-
+                    Group {
+                        //                    마이 프로필 세로 형태
+                        //                    Image(uiImage: self.image)
+                        //                        .resizable()
+                        //                        .cornerRadius(50)
+                        //                        .frame(width: 100, height: 100)
+                        //                        .background(Color.black.opacity(0.2))
+                        //                        .aspectRatio(contentMode: .fill)
+                        //                        .clipShape(Circle())
+                        //                        .padding(.bottom, 20)
+                        //                    HStack{
+                        //                        Text(userNickname)
+                        //                        Text(userNation)
+                        //                    }
+                        //                    .padding(.bottom,1)
+                        //                    Button {
+                        //                        showEditMyProfileView.toggle()
+                        //                    } label: {
+                        //                        Text("Edit Profile")
+                        ////                            .foregroundColor(Color.black)
+                        //                    }
+                        //                    .fullScreenCover(isPresented: $showEditMyProfileView) {
+                        //                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
+                        //                    }
+                        //                    .padding(.bottom, 15)
+                    } //세로 묶음 주석
                     Divider()
                     VStack{
                         HStack{
@@ -109,8 +109,8 @@ struct MyPageView: View {
                         .padding(.bottom, 15)
                         
                             VStack(alignment: .center){
-                                ForEach(0..<3) { _ in
-                                    MyPageMyCommentCell(perfume: dummy[0], comment: commentDummy[0])
+                                ForEach(userInfoStore.writtenCommentsAndPerfumes, id: \.self.0) { (perfume, comment) in
+                                    MyPageMyCommentCell(perfume: perfume, comment: comment)
                                         .padding(.bottom, 20)
                                 }
                             }
@@ -134,6 +134,8 @@ struct MyPageView: View {
         }
         .task {
             userNickname = await userInfoStore.getNickName(uid: Auth.auth().currentUser?.uid ?? "")
+            await userInfoStore.fetchUser(user: userInfoStore.user)
+            await userInfoStore.readWrittenComment()
         }
     }
 }

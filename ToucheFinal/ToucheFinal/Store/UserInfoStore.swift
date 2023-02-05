@@ -17,6 +17,7 @@ final class UserInfoStore: ObservableObject{
     @Published var notice = ""
     @Published var errorMessage = ""
     @Published var isDuplicated: Bool?
+    @Published var writtenCommentsAndPerfumes: [(Perfume, Comment)] = []
     private let database = Firestore.firestore().collection("User")
     lazy var userNickname = Auth.auth().currentUser?.displayName ?? ""
     
@@ -242,5 +243,31 @@ final class UserInfoStore: ObservableObject{
                 .updateData(["recentlyPerfumesId": recentlyPerfumesId])
         } catch {}
     }
-
+    
+    func updateWrittenComment(perfumeId: String, commentId: String) async {
+        guard let uid = user?.uid else {return}
+        do {
+            userInfo?.writtenComments.append("\(perfumeId) \(commentId)")
+            try await database.document("\(uid)")
+                .updateData(["writtenComments": userInfo?.writtenComments ?? []])
+        } catch {}
+    }
+    
+    func readWrittenComment() async {
+        let path = Firestore.firestore().collection("Perfume")
+        do {
+            var tempCommentAndPerfume: [(Perfume, Comment)] = []
+            for commentId in userInfo?.writtenComments ?? [] {
+                let perfumeId = commentId.components(separatedBy: " ")[0]
+                let commentId = commentId.components(separatedBy: " ")[1]
+                let commentSnapshot = try await path.document(perfumeId).collection("Comment").document(commentId).getDocument()
+                let comment = try commentSnapshot.data(as: Comment.self)
+                
+                let perfumeSnapshot = try await path.document(perfumeId).getDocument()
+                let perfume = try perfumeSnapshot.data(as: Perfume.self)
+                tempCommentAndPerfume.append((perfume, comment))
+                }
+            writtenCommentsAndPerfumes = tempCommentAndPerfume
+        } catch {}
+    }
 }
