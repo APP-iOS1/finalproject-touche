@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct PaletteView: View {
     @State private var angle: Angle = .zero
     @State private var radius: CGFloat = 140.0
@@ -194,7 +192,6 @@ struct PaletteView: View {
             .modifier(SignInFullCover(isShowing: $navLinkActive))
             .padding(.top, 0.1)
             .onAppear {
-//                paletteViewModel.filterLikedPerfumes(userId: userInfoStore.currentUser ?? "")
                 Task {
                     guard let userId = userInfoStore.user?.uid else {return}
                     await perfumeStore.likedPerfumes(userId: userId)

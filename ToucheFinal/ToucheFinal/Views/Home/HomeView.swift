@@ -166,12 +166,16 @@ struct HomeView: View {
                         Task {
                             await userInfoStore.fetchUser(user: userInfoStore.user)
                             guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
-                            await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                            if !recentlyPerfumesId.isEmpty {
+                                await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                            }
                         }
                     } else {    //  로그인 했을 경우
                         Task {
                             let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
-                            await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                            if !recentlyPerfumesId.isEmpty {
+                                await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                            }
                         }
                     }
                     
