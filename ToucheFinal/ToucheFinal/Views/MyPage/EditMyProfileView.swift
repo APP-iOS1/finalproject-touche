@@ -151,12 +151,14 @@ struct EditMyProfileView: View {
                     Button("Done"){
                         Task {
                             // TODO: 닉네임 수정시 중복확인하는 부분 done에서는 안돼는 상황
+                            /*
                             do {
                                 let target = try await userInfoStore.isNicknameDuplicated(nickName: editName)
                                 nickNameCheck = target
                             } catch {
                                 throw(error)
                             }
+                             */
                             
                             if editIsValid && nickNameCheck == false {
                                 // 수정 완료 기능
@@ -166,6 +168,9 @@ struct EditMyProfileView: View {
                                 dismiss()
                                 await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: userNickname)
                             }
+                            
+                            await userInfoStore.uploadPhoto([editImage.pngData()!])
+                            
                         }
                     }
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인

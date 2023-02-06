@@ -8,6 +8,8 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseStorage
+import UIKit
 
 /// 유저정보를 다루는 store
 @MainActor
@@ -19,6 +21,9 @@ final class UserInfoStore: ObservableObject{
     @Published var isDuplicated: Bool?
     @Published var writtenCommentsAndPerfumes: [(Perfume, Comment)] = []
     private let database = Firestore.firestore().collection("User")
+    
+    //  storage 참조변수
+    private let storageRef = Storage.storage().reference()
     lazy var userNickname = Auth.auth().currentUser?.displayName ?? ""
     
     var currentUser = Auth.auth().currentUser?.uid
@@ -278,4 +283,52 @@ final class UserInfoStore: ObservableObject{
                 .delete()
         } catch {}
     }
+    
+    //  storage에 사진이 올라가는 메서드
+    //  앱 재실행 시 다시 설정해줘야하는 문제 발생
+    func uploadPhoto(_ imagesData: [Data]) async -> [String] {
+        do{
+            
+            print("사진 업로드 시작")
+            
+            var imagesURL: [String] = []
+            if imagesData.isEmpty { return [] }
+            
+            for imageData in imagesData {
+                let uuid = UUID().uuidString
+                let path = "images/\(uuid).jpg"
+                let fileRef = storageRef.child(path)
+                
+                // 저장된 게 있으면 삭제,  없으면 바로 올리기
+                _ = try await fileRef.putDataAsync(imageData, metadata: nil) // 올리는 과정
+                let url = try await fileRef.downloadURL()
+                imagesURL.append(url.absoluteString)
+            }
+            
+            print("사진 업로드 성공: \(imagesURL)")
+            
+            return imagesURL
+        } catch{
+            
+            print("사진 업로드 실패")
+            
+            fatalError()
+        }
+    }
+    
+    func fetchProfilePhoto() -> Void {
+        
+        
+    }
+    
+    /*
+    func fetchUser(user: User?) async {
+        guard let uid = user?.uid else { return }
+        do {
+            let snapshot = try await database.document(uid).getDocument()
+            userInfo = try snapshot.data(as: UserInfo.self)
+            self.notice = "fetchUser"
+        } catch {}
+    }
+     */
 }
