@@ -39,9 +39,9 @@ develop-front2 브랜치에서 다운 받아주시기를 양해 구합니다!
 
 <br/>
 
-| <img src="https://avatars.githubusercontent.com/u/70871997?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/87080756?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/52193695?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/68586179?v=4" width=200> |
+| <img src="https://avatars.githubusercontent.com/u/70871997?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/87080756?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/52193695?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/114331071?v=4" width=200> |
 | :----------------------------------------------------------: | :---------------------------------------------: | :-------------------------------------------------: | :-------------------------------------------------: |
-| 석진<br/>[@tjrwls](https://github.com/tjrwls)<br/> | 운상<br/>[@wschooo](https://github.com/wschooo)<br/> | 진표<br/> [@jphong1005](https://github.com/jphong1005)<br/> | 유진<br/>[@yooj_1202](https://github.com/yooj_1202)<br/> |
+| 석진<br/>[@tjrwls](https://github.com/tjrwls)<br/> | 운상<br/>[@wschooo](https://github.com/wschooo)<br/> | 진표<br/> [@jphong1005](https://github.com/jphong1005)<br/> | 유진<br/>[@yooj1202](https://github.com/yooj1202)<br/> |
 
 ## 라이센스
 
