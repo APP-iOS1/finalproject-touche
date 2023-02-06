@@ -46,7 +46,7 @@ struct PaletteView: View {
                                     degrees: Double(index) * 22.5,
                                     name: color.name,
                                     count: scentTypeCount[color.name] ?? 0)
-//                                .opacity(isTapped ? (color.name == txt ? 1 : 0.5) : 0.5)
+                                //                                .opacity(isTapped ? (color.name == txt ? 1 : 0.5) : 0.5)
                                 .onTapGesture {
                                     colorPaletteCondition.selectedColor = color.color
                                     colorPaletteCondition.selectedCircle = color.color
@@ -77,6 +77,7 @@ struct PaletteView: View {
                                         colorPaletteCondition.selectedCircle = .clear
                                         txt = ""
                                         isTapped = false
+                                        perfumes.removeAll()
                                     }
                                 }
                         }
@@ -96,8 +97,8 @@ struct PaletteView: View {
                         .padding()
                         .background(Color("customGray"))
                         .cornerRadius(10)
-//                        .frame(height: 150)
-
+                    //                        .frame(height: 150)
+                    
                     
                     //MARK: -Wish list
                     HStack {
@@ -111,7 +112,7 @@ struct PaletteView: View {
                     
                     if userInfoStore.user != nil {
                         LazyVGrid(columns: columns, spacing: 15) {
-                            ForEach(perfumes.prefix(6), id: \.self.perfumeId) { perfume in
+                            ForEach(perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
                                     PerfumeDetailView(perfume: perfume)
                                 } label: {
@@ -158,10 +159,12 @@ struct PaletteView: View {
                 }
                 .padding()
                 .zIndex(1)
-                ZStack {
-                    ColorPaletteUnderView(colorPaletteCondition: colorPaletteCondition)
-                }
             }
+            .background(
+                ZStack {
+                    ColorPaletteUnderView(colorPaletteCondition: colorPaletteCondition, perfumesCount: perfumes.count)
+                }
+            )
             .modifier(SignInFullCover(isShowing: $navLinkActive))
             .padding(.top, 0.1)
             .onAppear {
