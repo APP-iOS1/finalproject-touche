@@ -272,10 +272,13 @@ final class UserInfoStore: ObservableObject{
     }
     
     func deleteWrittenComment(perfumeId: String, commentId: String) async {
-        let path = Firestore.firestore().collection("Perfume")
+        let path = Firestore.firestore().collection("User")
+        guard let uid = user?.uid else {return}
+        guard let index = userInfo?.writtenComments.firstIndex(of: "\(perfumeId) \(commentId)") else {return}
         do {
-            try await path.document(perfumeId).collection("Comment").document(commentId)
-                .delete()
+            userInfo?.writtenComments.remove(at: index)
+            try await path.document(uid)
+                .updateData(["writtenComments": userInfo?.writtenComments ?? []])
         } catch {}
     }
 }

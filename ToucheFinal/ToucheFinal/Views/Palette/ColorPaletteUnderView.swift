@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ColorPaletteUnderView: View {
-    @EnvironmentObject var colorPaletteCondition: ColorPalette
+    @ObservedObject var colorPaletteCondition: ColorPalette
     
     var body: some View {
         ZStack {
@@ -29,7 +29,7 @@ struct ColorPaletteUnderView: View {
 
 struct ColorPaletteUnderView_Previews: PreviewProvider {
     static var previews: some View {
-        ColorPaletteUnderView()
-            .environmentObject(ColorPalette())
+        ColorPaletteUnderView(colorPaletteCondition: ColorPalette())
+//            .environmentObject(ColorPalette())
     }
 }

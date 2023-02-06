@@ -27,21 +27,31 @@ struct PalletteCell: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            Path { path in
-                let center = CGPoint(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                path.move(to: center)
-                path.addArc(center: center, radius: 180, startAngle: Angle(degrees: degrees), endAngle: Angle(degrees: degrees - 22), clockwise: true)
-                path.addLine(to: center)
+        ZStack {
+            GeometryReader { geometry in
+                Circle()
+                    .trim(from: 0.7205, to: 0.7795)
+                    .stroke(lineWidth: 50)
+                    .overlay{
+                        Text(name)
+                            .font(.system(size: 14))
+                            .minimumScaleFactor(0.99)
+                            .lineLimit(2)
+                            .frame(width: 55)
+                            .offset(x: 0, y: -geometry.size.height / 2)
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                    }
+                    .rotationEffect(Angle(degrees: degrees))
+                    .foregroundColor(color)
             }
-            .fill(color)
         }
-        .opacity(opacity)
+        .frame(width: 300, height: 300)
     }
 }
 
 struct PalletteCell_Previews: PreviewProvider {
     static var previews: some View {
-        PalletteCell(color: .red, degrees: 40, name: "name", count: 3)
+        PalletteCell(color: .red, degrees: 40, name: "Fresh Aquatics", count: 3)
     }
 }
