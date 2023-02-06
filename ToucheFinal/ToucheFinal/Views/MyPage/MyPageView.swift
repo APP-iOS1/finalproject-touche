@@ -7,12 +7,13 @@
 
 import SwiftUI
 import FirebaseAuth
+import SDWebImageSwiftUI
 
 struct MyPageView: View {
     var perfume: Perfume
     var comment: Comment
     
-    @State private var image = UIImage()
+    @State private var image: UIImage = UIImage()
     @State private var userNickname: String = ""
     @State private var showEditMyProfileView = false
     @State private var userNation: String = "🏳️"
@@ -27,7 +28,8 @@ struct MyPageView: View {
             ScrollView{
                 VStack{
                     HStack {
-                        Image(uiImage: self.image)
+                        WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
+                        //WebImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/touchefinal-231b4.appspot.com/o/images%2F2295A265-06B5-44B9-909F-944FA42284E4.jpg?alt=media&token=25e643c9-d30e-4ed7-a7f6-131a53367912"))
                             .resizable()
                             .cornerRadius(50)
                             .frame(width: 100, height: 100)
@@ -133,10 +135,19 @@ struct MyPageView: View {
             }
         }
         .task {
-            userNickname = await userInfoStore.getNickName(uid: Auth.auth().currentUser?.uid ?? "")
-            await userInfoStore.fetchUser(user: userInfoStore.user)
-            await userInfoStore.readWrittenComments()
-            print(userInfoStore.writtenCommentsAndPerfumes)
+//            userNickname = await userInfoStore.getNickName(uid: Auth.auth().currentUser?.uid ?? "")
+//            
+//            await userInfoStore.fetchUser(user: userInfoStore.user)
+//            print("??? : \(userInfoStore.userInfo)")
+//            await userInfoStore.readWrittenComments()
+//            print(userInfoStore.writtenCommentsAndPerfumes)
+            
+            guard let user = Auth.auth().currentUser else {return}
+            print("user? : \(user.uid)")
+                        userNickname = await userInfoStore.getNickName(uid: user.uid)
+                        await userInfoStore.fetchUser(user: user)
+            print(userInfoStore.userInfo)
+                        await userInfoStore.readWrittenComments()
         }
     }
 }

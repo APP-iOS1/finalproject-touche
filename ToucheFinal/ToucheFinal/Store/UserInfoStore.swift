@@ -58,7 +58,6 @@ final class UserInfoStore: ObservableObject{
     @Published var state: SignInState = .splash
     @Published var loginState: LogInState = .none
     @Published var loginPlatform: LoginPlatform = .none
-    
     @Published var signInState: SignInState = .signOut
     
     /// 현재 로그인한 사용자의 `UserInfo`를 Firestore로 부터 읽어오는 함수
@@ -71,7 +70,9 @@ final class UserInfoStore: ObservableObject{
             let snapshot = try await database.document(uid).getDocument()
             userInfo = try snapshot.data(as: UserInfo.self)
             self.notice = "fetchUser"
-        } catch {}
+        } catch {
+            
+        }
     }
     
     /// 이 클래스가 실행하면, 먼저 로그인 여부를 따져서 이전에 로그인했으면 자동 로그인을 지원한다.
@@ -285,7 +286,6 @@ final class UserInfoStore: ObservableObject{
     }
     
     //  storage에 사진이 올라가는 메서드
-    //  앱 재실행 시 다시 설정해줘야하는 문제 발생
     func uploadPhoto(_ imagesData: [Data]) async -> [String] {
         do{
             
@@ -303,9 +303,21 @@ final class UserInfoStore: ObservableObject{
                 _ = try await fileRef.putDataAsync(imageData, metadata: nil) // 올리는 과정
                 let url = try await fileRef.downloadURL()
                 imagesURL.append(url.absoluteString)
+                
+                print("사진 업로드 성공: \(imagesURL)")
+                
+                await fetchUser(user: Auth.auth().currentUser)
+                
+                let delPath = "images/\(String( userInfo?.userProfileImage.split(separator: "%2F")[1].split(separator: "?")[0] ?? ""))"
+                
+                print("path: \(delPath)")
+                
+                try await storageRef.child(delPath).delete()
+                
+                //print("path: \(delPath)")
             }
             
-            print("사진 업로드 성공: \(imagesURL)")
+            //print("사진 업로드 성공: \(imagesURL)")
             
             return imagesURL
         } catch{
@@ -321,14 +333,11 @@ final class UserInfoStore: ObservableObject{
         
     }
     
-    /*
-    func fetchUser(user: User?) async {
-        guard let uid = user?.uid else { return }
-        do {
-            let snapshot = try await database.document(uid).getDocument()
-            userInfo = try snapshot.data(as: UserInfo.self)
-            self.notice = "fetchUser"
-        } catch {}
-    }
-     */
+    func setProfilePhotoUrl(uid: String, userProfileImageUrl: String) async -> Void {
+            let path = database
+            do {
+                try await path.document(uid).updateData(["userProfileImage": userProfileImageUrl])
+            } catch { }
+        }
+
 }

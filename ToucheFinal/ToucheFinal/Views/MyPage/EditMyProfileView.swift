@@ -35,7 +35,7 @@ struct EditMyProfileView: View {
         NavigationView {
             GeometryReader{ geometry in
             VStack{
-                Image(uiImage: self.editImage)
+                Image(uiImage: self.image)
                     .resizable()
                     .cornerRadius(50)
                     .frame(width: 100, height: 100)
@@ -137,9 +137,9 @@ struct EditMyProfileView: View {
         } // Geometry 종료
             
             .sheet(isPresented: $showGallerySheet){
-                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$editImage)}
+                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)}
             .sheet(isPresented: $showCameraSheet) {
-                ImagePicker(sourceType: .camera, selectedImage: self.$editImage)
+                ImagePicker(sourceType: .camera, selectedImage: self.$image)
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -162,17 +162,22 @@ struct EditMyProfileView: View {
                             
                             if editIsValid && nickNameCheck == false {
                                 // 수정 완료 기능
-                                image = editImage
+                                //image = editImage
                                 userNickname = editName
                                 userNation = editNation
-                                dismiss()
+                                
                                 await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: userNickname)
                             }
                             
-                            await userInfoStore.uploadPhoto([editImage.pngData()!])
+                            let strImg = await userInfoStore.uploadPhoto([image.pngData() ?? Data()])
                             
+                            await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg.last ?? "")
+                                
+                            
+                            dismiss()
                         }
                     }
+                    
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
                     .disabled(!editIsValid)
                     // TODO: done - disable 설정하기, 닉네임설정 후 활성화 + 중복확인 기능 추가
@@ -188,6 +193,16 @@ struct EditMyProfileView: View {
        
     }
 }
+
+extension String {
+    func toImage() -> UIImage {
+        if let data = Data(base64Encoded: self, options: .ignoreUnknownCharacters){
+            return UIImage(data: data)!
+        }
+        return UIImage()
+    }
+}
+
 
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
