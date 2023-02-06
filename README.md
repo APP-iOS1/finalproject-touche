@@ -33,7 +33,7 @@ develop-front2 브랜치에서 다운 받아주시기를 양해 구합니다!
 - 설치/실행 방법
 
 ## 참여자
-| <img src="https://avatars.githubusercontent.com/u/114036537?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/114224237?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/33450365?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/98254580?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/70871997?s=96&v=4" width=200> |
+| <img src="https://avatars.githubusercontent.com/u/114036537?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/75517368?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/33450365?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/98254580?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/70871997?s=96&v=4" width=200> |
 | :----------------------------------------------------------: | :---------------------------------------------: | :-------------------------------------------------: | :-------------------------------------------------: |  :-------------------------------------------------: |
 | 미주<br/>[@mumjee03](https://github.com/mumjee03)<br/> | 태성<br/>[@KTS224](https://github.com/KTS224)<br/> | 태형<br/> [@yahoth](https://github.com/yahoth)<br/> | 광현<br/>[@seo-kh](https://github.com/seo-kh)<br/> | 재희<br/>[@jaehee6](https://github.com/jaehee6)<br/> |
 <br/>
