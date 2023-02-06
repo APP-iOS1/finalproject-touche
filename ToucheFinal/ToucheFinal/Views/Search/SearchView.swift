@@ -7,16 +7,35 @@
 
 import SwiftUI
 
+/*
+ - 광현
+ 1. 알파벳 입력 시 앞글자만 검색어 자동완성되도록 수정
+ 2. 서치 시 자동완성 검색어 뷰 수정
+ 
+ - 유진
+ 3. Recent Searchs 에 최근 검색어 추가 (직접 검색했을 때, 키보드에서 검색 눌렀을 때 둘다 반영되는지 확인하기)
+ 4. 자동완성 검색어 프레임 조정 (누르면 위에 검색어가 검색되는 경우가 왕왕 있음)
+ 
+ - 태성
+ 5.  알파벳 대문자, 소문자에서 상관없이 검색되도록 설정
+ 6. 동일한 검색어는 Recent Searchs 에 안쌓이도록 설정
+ */
 struct SearchView: View {
     enum Field: Hashable {
         case searchText
     }
     
+    // 최근 기록 저장 변수
     @State private var recentSearches: [String] = []
-//    @State private var queryText = ""
+    // firestore query
+    // @State private var queryText = ""
+    // 키보드 검색 누르면, 다음화면으로 이동
     @State private var isSearchActive = false
+    // 검색창 Text
     @State private var searchText = ""
+    // recentSearches 검색어 전체 삭제 알럿변수
     @State private var showingDeleteAlert = false
+    // keyboard Focus field
     @FocusState private var focusField : Field?
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
@@ -25,8 +44,8 @@ struct SearchView: View {
             return []
         } else {
             return Brand.dummy.filter { brand in
-                brand.name.lowercased().contains(searchText.lowercased())
-                //                   perfume.displayName.lowercased().contains(searchText.lowercased())
+                brand.name.lowercased().hasPrefix(searchText.lowercased())
+                // perfume.displayName.lowercased().contains(searchText.lowercased())
             }
         }
     }
@@ -39,9 +58,8 @@ struct SearchView: View {
                         .bold()
                     Spacer()
                     
-                    if recentSearches.isEmpty {
+                    if !recentSearches.isEmpty {
                         
-                    } else {
                         Button {
                             // 최근 검색어(Search history or Recent Searches) 전체 삭제 기능 - alert 후 전체 삭제
                             showingDeleteAlert = true
@@ -62,44 +80,71 @@ struct SearchView: View {
                             )
                         }
                     }
-                    
                 }
-                .padding()
+                .padding(.horizontal, 20.0)
+                .padding(.vertical, 8.0)
             }
             
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
                     ForEach(searchResults) { (result: Brand) in
-                        HStack {
-                            NavigationLink {
-                                // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
-//                                SearchResultView(perfume: result, searchText: $searchText)
-                                FilteringResultView(field: "brandName", queries: [result.name])
-                            } label: {
-                                GeometryReader { geo in
-                                    HStack{
-                                        Text(result.name)
-                                            .font(.system(size: 18))
-                                            .foregroundColor(.black)
-                                            .offset(x: geo.size.width / 12)
-                                        Spacer()
-                                        NavigationLink {
-//                                            stackSearchText(text: result.name)
-                                            FilteringResultView(field: "brandName", queries: [result.name])
-                                        } label: {
-                                            Image(systemName: "arrow.up.right")
-                                                .foregroundColor(Color(UIColor.systemGray2))
-                                            
-                                        }
-                                        .padding(.trailing, 15)
-                                    }
+                        NavigationLink {
+                            // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
+                            // SearchResultView(perfume: result, searchText: $searchText)
+                            FilteringResultView(field: "brandName", queries: [result.name])
+                        } label: {
+                            HStack{
+                                Image(systemName: "magnifyingglass")
+                                Text(result.name)
+                                    .font(.system(size: 18))
+                                Spacer()
+                                NavigationLink {
+                                    // stackSearchText(text: result.name)
+                                    FilteringResultView(field: "brandName", queries: [result.name])
+                                } label: {
+                                    Image(systemName: "arrow.up.right")
+                                        .foregroundColor(Color(UIColor.systemGray2))
                                 }
-                                .padding(.top, 18)
                             }
                         }
+                        Divider()
+                            .padding(.vertical, -8.0)
                     }
                 }
+                .tint(.primary)
+                .padding(.horizontal, 20.0)
+                .padding(.vertical, 16.0)
             } // ScrollView 종료
+//            List {
+//                ForEach(searchResults) { result in
+//                    ZStack(alignment: .leading) {
+//                        NavigationLink {
+//                            FilteringResultView(field: "brandName", queries: [result.name])
+//                        } label: {
+//                            EmptyView()
+//                        }
+//                        .opacity(0)
+//
+//                        HStack{
+//                            Image(systemName: "magnifyingglass")
+//                            Text(result.name)
+//                                .font(.system(size: 18))
+//                                .foregroundColor(.black)
+//                            Spacer()
+//                            Image(systemName: "arrow.up.right")
+//                                .foregroundColor(Color(UIColor.systemGray2))
+//                        }
+//                    }
+//                    .listRowInsets(EdgeInsets(top: 0, leading: 45, bottom: 0, trailing: 60))
+//                    .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
+//                        return viewDimensions[.listRowSeparatorTrailing] - 0
+//                    }
+//                }
+//            }
+//            .listRowSeparator(.hidden)
+//            .accentColor(.white)
+//            .listStyle(.plain)
+            
             // MARK: - 추천 단어 표시 해주는 부분
             // if !searchText.isEmpty && !suggestions.filter { $0.hasPrefix(searchText) }.isEmpty {
             //     ScrollView(showsIndicators: false) {
@@ -170,7 +215,7 @@ struct SearchView: View {
                     }
                     
                 }
-
+                
                 .padding([.leading, .trailing])
                 .padding(.top, -7)
                 .onAppear{
@@ -179,7 +224,7 @@ struct SearchView: View {
             }
         }// Vstack 종료
         .overlay(content: {
-//            Text(recentSearches.isEmpty ? "최근에 검색하신 글이 없어요! 🥹😅" : "")
+            Text((recentSearches.isEmpty && searchText.isEmpty) ? "No **recent search word** history." : "")
         })
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
@@ -195,11 +240,11 @@ struct SearchView: View {
         .onSubmit(of: .search) {
             print("Search submitted")
             isSearchActive.toggle()
-//            queryText = searchText
+            //            queryText = searchText
             
             stackSearchText(text: searchText)
             
-//            searchText = ""
+            //            searchText = ""
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -227,7 +272,9 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView()
+        NavigationStack {
+            SearchView()
+        }
     }
 }
 
