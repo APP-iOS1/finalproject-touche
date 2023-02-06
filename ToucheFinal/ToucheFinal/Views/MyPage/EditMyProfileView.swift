@@ -28,12 +28,12 @@ struct EditMyProfileView: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
-    var nation: [String] = ["🇫🇷 France", "🇯🇵 Japan", "🇰🇷 Republic of Korea", "🇺🇸 United States"]
+    var nation: [String] = ["🇰🇷 Republic of Korea", "🇺🇸 United States"]
     
     
     var body: some View {
         NavigationView {
-            GeometryReader{ geometry in
+            
             VStack{
                 Image(uiImage: self.image)
                     .resizable()
@@ -67,13 +67,14 @@ struct EditMyProfileView: View {
                 
                 //
                 
-                VStack(alignment: .leading){
+                VStack{
                     HStack{
                         Text("Name")
-                            .font(.system(size: 19))
-                            .padding(.trailing, 35)
-                        TextField("Edit your Nickname", text: $editName)
-                            .foregroundColor(.gray)
+                        Spacer(minLength: 40)
+                        VStack{
+                            TextField("Edit your Nickname", text: $editName)
+                                .padding(.bottom, -5)
+                                .foregroundColor(.gray)
                             // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
                                 .onChange(of: editName) { value in
                                     if editName.count > 0 && editName.count < 20 {
@@ -82,60 +83,59 @@ struct EditMyProfileView: View {
                                         self.editIsValid = false
                                     }
                                 }
-                            // TODO:
-                            Spacer()
-                            Button {
-                                editName = ""
-                            } label: {
-                                Image(systemName: "xmark")
-                                    .foregroundColor(.gray)
-                            }
-                            // 인스타처럼 밑줄 그어주기 ?
+                            Rectangle().frame(height: 0.45)
+                                .foregroundColor(Color(uiColor: .systemGray5))
                         }
-                    }
-                    .padding()
-                    Divider()
-                        .offset(x: geometry.size.width / 3.9)
-                       
+                    } // 네임 텍스트 필드 HStack
+                    .padding(.bottom, 25)
+                  
                     HStack{
                         Text("Email")
-                            .font(.system(size: 19))
-                            .padding(.trailing, 39)
-                        Text("Email")
-                    }
-                    .padding()
-                    Divider()
-                        .offset(x: geometry.size.width / 3.9)
-                       
-                    HStack{
-                        Text("Location")
-                            .font(.system(size: 19))
-                            .padding(.trailing, 35)
-                            .offset(x: geometry.size.width / 22, y: geometry.size.height / 300)
-                        Button{
-                            editNation = "🇺🇸"
-                        } label: {
-                        Text("🇺🇸")
-                        }
-                        .buttonStyle(.customButton)
-                        .offset(x: geometry.size.width / -25)
+                        Spacer()
+                        VStack(alignment: .leading){
+                            Text(userInfoStore.userInfo?.userEmail ?? "")
+                                .padding(.bottom, -5)
                         
-                        Button {
-                            editNation = "🇰🇷"
-                        } label: {
-                            Text("🇰🇷")
+                            Rectangle().frame(height: 0.66)
+                                .foregroundColor(Color(uiColor: .systemGray5))
                         }
-                        .buttonStyle(.customButton)
-                        .offset(x: geometry.size.width / -15)
-                    }
-                }
-                Divider()
-                    .frame(maxWidth: .infinity)
-                
+                        .frame(width: 276)
+                    } // 이메일 HStack
+                    
+                    HStack {
+                        Text("Location")
+                        Spacer()
+                        VStack{
+                            HStack{
+                                Button{
+                                    editNation = "🇺🇸"
+                                } label: {
+                                    Text("🇺🇸")
+                                }
+                                .buttonStyle(.customButton)
+                                .padding(.trailing, -5)
+                                
 
-//            }//VStack 종료
-        } // Geometry 종료
-            
+                                
+                                Button {
+                                    editNation = "🇰🇷"
+                                } label: {
+                                    Text("🇰🇷")
+                                }
+                                .buttonStyle(.customButton)
+                                Spacer()
+                                
+                            }
+                        }
+                    } // 로케이션 HStack
+                 
+                    }
+                    //.border(.black)
+                    .padding()
+                    Divider()
+                        //.frame(minWidth: .infinity)
+                    Spacer()
+                }
             .sheet(isPresented: $showGallerySheet){
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)}
             .sheet(isPresented: $showCameraSheet) {

@@ -27,65 +27,65 @@ struct MyPageView: View {
         NavigationView {
             ScrollView{
                 VStack{
-                    HStack {
-                        WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
-                        //WebImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/touchefinal-231b4.appspot.com/o/images%2F2295A265-06B5-44B9-909F-944FA42284E4.jpg?alt=media&token=25e643c9-d30e-4ed7-a7f6-131a53367912"))
-                            .resizable()
-                            .cornerRadius(50)
-                            .frame(width: 100, height: 100)
-                            .background(Color.black.opacity(0.2))
-                            .aspectRatio(contentMode: .fill)
-                            .clipShape(Circle())
-                        VStack{
-                            HStack{
-                                Text("Location :")
-                                Text(userNation)
-                            }
-                            .padding(.bottom,1)
-                            HStack{
-                                Text("Name :")
-                                Text("\(userNickname)")
-                            }
-                            .padding(.bottom,9)
-                            Button {
-                                showEditMyProfileView.toggle()
-                            } label: {
-                                Text("Edit Profile")
-                                //                            .foregroundColor(Color.black)
-                            }
-                            .fullScreenCover(isPresented: $showEditMyProfileView) {
-                                EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
-                            }
-                        }
-                        .padding(.leading)
-                    }
-                    .padding(.bottom,20)
+//                    HStack {
+//                        WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
+//                        //WebImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/touchefinal-231b4.appspot.com/o/images%2F2295A265-06B5-44B9-909F-944FA42284E4.jpg?alt=media&token=25e643c9-d30e-4ed7-a7f6-131a53367912"))
+//                            .resizable()
+//                            .cornerRadius(50)
+//                            .frame(width: 100, height: 100)
+//                            .background(Color.black.opacity(0.2))
+//                            .aspectRatio(contentMode: .fill)
+//                            .clipShape(Circle())
+//                        VStack{
+//                            HStack{
+//                                Text("Location :")
+//                                Text(userNation)
+//                            }
+//                            .padding(.bottom,1)
+//                            HStack{
+//                                Text("Name :")
+//                                Text("\(userNickname)")
+//                            }
+//                            .padding(.bottom,9)
+//                            Button {
+//                                showEditMyProfileView.toggle()
+//                            } label: {
+//                                Text("Edit Profile")
+//                                //                            .foregroundColor(Color.black)
+//                            }
+//                            .fullScreenCover(isPresented: $showEditMyProfileView) {
+//                                EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
+//                            }
+//                        }
+//                        .padding(.leading)
+//                    }
+//                    .padding(.bottom,20)
                     
                     Group {
-                        //                    마이 프로필 세로 형태
-                        //                    Image(uiImage: self.image)
-                        //                        .resizable()
-                        //                        .cornerRadius(50)
-                        //                        .frame(width: 100, height: 100)
-                        //                        .background(Color.black.opacity(0.2))
-                        //                        .aspectRatio(contentMode: .fill)
-                        //                        .clipShape(Circle())
-                        //                        .padding(.bottom, 20)
-                        //                    HStack{
-                        //                        Text(userNickname)
-                        //                        Text(userNation)
-                        //                    }
-                        //                    .padding(.bottom,1)
-                        //                    Button {
-                        //                        showEditMyProfileView.toggle()
-                        //                    } label: {
-                        //                        Text("Edit Profile")
-                        ////                            .foregroundColor(Color.black)
-                        //                    }
-                        //                    .fullScreenCover(isPresented: $showEditMyProfileView) {
-                        //                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
-                        //                    }
-                        //                    .padding(.bottom, 15)
+                                          //  마이 프로필 세로 형태
+                                            Image(uiImage: self.image)
+                                                .resizable()
+                                                .cornerRadius(50)
+                                                .frame(width: 100, height: 100)
+                                                .background(Color.black.opacity(0.2))
+                                                .aspectRatio(contentMode: .fill)
+                                                .clipShape(Circle())
+                                                .padding(.bottom, 20)
+                                            HStack{
+                                                Text(userNickname)
+                                                Text(userNation)
+                                            }
+                                            .padding(.bottom,1)
+                                            Button {
+                                                showEditMyProfileView.toggle()
+                                            } label: {
+                                                Text("Edit Profile")
+                        //                            .foregroundColor(Color.black)
+                                            }
+                                            .fullScreenCover(isPresented: $showEditMyProfileView) {
+                                                EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
+                                            }
+                                            .padding(.bottom, 15)
                     } //세로 묶음 주석
                     Divider()
                     VStack{
@@ -170,5 +170,6 @@ struct NameText: View {
 struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {
         MyPageView(perfume: dummy[0], comment: commentDummy[0])
+            .environmentObject(UserInfoStore())
     }
 }
