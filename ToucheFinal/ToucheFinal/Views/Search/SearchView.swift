@@ -7,19 +7,6 @@
 
 import SwiftUI
 
-/*
- - 광현
- 1. 알파벳 입력 시 앞글자만 검색어 자동완성되도록 수정
- 2. 서치 시 자동완성 검색어 뷰 수정
- 
- - 유진
- 3. Recent Searchs 에 최근 검색어 추가 (직접 검색했을 때, 키보드에서 검색 눌렀을 때 둘다 반영되는지 확인하기)
- 4. 자동완성 검색어 프레임 조정 (누르면 위에 검색어가 검색되는 경우가 왕왕 있음)
- 
- - 태성
- 5.  알파벳 대문자, 소문자에서 상관없이 검색되도록 설정
- 6. 동일한 검색어는 Recent Searchs 에 안쌓이도록 설정
- */
 struct SearchView: View {
     enum Field: Hashable {
         case searchText
@@ -39,7 +26,7 @@ struct SearchView: View {
     @FocusState private var focusField : Field?
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
-    var searchResults: [Brand] {
+    var searchResults: [String] {
         if searchText.isEmpty {
             return []
         } else {
@@ -47,182 +34,147 @@ struct SearchView: View {
                 brand.name.lowercased().hasPrefix(searchText.lowercased())
                 // perfume.displayName.lowercased().contains(searchText.lowercased())
             }
+            .map { $0.name }
         }
     }
     
+    /*
+     1. recentSearch 배열이 비어있다 -> Recent Searches Text 안나옴, No recent search 문구 나옴
+     
+     */
     var body: some View {
-        VStack {
-            if searchText.isEmpty {
-                HStack{
+        ScrollView(.vertical, showsIndicators: false) {
+            LazyVStack(alignment: .leading, spacing: 20.0) {
+                if !recentSearches.isEmpty && searchText.isEmpty {
                     Text("RECENT SEARCHES")
-                        .bold()
-                    Spacer()
-                    
-                    if !recentSearches.isEmpty {
-                        
-                        Button {
-                            // 최근 검색어(Search history or Recent Searches) 전체 삭제 기능 - alert 후 전체 삭제
-                            showingDeleteAlert = true
-                        } label: {
-                            Image(systemName: "trash")
-                                .foregroundColor(.black)
-                                .padding(.trailing, -4)
-                        }
-                        .alert(isPresented: $showingDeleteAlert) {
-                            Alert(
-                                title: Text("Are you sure you want to delete all?"),
-                                message: Text("There is no undo"),
-                                primaryButton: .destructive(Text("Delete")) {
-                                    print("Deleting...")
-                                    recentSearches.removeAll()
-                                },
-                                secondaryButton: .cancel()
-                            )
-                        }
-                    }
-                }
-                .padding(.horizontal, 20.0)
-                .padding(.vertical, 8.0)
-            }
-            
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    ForEach(searchResults) { (result: Brand) in
-                        NavigationLink {
-                            // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
-                            // SearchResultView(perfume: result, searchText: $searchText)
-                            FilteringResultView(field: "brandName", queries: [result.name])
-                        } label: {
-                            HStack{
-                                Image(systemName: "magnifyingglass")
-                                Text(result.name)
-                                    .font(.system(size: 18))
-                                Spacer()
-                                NavigationLink {
-                                    // stackSearchText(text: result.name)
-                                    FilteringResultView(field: "brandName", queries: [result.name])
-                                } label: {
-                                    Image(systemName: "arrow.up.right")
-                                        .foregroundColor(Color(UIColor.systemGray2))
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                    ForEach(recentSearches, id: \.self) { result in
+                        HStack{
+                            // Search
+                            NavigationLink {
+                                FilteringResultView(field: "brandName", queries: [result])
+                                    .onAppear {
+                                        stackSearchText(text: result)
+                                    }
+                            } label: {
+                                // UI
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                    Text(result)
+                                        .font(.system(size: 16))
+                                    Spacer()
                                 }
                             }
-                        }
-                        Divider()
-                            .padding(.vertical, -8.0)
-                    }
-                }
-                .tint(.primary)
-                .padding(.horizontal, 20.0)
-                .padding(.vertical, 16.0)
-            } // ScrollView 종료
-//            List {
-//                ForEach(searchResults) { result in
-//                    ZStack(alignment: .leading) {
-//                        NavigationLink {
-//                            FilteringResultView(field: "brandName", queries: [result.name])
-//                        } label: {
-//                            EmptyView()
-//                        }
-//                        .opacity(0)
-//
-//                        HStack{
-//                            Image(systemName: "magnifyingglass")
-//                            Text(result.name)
-//                                .font(.system(size: 18))
-//                                .foregroundColor(.black)
-//                            Spacer()
-//                            Image(systemName: "arrow.up.right")
-//                                .foregroundColor(Color(UIColor.systemGray2))
-//                        }
-//                    }
-//                    .listRowInsets(EdgeInsets(top: 0, leading: 45, bottom: 0, trailing: 60))
-//                    .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
-//                        return viewDimensions[.listRowSeparatorTrailing] - 0
-//                    }
-//                }
-//            }
-//            .listRowSeparator(.hidden)
-//            .accentColor(.white)
-//            .listStyle(.plain)
-            
-            // MARK: - 추천 단어 표시 해주는 부분
-            // if !searchText.isEmpty && !suggestions.filter { $0.hasPrefix(searchText) }.isEmpty {
-            //     ScrollView(showsIndicators: false) {
-            //         VStack(alignment: .leading) {
-            //             ForEach(suggestions.filter { $0.hasPrefix(searchText) }, id: \.self) { suggestion in
-            //                 HStack {
-            //                     NavigationLink {
-            //                         // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
-            //                         FilteringResultView(field: "brandName", queries: [suggestion])
-            //                     } label: {
-            //                         Text(suggestion)
-            //                             .foregroundColor(.black)
-            //                             .frame(alignment: .leading)
-            //                             .font(.callout)
-            //                     }
-            //                     Spacer()
-            //                     NavigationLink {
-            //                         FilteringResultView(field: "brandName", queries: [suggestion])
-            //                     } label: {
-            //                         Image(systemName: "magnifyingglass")
-            //                             .resizable()
-            //                             .foregroundColor(Color(UIColor.systemGray2))
-            //                             .frame(width: 10, height: 10)
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     }
-            //     .padding([.leading, .trailing])
-            //     .padding(.top, -7)
-            // }
-            
-            // MARK: - 최근검색어(RECENT SEARCHES) 검색한 내용이 텍스트로 쌓이는 부분
-            if recentSearches.isEmpty {
-                
-            } else {
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading) {
-                        ForEach(recentSearches, id: \.self) { recentSearch in
-                            HStack {
-                                NavigationLink {
-                                    // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
-                                    FilteringResultView(field: "brandName", queries: [recentSearch])
-                                    
-                                } label: {
-                                    Text(recentSearch)
-                                        .foregroundColor(.black)
-                                        .frame(alignment: .leading)
-                                        .font(.callout)
+                            // x button
+                            Button {
+                                if let index = recentSearches.firstIndex(of: result) {
+                                    recentSearches.remove(at: index)
                                 }
-                                Spacer()
-                                Button {
-                                    // 해당 텍스트만 삭제 기능
-                                    recentSearches.remove(at: recentSearches.firstIndex(of: recentSearch) ?? 0)
-                                } label: {
-                                    Image(systemName: "xmark")
-                                        .resizable()
-                                        .foregroundColor(Color(UIColor.systemGray2))
-                                        .frame(width: 10, height: 10)
-                                }
+                            } label: {
+                                Image(systemName: "xmark")
                             }
+                            .zIndex(100)
                         }
+                        .foregroundStyle(.secondary)
                     }
                     
-                    // 키보드에서 Search 누르면 이동하는 뷰
-                    NavigationLink(destination: FilteringResultView(field: "brandName", queries: [searchText]), isActive: $isSearchActive) {
-                        EmptyView()
-                    }
-                    
+                    if !searchText.isEmpty && !searchResults.isEmpty { Divider() }
                 }
                 
-                .padding([.leading, .trailing])
-                .padding(.top, -7)
-                .onAppear{
-                    focusField = .searchText
+                ForEach(searchResults, id: \.self) { result in
+                    NavigationLink {
+                        FilteringResultView(field: "brandName", queries: [result])
+                            .onAppear {
+                                stackSearchText(text: result)
+                            }
+                    } label: {
+                        HStack{
+                            Image(systemName: "magnifyingglass")
+                            Text(result)
+                                .font(.system(size: 16))
+                            Spacer()
+                            Image(systemName: "arrow.up.right")
+                                
+                        }
+                    }
                 }
             }
-        }// Vstack 종료
+            .padding(.horizontal, 20.0)
+            .padding(.vertical, 4.0)
+            //        List {
+            //            if !recentSearches.isEmpty && searchText.isEmpty{
+            //                Section("RECENT SEARCHES") {
+            //                    ForEach(recentSearches, id: \.self) { result in
+            //                        HStack{
+            //                            ZStack(alignment: .leading) {
+            //                                // Search
+            //                                NavigationLink {
+            //                                    FilteringResultView(field: "brandName", queries: [result])
+            //                                        .onAppear {
+            //                                            stackSearchText(text: result)
+            //                                        }
+            //                                } label: {
+            //                                    EmptyView()
+            //                                }
+            //                                .opacity(0)
+            //
+            //                                // UI
+            //                                HStack {
+            //                                    Image(systemName: "magnifyingglass")
+            //                                    Text(result)
+            //                                        .font(.system(size: 18))
+            //                                }
+            //                            }
+            //
+            //                            // 일단 이거 푸쉬할테니까 다같이 풀어볼까요??
+            //                            // 네네 저한테 시간 소요가 많아서.ㅜ
+            //                            // x button
+            //                            Button {
+            //                                if let index = recentSearches.firstIndex(of: result) {
+            //                                    recentSearches.remove(at: index)
+            //                                }
+            //                            } label: {
+            //                                Image(systemName: "xmark")
+            //                            }
+            //                            .zIndex(100)
+            //                        }
+            //                    }
+            //                    .listRowSeparator(.hidden)
+            //                    .foregroundStyle(.secondary)
+            //                }
+            //                if !searchText.isEmpty && !searchResults.isEmpty { Divider() }
+            //            }
+            //
+            //            ForEach(searchResults, id: \.self) { result in
+            //                ZStack(alignment: .leading) {
+            //                    NavigationLink {
+            //                        FilteringResultView(field: "brandName", queries: [result])
+            //                            .onAppear {
+            //                                stackSearchText(text: result)
+            //                            }
+            //
+            //                    } label: {
+            //                        EmptyView()
+            //                    }
+            //                    .opacity(0)
+            //
+            //                    HStack{
+            //                        Image(systemName: "magnifyingglass")
+            //                        Text(result)
+            //                            .font(.system(size: 18))
+            //                            .foregroundColor(.primary)
+            //                        Spacer()
+            //                        Image(systemName: "arrow.up.right")
+            //                            .foregroundColor(Color(UIColor.systemGray2))
+            //                    }
+            //                }
+            //            }
+            //            .listRowSeparator(.hidden)
+        }
+        //        .listStyle(.plain)
+        .scrollDismissesKeyboard(.interactively)
+        .tint(.primary)
         .overlay(content: {
             Text((recentSearches.isEmpty && searchText.isEmpty) ? "No **recent search word** history." : "")
         })
@@ -230,22 +182,13 @@ struct SearchView: View {
         .navigationBarTitleDisplayMode(.inline)
         .searchable(
             text: $searchText,
-            placement: SearchFieldPlacement.toolbar,
+            placement: SearchFieldPlacement.navigationBarDrawer(displayMode: .always),
             prompt: "Search products, brands"
         )
-        //            .focused($focusField, equals: .searchText)
         .keyboardType(.alphabet)
         .autocorrectionDisabled()
         .textInputAutocapitalization(.never)    // 첫 영문자 대문자로 시작 막음
-        .onSubmit(of: .search) {
-            print("Search submitted")
-            isSearchActive.toggle()
-            //            queryText = searchText
-            
-            stackSearchText(text: searchText)
-            
-            //            searchText = ""
-        }
+        .submitLabel(.done)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -257,11 +200,15 @@ struct SearchView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-    } // body
-    
+    }
     func stackSearchText(text: String) {
+        guard !recentSearches.contains(text) else {
+            recentSearches.remove(at: recentSearches.firstIndex(of: text)!)
+            recentSearches.insert(text, at: 0)
+            return
+        }
         // 최근 검색어 개수 줄이기
-        if recentSearches.count > 5 {
+        if recentSearches.count > 4 {
             recentSearches.removeLast()
             recentSearches.insert(text, at: 0)
         } else {
@@ -303,3 +250,95 @@ struct SearchView_Previews: PreviewProvider {
 //    }
 //}
 //.padding()
+
+//            if searchText.isEmpty {
+//                HStack{
+//                    Text("RECENT SEARCHES")
+//                        .bold()
+//                    Spacer()
+//
+//                    if !recentSearches.isEmpty {
+//
+//                        Button {
+//                            // 최근 검색어(Search history or Recent Searches) 전체 삭제 기능 - alert 후 전체 삭제
+//                            showingDeleteAlert = true
+//                        } label: {
+//                            Image(systemName: "trash")
+//                                .foregroundColor(.black)
+//                                .padding(.trailing, -4)
+//                        }
+//                        .alert(isPresented: $showingDeleteAlert) {
+//                            Alert(
+//                                title: Text("Are you sure you want to delete all?"),
+//                                message: Text("There is no undo"),
+//                                primaryButton: .destructive(Text("Delete")) {
+//                                    print("Deleting...")
+//                                    recentSearches.removeAll()
+//                                },
+//                                secondaryButton: .cancel()
+//                            )
+//                        }
+//                    }
+//                }
+//                .padding(.horizontal, 20.0)
+//                .padding(.vertical, 8.0)
+//            }
+//        ScrollView(showsIndicators: false) {
+//            VStack(alignment: .leading) {
+//                // recentSearch
+//                Section("RECENT SEARCHES") {
+//                    ForEach(recentSearches, id: \.self) { recentSearch in
+//                        HStack {
+//                            NavigationLink {
+//                                // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
+//                                FilteringResultView(field: "brandName", queries: [recentSearch])
+//
+//                            } label: {
+//                                Text(recentSearch)
+//                                    .foregroundColor(.black)
+//                                    .frame(alignment: .leading)
+//                                    .font(.callout)
+//                            }
+//                            Spacer()
+//                            Button {
+//                                // 해당 텍스트만 삭제 기능
+//                                recentSearches.remove(at: recentSearches.firstIndex(of: recentSearch) ?? 0)
+//                            } label: {
+//                                Image(systemName: "xmark")
+//                                    .resizable()
+//                                    .foregroundColor(Color(UIColor.systemGray2))
+//                                    .frame(width: 10, height: 10)
+//                            }
+//                        }
+//                    }
+//                }
+//                // search
+//                ForEach(searchResults, id: \.self) { (result: String) in
+//                    NavigationLink {
+//                        // 입력한 텍스트에 대한 검색결과뷰 나오게 하기
+//                        FilteringResultView(field: "brandName", queries: [result])
+//                            .onDisappear {
+//                                recentSearches.insert(result, at: 0)
+//                            }
+//                    } label: {
+//                        HStack{
+//                            Image(systemName: "magnifyingglass")
+//                            Text(result)
+//                                .font(.system(size: 18))
+//                            Spacer()
+//                            NavigationLink {
+//                                // stackSearchText(text: result.name)
+//                                FilteringResultView(field: "brandName", queries: [result])
+//                            } label: {
+//                                Image(systemName: "arrow.up.right")
+//                                    .foregroundColor(Color(UIColor.systemGray2))
+//                            }
+//                        }
+//                    }
+//                    Divider()
+//                        .padding(.vertical, -8.0)
+//                }
+//            }
+//
+//
+//        }// Scroll 종료
