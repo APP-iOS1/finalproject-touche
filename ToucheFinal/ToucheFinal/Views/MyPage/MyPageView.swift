@@ -131,12 +131,17 @@ struct MyPageView: View {
                     }
                 }
             }
+            .onAppear(perform: {
+                Task {
+                    await userInfoStore.fetchUser(user: userInfoStore.user)
+                    await userInfoStore.readWrittenComments()
+                    print(userInfoStore.writtenCommentsAndPerfumes)
+                    
+                }
+            })
         }
         .task {
             userNickname = await userInfoStore.getNickName(uid: Auth.auth().currentUser?.uid ?? "")
-            await userInfoStore.fetchUser(user: userInfoStore.user)
-            await userInfoStore.readWrittenComments()
-            print(userInfoStore.writtenCommentsAndPerfumes)
         }
     }
 }
