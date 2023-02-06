@@ -6,6 +6,11 @@
 //
 
 import SwiftUI
+import FirebaseFirestoreSwift
+
+// 1. Firestore -> [Perfume]
+// 2. 맨 처음 앱 실행시 1번을 자동으로 불러오기
+
 
 struct SearchView: View {
     enum Field: Hashable {
@@ -26,15 +31,27 @@ struct SearchView: View {
     @FocusState private var focusField : Field?
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
+    @FirestoreQuery(collectionPath: "Perfume") var perfumes: [Perfume]
+    
     var searchResults: [String] {
         if searchText.isEmpty {
             return []
         } else {
-            return Brand.dummy.filter { brand in
+            // brand name
+            let brandNames = Brand.dummy.filter { brand in
                 brand.name.lowercased().hasPrefix(searchText.lowercased())
                 // perfume.displayName.lowercased().contains(searchText.lowercased())
             }
             .map { $0.name }
+            
+            // perfume name
+            let perfumeNames = perfumes.filter { perfume in
+                perfume.displayName.lowercased().contains(searchText.lowercased())
+            }
+            .map { $0.displayName}
+            
+            // all searches
+            return brandNames + perfumeNames
         }
     }
     
