@@ -22,45 +22,85 @@ struct MyPageView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var commentStore: CommentStore
+    @EnvironmentObject var perfumeStore: PerfumeStore
+    
+    @State private var selection: Selection = .comment
+
+    let columns: [GridItem] = .init(repeating: .init(.flexible(), spacing: 4.0), count: 3)
+    
+    enum Selection {
+        case comment
+        case favorite
+    }
     
     var body: some View {
         NavigationView {
+            VStack(spacing: 16.0) {
+                // PROFILE SECTION
+                Group {
+                    Image(uiImage: self.image)
+                        .resizable()
+                        .cornerRadius(50)
+                        .frame(width: 100, height: 100)
+                        .background(Color.black.opacity(0.2))
+                        .aspectRatio(contentMode: .fill)
+                        .clipShape(Circle())
+                        .padding(.top, 20)
+                    
+                    HStack{
+                        Text(userInfoStore.userInfo?.userNickName ?? "")
+                        Text(userInfoStore.userInfo?.userNation.flag ?? "")
+                    }
+                    
+                    
+                    Button {
+                        showEditMyProfileView.toggle()
+                    } label: {
+                        Text("Edit Profile")
+                    }
+                    .fullScreenCover(isPresented: $showEditMyProfileView) {
+                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
+                    }
+                    
+                } // GROUP
+                
+                
+                // CONTENT SECTION
+                HStack(alignment: .center, spacing: 20) {
+                    Button {
+                        selection = .comment
+                    } label: {
+                        Image(systemName: selection == .comment ? "pencil.circle.fill" : "pencil.circle")
+                            .resizable()
+                            .aspectRatio(1.0, contentMode: .fit)
+                            .foregroundColor(selection == .comment ? .primary : .secondary)
+                            .frame(height: 24.0)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    Button {
+                        selection = .favorite
+                    } label: {
+                        Image(systemName: selection == .favorite ? "heart.fill" : "heart")
+                            .resizable()
+                            .aspectRatio(1.0, contentMode: .fit)
+                            .foregroundColor(selection == .favorite ? .primary : .secondary)
+                            .frame(height: 24.0)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                } // HSTACK : BUTTON GROUP
+                .padding(.bottom, 1.0)
+                
+                
+                switch selection {
+                case .comment:
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVStack(alignment: .center, spacing: 12.0) {
+                            ForEach(userInfoStore.writtenCommentsAndPerfumes, id: \.self.0) { (perfume, comment) in
+                                MyPageMyCommentCell(perfume: perfume, comment: comment)
+/*
             ScrollView{
                 VStack{
-                    //                    HStack {
-                    //                        WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
-                    //                        //WebImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/touchefinal-231b4.appspot.com/o/images%2F2295A265-06B5-44B9-909F-944FA42284E4.jpg?alt=media&token=25e643c9-d30e-4ed7-a7f6-131a53367912"))
-                    //                            .resizable()
-                    //                            .cornerRadius(50)
-                    //                            .frame(width: 100, height: 100)
-                    //                            .background(Color.black.opacity(0.2))
-                    //                            .aspectRatio(contentMode: .fill)
-                    //                            .clipShape(Circle())
-                    //                        VStack{
-                    //                            HStack{
-                    //                                Text("Location :")
-                    //                                Text(userNation)
-                    //                            }
-                    //                            .padding(.bottom,1)
-                    //                            HStack{
-                    //                                Text("Name :")
-                    //                                Text("\(userNickname)")
-                    //                            }
-                    //                            .padding(.bottom,9)
-                    //                            Button {
-                    //                                showEditMyProfileView.toggle()
-                    //                            } label: {
-                    //                                Text("Edit Profile")
-                    //                                //                            .foregroundColor(Color.black)
-                    //                            }
-                    //                            .fullScreenCover(isPresented: $showEditMyProfileView) {
-                    //                                EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
-                    //                            }
-                    //                        }
-                    //                        .padding(.leading)
-                    //                    }
-                    //                    .padding(.bottom,20)
-
                     Group {
                         //  마이 프로필 세로 형태
                         WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
@@ -104,9 +144,45 @@ struct MyPageView: View {
                                 }
                                 //                                .offset(x: -8)
                                 .foregroundColor(.black)
+*/
                             }
-                            
                         }
+                        .padding(.vertical, 8.0)
+                    } // SCROLL
+                    .overlay(alignment: .top) {
+                        Rectangle()
+                            .frame(height: 1)
+                            .foregroundStyle(.quaternary)
+                    }
+                    .animation(.easeOut, value: selection)
+                case .favorite:
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVGrid(columns: columns, alignment: .center, spacing: 4.0) {
+                            ForEach(perfumeStore.likedPerfumes, id: \.perfumeId) { (perfume: Perfume) in
+                                NavigationLink {
+                                    PerfumeDetailView(perfume: perfume)
+                                } label: {
+                                    WebImage(url: URL(string: perfume.image450))
+                                        .resizable()
+                                        .aspectRatio(1.0, contentMode: .fit)
+                                        .clipShape(RoundedRectangle(cornerRadius: 4.0))
+                                        .shadow(color: .primary.opacity(0.8) ,radius: 0.2)
+                                        .overlay(alignment: .topTrailing) {
+                                            Image(systemName: "arrowshape.turn.up.right")
+                                                .padding(4.0)
+                                                .tint(.primary)
+                                        }
+                                }
+
+                            }
+                        }
+                        .padding(.vertical, 8.0)
+                    } // SCROLL
+                    .overlay(alignment: .top) {
+                        Rectangle()
+                            .frame(height: 1)
+                            .foregroundStyle(.quaternary)
+/*
                         .padding(.top, 15)
                         .padding(.bottom, 15)
                         
@@ -119,11 +195,13 @@ struct MyPageView: View {
                         .padding(.bottom, 20)
                         Spacer()
                         
+*/
                     }
+                    .animation(.easeOut, value: selection)
                 }
-                .padding(14)
-            }
-            .toolbar{
+            } // VSTACK
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing){
                     NavigationLink {
                         SettingView()
@@ -132,8 +210,13 @@ struct MyPageView: View {
                             .foregroundColor(.black)
                     }
                 }
+            } // TOOLBAR
+            .task {
+                await userInfoStore.readWrittenComments()
+                await perfumeStore.likedPerfumes(userId: userInfoStore.userInfo?.userId ?? "")
             }
-        }
+        } // NAVIGATION
+/*        }
         .task {
             //            userNickname = await userInfoStore.getNickName(uid: Auth.auth().currentUser?.uid ?? "")
             
@@ -148,6 +231,7 @@ struct MyPageView: View {
             print(userInfoStore.userInfo)
             await userInfoStore.readWrittenComments()
         }
+*/
     }
 }
 
