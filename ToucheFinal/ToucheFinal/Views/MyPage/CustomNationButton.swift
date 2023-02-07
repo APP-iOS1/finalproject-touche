@@ -16,9 +16,9 @@ struct CustomNationButton: ButtonStyle {
                     .fill(.white)
                     .frame(width: 30, height: 30)
                     .shadow(color: .black.opacity(0.3),
-                            radius: configuration.isPressed ? 2 : 6,
-                            x: configuration.isPressed ? -2 : 6,
-                            y: configuration.isPressed ? -2 : 6)
+                            radius: configuration.isPressed ? 8 : 6,
+                            x: configuration.isPressed ? 0 : 6,
+                            y: configuration.isPressed ? 0 : 6)
             )
             .scaleEffect(configuration.isPressed ? 0.95 : 1)
     }
