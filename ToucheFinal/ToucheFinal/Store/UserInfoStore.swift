@@ -75,7 +75,6 @@ final class UserInfoStore: ObservableObject{
             self.notice = "fetchUser"
         } catch {
         }
-        self.loginState = .success
     }
     
     /// 이 클래스가 실행하면, 먼저 로그인 여부를 따져서 이전에 로그인했으면 자동 로그인을 지원한다.
