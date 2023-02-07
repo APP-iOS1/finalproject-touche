@@ -62,7 +62,7 @@ class PerfumeStore: ObservableObject {
         } catch {}
     }
     
-    func likedPerfumes(userId: String) async {
+    func readLikedPerfumes(userId: String) async {
         do {
             var tempPerfumes: [Perfume] = []
             let snapshot = try await database.whereField("likedPeople",arrayContains: userId).getDocuments()
