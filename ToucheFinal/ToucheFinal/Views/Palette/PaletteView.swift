@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PaletteView: View {
-    @State private var angle: Angle = .zero
+    @State private var degrees: Double = 0
     @State private var radius: CGFloat = 140.0
     @State private var animation: Animation? = nil
     @State private var txt = ""
@@ -42,7 +42,7 @@ struct PaletteView: View {
                         Group{
                             ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
                                 PalletteCell(
-                                    color: color.color,
+                                    colorPaletteCondition: colorPaletteCondition, color: color.color,
                                     degrees: Double(index) * 22.5,
                                     name: color.name,
                                     count: scentTypeCount[color.name] ?? 0)
@@ -53,10 +53,15 @@ struct PaletteView: View {
                                     txt = color.name
                                     isTapped = true
                                     perfumes = perfumeStore.likedPerfumes.filter {$0.scentType == color.name}
+                                    degrees = Double(index) * 22.5
                                 }
                             }
                             .frame(width: 300, height: 300)
                         }
+                        .padding(.vertical, 20)
+                        .rotationEffect(Angle(degrees: 360 - degrees))
+                        .animation(.easeInOut(duration: 1), value: degrees)
+                        
                         
                         // MARK: - 팔레트 눌렀을때 나오는 가운데 부분
                         ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
