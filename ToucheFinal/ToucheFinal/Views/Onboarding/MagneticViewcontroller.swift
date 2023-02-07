@@ -16,7 +16,7 @@ class MagneticViewcontroller: UIViewController {
     @IBOutlet weak var magneticView: MagneticView! {
         didSet {
             magnetic.magneticDelegate = self
-//            magnetic.removeNodeOnLongPress = true
+            magnetic.removeNodeOnLongPress = true
         }
     }
     
@@ -47,7 +47,7 @@ class MagneticViewcontroller: UIViewController {
         node.padding = CGFloat(10)
         node.scaleToFitContent = true
         node.selectedColor = node.color
-        node.color = .lightGray
+        node.color = .gray
         magnetic.addChild(node)
     }
     
@@ -119,10 +119,6 @@ extension MagneticViewcontroller: MagneticDelegate {
     }
     
     func magnetic(_ magnetic: Magnetic, didDeselect node: Node) {
-        let tempSelectedColor = node.selectedColor
-        node.selectedColor = .lightGray
-        node.deselectedAnimation()
-        node.selectedColor = tempSelectedColor
         guard let name = node.name else {return}
         selectedScentTypes[name] = false
         FinishBtn.isEnabled = !selectedScentTypes.isEmpty
