@@ -20,6 +20,9 @@ final class UserInfoStore: ObservableObject{
     @Published var errorMessage = ""
     @Published var isDuplicated: Bool?
     @Published var writtenCommentsAndPerfumes: [(Perfume, Comment)] = []
+    @Published var isShowingFailAlert = false
+    @Published var isShowingSuccessAlert = false
+    
     private let database = Firestore.firestore().collection("User")
     
     //  storage 참조변수
@@ -72,7 +75,6 @@ final class UserInfoStore: ObservableObject{
             self.notice = "fetchUser"
         } catch {
         }
-        self.loginState = .success
     }
     
     /// 이 클래스가 실행하면, 먼저 로그인 여부를 따져서 이전에 로그인했으면 자동 로그인을 지원한다.

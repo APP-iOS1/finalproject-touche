@@ -7,8 +7,10 @@
 
 import SwiftUI
 import SegmentedPicker
+import AlertToast
 
 struct LogInSignUpView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @State var selectedIndex: Int = 0
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     let titles: [String] = ["Sign In", "Sign Up"]
