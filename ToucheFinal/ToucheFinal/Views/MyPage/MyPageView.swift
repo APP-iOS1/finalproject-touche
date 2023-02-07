@@ -60,7 +60,7 @@ struct MyPageView: View {
                     //                        .padding(.leading)
                     //                    }
                     //                    .padding(.bottom,20)
-                    
+
                     Group {
                         //  마이 프로필 세로 형태
                         WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))

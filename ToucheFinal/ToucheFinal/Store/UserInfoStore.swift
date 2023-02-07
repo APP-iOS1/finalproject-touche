@@ -285,7 +285,7 @@ final class UserInfoStore: ObservableObject{
         } catch {}
     }
     
-    //  storage에 사진이 올라가는 메서드
+    // storage에 사진이 올라가는 메서드
     func uploadPhoto(_ imagesData: [Data]) async -> [String] {
         do{
             print("사진 업로드 시작")
@@ -298,7 +298,6 @@ final class UserInfoStore: ObservableObject{
                 let path = "images/\(uuid).jpg"
                 let fileRef = storageRef.child(path)
                 
-                // 저장된 게 있으면 삭제,  없으면 바로 올리기
                 _ = try await fileRef.putDataAsync(imageData, metadata: nil) // 올리는 과정
                 let url = try await fileRef.downloadURL()
                 imagesURL.append(url.absoluteString)
@@ -307,13 +306,12 @@ final class UserInfoStore: ObservableObject{
                 
                 await fetchUser(user: Auth.auth().currentUser)
                 print("신규가입자: \(userInfo?.userProfileImage)")
-                // delPath안돼는 이유가 신규가입자는 storage에 저장한 프로필이미지id가 없으니까 path를 못찾는다.
-                // 신규가입자일 경우는 사진추가(업로드)만 하고, 프로필이미지를 한번이라도 변경한 경우에만 delete를 해주면 되지 않을까 ?
-                if userInfo?.userProfileImage != nil {
+                
+                // delPath에서 오류나는 이유는 신규가입자일 경우, storage에 저장한 프로필이미지id가 없으니까 path를 못찾기때문
+                // 신규가입자일 경우는 사진추가(업로드)만 하고, 프로필이미지를 한번이라도 변경한 경우에만 delete를 한 후에 업로드하기
+                if !(userInfo?.userProfileImage == "") {
                     let delPath = "images/\(String( userInfo?.userProfileImage.split(separator: "%2F")[1].split(separator: "?")[0] ?? ""))"
-                    
                     print("path: \(delPath)")
-                    
                     try await storageRef.child(delPath).delete()
                 }
                 
@@ -321,16 +319,9 @@ final class UserInfoStore: ObservableObject{
             return imagesURL
             
         } catch{
-            
             print("사진 업로드 실패")
-            
             fatalError()
         }
-    }
-    
-    func fetchProfilePhoto() -> Void {
-        
-        
     }
     
     func setProfilePhotoUrl(uid: String, userProfileImageUrl: String) async -> Void {
