@@ -56,7 +56,7 @@ struct SignUpView: View {
     }
 
     var body: some View {
-        VStack{
+        ScrollView {
             VStack(alignment: .leading){
                 Group {
                     HStack {
@@ -110,6 +110,7 @@ struct SignUpView: View {
                     SecureField("Enter password", text: $password)
                         .frame(height: 40)
                         .padding(.top, -6)
+                        .textContentType(UITextContentType.username)
                     
                     Text(isPasswordRuleSatisfied ? "" : "Passwords must be at least 8 characters.")
                         .font(.caption)
@@ -121,6 +122,7 @@ struct SignUpView: View {
                     SecureField("Enter password again", text: $checkPassword)
                         .frame(height: 40)
                         .padding(.top, -6)
+                        .textContentType(UITextContentType.username)
                     
                     Text(isPasswordSame ? "" : "Passwords do not match.")
                         .font(.caption)
@@ -190,7 +192,7 @@ struct SignUpView: View {
             }
             .disabled(isSignUpDisabled)
             
-            Spacer()
+//            Spacer()
         }
         .onAppear{print("SignUp")}
         
