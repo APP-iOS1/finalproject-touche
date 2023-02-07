@@ -8,78 +8,78 @@
 import SwiftUI
 import FirebaseFirestoreSwift
 
-// 1. Firestore -> [Perfume]
-// 2. 맨 처음 앱 실행시 1번을 자동으로 불러오기
-
-
 struct SearchView: View {
     enum Field: Hashable {
         case searchText
     }
     
     // 최근 기록 저장 변수
-    @State private var recentSearches: [String] = []
-    // firestore query
-    // @State private var queryText = ""
-    // 키보드 검색 누르면, 다음화면으로 이동
-    @State private var isSearchActive = false
+    @State private var recentSearches: [SearchQuery] = []
     // 검색창 Text
     @State private var searchText = ""
-    // recentSearches 검색어 전체 삭제 알럿변수
-    @State private var showingDeleteAlert = false
     // keyboard Focus field
     @FocusState private var focusField : Field?
+    // navigation dismiss
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
+    // =========================== TODO ===================================
+    // 향수가 추가되거나 개수가 변동되었을때 읽기작업이 어떻게 변동이 될지?
+    // 1. 온보딩 뷰에서 향수 이름들을 유저디폴트나 코어데이터에 저장해 둔다
+    // 2. 서치 뷰에 들어갈때 마다 perfume 컬렉션 개수를 유저디폴트나  코어데이터에 저장된 향수 개수와 비교하여 변화가 있을경우 다시 업데이트하여 저장한다
+    // ---------------------------------------------------------------------
+    // 1. 로컬에 저장 -> 향수 이름 x , perfume 저장
+    // 2. 로컬 저장 okay면, 서버 통신 필요없음 | 향수추가되면, 자동으로 업데이트해서 로컬에 저장
+    // 3. 서버통신의 주요 사용은 '댓글 불러오기' 아닐까?
     @FirestoreQuery(collectionPath: "Perfume") var perfumes: [Perfume]
+    // ====================================================================
     
-    var searchResults: [String] {
+    var searchResults: [SearchQuery] {
         if searchText.isEmpty {
             return []
         } else {
-            // brand name
-            let brandNames = Brand.dummy.filter { brand in
+            // brands
+            let brands = Brand.dummy.filter { brand in
                 brand.name.lowercased().hasPrefix(searchText.lowercased())
-                // perfume.displayName.lowercased().contains(searchText.lowercased())
             }
-            .map { $0.name }
+                .map { SearchQuery(category: .brand, query: $0.name) }
             
-            // perfume name
-            let perfumeNames = perfumes.filter { perfume in
+            // perfumes
+            let perfumes = perfumes.filter { perfume in
                 perfume.displayName.lowercased().contains(searchText.lowercased())
             }
-            .map { $0.displayName}
+                .map { SearchQuery(category: .perfume, query: $0.displayName) }
             
             // all searches
-            return brandNames + perfumeNames
+            return brands + perfumes
         }
     }
     
-    /*
-     1. recentSearch 배열이 비어있다 -> Recent Searches Text 안나옴, No recent search 문구 나옴
-     
-     */
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(alignment: .leading, spacing: 20.0) {
+                // 최근 검색어
                 if !recentSearches.isEmpty && searchText.isEmpty {
                     Text("RECENT SEARCHES")
                         .font(.callout)
                         .foregroundStyle(.secondary)
-                    ForEach(recentSearches, id: \.self) { result in
+                    ForEach(recentSearches) { (result: SearchQuery) in
                         HStack{
                             // Search
                             NavigationLink {
-                                FilteringResultView(field: "brandName", queries: [result])
-                                    .onAppear {
-                                        stackSearchText(text: result)
-                                    }
+                                FilteringResultView(
+                                    field: result.category == .brand ? "brandName" : "displayName",
+                                    queries: [result.query]
+                                )
+                                .onAppear {
+                                    stackSearchText(result)
+                                }
                             } label: {
                                 // UI
                                 HStack {
                                     Image(systemName: "magnifyingglass")
-                                    Text(result)
+                                    Text(result.query)
                                         .font(.system(size: 16))
+                                        .lineLimit(1)
                                     Spacer()
                                 }
                             }
@@ -99,97 +99,46 @@ struct SearchView: View {
                     if !searchText.isEmpty && !searchResults.isEmpty { Divider() }
                 }
                 
-                ForEach(searchResults, id: \.self) { result in
+                // 검색어
+                let perfumeIndex: Int = searchResults.filter { $0.category == .brand }.count
+                ForEach(searchResults.indices, id: \.self) { (i: Int) in
+                    switch i {
+                    case 0:
+                        Text(searchResults[i].category.rawValue)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    case perfumeIndex:
+                        Text(searchResults[perfumeIndex].category.rawValue)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    default:
+                        EmptyView()
+                    }
                     NavigationLink {
-                        FilteringResultView(field: "brandName", queries: [result])
-                            .onAppear {
-                                stackSearchText(text: result)
-                            }
+                        FilteringResultView(
+                            field: searchResults[i].category == .brand ? "brandName" : "displayName",
+                            queries: [searchResults[i].query]
+                        )
+                        .onAppear {
+                            stackSearchText(searchResults[i])
+                        }
                     } label: {
                         HStack{
                             Image(systemName: "magnifyingglass")
-                            Text(result)
+                            Text(searchResults[i].query)
                                 .font(.system(size: 16))
+                                .lineLimit(1)
                             Spacer()
                             Image(systemName: "arrow.up.right")
-                                
+                            
                         }
                     }
                 }
             }
             .padding(.horizontal, 20.0)
             .padding(.vertical, 4.0)
-            //        List {
-            //            if !recentSearches.isEmpty && searchText.isEmpty{
-            //                Section("RECENT SEARCHES") {
-            //                    ForEach(recentSearches, id: \.self) { result in
-            //                        HStack{
-            //                            ZStack(alignment: .leading) {
-            //                                // Search
-            //                                NavigationLink {
-            //                                    FilteringResultView(field: "brandName", queries: [result])
-            //                                        .onAppear {
-            //                                            stackSearchText(text: result)
-            //                                        }
-            //                                } label: {
-            //                                    EmptyView()
-            //                                }
-            //                                .opacity(0)
-            //
-            //                                // UI
-            //                                HStack {
-            //                                    Image(systemName: "magnifyingglass")
-            //                                    Text(result)
-            //                                        .font(.system(size: 18))
-            //                                }
-            //                            }
-            //
-            //                            // 일단 이거 푸쉬할테니까 다같이 풀어볼까요??
-            //                            // 네네 저한테 시간 소요가 많아서.ㅜ
-            //                            // x button
-            //                            Button {
-            //                                if let index = recentSearches.firstIndex(of: result) {
-            //                                    recentSearches.remove(at: index)
-            //                                }
-            //                            } label: {
-            //                                Image(systemName: "xmark")
-            //                            }
-            //                            .zIndex(100)
-            //                        }
-            //                    }
-            //                    .listRowSeparator(.hidden)
-            //                    .foregroundStyle(.secondary)
-            //                }
-            //                if !searchText.isEmpty && !searchResults.isEmpty { Divider() }
-            //            }
-            //
-            //            ForEach(searchResults, id: \.self) { result in
-            //                ZStack(alignment: .leading) {
-            //                    NavigationLink {
-            //                        FilteringResultView(field: "brandName", queries: [result])
-            //                            .onAppear {
-            //                                stackSearchText(text: result)
-            //                            }
-            //
-            //                    } label: {
-            //                        EmptyView()
-            //                    }
-            //                    .opacity(0)
-            //
-            //                    HStack{
-            //                        Image(systemName: "magnifyingglass")
-            //                        Text(result)
-            //                            .font(.system(size: 18))
-            //                            .foregroundColor(.primary)
-            //                        Spacer()
-            //                        Image(systemName: "arrow.up.right")
-            //                            .foregroundColor(Color(UIColor.systemGray2))
-            //                    }
-            //                }
-            //            }
-            //            .listRowSeparator(.hidden)
         }
-        //        .listStyle(.plain)
+        
         .scrollDismissesKeyboard(.interactively)
         .tint(.primary)
         .overlay(content: {
@@ -218,18 +167,18 @@ struct SearchView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
-    func stackSearchText(text: String) {
-        guard !recentSearches.contains(text) else {
-            recentSearches.remove(at: recentSearches.firstIndex(of: text)!)
-            recentSearches.insert(text, at: 0)
+    func stackSearchText(_ searchQuery: SearchQuery) {
+        guard !recentSearches.contains(searchQuery) else {
+            recentSearches.remove(at: recentSearches.firstIndex(of: searchQuery)!)
+            recentSearches.insert(searchQuery, at: 0)
             return
         }
         // 최근 검색어 개수 줄이기
         if recentSearches.count > 4 {
             recentSearches.removeLast()
-            recentSearches.insert(text, at: 0)
+            recentSearches.insert(searchQuery, at: 0)
         } else {
-            recentSearches.insert(text, at: 0)
+            recentSearches.insert(searchQuery, at: 0)
         }
     }
 }

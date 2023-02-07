@@ -50,8 +50,6 @@ struct PerfumeCell: View {
                 }
                 .foregroundColor(.secondary)
             }
-            .frame(maxWidth: .infinity)
-            .background(Material.thinMaterial)
         }
         .frame(width: frameWidth)
         .padding(10.0)
