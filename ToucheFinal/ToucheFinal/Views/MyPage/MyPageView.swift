@@ -164,7 +164,9 @@ struct MyPageView: View {
 //                print(userInfoStore.userInfo)
                 await userInfoStore.readWrittenComments()
             }
+
         } // NAVIGATION
+
     }
 }
 

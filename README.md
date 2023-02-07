@@ -33,6 +33,15 @@ develop-front2 브랜치에서 다운 받아주시기를 양해 구합니다!
 - 설치/실행 방법
 
 ## 참여자
+| <img src="https://avatars.githubusercontent.com/u/114036537?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/75517368?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/99034396?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/68586179?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/48742019?v=4" width=200> |
+| :----------------------------------------------------------: | :---------------------------------------------: | :-------------------------------------------------: | :-------------------------------------------------: |  :-------------------------------------------------: |
+| 미주<br/>[@mumjee03](https://github.com/mumjee03)<br/> | 태성<br/>[@KTS224](https://github.com/KTS224)<br/> | 태형<br/> [@yahoth](https://github.com/yahoth)<br/> | 광현<br/>[@seo-kh](https://github.com/seo-kh)<br/> | 재희<br/>[@jaehee6](https://github.com/jaehee6)<br/> |
+
+<br/>
+
+| <img src="https://avatars.githubusercontent.com/u/70871997?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/87080756?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/52193695?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/114331071?v=4" width=200> |
+| :----------------------------------------------------------: | :---------------------------------------------: | :-------------------------------------------------: | :-------------------------------------------------: |
+| 석진<br/>[@tjrwls](https://github.com/tjrwls)<br/> | 운상<br/>[@wschooo](https://github.com/wschooo)<br/> | 진표<br/> [@jphong1005](https://github.com/jphong1005)<br/> | 유진<br/>[@yooj1202](https://github.com/yooj1202)<br/> |
 
 ## 라이센스
 
