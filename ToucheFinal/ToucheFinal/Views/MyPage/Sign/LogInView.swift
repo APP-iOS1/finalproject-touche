@@ -25,7 +25,7 @@ struct LogInView: View {
                 Text("Email")
                     .padding(.top, 1)
                 
-                TextField("Enter email", text: $email)
+                TextField("Enter Email", text: $email)
                     .textInputAutocapitalization(.never) // 대문자 방지
                     .disableAutocorrection(true) // 자동수정 방지
                     .keyboardType(.emailAddress) // 이메일용 키보드
@@ -35,7 +35,7 @@ struct LogInView: View {
                 
                 Text("Password")
                 
-                SecureField("Enter password", text: $password)
+                SecureField("Enter Password", text: $password)
                     .textInputAutocapitalization(.never)
                     .frame(height: 40)
                     .padding(.top, -8.5)

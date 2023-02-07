@@ -107,24 +107,24 @@ struct SignUpView: View {
                 Group{
                     Text("Password")
                     
-                    SecureField("Enter password", text: $password)
+                    SecureField("Enter Password", text: $password)
                         .frame(height: 40)
                         .padding(.top, -6)
                         .textContentType(UITextContentType.username)
                     
-                    Text(isPasswordRuleSatisfied ? "" : "Passwords must be at least 8 characters.")
+                    Text(isPasswordRuleSatisfied ? "" : "Password must be at least 8 characters.")
                         .font(.caption)
                         .foregroundColor(.red)
                         .padding(.top, -9)
                     
-                    Text("Confirm password")
+                    Text("Confirm Password")
                     
-                    SecureField("Enter password again", text: $checkPassword)
+                    SecureField("Enter Password again", text: $checkPassword)
                         .frame(height: 40)
                         .padding(.top, -6)
                         .textContentType(UITextContentType.username)
                     
-                    Text(isPasswordSame ? "" : "Passwords do not match.")
+                    Text(isPasswordSame ? "" : "Password does not match.")
                         .font(.caption)
                         .foregroundColor(.red)
                         .padding(.top, -9)
@@ -133,7 +133,7 @@ struct SignUpView: View {
                 
                 Group{
                     HStack {
-                        Text("Nickname")
+                        Text("Name")
                         if nickNameCheck == false {
                             Image(systemName: "checkmark.circle")
                                 .foregroundColor(.green)
@@ -157,7 +157,7 @@ struct SignUpView: View {
 
                     }
                     
-                    TextField("Enter user name", text: $nickName)
+                    TextField("Enter Name", text: $nickName)
                         .textInputAutocapitalization(.never) // 대문자 방지
                         .disableAutocorrection(true) // 자동수정 방지
                         .frame(height: 40)
@@ -198,7 +198,7 @@ struct SignUpView: View {
         
         /// 로그인 성공시 알람창
         .popup(isPresented: $isShowingSuccessPopup) {
-            Text("success!")
+            Text("Success!")
                 .bold()
                 .frame(width: UIScreen.main.bounds.width - 20, height: 50)
                 .background(Color.green.opacity(0.7))

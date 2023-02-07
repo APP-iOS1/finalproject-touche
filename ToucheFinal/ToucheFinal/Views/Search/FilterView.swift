@@ -212,7 +212,7 @@ private extension FilterView {
             case .color:
                 // Type
                 HStack(alignment: .center) {
-                    Text("Type ")
+                    Text("Color")
                         .font(.headline)
                         .fontWeight(.bold)
                     ScrollView(.horizontal, showsIndicators: false) {

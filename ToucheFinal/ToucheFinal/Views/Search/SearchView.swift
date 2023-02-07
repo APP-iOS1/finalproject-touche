@@ -59,7 +59,7 @@ struct SearchView: View {
             LazyVStack(alignment: .leading, spacing: 20.0) {
                 // 최근 검색어
                 if !recentSearches.isEmpty && searchText.isEmpty {
-                    Text("RECENT SEARCHES")
+                    Text("SEARCH HISTORY")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                     ForEach(recentSearches) { (result: SearchQuery) in
