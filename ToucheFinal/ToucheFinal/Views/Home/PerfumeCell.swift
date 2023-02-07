@@ -33,23 +33,23 @@ struct PerfumeCell: View {
                     .fontWeight(.light)
                     .foregroundColor(.primary)
                     .lineLimit(1)
-            }
-            HStack(alignment: .center, spacing: 10) {
-                HStack(spacing: 3) {
-                    Image(systemName: perfume.likedPeople.contains("userId") ? "heart.fill" : "heart")
-                        .resizable()
-                        .frame(width: 13, height: 12)
-                    Text("\(perfume.likedPeople.count)")
-                        .font(.system(size: 14))
+                HStack(alignment: .center, spacing: 10) {
+                    HStack(spacing: 3) {
+                        Image(systemName: perfume.likedPeople.contains("userId") ? "heart.fill" : "heart")
+                            .resizable()
+                            .frame(width: 13, height: 12)
+                        Text("\(perfume.likedPeople.count)")
+                            .font(.system(size: 14))
+                    }
+                    HStack(spacing: 3) {                    Image(systemName: "message")
+                            .resizable()
+                            .frame(width: 13, height: 13)
+                        Text("\(perfume.commentCount)" )
+                            .font(.system(size: 14))
+                    }
                 }
-                HStack(spacing: 3) {                    Image(systemName: "message")
-                        .resizable()
-                        .frame(width: 13, height: 13)
-                    Text("\(perfume.commentCount)" )
-                        .font(.system(size: 14))
-                }
+                .foregroundColor(.secondary)
             }
-            .foregroundColor(.secondary)
         }
         .frame(width: frameWidth)
         .padding(10.0)
