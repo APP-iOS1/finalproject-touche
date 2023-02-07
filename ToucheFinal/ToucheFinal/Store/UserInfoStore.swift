@@ -138,7 +138,7 @@ final class UserInfoStore: ObservableObject{
             // MARK: Firestore에 User Collection에 저장.
             try await database.document(uid).setData([
                 "userId": uid,
-                "userNation": ".None",
+                "userNation": Nation.None.rawValue,
                 "userNickName": nickname,
                 "userProfileImage": "",
                 "userEmail": emailAddress,
