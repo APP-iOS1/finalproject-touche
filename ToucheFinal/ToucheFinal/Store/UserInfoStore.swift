@@ -335,5 +335,15 @@ final class UserInfoStore: ObservableObject{
                 try await path.document(uid).updateData(["userProfileImage": userProfileImageUrl])
             } catch { }
         }
+    
+    func setProfileNationality(uid: String, nation: String) async -> Void {
+        
+        do {
+            
+            try await database.document(uid).updateData(["userNation" : nation])
+        } catch {
+            
+        }
+    }
 
 }

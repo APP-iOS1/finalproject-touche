@@ -122,7 +122,9 @@ struct EditMyProfileView: View {
                         VStack{
                             HStack{
                                 Button{
-                                    editNation = nation[1]
+                                    //  editNation = nation[1]
+                                    
+                                    editNation = "United States of America"
                                 } label: {
                                     Text(nation[1])
                                 }
@@ -131,7 +133,9 @@ struct EditMyProfileView: View {
                                 
                                 
                                 Button {
-                                    editNation = nation[0]
+                                    //  editNation = nation[0]
+                                    
+                                    editNation = "Republic Of Korea"
                                 } label: {
                                     Text(nation[0])
                                 }
@@ -184,6 +188,8 @@ struct EditMyProfileView: View {
                             let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
                             
                             await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg.last ?? "")
+                            
+                            await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: editNation)
                             
                             dismiss()
                         }
