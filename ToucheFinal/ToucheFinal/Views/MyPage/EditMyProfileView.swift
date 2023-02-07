@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import SDWebImageSwiftUI
 
 struct EditMyProfileView: View {
     @State private var isShowingDialog: Bool = false
@@ -16,10 +17,12 @@ struct EditMyProfileView: View {
     @State private var showCameraSheet = false
     @State private var editName: String = ""
     @State private var editIsValid: Bool =  false
-    @State private var nickNameCheck: Bool = false  // nickname t/f확인용
+    /// nickName 중복처리 true/false 확인용
+    @State private var nickNameCheck: Bool = false
     @State private var editImage: UIImage = UIImage()
     @State private var editNation: String = ""
-  
+    /// photo picker로 갤러리에서 이미지 변경시 사용
+    @State private var isChangedImage: Bool = false
     
     @Binding var image: UIImage
     @Binding var userNickname: String
@@ -28,24 +31,37 @@ struct EditMyProfileView: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
-    var nation: [String] = ["🇰🇷 Republic of Korea", "🇺🇸 United States"]
+    var nation: [String] = ["🇰🇷", "🇺🇸"]
     
     
     var body: some View {
         NavigationView {
-            
             VStack{
-                Image(uiImage: self.image)
-                    .resizable()
-                    .cornerRadius(50)
-                    .frame(width: 100, height: 100)
-                    .background(Color.black.opacity(0.2))
-                    .aspectRatio(contentMode: .fill)
-                    .clipShape(Circle())
-                    .padding(.bottom, 20)
+                ZStack {
+                    WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
+                        .resizable()
+                        .cornerRadius(50)
+                        .frame(width: 100, height: 100)
+                        .background(Color.black.opacity(0.2))
+                        .aspectRatio(contentMode: .fill)
+                        .clipShape(Circle())
+                        .padding(.bottom, 20)
+                    
+                    if isChangedImage == true {
+                        Image(uiImage: self.editImage)
+                            .resizable()
+                            .cornerRadius(50)
+                            .frame(width: 100, height: 100)
+                            .background(Color.black.opacity(0.2))
+                            .aspectRatio(contentMode: .fill)
+                            .clipShape(Circle())
+                            .padding(.bottom, 20)
+                    }
+                }
                 
                 Button("Edit Picture"){
                     isShowingDialog = true
+                    isChangedImage = true
                 }
                 .confirmationDialog(dialogTitle, isPresented: $isShowingDialog){
                     Button("Change from Gallery"){
@@ -64,8 +80,6 @@ struct EditMyProfileView: View {
                 
                 Divider()
                     .frame(maxWidth: .infinity)
-                
-                //
                 
                 VStack{
                     HStack{
@@ -108,19 +122,18 @@ struct EditMyProfileView: View {
                         VStack{
                             HStack{
                                 Button{
-                                    editNation = "🇺🇸"
+                                    editNation = nation[1]
                                 } label: {
-                                    Text("🇺🇸")
+                                    Text(nation[1])
                                 }
                                 .buttonStyle(.customButton)
                                 .padding(.trailing, -5)
                                 
-
                                 
                                 Button {
-                                    editNation = "🇰🇷"
+                                    editNation = nation[0]
                                 } label: {
-                                    Text("🇰🇷")
+                                    Text(nation[0])
                                 }
                                 .buttonStyle(.customButton)
                                 Spacer()
@@ -137,9 +150,9 @@ struct EditMyProfileView: View {
                     Spacer()
                 }
             .sheet(isPresented: $showGallerySheet){
-                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)}
+                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$editImage)}
             .sheet(isPresented: $showCameraSheet) {
-                ImagePicker(sourceType: .camera, selectedImage: self.$image)
+                ImagePicker(sourceType: .camera, selectedImage: self.$editImage)
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -150,7 +163,7 @@ struct EditMyProfileView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done"){
                         Task {
-                            // TODO: 닉네임 수정시 중복확인하는 부분 done에서는 안돼는 상황
+                            // TODO: 닉네임 수정시 중복확인하는 부분
                             /*
                             do {
                                 let target = try await userInfoStore.isNicknameDuplicated(nickName: editName)
@@ -160,16 +173,15 @@ struct EditMyProfileView: View {
                             }
                              */
                             
-                            if editIsValid && nickNameCheck == false {
+                            //if editIsValid && nickNameCheck == false {
                                 // 수정 완료 기능
-                                //image = editImage
-                                userNickname = editName
-                                userNation = editNation
+//                                userNickname = editName
+//                                userNation = editNation
                                 
                                 await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: userNickname)
-                            }
+//                            }
                             
-                            let strImg = await userInfoStore.uploadPhoto([image.pngData() ?? Data()])
+                            let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
                             
                             await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg.last ?? "")
                                 
@@ -179,8 +191,8 @@ struct EditMyProfileView: View {
                     }
                     
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
-                    .disabled(!editIsValid)
-                    // TODO: done - disable 설정하기, 닉네임설정 후 활성화 + 중복확인 기능 추가
+                    // TODO: Location 구현 후 비활성화 설정하기
+//                    .disabled(!editIsValid)
                 }
             }
             .navigationTitle(Text("Edit Profile"))
@@ -207,5 +219,6 @@ extension String {
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
         EditMyProfileView(image: .constant(UIImage()), userNickname: .constant(""), userNation: .constant(""))
+            .environmentObject(UserInfoStore())
     }
 }

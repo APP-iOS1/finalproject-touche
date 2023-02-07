@@ -98,6 +98,53 @@ struct MyPageView: View {
                         LazyVStack(alignment: .center, spacing: 12.0) {
                             ForEach(userInfoStore.writtenCommentsAndPerfumes, id: \.self.0) { (perfume, comment) in
                                 MyPageMyCommentCell(perfume: perfume, comment: comment)
+/*
+            ScrollView{
+                VStack{
+                    Group {
+                        //  마이 프로필 세로 형태
+                        WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
+                            .resizable()
+                            .cornerRadius(50)
+                            .frame(width: 100, height: 100)
+                            .background(Color.black.opacity(0.2))
+                            .aspectRatio(contentMode: .fill)
+                            .clipShape(Circle())
+                            .padding(.bottom, 20)
+                        HStack{
+                            Text(userNickname)
+                            Text(userNation)
+                        }
+                        .padding(.bottom,1)
+                        Button {
+                            showEditMyProfileView.toggle()
+                        } label: {
+                            Text("Edit Profile")
+                            //                            .foregroundColor(Color.black)
+                        }
+                        .fullScreenCover(isPresented: $showEditMyProfileView) {
+                            EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
+                        }
+                        .padding(.bottom, 15)
+                    } //세로 묶음 주석
+                    Divider()
+                    VStack{
+                        HStack{
+                            // TODO:
+                            NavigationLink {
+                                // 리스트 형식으로 나의 코멘트 길게 보여주기
+                                MyCommentListView()
+                            } label: {
+                                HStack {
+                                    Text("My Comment")
+                                    //.fontWeight(.semibold)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                    
+                                }
+                                //                                .offset(x: -8)
+                                .foregroundColor(.black)
+*/
                             }
                         }
                         .padding(.vertical, 8.0)
@@ -135,6 +182,20 @@ struct MyPageView: View {
                         Rectangle()
                             .frame(height: 1)
                             .foregroundStyle(.quaternary)
+/*
+                        .padding(.top, 15)
+                        .padding(.bottom, 15)
+                        
+                        VStack(alignment: .center){
+                            ForEach(userInfoStore.writtenCommentsAndPerfumes, id: \.self.0) { (perfume, comment) in
+                                MyPageMyCommentCell(perfume: perfume, comment: comment)
+                                    .padding(.bottom, 20)
+                            }
+                        }
+                        .padding(.bottom, 20)
+                        Spacer()
+                        
+*/
                     }
                     .animation(.easeOut, value: selection)
                 }
@@ -155,6 +216,22 @@ struct MyPageView: View {
                 await perfumeStore.likedPerfumes(userId: userInfoStore.userInfo?.userId ?? "")
             }
         } // NAVIGATION
+/*        }
+        .task {
+            //            userNickname = await userInfoStore.getNickName(uid: Auth.auth().currentUser?.uid ?? "")
+            
+            await userInfoStore.fetchUser(user: userInfoStore.user)
+            await userInfoStore.readWrittenComments()
+            print(userInfoStore.writtenCommentsAndPerfumes)
+            
+            guard let user = Auth.auth().currentUser else {return}
+            print("user? : \(user.uid)")
+            userNickname = await userInfoStore.getNickName(uid: user.uid)
+            await userInfoStore.fetchUser(user: user)
+            print(userInfoStore.userInfo)
+            await userInfoStore.readWrittenComments()
+        }
+*/
     }
 }
 
