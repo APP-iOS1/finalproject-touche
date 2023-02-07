@@ -9,10 +9,10 @@ import SwiftUI
 
 struct DeleteAccountView: View {
     enum ReasonForDelete: String, CaseIterable, Identifiable {
-        case notUse = "This app is not useful."
-        case notSpecial = "There is no speciality in the app."
-        case not = "There is no speciality in the app"
-        case enterReason = "I'll enter the reason directly."
+        case notUse = "This app is not helpful."
+        case notSpecial = "Can't find right products."
+        case not = "Too busy / Too distracting."
+        case enterReason = "Enter directly."
 
         var id: Self { self }
     }
@@ -36,20 +36,20 @@ struct DeleteAccountView: View {
                         .fontWeight(.bold)
                         .padding(.bottom)
 
-                    Text("Do you have any compliments?\nYou can contact our Customer Service first.")
+                    Text("Do you have any complaints?")
                         .padding(.bottom, 5)
                     HStack{
-                        Image(systemName: "phone")
+                        Image(systemName: "envelope")
                         Text("contactus@touche.com")
                     }
                     .padding(.bottom)
-                    Text("If you want a delete account,\nPlease fill in the space below.")
+                    Text("If you want to delete account,\nPlease fill in the space below.")
                         .padding(.bottom)
 
                 HStack {
                     Text("Account ID:")
                         .bold()
-                    Text("User ID")
+                    Text(userInfoStore.userInfo?.userEmail ?? "")
                 }
 
                 HStack {
@@ -68,7 +68,7 @@ struct DeleteAccountView: View {
                 VStack {
                     VStack {
 
-                        TextField("Enter your Text", text: $reasonForDeleteText, axis: .vertical)
+                        TextField("Provide reason.", text: $reasonForDeleteText, axis: .vertical)
 
                             .padding(5)
 
@@ -91,6 +91,7 @@ struct DeleteAccountView: View {
 
                 Button(action: {
                     userInfoStore.deleteAccount()
+                    dismiss()
                 }) {
                     Text("Delete Account")
                         .frame(width: 360, height: 46)

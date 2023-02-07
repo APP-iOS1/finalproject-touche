@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PerfumeDescriptionView: View {
-    @State var seletedColors = (UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? [])
+    @State var selectedColors = (UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? [])
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var perfumeColors: [PerfumeColor] = PerfumeColor.types
     
@@ -21,10 +21,14 @@ struct PerfumeDescriptionView: View {
                 //.padding(.leading, 20)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(seletedColors, id: \.self) { color in
+                        ForEach(selectedColors, id: \.self) { color in
                             Circle()
                                 .fill(Color(scentType: color))
                                 .frame(width: 30, height: 30)
+                                .onTapGesture {
+                                    selectedColors.remove(at: selectedColors.firstIndex(of: color) ?? 0)
+                                    UserDefaults.standard.set(selectedColors, forKey: "selectedScentTypes")
+                                }
                         }
                     }
                 }
@@ -34,7 +38,7 @@ struct PerfumeDescriptionView: View {
             }
             .padding(.leading, 20)
             
-            PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), selectedColours: $seletedColors, perfumeColour: perfumeColors)
+            PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), selectedColours: $selectedColors, perfumeColour: perfumeColors)
                 .padding(.top, -8)
         }
         .toolbar {

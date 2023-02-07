@@ -76,12 +76,15 @@
 		AA204A742987664900C59C7F /* PerfumeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A732987664900C59C7F /* PerfumeColor.swift */; };
 		AA204A7729876CED00C59C7F /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A7629876CED00C59C7F /* Color+.swift */; };
 		AA204A7929879D8300C59C7F /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A7829879D8300C59C7F /* FilterView.swift */; };
+		AA239BAB2991CF0400D834C5 /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA239BAA2991CF0400D834C5 /* SearchQuery.swift */; };
 		AAA5F6EC298BB00B00DA8B09 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA5F6EB298BB00A00DA8B09 /* View+.swift */; };
 		E8EA934129877DFD009FAFB4 /* PerfumeDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */; };
 		EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5AEDF6297A360000C4F5D8 /* TestView.swift */; };
 		EB7F90D72988B125005C7CFB /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F90D62988B125005C7CFB /* PaletteView.swift */; };
 		EB7F90D9298903C5005C7CFB /* ColorChipPerfumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F90D8298903C5005C7CFB /* ColorChipPerfumeCell.swift */; };
 		EBB879AA29879FA300167ABA /* PalleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB879A929879FA300167ABA /* PalleteCell.swift */; };
+		EBF6066F2992295200877303 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = EBF6066E2992295200877303 /* PopupView */; };
+		EBF6067129922B5E00877303 /* TESTPOPUPVIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6067029922B5E00877303 /* TESTPOPUPVIEW.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -144,12 +147,14 @@
 		AA204A732987664900C59C7F /* PerfumeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeColor.swift; sourceTree = "<group>"; };
 		AA204A7629876CED00C59C7F /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		AA204A7829879D8300C59C7F /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		AA239BAA2991CF0400D834C5 /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
 		AAA5F6EB298BB00A00DA8B09 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeDescriptionView.swift; sourceTree = "<group>"; };
 		EB5AEDF6297A360000C4F5D8 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		EB7F90D62988B125005C7CFB /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		EB7F90D8298903C5005C7CFB /* ColorChipPerfumeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorChipPerfumeCell.swift; sourceTree = "<group>"; };
 		EBB879A929879FA300167ABA /* PalleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalleteCell.swift; sourceTree = "<group>"; };
+		EBF6067029922B5E00877303 /* TESTPOPUPVIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESTPOPUPVIEW.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +174,7 @@
 				6115A2C929790EFE00BE740E /* FirebaseStorage in Frameworks */,
 				61212E602978E30E00D0ED57 /* FirebaseFirestoreSwift in Frameworks */,
 				61212E6C2978E4F600D0ED57 /* SwiftSoup in Frameworks */,
+				EBF6066F2992295200877303 /* PopupView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +301,7 @@
 				61212E612978E32E00D0ED57 /* GoogleService-Info.plist */,
 				657A08F82976596900E5B565 /* ToucheFinalApp.swift */,
 				A8BC32782977BF3E004EF50C /* dummyData.swift */,
+				EBF6067029922B5E00877303 /* TESTPOPUPVIEW.swift */,
 				AA204A7529876CDE00C59C7F /* Extension */,
 				61212E672978E39C00D0ED57 /* Util */,
 				657A091C29765E1300E5B565 /* Models */,
@@ -321,6 +328,7 @@
 				657A091829765CFE00E5B565 /* Comment.swift */,
 				657A091A29765D3D00E5B565 /* UserInfo.swift */,
 				AA204A732987664900C59C7F /* PerfumeColor.swift */,
+				AA239BAA2991CF0400D834C5 /* SearchQuery.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -403,6 +411,7 @@
 				61212E6B2978E4F600D0ED57 /* SwiftSoup */,
 				6115A2C829790EFE00BE740E /* FirebaseStorage */,
 				617449462988A11E0064BEE8 /* Magnetic */,
+				EBF6066E2992295200877303 /* PopupView */,
 			);
 			productName = ToucheFinal;
 			productReference = 657A08F52976596900E5B565 /* ToucheFinal.app */;
@@ -439,6 +448,7 @@
 				A8BC32752977BD95004EF50C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				61212E6A2978E4F600D0ED57 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				617449452988A11E0064BEE8 /* XCRemoteSwiftPackageReference "Magnetic" */,
+				EBF6066D2992295200877303 /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 657A08F62976596900E5B565 /* Products */;
 			projectDirPath = "";
@@ -500,6 +510,7 @@
 				657A091B29765D3D00E5B565 /* UserInfo.swift in Sources */,
 				A8EDB1D2298A24E30055D7B9 /* TestAnimationView.swift in Sources */,
 				657A092029765E9C00E5B565 /* CommentStore.swift in Sources */,
+				AA239BAB2991CF0400D834C5 /* SearchQuery.swift in Sources */,
 				61FE13212977D7A1003F0466 /* CommentCell.swift in Sources */,
 				2390497E2977920C0097B20A /* GuideView.swift in Sources */,
 				A8BAF8DD297A55FD00D1DDCD /* MyPageMyCommentCell.swift in Sources */,
@@ -509,6 +520,7 @@
 				65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */,
 				EBB879AA29879FA300167ABA /* PalleteCell.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
+				EBF6067129922B5E00877303 /* TESTPOPUPVIEW.swift in Sources */,
 				EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */,
 				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,
 				233260D42977757500771B2A /* LogInView.swift in Sources */,
@@ -781,6 +793,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		EBF6066D2992295200877303 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -843,6 +863,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A8BC32752977BD95004EF50C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		EBF6066E2992295200877303 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EBF6066D2992295200877303 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

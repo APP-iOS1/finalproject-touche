@@ -40,21 +40,21 @@ struct SettingView: View {
                         
                         
                         
-                        Button{
-                            // MARK: [미구현] 디바이스 로케이션 설정으로 즉각 이동 필요
-                            Task{
-                                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                                    
-                                    await UIApplication.shared.open(url)
-                                }
-                            }
-                        } label :{
-                            HStack{
-                                Text("Location Service")
-                                Spacer()
-                                Image(systemName: "arrow.up.right")
-                            }
-                        }
+//                        Button{
+//                            // MARK: [미구현] 디바이스 로케이션 설정으로 즉각 이동 필요
+//                            Task{
+//                                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+//
+//                                    await UIApplication.shared.open(url)
+//                                }
+//                            }
+//                        } label :{
+//                            HStack{
+//                                Text("Location Service")
+//                                Spacer()
+//                                Image(systemName: "arrow.up.right")
+//                            }
+//                        }
                         
                         Button {
                             showSelectNationView.toggle()
@@ -99,10 +99,10 @@ struct SettingView: View {
                                 .font(.system(size: 20))
                                 .fontWeight(.bold)
                                 .padding(.top,50)
-                            Text("Contact US")
-                            Text("Help and Inforamtion")
+                            Text("Contact Us")
                             Text("Privacy Policy")
                             Text("Terms & Conditions")
+                            Text("Help and Inforamtion")
                         }
                     }
                     .listStyle(.plain)

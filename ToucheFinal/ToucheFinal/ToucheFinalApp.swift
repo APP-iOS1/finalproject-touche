@@ -27,6 +27,7 @@ struct ToucheFinalApp: App {
                 .environmentObject(userInfoStore)
                 .environmentObject(perfumeStore)
                 .environmentObject(commentStore)
+           
         }
     }
 }

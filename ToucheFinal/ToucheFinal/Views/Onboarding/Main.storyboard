@@ -25,8 +25,8 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pJC-f1-xeX">
                                 <rect key="frame" x="20" y="40" width="335" height="100.5"/>
-                                <string key="text">Select Your Colors.
-Color means Fragrance Atmosphere.</string>
+                                <string key="text">SELECT YOUR COLORS.
+Color means fragrance atmosphere.</string>
                                 <fontDescription key="fontDescription" name="SFUIDisplay-Ultralight" family="SF UI Display" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>

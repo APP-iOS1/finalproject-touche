@@ -57,7 +57,7 @@ struct SelectNationView: View {
 
         NavigationView {
             return VStack{
-                TextField("Search your Nations", text: selectBinding)
+                TextField("Search Your Nation", text: selectBinding)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                 List{

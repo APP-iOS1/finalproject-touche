@@ -12,7 +12,8 @@ struct SignOutView: View {
         NavigationStack {
             VStack {
                 HStack {
-                    Text("If you want to use more services,")
+                    Text("To use more features")
+                        .font(.system(size: 28))
                     Spacer()
                 }
                 .frame(height: 80)
