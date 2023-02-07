@@ -8,17 +8,17 @@
 import Foundation
 
 
-enum Nation: Codable {
-    case None
-    case RepublicOfKorea
-    case France
-    case UnitedStates
-    case Japan
-}
+//enum Nation: Codable {
+//    case None
+//    case RepublicOfKorea
+//    case France
+//    case UnitedStates
+//    case Japan
+//}
 
 struct UserInfo: Codable {
     var userId: String
-    var userNation: Nation
+    var userNation: String
     var userNickName: String
     var userProfileImage: String
     var userEmail: String

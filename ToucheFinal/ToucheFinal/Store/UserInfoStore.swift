@@ -138,7 +138,7 @@ final class UserInfoStore: ObservableObject{
             // MARK: Firestore에 User Collection에 저장.
             try await database.document(uid).setData([
                 "userId": uid,
-                "userNation": ".None",
+                "userNation": "",
                 "userNickName": nickname,
                 "userProfileImage": "",
                 "userEmail": emailAddress,
@@ -288,7 +288,6 @@ final class UserInfoStore: ObservableObject{
     //  storage에 사진이 올라가는 메서드
     func uploadPhoto(_ imagesData: [Data]) async -> [String] {
         do{
-            
             print("사진 업로드 시작")
             
             var imagesURL: [String] = []
@@ -307,19 +306,20 @@ final class UserInfoStore: ObservableObject{
                 print("사진 업로드 성공: \(imagesURL)")
                 
                 await fetchUser(user: Auth.auth().currentUser)
+                print("신규가입자: \(userInfo?.userProfileImage)")
+                // delPath안돼는 이유가 신규가입자는 storage에 저장한 프로필이미지id가 없으니까 path를 못찾는다.
+                // 신규가입자일 경우는 사진추가(업로드)만 하고, 프로필이미지를 한번이라도 변경한 경우에만 delete를 해주면 되지 않을까 ?
+                if userInfo?.userProfileImage != nil {
+                    let delPath = "images/\(String( userInfo?.userProfileImage.split(separator: "%2F")[1].split(separator: "?")[0] ?? ""))"
+                    
+                    print("path: \(delPath)")
+                    
+                    try await storageRef.child(delPath).delete()
+                }
                 
-                let delPath = "images/\(String( userInfo?.userProfileImage.split(separator: "%2F")[1].split(separator: "?")[0] ?? ""))"
-                
-                print("path: \(delPath)")
-                
-                try await storageRef.child(delPath).delete()
-                
-                //print("path: \(delPath)")
             }
-            
-            //print("사진 업로드 성공: \(imagesURL)")
-            
             return imagesURL
+            
         } catch{
             
             print("사진 업로드 실패")

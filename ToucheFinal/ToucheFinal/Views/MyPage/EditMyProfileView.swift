@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import SDWebImageSwiftUI
 
 struct EditMyProfileView: View {
     @State private var isShowingDialog: Bool = false
@@ -33,9 +34,8 @@ struct EditMyProfileView: View {
     
     var body: some View {
         NavigationView {
-            
             VStack{
-                Image(uiImage: self.image)
+                WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
                     .resizable()
                     .cornerRadius(50)
                     .frame(width: 100, height: 100)
