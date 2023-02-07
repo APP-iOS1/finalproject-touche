@@ -184,7 +184,6 @@ struct EditMyProfileView: View {
                             let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
                             
                             await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg.last ?? "")
-                                
                             
                             dismiss()
                         }
