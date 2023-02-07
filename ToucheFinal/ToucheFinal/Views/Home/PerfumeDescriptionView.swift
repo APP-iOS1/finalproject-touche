@@ -26,8 +26,10 @@ struct PerfumeDescriptionView: View {
                                 .fill(Color(scentType: color))
                                 .frame(width: 30, height: 30)
                                 .onTapGesture {
-                                    selectedColors.remove(at: selectedColors.firstIndex(of: color) ?? 0)
-                                    UserDefaults.standard.set(selectedColors, forKey: "selectedScentTypes")
+                                    if selectedColors.count > 1 {
+                                        selectedColors.remove(at: selectedColors.firstIndex(of: color) ?? 0)
+                                        UserDefaults.standard.set(selectedColors, forKey: "selectedScentTypes")
+                                    }
                                 }
                         }
                     }
