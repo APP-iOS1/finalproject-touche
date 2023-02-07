@@ -20,6 +20,9 @@ final class UserInfoStore: ObservableObject{
     @Published var errorMessage = ""
     @Published var isDuplicated: Bool?
     @Published var writtenCommentsAndPerfumes: [(Perfume, Comment)] = []
+    @Published var isShowingFailAlert = false
+    @Published var isShowingSuccessAlert = false
+    
     private let database = Firestore.firestore().collection("User")
     
     //  storage 참조변수
