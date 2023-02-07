@@ -132,7 +132,7 @@ private extension PerfumeDetailView {
                             score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount),
                             frame: 15,
                             canClick: false)
-                        Text("\("\(perfume.commentCount)View Comments")")
+                        Text("\("\(perfume.commentCount) View Comments")")
                             .font(.system(size: 14))
                             .foregroundColor(.primary)
                             .underline()
