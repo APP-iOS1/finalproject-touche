@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct LogInView: View {
+    @State private var isShowingFailPopup = false
+    @State private var isShowingSuccessPopup = false
     @State var email: String = ""
     @State var password: String = ""
     @State var isShowingAlert: Bool = false
@@ -42,7 +45,13 @@ struct LogInView: View {
             Button {
                 Task {
                     await userInfoStore.logIn(emailAddress: email, password: password)
-                    dismiss()
+                    
+                    if userInfoStore.loginState == .success {
+                        isShowingSuccessPopup.toggle()
+                        dismiss()
+                    } else {
+                        isShowingFailPopup.toggle()
+                    }
                 }
             } label: {
                 Text("Sign In")
@@ -66,6 +75,22 @@ struct LogInView: View {
         }
         .frame(maxHeight: .infinity)
         
+        /// 없는 정보로 로그인 할때 경고창
+        .popup(isPresented: $isShowingFailPopup) {
+            Text("Incorrect information!")
+                .bold()
+                .frame(width: UIScreen.main.bounds.width - 20, height: 50)
+                .background(Color.red.opacity(0.7))
+                .cornerRadius(20.0)
+        } customize: {
+            $0.autohideIn(2)
+                .type(.floater())
+                .position(.top)
+                .animation(.spring())
+                .isOpaque(true)
+                .closeOnTapOutside(true)
+                .backgroundColor(.black.opacity(0.07))
+        }
     }
 }
 

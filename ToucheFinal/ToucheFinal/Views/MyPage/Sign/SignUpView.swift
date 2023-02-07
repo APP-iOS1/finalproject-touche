@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct SignUpView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var userInfoStore: UserInfoStore
     
+    @State private var isShowingSuccessPopup = false
     @State var email: String = ""
     @State private var emailCheck: Bool?
     @State private var nickNameCheck: Bool?
@@ -54,7 +56,7 @@ struct SignUpView: View {
     }
 
     var body: some View {
-        VStack{
+        ScrollView {
             VStack(alignment: .leading){
                 Group {
                     HStack {
@@ -108,6 +110,7 @@ struct SignUpView: View {
                     SecureField("Enter password", text: $password)
                         .frame(height: 40)
                         .padding(.top, -6)
+                        .textContentType(UITextContentType.username)
                     
                     Text(isPasswordRuleSatisfied ? "" : "Passwords must be at least 8 characters.")
                         .font(.caption)
@@ -119,6 +122,7 @@ struct SignUpView: View {
                     SecureField("Enter password again", text: $checkPassword)
                         .frame(height: 40)
                         .padding(.top, -6)
+                        .textContentType(UITextContentType.username)
                     
                     Text(isPasswordSame ? "" : "Passwords do not match.")
                         .font(.caption)
@@ -174,10 +178,10 @@ struct SignUpView: View {
             
             
             Button {
+                isShowingSuccessPopup.toggle()
                 Task {
                     await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
                     userInfoStore.isDuplicated = nil
-                    dismiss()
                 }
             } label: {
                 Text("Sign Up")
@@ -188,10 +192,26 @@ struct SignUpView: View {
             }
             .disabled(isSignUpDisabled)
             
-            Spacer()
+//            Spacer()
         }
         .onAppear{print("SignUp")}
         
+        /// 로그인 성공시 알람창
+        .popup(isPresented: $isShowingSuccessPopup) {
+            Text("success!")
+                .bold()
+                .frame(width: UIScreen.main.bounds.width - 20, height: 50)
+                .background(Color.green.opacity(0.7))
+                .cornerRadius(20.0)
+        } customize: {
+            $0.autohideIn(2)
+                .type(.floater())
+                .position(.top)
+                .animation(.spring())
+                .isOpaque(true)
+                .closeOnTapOutside(true)
+//                .backgroundColor(.black.opacity(0.1))
+        }
             
         
         

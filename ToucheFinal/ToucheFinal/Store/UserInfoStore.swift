@@ -8,6 +8,8 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseStorage
+import UIKit
 
 /// 유저정보를 다루는 store
 @MainActor
@@ -19,6 +21,9 @@ final class UserInfoStore: ObservableObject{
     @Published var isDuplicated: Bool?
     @Published var writtenCommentsAndPerfumes: [(Perfume, Comment)] = []
     private let database = Firestore.firestore().collection("User")
+    
+    //  storage 참조변수
+    private let storageRef = Storage.storage().reference()
     lazy var userNickname = Auth.auth().currentUser?.displayName ?? ""
     
     var currentUser = Auth.auth().currentUser?.uid
@@ -53,7 +58,6 @@ final class UserInfoStore: ObservableObject{
     @Published var state: SignInState = .splash
     @Published var loginState: LogInState = .none
     @Published var loginPlatform: LoginPlatform = .none
-    
     @Published var signInState: SignInState = .signOut
     
     /// 현재 로그인한 사용자의 `UserInfo`를 Firestore로 부터 읽어오는 함수
@@ -66,7 +70,9 @@ final class UserInfoStore: ObservableObject{
             let snapshot = try await database.document(uid).getDocument()
             userInfo = try snapshot.data(as: UserInfo.self)
             self.notice = "fetchUser"
-        } catch {}
+        } catch {
+        }
+        self.loginState = .success
     }
     
     /// 이 클래스가 실행하면, 먼저 로그인 여부를 따져서 이전에 로그인했으면 자동 로그인을 지원한다.
@@ -132,13 +138,17 @@ final class UserInfoStore: ObservableObject{
             // MARK: Firestore에 User Collection에 저장.
             try await database.document(uid).setData([
                 "userId": uid,
-                "userNation": ".None",
+// <<<<<<< 0206/EditMyProfileStorage/SKH
+//                "userNation": Nation.None.rawValue,
+//                =======
+                "userNation": "",
                 "userNickName": nickname,
                 "userProfileImage": "",
                 "userEmail": emailAddress,
                 "writtenComments": [],
                 "recentlyPerfumesId": []])
             // MARK: 현재 유저의 userInfo 불러오기
+            print("// MARK: 현재 유저의 userInfo 불러오기")
             await fetchUser(user: result.user)
         } catch { }
                 
@@ -151,6 +161,7 @@ final class UserInfoStore: ObservableObject{
             userInfo = nil
             user = nil
             currentUser = nil
+            self.loginState = .none
         } catch let signOutError {
             notice = "Error signing out: \(signOutError.localizedDescription)"
         }
@@ -281,4 +292,61 @@ final class UserInfoStore: ObservableObject{
                 .updateData(["writtenComments": userInfo?.writtenComments ?? []])
         } catch {}
     }
+    
+    // storage에 사진이 올라가는 메서드
+    func uploadPhoto(_ imagesData: [Data]) async -> [String] {
+        do{
+            print("사진 업로드 시작")
+            
+            var imagesURL: [String] = []
+            if imagesData.isEmpty { return [] }
+            
+            for imageData in imagesData {
+                let uuid = UUID().uuidString
+                let path = "images/\(uuid).jpg"
+                let fileRef = storageRef.child(path)
+                
+                _ = try await fileRef.putDataAsync(imageData, metadata: nil) // 올리는 과정
+                let url = try await fileRef.downloadURL()
+                imagesURL.append(url.absoluteString)
+                
+                print("사진 업로드 성공: \(imagesURL)")
+                
+                await fetchUser(user: Auth.auth().currentUser)
+                print("신규가입자: \(userInfo?.userProfileImage)")
+                
+                // delPath에서 오류나는 이유는 신규가입자일 경우, storage에 저장한 프로필이미지id가 없으니까 path를 못찾기때문
+                // 신규가입자일 경우는 사진추가(업로드)만 하고, 프로필이미지를 한번이라도 변경한 경우에만 delete를 한 후에 업로드하기
+                if !(userInfo?.userProfileImage == "") {
+                    let delPath = "images/\(String( userInfo?.userProfileImage.split(separator: "%2F")[1].split(separator: "?")[0] ?? ""))"
+                    print("path: \(delPath)")
+                    try await storageRef.child(delPath).delete()
+                }
+                
+            }
+            return imagesURL
+            
+        } catch{
+            print("사진 업로드 실패")
+            fatalError()
+        }
+    }
+    
+    func setProfilePhotoUrl(uid: String, userProfileImageUrl: String) async -> Void {
+            let path = database
+            do {
+                try await path.document(uid).updateData(["userProfileImage": userProfileImageUrl])
+            } catch { }
+        }
+    
+    func setProfileNationality(uid: String, nation: String) async -> Void {
+        
+        do {
+            
+            try await database.document(uid).updateData(["userNation" : nation])
+        } catch {
+            
+        }
+    }
+
 }
