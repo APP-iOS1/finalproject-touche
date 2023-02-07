@@ -152,7 +152,7 @@ struct MyPageView: View {
             } // TOOLBAR
             .task {
                 await userInfoStore.readWrittenComments()
-                await perfumeStore.likedPerfumes(userId: userInfoStore.userInfo?.userId ?? "")
+                await perfumeStore.readLikedPerfumes(userId: userInfoStore.userInfo?.userId ?? "")
                 
                 await userInfoStore.fetchUser(user: userInfoStore.user)
                 print(userInfoStore.writtenCommentsAndPerfumes)
@@ -161,7 +161,7 @@ struct MyPageView: View {
                 print("user? : \(user.uid)")
                 userNickname = await userInfoStore.getNickName(uid: user.uid)
                 await userInfoStore.fetchUser(user: user)
-                print(userInfoStore.userInfo)
+//                print(userInfoStore.userInfo)
                 await userInfoStore.readWrittenComments()
             }
         } // NAVIGATION
