@@ -8,28 +8,28 @@
 import SwiftUI
 
 struct ColorPaletteUnderView: View {
-    @ObservedObject var colorPaletteCondition: ColorPalette
-    var perfumesCount: Int
+    @EnvironmentObject var colorPaletteCondition: ColorPalette
+    
     var body: some View {
         ZStack {
-            Rectangle()
+            Circle()
                 .fill(
-                    LinearGradient(gradient: Gradient(colors: [colorPaletteCondition.selectedColor.opacity(0.3), Color.white]),
+                    LinearGradient(gradient: Gradient(colors: [colorPaletteCondition.selectedColor, Color.white]),
                                    startPoint: .bottom, endPoint: .top)
                 )
 
                 // 동그라미 선택시 colorPaletteUnder의 선택된 동그라미가 커지는 효과
-//                .frame(width: 300.0, height: 300.0)
-//                .scaleEffect(colorPaletteCondition.selectedColor == colorPaletteCondition.selectedCircle ? 50 + CGFloat(perfumesCount / 2 * 25) : 1)
+                .frame(width: 30.0/*, height: 30.0*/)
+                .scaleEffect(colorPaletteCondition.selectedColor == colorPaletteCondition.selectedCircle ? 130 : 1)
         }
-//        .padding(7)
-//        .padding(.horizontal)
+        .padding(7)
+        .padding(.horizontal)
     }
 }
 
 struct ColorPaletteUnderView_Previews: PreviewProvider {
     static var previews: some View {
-        ColorPaletteUnderView(colorPaletteCondition: ColorPalette(), perfumesCount: 0)
-//            .environmentObject(ColorPalette())
+        ColorPaletteUnderView()
+            .environmentObject(ColorPalette())
     }
 }
