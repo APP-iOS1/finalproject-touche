@@ -37,6 +37,7 @@ import Foundation
 //    }
 //}
 
+
 //enum Nation: Codable {
 //    case None
 //    case RepublicOfKorea

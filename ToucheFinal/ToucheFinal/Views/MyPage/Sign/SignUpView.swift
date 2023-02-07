@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct SignUpView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var userInfoStore: UserInfoStore
     
+    @State private var isShowingSuccessPopup = false
     @State var email: String = ""
     @State private var emailCheck: Bool?
     @State private var nickNameCheck: Bool?
@@ -176,10 +178,10 @@ struct SignUpView: View {
             
             
             Button {
+                isShowingSuccessPopup.toggle()
                 Task {
                     await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
                     userInfoStore.isDuplicated = nil
-                    dismiss()
                 }
             } label: {
                 Text("Sign Up")
@@ -194,6 +196,22 @@ struct SignUpView: View {
         }
         .onAppear{print("SignUp")}
         
+        /// 로그인 성공시 알람창
+        .popup(isPresented: $isShowingSuccessPopup) {
+            Text("success!")
+                .bold()
+                .frame(width: UIScreen.main.bounds.width - 20, height: 50)
+                .background(Color.green.opacity(0.7))
+                .cornerRadius(20.0)
+        } customize: {
+            $0.autohideIn(2)
+                .type(.floater())
+                .position(.top)
+                .animation(.spring())
+                .isOpaque(true)
+                .closeOnTapOutside(true)
+//                .backgroundColor(.black.opacity(0.1))
+        }
             
         
         

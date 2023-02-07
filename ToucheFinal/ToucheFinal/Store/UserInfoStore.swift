@@ -71,8 +71,8 @@ final class UserInfoStore: ObservableObject{
             userInfo = try snapshot.data(as: UserInfo.self)
             self.notice = "fetchUser"
         } catch {
-            
         }
+        self.loginState = .success
     }
     
     /// 이 클래스가 실행하면, 먼저 로그인 여부를 따져서 이전에 로그인했으면 자동 로그인을 지원한다.
@@ -148,6 +148,7 @@ final class UserInfoStore: ObservableObject{
                 "writtenComments": [],
                 "recentlyPerfumesId": []])
             // MARK: 현재 유저의 userInfo 불러오기
+            print("// MARK: 현재 유저의 userInfo 불러오기")
             await fetchUser(user: result.user)
         } catch { }
                 
@@ -160,6 +161,7 @@ final class UserInfoStore: ObservableObject{
             userInfo = nil
             user = nil
             currentUser = nil
+            self.loginState = .none
         } catch let signOutError {
             notice = "Error signing out: \(signOutError.localizedDescription)"
         }

@@ -10,7 +10,7 @@ import SwiftUI
 struct LogInRootView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     var body: some View {
-        if userInfoStore.user != nil {
+        if userInfoStore.userInfo != nil {
             MyPageView(perfume: dummy[0], comment: commentDummy[0]) // 로그인 되면
         } else { // 로그인 안되면
             SignOutView()
