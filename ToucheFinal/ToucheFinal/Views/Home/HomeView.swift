@@ -30,7 +30,7 @@ struct HomeView: View {
                         .frame(height: 200)
                         .overlay(alignment: .top) {
                             HStack{
-                                Text("NEWLY ADDED\nPERFUME")
+                                Text("NEW ARRIVALS")
                                     .font(.largeTitle)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
@@ -65,7 +65,7 @@ struct HomeView: View {
                     // MARK: Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
-                            Text("RECOMMEND PERFUME FOR YOU")
+                            Text("RECOMMENDATION PERFUME FOR YOU")
                                 .modifier(TextViewModeifier(isTitleSection: true))
                             Spacer()
                             Button {

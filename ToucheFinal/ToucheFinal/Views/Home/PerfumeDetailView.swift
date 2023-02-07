@@ -61,8 +61,7 @@ struct PerfumeDetailView: View {
         } // READER
         .alert(
             """
-            If you want to use Liked / Comments,
-            Please sign in
+            Sign in to favorite your products
             """
             ,isPresented: $alertActive
         ) {
@@ -133,7 +132,7 @@ private extension PerfumeDetailView {
                             score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount),
                             frame: 15,
                             canClick: false)
-                        Text("\("\(perfume.commentCount)개의 댓글 보기")")
+                        Text("\("\(perfume.commentCount)View Comments")")
                             .font(.system(size: 14))
                             .foregroundColor(.primary)
                             .underline()

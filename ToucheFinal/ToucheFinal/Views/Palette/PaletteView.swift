@@ -32,7 +32,7 @@ struct PaletteView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    Text("My Perfume Palette")
+                    Text("Perfume Palette")
                         .font(.largeTitle)
                         .padding(.bottom, 40)
                         .fontWeight(.semibold)
@@ -135,9 +135,9 @@ struct PaletteView: View {
                                 .frame(width: 50, height: 50)
                             Spacer()
                             VStack(alignment: .leading) {
-                                Text("If you sign in...")
+                                Text("To use more features")
                                     .padding(.bottom, 10)
-                                Text("You can collect only your favorite products.")
+                                Text("You can collect your favorite products.")
                             }
                             .frame(width: 200)
                             Spacer()
@@ -147,8 +147,7 @@ struct PaletteView: View {
                         })
                         .alert(
                         """
-                        If you want to use Liked / Comments,
-                        Please sign in
+                        Please sign in to like / comment on products
                         """
                         ,isPresented: $isSignin
                         ) {

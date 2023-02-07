@@ -59,7 +59,7 @@ struct EditMyProfileView: View {
                     }
                 }
                 
-                Button("Edit Picture"){
+                Button("Edit Photo"){
                     isShowingDialog = true
                     isChangedImage = true
                 }
@@ -86,7 +86,7 @@ struct EditMyProfileView: View {
                         Text("Name")
                         Spacer(minLength: 40)
                         VStack{
-                            TextField("Edit your Nickname", text: $editName)
+                            TextField("Edit your Name   ", text: $editName)
                                 .padding(.bottom, -5)
                                 .foregroundColor(.gray)
                             // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
@@ -117,7 +117,7 @@ struct EditMyProfileView: View {
                     } // 이메일 HStack
                     
                     HStack {
-                        Text("Location")
+                        Text("Region  ")
                         Spacer()
                         VStack{
                             HStack{
@@ -182,7 +182,7 @@ struct EditMyProfileView: View {
 //                                userNickname = editName
 //                                userNation = editNation
                                 
-                                await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: userNickname)
+                                await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editName)
 //                            }
                             
                             let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
