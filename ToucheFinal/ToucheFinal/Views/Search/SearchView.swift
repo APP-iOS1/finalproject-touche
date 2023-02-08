@@ -90,20 +90,52 @@ struct SearchView: View {
                     if !searchText.isEmpty && !searchResults.isEmpty { Divider() }
                 }
                 
+                // 브랜드 검색 나타나는 부분
+                Text(perfumeStore.isShowingBrandText && searchText != "" ? "brand" : "")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                
                 ForEach(searchResults, id: \.self) { result in
-                    NavigationLink {
-                        checkBrandNameOrDisplayName(text: result)
-                            .onAppear {
-                                stackSearchText(text: result)
-                            }
-                    } label: {
-                        HStack{
-                            Image(systemName: "magnifyingglass")
-                            Text(result)
-                                .font(.system(size: 16))
-                            Spacer()
-                            Image(systemName: "arrow.up.right")
+                    if checkShowingNavigationLinkOfBrand(text: result) {
+                        NavigationLink {
+                            checkIsItBrand(text: result)
+                                .onAppear {
+                                    stackSearchText(text: result)
+                                }
+                        } label: {
+                            HStack{
+                                Image(systemName: "magnifyingglass")
+                                Text(result)
+                                    .font(.system(size: 16))
+                                Spacer()
+                                Image(systemName: "arrow.up.right")
                                 
+                            }
+                        }
+                    }
+                }
+                
+                // 이름 검색 나타나는 부분
+                Text(perfumeStore.isShowingPerfumeText && searchText != "" ? "perfume" : "")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                
+                ForEach(searchResults, id: \.self) { result in
+                    if checkShowingNavigationLinkOfDisplayName(text: result) {
+                        NavigationLink {
+                            checkIsItDisplayName(text: result)
+                                .onAppear {
+                                    stackSearchText(text: result)
+                                }
+                        } label: {
+                            HStack{
+                                Image(systemName: "magnifyingglass")
+                                Text(result)
+                                    .font(.system(size: 16))
+                                Spacer()
+                                Image(systemName: "arrow.up.right")
+                                
+                            }
                         }
                     }
                 }
@@ -115,7 +147,7 @@ struct SearchView: View {
         .scrollDismissesKeyboard(.interactively)
         .tint(.primary)
         .overlay(content: {
-            Text((perfumeStore.recentSearches.isEmpty && perfumeStore.recentSearches.isEmpty) ? "No **recent search word** history." : "")
+            Text((perfumeStore.recentSearches.isEmpty && searchText == "") ? "No **recent search** history." : "")
         })
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
@@ -161,10 +193,58 @@ struct SearchView: View {
     func checkBrandNameOrDisplayName(text: String) -> FilteringResultView {
         for i in 0..<Brand.dummy.count {
             if Brand.dummy[i].name == text {
+                Task { @MainActor in
+                    perfumeStore.isShowingBrandText = true
+                }
                 return FilteringResultView(field: "brandName", queries: [text])
             }
         }
+        Task { @MainActor in
+            perfumeStore.isShowingPerfumeText = true
+        }
         return FilteringResultView(field: "displayName", queries: [text])
+    }
+    
+    func checkIsItBrand(text: String) -> FilteringResultView? {
+        for i in 0..<Brand.dummy.count {
+            if Brand.dummy[i].name == text {
+                Task { @MainActor in
+                    perfumeStore.isShowingBrandText = true
+                }
+                return FilteringResultView(field: "brandName", queries: [text])
+            }
+        }
+        return nil
+    }
+    
+    func checkIsItDisplayName(text: String) -> FilteringResultView? {
+        for i in 0..<Brand.dummy.count {
+            if Brand.dummy[i].name != text {
+                Task { @MainActor in
+                    perfumeStore.isShowingPerfumeText = true
+                }
+                return FilteringResultView(field: "displayName", queries: [text])
+            }
+        }
+        return nil
+    }
+    
+    func checkShowingNavigationLinkOfBrand(text: String) -> Bool {
+        for brand in Brand.dummy {
+            if brand.name == text {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func checkShowingNavigationLinkOfDisplayName(text: String) -> Bool {
+        for brand in Brand.dummy {
+            if brand.name == text {
+                return false
+            }
+        }
+        return true
     }
 }
 
@@ -172,6 +252,7 @@ struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             SearchView()
+                .environmentObject(PerfumeStore())
         }
     }
 }
