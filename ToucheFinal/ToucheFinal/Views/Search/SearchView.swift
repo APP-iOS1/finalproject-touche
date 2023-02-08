@@ -61,7 +61,6 @@ struct SearchView: View {
                 if !recentSearches.isEmpty && searchText.isEmpty {
                     Text("SEARCH HISTORY")
                         .font(.callout)
-                        .foregroundStyle(.secondary)
                     ForEach(recentSearches) { (result: SearchQuery) in
                         HStack{
                             // Search
