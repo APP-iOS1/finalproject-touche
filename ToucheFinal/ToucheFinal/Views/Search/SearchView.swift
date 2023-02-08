@@ -57,7 +57,6 @@ struct SearchView: View {
                 if !perfumeStore.recentSearches.isEmpty && searchText.isEmpty {
                     Text("RECENT SEARCHES")
                         .font(.callout)
-                        .foregroundStyle(.secondary)
                     ForEach(perfumeStore.recentSearches, id: \.self) { result in
                         HStack{
                             // Search
