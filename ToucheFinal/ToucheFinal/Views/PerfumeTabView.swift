@@ -13,7 +13,7 @@ struct PerfumeTabView: View {
     @State private var touchTab = false
     @State var isShowingOnboardingView: Bool = UserDefaults.standard.bool(forKey: "isShowingOnboardingView")
     let selectedColors = (UserDefaults.standard.array(forKey: "selectedFragranceTypes") as? [String] ?? [])
-    let tabBarNames = ["Home", "Palette", "Profile"]
+    let tabBarNames = ["Home", "Magazine", "Palette", "Profile"]
     var body: some View {
         GeometryReader{geometry in
             if isShowingOnboardingView {
@@ -25,7 +25,9 @@ struct PerfumeTabView: View {
                         case 0:
                             HomeView()
                         case 1:
-                            PaletteView() 
+                            PaletteView()
+                        case 2:
+                            PaletteView()
                         default:
                             LogInRootView()
                         }
@@ -36,7 +38,7 @@ struct PerfumeTabView: View {
                     HStack{
                         Spacer()
                         
-                        ForEach(0..<3) { num in
+                        ForEach(0..<4) { num in
                             VStack(alignment: .center){
                                 Text(tabBarNames[num])
                                     .font(.system(size: 15, weight: .light))
@@ -60,18 +62,25 @@ struct PerfumeTabView: View {
                             Circle()
                                 .foregroundColor(Color(.black))
                                 .frame(width: 101, height: 4)
-                                .padding(.leading, geometry.size.width / -2.4)
+                                .padding(.leading, geometry.size.width / -2.098)
                         case 1:
                             Circle()
                                 .foregroundColor(Color(.black))
                                 .frame(width: 101, height: 4)
-                                .padding(.leading, geometry.size.width / -50)
+                                .padding(.leading, geometry.size.width / -4.5)
                             
                         case 2:
                             Circle()
                                 .foregroundColor(Color(.black))
                                 .frame(width: 101, height: 4)
-                                .padding(.leading, geometry.size.width / 1.8)
+                                .padding(.leading, geometry.size.width / 3.84)
+                            
+                        case 3:
+                            Circle()
+                                .foregroundColor(Color(.black))
+                                .frame(width: 101, height: 4)
+                                .padding(.leading, geometry.size.width / 1.45)
+                            
                         default :
                             Circle()
                                 .foregroundColor(Color(.black))
