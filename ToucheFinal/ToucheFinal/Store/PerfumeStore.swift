@@ -17,6 +17,7 @@ class PerfumeStore: ObservableObject {
     @Published var recentlyViewedPerfumes: [Perfume] = []
     @Published var SelectedScentTypePerfumes: [Perfume] = []
     @Published var likedPerfumes: [Perfume] = []
+    @Published var recentSearches: [String] = []
     
     let database = Firestore.firestore().collection("Perfume")
     

@@ -188,6 +188,9 @@ struct HomeView: View {
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                     Image(systemName: "magnifyingglass").foregroundColor(.black)
                 })
+                .onAppear {
+                    perfumeStore.recentSearches = UserDefaults.standard.array(forKey: "recentSearchesUD") as? [String] ?? [String]()
+                }
                 .navigationBarItems(trailing: NavigationLink(destination: FilterView()) {
                     Image(systemName: "slider.vertical.3").foregroundColor(.black)
                 })
