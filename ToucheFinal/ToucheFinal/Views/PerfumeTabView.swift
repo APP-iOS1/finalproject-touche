@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import FirebaseFirestoreSwift
 
 struct PerfumeTabView: View {
+    @FirestoreQuery(collectionPath: "Perfume") var perfumesDB: [Perfume]
+    @State var NumberOfPerfumesDB: Int = UserDefaults.standard.integer(forKey: "NumberOfPerfumesDB")
+    @State var NameOfAllPerfumes: [String] = UserDefaults.standard.array(forKey: "NameOfAllPerfumes") as? [String] ?? []
     
     @State private var selectedIndex = 0
     @State private var touchTab = false
@@ -91,7 +95,27 @@ struct PerfumeTabView: View {
                 }
                 .onAppear {
                     print(selectedColors)
-                    
+                    print("perfumesDB.count : \(perfumesDB.count)")
+                    print("USERDEFAULTS . CountOfDB : \(NumberOfPerfumesDB)")
+                    /// 로컬 향수 이름들의 갯수와 BD 향수 이름 개수가 다를 경우 향수 이름들 다시 패치한다
+                    if NumberOfPerfumesDB != perfumesDB.count {
+                        print("향수 개수 다름!! 향수 이름 패치 시작")
+                        var searchResults: [String] {
+                            let perfumeNames = perfumesDB.filter { perfume in
+                                perfume.displayName != ""
+                            }
+                                .map { $0.displayName}
+                            return perfumeNames
+                        }
+                        UserDefaults.standard.set(searchResults, forKey: "NameOfAllPerfumes")
+                        UserDefaults.standard.set(perfumesDB.count, forKey: "NumberOfPerfumesDB")
+                        
+                        print("perfumesDB.count : \(perfumesDB.count)")
+                        print("USERDEFAULTS . CountOfDB : \(NumberOfPerfumesDB)")
+
+                    } else {
+                        print("향수 이름 개수 데이터 변동 없음.")
+                    }
                 }
             }
         }

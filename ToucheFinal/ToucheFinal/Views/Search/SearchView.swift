@@ -16,17 +16,18 @@ struct SearchView: View {
     @EnvironmentObject var perfumeStore: PerfumeStore
     // 최근 검색어 UserDefaults
     @State var recentSearchesUD: [String] = UserDefaults.standard.array(forKey: "recentSearchesUD") as? [String] ?? [String]()
-    // 키보드 검색 누르면, 다음화면으로 이동
+    // 키보드 검색 누르면, 다음화면으로 이동 (현재 미사용)
     @State private var isSearchActive = false
     // 검색창 Text
     @State private var searchText = ""
     // recentSearches 검색어 전체 삭제 알럿변수
     @State private var showingDeleteAlert = false
-    // keyboard Focus field
+    // keyboard Focus field (현재 미사용)
     @FocusState private var focusField : Field?
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
-    @FirestoreQuery(collectionPath: "Perfume") var perfumes: [Perfume]
+//    @FirestoreQuery(collectionPath: "Perfume") var perfumes: [Perfume]
+    var AllPerfumeNames: [String] = UserDefaults.standard.array(forKey: "NameOfAllPerfumes") as? [String] ?? [String]()
     
     var searchResults: [String] {
         if searchText.isEmpty {
@@ -40,7 +41,7 @@ struct SearchView: View {
             .map { $0.name }
             
             // perfume name
-            let perfumeNames = perfumeNamesStore.filter { name in
+            let perfumeNames = AllPerfumeNames.filter { name in
                 name.lowercased().contains(searchText.lowercased())
             }
             .map { $0 }
@@ -172,6 +173,7 @@ struct SearchView: View {
         .navigationBarBackButtonHidden(true)
     }
     
+    // MARK: 함수들 다른 파일로 옮길 예정
     func stackSearchText(text: String) {
         guard !perfumeStore.recentSearches.contains(text) else {
             perfumeStore.recentSearches.remove(at: perfumeStore.recentSearches.firstIndex(of: text)!)
@@ -256,5 +258,3 @@ struct SearchView_Previews: PreviewProvider {
         }
     }
 }
-
-let perfumeNamesStore = ["Light Blue Eau de Toilette", "COCO MADEMOISELLE Eau de Parfum", "CHANCE Eau de Parfum", "Bright Crystal", "Daisy", "Flowerbomb", "Chloé Eau de Parfum", "CHANCE EAU FRAÎCHE Eau de Toilette", "CHANCE EAU TENDRE Eau de Toilette", "CHANCE Eau de Toilette", "CANDY Eau de Parfum", "’REPLICA’ Jazz Club", "’REPLICA’ Beach Walk", "Miss Dior Blooming Bouquet", "COCO NOIR", "Tobacco Vanille", "Oud Wood", "Black Opium Eau de Parfum", "Not A Perfume", "’REPLICA’ By the Fireplace", "Soleil Blanc Shimmering Body Oil", "Mon Paris Eau de Parfum", "Miss Dior Absolutely Blooming", "N°5 L’EAU", "Mon Guerlain Eau de Parfum", "Wood Sage & Sea Salt Cologne", "English Pear & Freesia Cologne", "Peony & Blush Suede Cologne", "Nectarine Blossom & Honey Cologne", "Oud & Bergamot Cologne Intense", "Light Blue Eau Intense", "Good Girl Eau de Parfum", "Bloom Eau de Parfum For Her", "GABRIELLE CHANEL Eau de Parfum", "’REPLICA’ Sailing Day", "Nomade Eau de Parfum", "Vanilla Woods Eau de Parfum", "Flowerbomb Nectar", "Fucking Fabulous", "Love, Don\'t Be Shy", "Black Phantom - \"Memento Mori\"", "Good Girl Gone Bad by KILIAN", "COCO MADEMOISELLE Eau de Parfum Intense", "Dolce Garden", "Dylan Blue Pour Femme", "Daisy Love Eau de Toilette", "No.04 Bois de Balincourt Eau de Parfum", "No.04 Bois de Balincourt Perfume Oil", "Ombré Leather Eau de Parfum", "Princess Eau de Parfum", "Lost Cherry", "Melrose Place Eau De Parfum", "North Bondi Eau De Parfum", "Rosie Perfume Oil", "Her Eau de Parfum", "Good Girl Eau de Parfum Légère", "VANILLA | 28", "Chance Eau Tendre Eau de Parfum", "\'REPLICA\' Under the Lemon Trees", "Wild Poppy Eau de Parfum", "Miss Dior Eau de Toilette", "Guilty Pour Femme Eau de Parfum", "Daisy Love Eau So Sweet", "Vanilla Vibes", "Her Blossom Eau de Toilette", "Libre Eau De Parfum", "Idôle Eau de Parfum", "Hypnotic Poison", "Donna Born In Roma Eau de Parfum", "GABRIELLE CHANEL ESSENCE Eau de Parfum", "Soleil Neige", "Rolling in Love", "Miss Dior Rose N\'Roses Eau de Toilette", "\'REPLICA\' Springtime In A Park Eau de Toilette", "Rose Prick", "Ocean di Gioia Eau de Parfum", "Not A Perfume Superdose", "Irresistible Eau de Parfum", "Good Girl Eau de Parfum Supreme", "Perfect Eau de Parfum", "Black Orchid Parfum", "Bloom Profumo di Fiori Eau de Parfum", "\'REPLICA\' Coffee Break Eau de Toilette", "My Way Eau de Parfum", "COCO MADEMOISELLE L’EAU PRIVÉE Eau Pour la Nuit", "Voce Viva Eau de Parfum", "LIBRE Eau de Parfum Intense", "Bitter Peach Eau De Parfum", "Angels Share Eau De Parfum", "Roses On Ice Eau De Parfum", "\'REPLICA\' Bubble Bath", "Vanilla Sky Eau de Parfum", "Scarlet Poppy Cologne Intense", "Santal Vanille Eau de Parfum", "Dylan Turquoise Pour Femme", "Donna Born in Roma Yellow Dream Eau de Parfum", "Libre Eau de Toilette", "PEAR INC.", "Madagascar Vanilla Perfume Oil", "Madagascar Vanilla Perfume Oil Rollerball", "Soleil Brulant", "Daisy Eau So Intense Eau de Parfum", "REPLICA\' Matcha Meditation", "UTOPIA VANILLA COCO | 21", "Very Good Girl Eau de Parfum", "Flora Gorgeous Gardenia Eau de Parfum", "INVITE ONLY AMBER | 23", "Miss Dior Eau de Parfum", "Perfect Intense Eau de Parfum", "Ombré Leather Parfum", "Sunflower Pop Eau De Parfum", "Alien Goddess Eau de Parfum", "Vanilla Sky Perfume Set", "Apple Brandy Eau de Parfum", "Mini Soleil Neige Shimmering Body Oil", "Ébène Fumé Eau de Parfum", "Flowerbomb Ruby Orchid Eau de Parfum", "\'REPLICA\' When the Rain Stops", "Black Opium Illicit Green Eau de Parfum", "Her Eau De Toilette", "Born in Roma Coral Fantasy Eau de Parfum", "Missing Person Eau de Parfum"]
