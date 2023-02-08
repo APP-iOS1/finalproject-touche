@@ -53,12 +53,17 @@ struct PerfumeCell: View {
         }
         .frame(width: frameWidth)
         .padding(10.0)
-        .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .circular))
-        .background(
-            RoundedRectangle(cornerRadius: 10.0, style: .circular)
-                .fill(Color.white)
-                .shadow(radius: 3, x: 1, y: 1)
+        .overlay(
+                RoundedRectangle(cornerRadius: 10.0)
+                    .stroke(Color.gray, lineWidth: 1.0)
             )
+
+//        .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .circular))
+//        .background(
+//            RoundedRectangle(cornerRadius: 10.0)
+//                .fill(Color.white)
+//                .shadow(radius: 3, x: 1, y: 1)
+//            )
         .overlay(alignment: .topTrailing, content: {
             let color = Color(hex: setHexValue(scentType: perfume.scentType)) ?? .primary
             Circle()
@@ -66,13 +71,13 @@ struct PerfumeCell: View {
                 .frame(width: 15, height: 15, alignment: .center)
                 .scaleEffect(shouldAnimate ? 1.2 : 1)
                 .padding([.top, .trailing], 8.0)
-                .shadow(
-                    color: shouldAnimate ? color : color.opacity(0.1),
-                    radius: shouldAnimate ? 3 : 1.5,
-                    x: 0,
-                    y: 0
-                )
-                .animation(.linear(duration: 2).delay(.random(in: 0.0..<1.0)).repeatForever(autoreverses: true), value: shouldAnimate)
+//                .shadow(
+//                    color: shouldAnimate ? color : color.opacity(0.1),
+//                    radius: shouldAnimate ? 3 : 1.5,
+//                    x: 0,
+//                    y: 0
+//                )
+//                .animation(.linear(duration: 2).delay(.random(in: 0.0..<1.0)).repeatForever(autoreverses: true), value: shouldAnimate)
         })
         .onAppear {
             shouldAnimate = true

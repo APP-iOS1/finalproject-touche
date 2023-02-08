@@ -62,14 +62,14 @@ struct HomeView: View {
                         .background(Color(.gray).opacity(0.4))
                         .padding(.top, -10)
                     }
-                    // MARK: Recommend Perfume for You
+                    // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
                             Text("RECOMMENDATION PERFUME FOR YOU")
                                 .modifier(TextViewModeifier(isTitleSection: true))
                             Spacer()
-                            Button {
-                                // TODO: 더보기 액션
+                            NavigationLink {
+                                MoreRecommendPerfumeView()
                             } label: {
                                 Text("more")
                                     .modifier(TextViewModeifier(isTitleSection: false))
@@ -98,13 +98,6 @@ struct HomeView: View {
                                 Text("RECENTLY VIEWED")
                                     .modifier(TextViewModeifier(isTitleSection: true))
                                 Spacer()
-                                Button {
-                                    // TODO: 더보기 액션
-                                } label: {
-                                    Text("more")
-                                        .modifier(TextViewModeifier(isTitleSection: false))
-                                }
-                                
                             }
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack(spacing: 24.0) {
@@ -122,11 +115,6 @@ struct HomeView: View {
                             .frame(height: 240)
                             
                         }
-                        /*
-                         .onAppear {
-                         perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
-                         }
-                         */
                         
                         // MARK: 코멘트 많이 달린 향수
                         /*
