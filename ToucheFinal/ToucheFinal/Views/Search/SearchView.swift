@@ -78,6 +78,7 @@ struct SearchView: View {
                             Button {
                                 if let index = perfumeStore.recentSearches.firstIndex(of: result) {
                                     perfumeStore.recentSearches.remove(at: index)
+                                    UserDefaults.standard.set(perfumeStore.recentSearches, forKey: "recentSearchesUD")
                                 }
                             } label: {
                                 Image(systemName: "xmark")
