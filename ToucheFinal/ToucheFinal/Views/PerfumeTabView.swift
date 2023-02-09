@@ -28,7 +28,7 @@ struct PerfumeTabView: View {
                         case 0:
                             HomeView()
                         case 1:
-                            PaletteView()
+                            MagazineView()
                         case 2:
                             PaletteView()
                         default:
