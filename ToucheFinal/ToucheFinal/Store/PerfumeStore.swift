@@ -17,7 +17,7 @@ class PerfumeStore: ObservableObject {
     @Published var recentlyViewedPerfumes: [Perfume] = []
     @Published var SelectedScentTypePerfumes: [Perfume] = []
     @Published var likedPerfumes: [Perfume] = []
-    
+
     let database = Firestore.firestore().collection("Perfume")
     
     func readRecomendedPerfumes(perfumesId: [String]) async {
@@ -62,6 +62,7 @@ class PerfumeStore: ObservableObject {
         } catch {}
     }
     
+        
     func readLikedPerfumes(userId: String) async {
         do {
             var tempPerfumes: [Perfume] = []
