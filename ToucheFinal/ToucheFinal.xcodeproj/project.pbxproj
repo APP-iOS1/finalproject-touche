@@ -89,8 +89,6 @@
 		EB7F90D72988B125005C7CFB /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F90D62988B125005C7CFB /* PaletteView.swift */; };
 		EB7F90D9298903C5005C7CFB /* ColorChipPerfumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F90D8298903C5005C7CFB /* ColorChipPerfumeCell.swift */; };
 		EBB879AA29879FA300167ABA /* PalleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB879A929879FA300167ABA /* PalleteCell.swift */; };
-		EBF6066F2992295200877303 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = EBF6066E2992295200877303 /* PopupView */; };
-		EBF6067129922B5E00877303 /* TESTPOPUPVIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6067029922B5E00877303 /* TESTPOPUPVIEW.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -165,7 +163,6 @@
 		EB7F90D62988B125005C7CFB /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		EB7F90D8298903C5005C7CFB /* ColorChipPerfumeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorChipPerfumeCell.swift; sourceTree = "<group>"; };
 		EBB879A929879FA300167ABA /* PalleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalleteCell.swift; sourceTree = "<group>"; };
-		EBF6067029922B5E00877303 /* TESTPOPUPVIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESTPOPUPVIEW.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,7 +183,6 @@
 				6115A2C929790EFE00BE740E /* FirebaseStorage in Frameworks */,
 				61212E602978E30E00D0ED57 /* FirebaseFirestoreSwift in Frameworks */,
 				61212E6C2978E4F600D0ED57 /* SwiftSoup in Frameworks */,
-				EBF6066F2992295200877303 /* PopupView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,7 +309,6 @@
 				61212E612978E32E00D0ED57 /* GoogleService-Info.plist */,
 				657A08F82976596900E5B565 /* ToucheFinalApp.swift */,
 				A8BC32782977BF3E004EF50C /* dummyData.swift */,
-				EBF6067029922B5E00877303 /* TESTPOPUPVIEW.swift */,
 				EB1E7B662992AD1E001CA2B4 /* TESTALERTVIEW.swift */,
 				AA204A7529876CDE00C59C7F /* Extension */,
 				61212E672978E39C00D0ED57 /* Util */,
@@ -436,7 +431,6 @@
 				61212E6B2978E4F600D0ED57 /* SwiftSoup */,
 				6115A2C829790EFE00BE740E /* FirebaseStorage */,
 				617449462988A11E0064BEE8 /* Magnetic */,
-				EBF6066E2992295200877303 /* PopupView */,
 				EB1E7B642992ACF0001CA2B4 /* AlertToast */,
 			);
 			productName = ToucheFinal;
@@ -550,7 +544,6 @@
 				65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */,
 				EBB879AA29879FA300167ABA /* PalleteCell.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
-				EBF6067129922B5E00877303 /* TESTPOPUPVIEW.swift in Sources */,
 				EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */,
 				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,
 				233260D42977757500771B2A /* LogInView.swift in Sources */,
@@ -912,11 +905,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EB1E7B632992ACEF001CA2B4 /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
-		};
-		EBF6066E2992295200877303 /* PopupView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EBF6066D2992295200877303 /* XCRemoteSwiftPackageReference "PopupView" */;
-			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

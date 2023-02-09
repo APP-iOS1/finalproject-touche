@@ -18,6 +18,11 @@ class PerfumeStore: ObservableObject {
     @Published var SelectedScentTypePerfumes: [Perfume] = []
     @Published var likedPerfumes: [Perfume] = []
 
+    @Published var recentSearches: [String] = []
+    // 검색 할때 브랜드 또는 향수 텍스트 나올지 판단 변수
+    @Published var isShowingBrandText = false
+    @Published var isShowingPerfumeText = false
+    
     let database = Firestore.firestore().collection("Perfume")
     
     func readRecomendedPerfumes(perfumesId: [String]) async {
