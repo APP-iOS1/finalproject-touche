@@ -25,16 +25,21 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading) {
+            ScrollView(showsIndicators: false) {
+                VStack {
                     Rectangle()
                         .frame(height: 200)
                         .overlay(alignment: .top) {
                             HStack{
-                                Text("NEW ARRIVALS")
-                                    .font(.largeTitle)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
+                                NavigationLink {
+                                    // TODO: NEW ARRIVALS 클릭시 매거진뷰로 이동
+            
+                                } label: {
+                                    Text("NEW ARRIVALS")
+                                        .font(.largeTitle)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                }
                                 Spacer()
                             }
                         }
@@ -63,14 +68,15 @@ struct HomeView: View {
                         .background(Color(.gray).opacity(0.4))
                         .padding(.top, -10)
                     }
-                    // MARK: Recommend Perfume for You
+            
+                    // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
                             Text("RECOMMENDATION PERFUME FOR YOU")
                                 .modifier(TextViewModeifier(isTitleSection: true))
                             Spacer()
-                            Button {
-                                // TODO: 더보기 액션
+                            NavigationLink {
+                                MoreRecommendPerfumeView()
                             } label: {
                                 Text("more")
                                     .modifier(TextViewModeifier(isTitleSection: false))
@@ -99,13 +105,6 @@ struct HomeView: View {
                                 Text("RECENTLY VIEWED")
                                     .modifier(TextViewModeifier(isTitleSection: true))
                                 Spacer()
-                                Button {
-                                    // TODO: 더보기 액션
-                                } label: {
-                                    Text("more")
-                                        .modifier(TextViewModeifier(isTitleSection: false))
-                                }
-                                
                             }
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack(spacing: 24.0) {
@@ -123,43 +122,31 @@ struct HomeView: View {
                             .frame(height: 240)
                             
                         }
-                        /*
-                         .onAppear {
-                         perfumeStore.readViewedPerfumeIdsArrayAtUserInfo()
-                         }
-                         */
-                        
+                    
                         // MARK: 코멘트 많이 달린 향수
-                        /*
-                         HStack{
-                         Text("RECENTLY TOP COMMNENTS 20")
-                         .modifier(TextViewModeifier())
-                         NavigationLink {
-                         PerfumesGridView(perfumes: dummy, title: "")
-                         } label: {
-                         Text("More")
-                         .bold()
-                         .underline()
-                         }
-                         .tint(.black)
-                         }
-                         ScrollView(.horizontal, showsIndicators: false){
-                         LazyHGrid(rows: rows){
-                         ForEach(perfumeStore.topComment20Perfumes, id: \.self.perfumeId) { perfume in
-                         NavigationLink {
-                         PerfumeDetailView(perfume: perfume)
-                         } label: {
-                         PerfumeCell(perfume: perfume)
-                         }
-                         }
-                         }
-                         .padding(.leading)
-                         }
-                         .frame(height: 450)
-                         .onAppear {
-                         perfumeStore.readTopComment20Perfumes()
-                         }
-                         */
+                        VStack(alignment: .leading, spacing: 0.0) {
+                            HStack(alignment: .bottom) {
+                                Text("TOP COMMNENTS 10")
+                                    .modifier(TextViewModeifier(isTitleSection: true))
+                                Spacer()
+                            }
+                            ScrollView(.horizontal, showsIndicators: false){
+                                HStack(spacing: 24.0) {
+                                    ForEach(perfumeStore.mostCommentsPerfumes.prefix(10), id: \.self.perfumeId) { perfume in
+                                        NavigationLink {
+                                            PerfumeDetailView(perfume: perfume)
+                                        } label: {
+                                            PerfumeCell(perfume: perfume)
+                                        }
+                                    }
+                                }
+                                .padding()
+                                .padding(.top, -11)
+                            }
+                            .frame(height: 240)
+                            
+                        }
+                        
                     }
                 }
                 .onAppear{
@@ -183,6 +170,8 @@ struct HomeView: View {
                     Task {
                         let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
                         await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
+                        
+                        await perfumeStore.readMostCommentsPerfumes()
                     }
                     
                 }
@@ -218,10 +207,10 @@ struct TextViewModeifier: ViewModifier {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-            .environmentObject(UserInfoStore())
-            .environmentObject(PerfumeStore())
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView()
+//            .environmentObject(UserInfoStore())
+//            .environmentObject(PerfumeStore())
+//    }
+//}

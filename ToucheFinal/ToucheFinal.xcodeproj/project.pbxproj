@@ -64,6 +64,7 @@
 		65C7E5A7298C1371006C54C3 /* CustomNationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C7E5A6298C1371006C54C3 /* CustomNationButton.swift */; };
 		76A517202994133400075BBD /* MagazineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A5171F2994133400075BBD /* MagazineView.swift */; };
 		76BA7516298B4610009B0925 /* Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BA7515298B4610009B0925 /* Modifier.swift */; };
+		A8934D3529939F8700BC2A66 /* MoreRecommendPerfumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8934D3429939F8700BC2A66 /* MoreRecommendPerfumeView.swift */; };
 		76D6DAC32993F81900EAA5BB /* Magazine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D6DABF2993F81900EAA5BB /* Magazine.swift */; };
 		76E89AD429948D23006213FE /* MagazineStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E89AD329948D23006213FE /* MagazineStore.swift */; };
 		76E89AD62994B9D3006213FE /* TestMagazineUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E89AD52994B9D3006213FE /* TestMagazineUploadView.swift */; };
@@ -141,6 +142,7 @@
 		65C7E5A6298C1371006C54C3 /* CustomNationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNationButton.swift; sourceTree = "<group>"; };
 		76A5171F2994133400075BBD /* MagazineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineView.swift; sourceTree = "<group>"; };
 		76BA7515298B4610009B0925 /* Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifier.swift; sourceTree = "<group>"; };
+		A8934D3429939F8700BC2A66 /* MoreRecommendPerfumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreRecommendPerfumeView.swift; sourceTree = "<group>"; };
 		76D6DABF2993F81900EAA5BB /* Magazine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Magazine.swift; sourceTree = "<group>"; };
 		76E89AD329948D23006213FE /* MagazineStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineStore.swift; sourceTree = "<group>"; };
 		76E89AD52994B9D3006213FE /* TestMagazineUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMagazineUploadView.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				657A092429765EE000E5B565 /* HomeView.swift */,
+				A8934D3429939F8700BC2A66 /* MoreRecommendPerfumeView.swift */,
 				E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */,
 				A8BC32732977BC08004EF50C /* PerfumeCell.swift */,
 				A89E60DA2988CD7500BAB55E /* ColorChipPerfumeCell.swift */,
@@ -563,6 +566,7 @@
 				AA1B9A7B298C9EAA008817B4 /* HexParsing.swift in Sources */,
 				A8BC32722977AB6A004EF50C /* FilteringResultView.swift in Sources */,
 				A8BC3270297776C1004EF50C /* SearchView.swift in Sources */,
+				A8934D3529939F8700BC2A66 /* MoreRecommendPerfumeView.swift in Sources */,
 				AA204A7729876CED00C59C7F /* Color+.swift in Sources */,
 				23E417F3298959BC0051707E /* ColorPaletteUnderView.swift in Sources */,
 				61FE13232977D7A9003F0466 /* RatingView.swift in Sources */,

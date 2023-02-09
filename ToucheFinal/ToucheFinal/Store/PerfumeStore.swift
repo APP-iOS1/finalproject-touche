@@ -13,16 +13,15 @@ import FirebaseFirestoreSwift
 class PerfumeStore: ObservableObject {
     
     @Published var recomendedPerfumes: [Perfume] = []
-    @Published var topComment20Perfumes: [Perfume] = []
     @Published var recentlyViewedPerfumes: [Perfume] = []
     @Published var SelectedScentTypePerfumes: [Perfume] = []
     @Published var likedPerfumes: [Perfume] = []
-
+    @Published var mostCommentsPerfumes: [Perfume] = []
     @Published var recentSearches: [String] = []
     // 검색 할때 브랜드 또는 향수 텍스트 나올지 판단 변수
     @Published var isShowingBrandText = false
     @Published var isShowingPerfumeText = false
-    
+
     let database = Firestore.firestore().collection("Perfume")
     
     func readRecomendedPerfumes(perfumesId: [String]) async {
@@ -128,6 +127,18 @@ class PerfumeStore: ObservableObject {
                     "commentCount": (perfume.commentCount - 1),
                     "totalPerfumeScore": (perfume.totalPerfumeScore - score)
                 ])
+        } catch {}
+    }
+    
+    func readMostCommentsPerfumes() async {
+        do {
+            var tempPerfumes: [Perfume] = []
+            let snapshot = try await database.order(by: "commentCount", descending: true).limit(to: 100).getDocuments()
+            for document in snapshot.documents {
+                let perfume =  try document.data(as: Perfume.self)
+                tempPerfumes.append(perfume)
+            }
+            mostCommentsPerfumes = tempPerfumes
         } catch {}
     }
 }
