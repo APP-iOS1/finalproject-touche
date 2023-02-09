@@ -8,17 +8,20 @@
 import SwiftUI
 
 struct CustomNationButton: ButtonStyle {
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
             .background(
                 Circle()
                     .fill(.white)
-                    .frame(width: 30, height: 30)
+                    .frame(width: 25, height: 25)
+                /*
                     .shadow(color: .black.opacity(0.3),
                             radius: configuration.isPressed ? 8 : 6,
                             x: configuration.isPressed ? 0 : 6,
                             y: configuration.isPressed ? 0 : 6)
+                 */
             )
             .scaleEffect(configuration.isPressed ? 0.95 : 1)
     }

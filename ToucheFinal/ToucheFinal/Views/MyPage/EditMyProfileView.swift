@@ -24,6 +24,8 @@ struct EditMyProfileView: View {
     /// photo picker로 갤러리에서 이미지 변경시 사용
     @State private var isChangedImage: Bool = false
     
+    @State private var isSelected: [Bool] = [false, false, false, false, false]
+    
     @Binding var image: UIImage
     @Binding var userNickname: String
     @Binding var userNation: String
@@ -31,8 +33,7 @@ struct EditMyProfileView: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
-    var nation: [String] = ["🇰🇷", "🇺🇸"]
-    
+    var nation: [String] = ["🇺🇸", "🇰🇷", "🇫🇷", "🇪🇸", "🇨🇦"]
     
     var body: some View {
         NavigationView {
@@ -83,12 +84,13 @@ struct EditMyProfileView: View {
                 
                 VStack{
                     HStack{
-                        Text("Name")
-                        Spacer(minLength: 40)
+                        Text("Nickname")
+                        Spacer(minLength: 50)
+                        
                         VStack{
-                            TextField("Edit your Name   ", text: $editName)
+                            TextField("Edit your Name", text: $editName)
                                 .padding(.bottom, -5)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.black)
                             // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
                                 .onChange(of: editName) { value in
                                     if editName.count > 0 && editName.count < 20 {
@@ -101,47 +103,53 @@ struct EditMyProfileView: View {
                                 .foregroundColor(Color(uiColor: .systemGray5))
                         }
                     } // 네임 텍스트 필드 HStack
-                    .padding(.bottom, 25)
+                    //  .padding(.bottom, 25)
+                    .padding(.bottom, 10)
                   
                     HStack{
                         Text("Email")
-                        Spacer()
+                        Spacer(minLength: 50)   //  추가
+                        
                         VStack(alignment: .leading){
                             Text(userInfoStore.userInfo?.userEmail ?? "")
                                 .padding(.bottom, -5)
                         
-                            Rectangle().frame(height: 0.66)
+                            Rectangle()//   .frame(height: 0.66)
+                                .frame(height: 0.45)
                                 .foregroundColor(Color(uiColor: .systemGray5))
                         }
-                        .frame(width: 276)
+                        //  .frame(width: 276)
+                        .frame(width: 235)
                     } // 이메일 HStack
+                    .padding(.bottom, 10)
                     
                     HStack {
-                        Text("Region  ")
-                        Spacer()
+                        Text("Region")
+                        Spacer(minLength: 60)
                         VStack{
-                            HStack{
-                                Button{
-                                    //  editNation = nation[1]
-                                    
-                                    editNation = "United States of America"
-                                } label: {
-                                    Text(nation[1])
+                            HStack {
+                                ForEach(0 ..< 5) { idx in
+                                    Button {
+                                        
+                                        //  모든 애들을
+                                        for idx in isSelected.indices {
+                                            
+                                            isSelected[idx] = false //  여기서 다 끔
+                                        }
+                                        
+                                        isSelected[idx].toggle()    //  해당 idx만 on!
+                                        userNation = nation[idx]
+                                    } label: {
+                                        Text(nation[idx])
+                                            .overlay(
+                                                Circle().stroke(isSelected[idx] ? .green : .clear, lineWidth: 2)
+                                            )
+                                    }
+                                    .buttonStyle(.customButton)
+                                    .padding(.trailing, -13)
                                 }
-                                .buttonStyle(.customButton)
-                                .padding(.trailing, -5)
                                 
-                                
-                                Button {
-                                    //  editNation = nation[0]
-                                    
-                                    editNation = "Republic Of Korea"
-                                } label: {
-                                    Text(nation[0])
-                                }
-                                .buttonStyle(.customButton)
                                 Spacer()
-                                
                             }
                         }
                     } // 로케이션 HStack
@@ -149,6 +157,7 @@ struct EditMyProfileView: View {
                     }
                     //.border(.black)
                     .padding()
+                
                     Divider()
                         //.frame(minWidth: .infinity)
                     Spacer()
@@ -189,7 +198,9 @@ struct EditMyProfileView: View {
                             
                             await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg.last ?? "")
                             
-                            await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: editNation)
+                            await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: userNation)
+                            
+                            await userInfoStore.fetchUser(user: userInfoStore.user)
                             
                             dismiss()
                         }

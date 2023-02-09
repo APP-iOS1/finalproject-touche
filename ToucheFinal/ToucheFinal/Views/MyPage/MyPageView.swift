@@ -16,7 +16,7 @@ struct MyPageView: View {
     @State private var image: UIImage = UIImage()
     @State private var userNickname: String = ""
     @State private var showEditMyProfileView = false
-    @State private var userNation: String = "🏳️"
+    @State private var nation: String = ""
     @State private var rotation: Double = 0
     
     @Environment(\.dismiss) var dismiss
@@ -24,22 +24,24 @@ struct MyPageView: View {
     @EnvironmentObject var commentStore: CommentStore
     @EnvironmentObject var perfumeStore: PerfumeStore
     
-    @State private var selection: Selection = .comment
+    @State private var selection: Selection = .reviewed
 
     let columns: [GridItem] = .init(repeating: .init(.flexible(), spacing: 4.0), count: 3)
     
     enum Selection {
-        case comment
-        case favorite
+        case reviewed
+        case liked
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 16.0) {
                 // PROFILE SECTION
                 Group {
-                    WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
+                    AnimatedImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
                         .resizable()
+                        .indicator(SDWebImageActivityIndicator.medium)
+                        .transition(.fade)
                         .cornerRadius(50)
                         .frame(width: 100, height: 100)
                         .background(Color.black.opacity(0.2))
@@ -49,7 +51,8 @@ struct MyPageView: View {
                     
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
-//                        Text(userInfoStore.userInfo?.userNation.flag ?? "")
+                  //    Text(userInfoStore.userInfo?.userNation.flag ?? "")
+                        Text(nation)
                     }
                     
                     
@@ -59,41 +62,54 @@ struct MyPageView: View {
                         Text("Edit Profile")
                     }
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
-                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $userNation)
+                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
                     }
                     
                 } // GROUP
                 
+                Divider()
+                    //.padding(.bottom, 0)
                 
                 // CONTENT SECTION
                 HStack(alignment: .center, spacing: 20) {
                     Button {
-                        selection = .comment
+                        selection = .reviewed
                     } label: {
-                        Image(systemName: selection == .comment ? "pencil.circle.fill" : "pencil.circle")
-                            .resizable()
-                            .aspectRatio(1.0, contentMode: .fit)
-                            .foregroundColor(selection == .comment ? .primary : .secondary)
-                            .frame(height: 24.0)
+                        VStack {
+                            Image(systemName: selection == .reviewed ? "pencil.circle.fill" : "pencil.circle")
+                                .resizable()
+                                .aspectRatio(1.0, contentMode: .fit)
+                                .foregroundColor(selection == .reviewed ? .primary : .secondary)
+                                .frame(height: 25.0)
+                            
+                            Text("Reviewed")
+                                .foregroundColor(selection == .reviewed ? .primary : .secondary)
+                                .font(.system(size: 15))
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     
                     Button {
-                        selection = .favorite
+                        selection = .liked
                     } label: {
-                        Image(systemName: selection == .favorite ? "heart.fill" : "heart")
-                            .resizable()
-                            .aspectRatio(1.0, contentMode: .fit)
-                            .foregroundColor(selection == .favorite ? .primary : .secondary)
-                            .frame(height: 24.0)
+                        VStack {
+                            Image(systemName: selection == .liked ? "heart.fill" : "heart")
+                                .resizable()
+                                .aspectRatio(1.0, contentMode: .fit)
+                                .foregroundColor(selection == .liked ? .primary : .secondary)
+                                .frame(height: 25.0)
+                            
+                            Text("Liked")
+                                .foregroundColor(selection == .liked ? .primary : .secondary)
+                                .font(.system(size: 15))
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                 } // HSTACK : BUTTON GROUP
-                .padding(.bottom, 1.0)
-                
+                .padding(.bottom, -10)
                 
                 switch selection {
-                case .comment:
+                case .reviewed:
                     ScrollView(.vertical, showsIndicators: false) {
                         LazyVStack(alignment: .center, spacing: 12.0) {
                             ForEach(userInfoStore.writtenCommentsAndPerfumes, id: \.self.0) { (perfume, comment) in
@@ -108,7 +124,8 @@ struct MyPageView: View {
                             .foregroundStyle(.quaternary)
                     }
                     .animation(.easeOut, value: selection)
-                case .favorite:
+                    
+                case .liked:
                     ScrollView(.vertical, showsIndicators: false) {
                         LazyVGrid(columns: columns, alignment: .center, spacing: 4.0) {
                             ForEach(perfumeStore.likedPerfumes, id: \.perfumeId) { (perfume: Perfume) in
@@ -155,16 +172,24 @@ struct MyPageView: View {
                 await perfumeStore.readLikedPerfumes(userId: userInfoStore.userInfo?.userId ?? "")
                 
                 await userInfoStore.fetchUser(user: userInfoStore.user)
+                
                 print(userInfoStore.writtenCommentsAndPerfumes)
                 
                 guard let user = Auth.auth().currentUser else {return}
+                
                 print("user? : \(user.uid)")
+                
                 userNickname = await userInfoStore.getNickName(uid: user.uid)
                 await userInfoStore.fetchUser(user: user)
 //                print(userInfoStore.userInfo)
                 await userInfoStore.readWrittenComments()
+                
+                nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
+        .refreshable {
+            print("?")
+        }
     }
 }
 
@@ -187,5 +212,7 @@ struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {
         MyPageView(perfume: dummy[0], comment: commentDummy[0])
             .environmentObject(UserInfoStore())
+            .environmentObject(CommentStore())
+            .environmentObject(PerfumeStore())
     }
 }

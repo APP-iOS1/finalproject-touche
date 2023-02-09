@@ -144,7 +144,7 @@ final class UserInfoStore: ObservableObject{
             try await database.document(uid).setData([
                 "userId": uid,
 // <<<<<<< 0206/EditMyProfileStorage/SKH
-//                "userNation": Nation.None.rawValue,
+                //"userNation": Nation.None.rawValue,
 //                =======
                 "userNation": "",
                 "userNickName": nickname,
@@ -359,9 +359,79 @@ final class UserInfoStore: ObservableObject{
         
         do {
             
-            try await database.document(uid).updateData(["userNation" : nation])
+            //try await database.document(uid).updateData(["userNation" : nation])
+            
+            print(nation)
+            
+            switch nation {
+            case "🇺🇸":
+                try await database.document(uid).updateData(["userNation" : "United States of America"])
+                break;
+                
+            case "🇰🇷":
+                try await database.document(uid).updateData(["userNation" : "Republic of Korea"])
+                break;
+                
+            case "🇫🇷":
+                try await database.document(uid).updateData(["userNation" : "France"])
+                break;
+                
+            case "🇪🇸":
+                try await database.document(uid).updateData(["userNation" : "España"])
+                break;
+                
+            case "🇨🇦":
+                try await database.document(uid).updateData(["userNation" : "Canada"])
+                break;
+                
+            default:
+                print("None")
+                break;
+            }
         } catch {
             
+        }
+    }
+    
+    func getProfileNationality(uid: String) async -> String {
+        do {
+            let target = try await database.document("\(uid)").getDocument()
+            
+            let docData = target.data()
+            var temp: String = docData?["userNation"] as? String ?? ""
+            
+            print("User's Nation?: \(temp)")
+            
+            switch temp {
+            case "United States of America":
+                temp = "🇺🇸"
+                break;
+                
+            case "Republic of Korea":
+                temp = "🇰🇷"
+                break;
+                
+            case "France":
+                temp = "🇫🇷"
+                break;
+                
+            case "España":
+                temp = "🇪🇸"
+                break;
+                
+            case "Canada":
+                temp = "🇨🇦"
+                break;
+                
+            default:
+                temp = ""
+                break;
+            }
+            
+            return temp
+        } catch {
+            print(error.localizedDescription)
+            return "error"
         }
     }
 
