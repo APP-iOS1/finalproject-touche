@@ -32,11 +32,8 @@
 
 <br/>
 
-| <img src="https://avatars.githubusercontent.com/u/70871997?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/87080756?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/52193695?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/114331071?v=4" width=200> |
-| :----------------------------------------------------------: | :---------------------------------------------: | :-------------------------------------------------: | :-------------------------------------------------: |
-| 석진<br/>[@tjrwls](https://github.com/tjrwls)<br/> | 운상<br/>[@wschooo](https://github.com/wschooo)<br/> | 진표<br/> [@jphong1005](https://github.com/jphong1005)<br/> | 유진<br/>[@yooj1202](https://github.com/yooj1202)<br/> |
+| <img src="https://avatars.githubusercontent.com/u/70871997?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/87080756?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/52193695?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/114331071?v=4" width=200> | <img src="https://user-images.githubusercontent.com/114331071/217889912-0514249a-a661-4fdf-90b4-62c272dd5dda.png" width=200> |
+| :----------------------------------------------------------: | :---------------------------------------------: | :-------------------------------------------------: | :-------------------------------------------------: | :-------------------------------------------------: |
+| 석진<br/>[@tjrwls](https://github.com/tjrwls)<br/> | 운상<br/>[@wschooo](https://github.com/wschooo)<br/> | 진표<br/> [@jphong1005](https://github.com/jphong1005)<br/> | 유진<br/>[@yooj1202](https://github.com/yooj1202)<br/> | 뚜셰<br/>[Touché](https://github.com/)<br/> |
 
 ## 라이센스
-
-
-
