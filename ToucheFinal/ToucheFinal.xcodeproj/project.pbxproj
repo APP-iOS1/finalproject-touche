@@ -57,6 +57,7 @@
 		657A092229765EAC00E5B565 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092129765EAC00E5B565 /* UserInfoStore.swift */; };
 		657A092529765EE000E5B565 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092429765EE000E5B565 /* HomeView.swift */; };
 		657A092729765F1000E5B565 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A092629765F1000E5B565 /* MyPageView.swift */; };
+		658E2E6F2994D42D00F6BA7B /* Info.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 658E2E6E2994D42D00F6BA7B /* Info.bundle */; };
 		65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB3729777E6000DB4860 /* ImagePicker.swift */; };
 		65A7AB3A2977812700DB4860 /* EditMyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB392977812700DB4860 /* EditMyProfileView.swift */; };
 		65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7AB3B2977AFAD00DB4860 /* SettingView.swift */; };
@@ -133,6 +134,7 @@
 		657A092129765EAC00E5B565 /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
 		657A092429765EE000E5B565 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		657A092629765F1000E5B565 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		658E2E6E2994D42D00F6BA7B /* Info.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Info.bundle; path = ToucheFinal/Info.bundle; sourceTree = SOURCE_ROOT; };
 		65A7AB3729777E6000DB4860 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		65A7AB392977812700DB4860 /* EditMyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyProfileView.swift; sourceTree = "<group>"; };
 		65A7AB3B2977AFAD00DB4860 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				657A08F82976596900E5B565 /* ToucheFinalApp.swift */,
 				A8BC32782977BF3E004EF50C /* dummyData.swift */,
 				EB1E7B662992AD1E001CA2B4 /* TESTALERTVIEW.swift */,
+				658E2E6E2994D42D00F6BA7B /* Info.bundle */,
 				AA204A7529876CDE00C59C7F /* Extension */,
 				61212E672978E39C00D0ED57 /* Util */,
 				657A091C29765E1300E5B565 /* Models */,
@@ -489,6 +492,7 @@
 				657A08FD2976596A00E5B565 /* Assets.xcassets in Resources */,
 				61212E622978E32E00D0ED57 /* GoogleService-Info.plist in Resources */,
 				6174493F29889FD10064BEE8 /* Main.storyboard in Resources */,
+				658E2E6F2994D42D00F6BA7B /* Info.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -138,3 +138,26 @@ struct PerfumeTabView_Previews: PreviewProvider {
             .environmentObject(UserInfoStore())
     }
 }
+
+
+//class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+//    var window: UIWindow?
+//    @ObservedObject var perfumestore: PerfumeStore
+//    
+//    init(window: UIWindow? = nil, perfumestore: PerfumeStore) {
+//        self.window = window
+//        self.perfumestore = perfumestore
+//    }
+//
+//    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+//        let perfumeTabView = PerfumeTabView()
+//        if let windowScene = scene as? UIWindowScene {
+//            let window = UIWindow(windowScene: windowScene)
+//            window.rootViewController = UIHostingController(rootView: NavigationView {
+//                perfumeTabView
+//            })
+//            self.window = window
+//            window.makeKeyAndVisible()
+//        }
+//    }
+//}
