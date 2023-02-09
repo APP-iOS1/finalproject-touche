@@ -16,15 +16,15 @@ struct PerfumeTabView: View {
     @State private var touchTab = false
     @State var isShowingOnboardingView: Bool = UserDefaults.standard.bool(forKey: "isShowingOnboardingView")
     let selectedColors = (UserDefaults.standard.array(forKey: "selectedFragranceTypes") as? [String] ?? [])
-    let tabBarNames = ["Home", "Magazine", "Palette", "Profile"]
+    let tabBarNames = ["Home", "Palette", "Magazine", "Profile"]
     var body: some View {
-        GeometryReader{geometry in
+        Group {
             if isShowingOnboardingView {
                 OnboardingView(isShowingOnboardingView: $isShowingOnboardingView)
             } else {
                 VStack{
                     ZStack() {
-                        switch selectedIndex{
+                        switch selectedIndex {
                         case 0:
                             HomeView()
                         case 1:
@@ -37,7 +37,7 @@ struct PerfumeTabView: View {
                     }
                     Spacer()
                     Divider()
-                        .offset(y: -6)
+                        .offset(y: -8)
                     HStack{
                         Spacer()
                         
@@ -46,6 +46,14 @@ struct PerfumeTabView: View {
                                 Text(tabBarNames[num])
                                     .font(.system(size: 15, weight: .light))
                                     .foregroundColor(selectedIndex == num ? Color(.black) : Color(.tertiaryLabel))
+                                    .overlay(alignment: .bottom) {
+                                        if selectedIndex == num {
+                                            Circle()
+                                                .foregroundColor(Color(.black))
+                                                .frame(width: 101, height: 4)
+                                                .offset(y: 8)
+                                        }
+                                    }
                             }
                             .gesture(
                                 TapGesture()
@@ -53,44 +61,11 @@ struct PerfumeTabView: View {
                                         selectedIndex = num
                                     }
                             )
-                            
                             Spacer()
                         }
                     }
                     .padding(.top, 12)
-                    
-                    HStack{
-                        switch selectedIndex{
-                        case 0 :
-                            Circle()
-                                .foregroundColor(Color(.black))
-                                .frame(width: 101, height: 4)
-                                .padding(.leading, geometry.size.width / -2.098)
-                        case 1:
-                            Circle()
-                                .foregroundColor(Color(.black))
-                                .frame(width: 101, height: 4)
-                                .padding(.leading, geometry.size.width / -4.5)
-                            
-                        case 2:
-                            Circle()
-                                .foregroundColor(Color(.black))
-                                .frame(width: 101, height: 4)
-                                .padding(.leading, geometry.size.width / 3.84)
-                            
-                        case 3:
-                            Circle()
-                                .foregroundColor(Color(.black))
-                                .frame(width: 101, height: 4)
-                                .padding(.leading, geometry.size.width / 1.45)
-                            
-                        default :
-                            Circle()
-                                .foregroundColor(Color(.black))
-                                .frame(width: 101, height: 4)
-                        }
-                    }
-                    .padding(.top, -5)
+                    .padding(.bottom, 5)
                 }
                 .onAppear {
                     print(selectedColors)
@@ -118,15 +93,6 @@ struct PerfumeTabView: View {
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
-    }
-    func randomColor(color: [String]) -> [String] {
-        var randColors: Set<String> = []
-        while randColors.count != min(10, color.count) {
-            if let randColor = color.randomElement() {
-                randColors.insert(randColor)
-            }
-        }
-        return Array(randColors)
     }
 }
 
