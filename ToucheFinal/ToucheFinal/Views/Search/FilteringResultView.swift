@@ -29,7 +29,8 @@ struct FilteringResultView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(systemName: "slider.vertical.3")
+                //MARK: symbol제거 후 왼쪽패딩 추가
+//                Image(systemName: "slider.vertical.3")
                 Text("Result ")
                     .fontWeight(.semibold)
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -46,6 +47,7 @@ struct FilteringResultView: View {
                 }
             }
             .frame(height: 40.0)
+            .padding(.leading)
             
             Divider()
             
@@ -60,6 +62,8 @@ struct FilteringResultView: View {
                         
                     }
                 }
+                //MARK: 윗쪽 그리드셀 조금 잘리는 문제로 패딩 추가
+                .padding(.top, 5)
             }
         }
         .padding(.horizontal)
@@ -82,4 +86,3 @@ struct FilteringResultView_Previews: PreviewProvider {
         FilteringResultView(field: "brandName", queries: ["Dior"])
     }
 }
-

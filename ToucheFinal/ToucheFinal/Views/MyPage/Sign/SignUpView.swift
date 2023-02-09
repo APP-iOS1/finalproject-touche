@@ -6,14 +6,12 @@
 //
 
 import SwiftUI
-import PopupView
 
 struct SignUpView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var userInfoStore: UserInfoStore
     
-    @State private var isShowingSuccessPopup = false
     @State var email: String = ""
     @State private var emailCheck: Bool?
     @State private var nickNameCheck: Bool?
@@ -178,11 +176,14 @@ struct SignUpView: View {
             
             
             Button {
-                isShowingSuccessPopup.toggle()
                 Task {
                     await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
                     userInfoStore.isDuplicated = nil
-                    dismiss()
+                    
+                    // 향수 디테일 뷰에서 회원 가입 할때 모달창 디스미스 위한 조건문
+                    if userInfoStore.loginState == .success {
+                        dismiss()
+                    }
                 }
             } label: {
                 Text("Sign Up")
@@ -196,26 +197,6 @@ struct SignUpView: View {
 //            Spacer()
         }
         .onAppear{print("SignUp")}
-        
-        /// 로그인 성공시 알람창
-        .popup(isPresented: $isShowingSuccessPopup) {
-            Text("Success!")
-                .bold()
-                .frame(width: UIScreen.main.bounds.width - 20, height: 50)
-                .background(Color.green.opacity(0.7))
-                .cornerRadius(20.0)
-        } customize: {
-            $0.autohideIn(2)
-                .type(.floater())
-                .position(.top)
-                .animation(.spring())
-                .isOpaque(true)
-                .closeOnTapOutside(true)
-//                .backgroundColor(.black.opacity(0.1))
-        }
-            
-        
-        
     }
     func checkEmail(email: String) -> Bool {
             let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
