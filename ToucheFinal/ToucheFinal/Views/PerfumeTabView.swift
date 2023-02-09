@@ -11,10 +11,10 @@ import FirebaseFirestoreSwift
 struct PerfumeTabView: View {
     @FirestoreQuery(collectionPath: "Perfume") var perfumesDB: [Perfume]
     @State var NameOfAllPerfumes: [String] = UserDefaults.standard.array(forKey: "NameOfAllPerfumes") as? [String] ?? []
-    
+    @State var isShowingOnboardingView: Bool = UserDefaults.standard.object(forKey: "isShowingOnboardingView") as? Bool ?? true
     @State private var selectedIndex = 0
     @State private var touchTab = false
-    @State var isShowingOnboardingView: Bool = UserDefaults.standard.bool(forKey: "isShowingOnboardingView")
+    
     let selectedColors = (UserDefaults.standard.array(forKey: "selectedFragranceTypes") as? [String] ?? [])
     let tabBarNames = ["Home", "Palette", "Magazine", "Profile"]
     var body: some View {

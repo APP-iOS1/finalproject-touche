@@ -168,35 +168,35 @@ struct FilterView: View {
         .navigationBarBackButtonHidden(true)
         
         //MARK: 필터링 개수제한 팝업
-        .popup(isPresented: $brandPopupActive) {
-            Text("You can select up to 10 brands.")
-                .bold()
-                .frame(width: UIScreen.main.bounds.width - 80, height: 25)
-                .background(Color.red.opacity(0.7))
-                .cornerRadius(20.0)
-        } customize: {
-            $0.autohideIn(2)
-                .type(.floater(verticalPadding: 30))
-                .position(.top)
-                .animation(.spring())
-                .isOpaque(true)
-                .closeOnTapOutside(true)
-        }
-        
-        .popup(isPresented: $colorPopupActive) {
-            Text("You can select up to 10 colors.")
-                .bold()
-                .frame(width: UIScreen.main.bounds.width - 80, height: 25)
-                .background(Color.red.opacity(0.7))
-                .cornerRadius(20.0)
-        } customize: {
-            $0.autohideIn(2)
-                .type(.floater(verticalPadding: 30))
-                .position(.top)
-                .animation(.spring())
-                .isOpaque(true)
-                .closeOnTapOutside(true)
-        }
+//        .popup(isPresented: $brandPopupActive) {
+//            Text("You can select up to 10 brands.")
+//                .bold()
+//                .frame(width: UIScreen.main.bounds.width - 80, height: 25)
+//                .background(Color.red.opacity(0.7))
+//                .cornerRadius(20.0)
+//        } customize: {
+//            $0.autohideIn(2)
+//                .type(.floater(verticalPadding: 30))
+//                .position(.top)
+//                .animation(.spring())
+//                .isOpaque(true)
+//                .closeOnTapOutside(true)
+//        }
+//        
+//        .popup(isPresented: $colorPopupActive) {
+//            Text("You can select up to 10 colors.")
+//                .bold()
+//                .frame(width: UIScreen.main.bounds.width - 80, height: 25)
+//                .background(Color.red.opacity(0.7))
+//                .cornerRadius(20.0)
+//        } customize: {
+//            $0.autohideIn(2)
+//                .type(.floater(verticalPadding: 30))
+//                .position(.top)
+//                .animation(.spring())
+//                .isOpaque(true)
+//                .closeOnTapOutside(true)
+//        }
 
     }
 }
