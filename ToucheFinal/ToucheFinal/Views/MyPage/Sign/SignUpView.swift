@@ -182,6 +182,7 @@ struct SignUpView: View {
                 Task {
                     await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
                     userInfoStore.isDuplicated = nil
+                    dismiss()
                 }
             } label: {
                 Text("Sign Up")
