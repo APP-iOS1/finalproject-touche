@@ -106,7 +106,7 @@ struct SettingView: View {
                             Text("Contact Us")
                             Text("Privacy Policy")
                             Text("Terms & Conditions")
-                            Text("Help and Inforamtion")
+                            
                         }
                     }
                     .listStyle(.plain)
