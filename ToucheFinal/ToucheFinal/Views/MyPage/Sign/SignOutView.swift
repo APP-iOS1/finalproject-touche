@@ -18,7 +18,7 @@ struct SignOutView: View {
                 }
                 .frame(height: 80)
                 .padding(.horizontal, 20)
-                
+                .padding(.top, -35)
                 HStack{
                     NavigationLink {
                         LogInSignUpView(selectedIndex: 0)
@@ -43,6 +43,7 @@ struct SignOutView: View {
                     }.tint(.white)
                     
                 }
+                .padding(.top, -10)
                 .padding(.bottom)
                 
                 Divider()
@@ -51,7 +52,17 @@ struct SignOutView: View {
                 GuideView()
                 Spacer()
             }
-        }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing){
+                    NavigationLink {
+                        SettingView()
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+        } // NAVIGATIONSTACK
         .padding(.top, 1)
     }
 }

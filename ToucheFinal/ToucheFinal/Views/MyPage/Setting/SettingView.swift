@@ -13,10 +13,13 @@ struct SettingView: View {
     @State var showDeleteAccountView: Bool = false
     @EnvironmentObject var userInfoStore: UserInfoStore
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    
+    @State private var showingAlert: Bool = false
+    
     var body: some View {
         
         NavigationView {
-            GeometryReader{ geometry in
+            
                 VStack(alignment: .leading){
                     List{
                         Text("SETTINGS")
@@ -82,17 +85,18 @@ struct SettingView: View {
                         //                }
                         
                         
-                        
-                        Button{
-                            showDeleteAccountView.toggle()
-                        } label :{
-                            HStack{
-                                Text("Delete Account")
-                                Spacer()
-                                //Image(systemName: "arrow.up.right")
+                        if !(userInfoStore.userInfo == nil){
+                            Button{
+                                showDeleteAccountView.toggle()
+                            } label :{
+                                HStack{
+                                    Text("Delete Account")
+                                    Spacer()
+                                    //Image(systemName: "arrow.up.right")
+                                }
+                            }.fullScreenCover(isPresented: $showDeleteAccountView){
+                                DeleteAccountView()
                             }
-                        }.fullScreenCover(isPresented: $showDeleteAccountView){
-                            DeleteAccountView()
                         }
                         Group{
                             Text("SUPPORT")
@@ -106,20 +110,27 @@ struct SettingView: View {
                         }
                     }
                     .listStyle(.plain)
-                    Button{
-                        userInfoStore.logOut()
-                    } label: {
-                        Text("Log Out")
-                            .frame(width: 150, height: 46)
-                            .background(.black)
-                            .foregroundColor(.white)
-                            .cornerRadius(7)
+                    .scrollDisabled(true)
+                    VStack{
+                        
+                        if !(userInfoStore.userInfo == nil){
+                        Button{
+                            userInfoStore.logOut()
+                        } label: {
+                            Text("Sign Out")
+                                .frame(width: 150, height: 40.0)
+                                .background(.black)
+                                .foregroundColor(.white)
+                                .cornerRadius(20)
+                        }
+                        }
                     }
-                    .offset(x: geometry.size.width / 18,
-                            y: geometry.size.height / -9.5)
+                    .padding(.leading, 20)
+                    Spacer(minLength: 110)
                 }// VStack 종료
-            } // Geometry 종료
+        
         } // NavigationView 종료
+        
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
