@@ -22,6 +22,7 @@ final class UserInfoStore: ObservableObject{
     @Published var writtenCommentsAndPerfumes: [(Perfume, Comment)] = []
     @Published var isShowingFailAlert = false
     @Published var isShowingSuccessAlert = false
+    @Published var isShowingSignoutAlert = false
     
     private let database = Firestore.firestore().collection("User")
     
@@ -108,6 +109,7 @@ final class UserInfoStore: ObservableObject{
     func logIn(emailAddress: String, password: String) async {
         do {
             let result = try await Auth.auth().signIn(withEmail: emailAddress, password: password)
+            isShowingSuccessAlert.toggle()
             await fetchUser(user: result.user)
             self.loginState = .success
             self.notice = "login"
@@ -132,6 +134,7 @@ final class UserInfoStore: ObservableObject{
         do {
             // MARK: 회원가입 성공하면, uid 받아오기.
             let result = try await Auth.auth().createUser(withEmail: emailAddress, password: password)
+            isShowingSuccessAlert.toggle()
             // MARK: 곧바로 로그인.
             await logIn(emailAddress: emailAddress, password: password)
             
@@ -160,6 +163,7 @@ final class UserInfoStore: ObservableObject{
     func logOut() {
         do {
             try Auth.auth().signOut()
+            isShowingSignoutAlert.toggle()
             userInfo = nil
             user = nil
             currentUser = nil
