@@ -7,13 +7,16 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
-
+ // TODO: - 삭제시 Alert창 추가
 struct CommentCell: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var commentStore: CommentStore
     @EnvironmentObject var perfumeStore: PerfumeStore
     @State var  comment: Comment
+    @State var isShowingWriteComment: Bool = false
+    @State var deleteAlertActive: Bool = false
     @Binding var perfume: Perfume
+    
     var body: some View {
         HStack(alignment: .top){
             if comment.writerImage == "" {
@@ -30,7 +33,7 @@ struct CommentCell: View {
             } else {
                 WebImage(url: URL(string: comment.writerImage))
                     .resizable()
-                    .frame(width: 50, height: 50)
+                    .frame(width: 45, height: 45)
                     .clipShape(Circle())
                     .overlay {
                         Circle()
@@ -43,22 +46,26 @@ struct CommentCell: View {
                         .bold()
                     if userInfoStore.user?.uid == comment.writerId {
                         Spacer()
+                        
                         Button {
-                            Task {
-                                await perfumeStore.deletePerfumeComment(perfumeId: perfume.perfumeId, score: comment.perfumeScore)
-                                await commentStore.deleteComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
-                                await commentStore.fetchComments(perfumeId: perfume.perfumeId)
-                                await userInfoStore.deleteWrittenComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
-                                perfume = await perfumeStore.fetchPerfume(perfumeId: perfume.perfumeId)
-                            }
+                            isShowingWriteComment = true
+                        } label: {
+                            Image(systemName: "pencil")
+                                
+                            
+                        }
+                        
+                        Button {
+                            deleteAlertActive.toggle()
                         } label: {
                             Image(systemName: "trash")
                         }
-                        .foregroundColor(.black)
+                        
                     }
                 }
                 .frame(width: 300, alignment: .leading)
-
+                .foregroundColor(.black)
+                
                 Text(comment.contents)
                     .frame(width: 300, alignment: .leading)
                 HStack {
@@ -86,6 +93,28 @@ struct CommentCell: View {
                         .padding(.leading, -3)
                 }
             }
+            .alert(
+                """
+                Are you sure you want to delete the review?
+                """
+                ,isPresented: $deleteAlertActive
+            ) {
+                Button("Cancel", role: .cancel) {}
+                Button("Delete", role: .destructive) {
+                    Task {
+                        await perfumeStore.deletePerfumeComment(perfumeId: perfume.perfumeId, score: comment.perfumeScore)
+                        await commentStore.deleteComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
+                        await commentStore.fetchComments(perfumeId: perfume.perfumeId)
+                        await userInfoStore.deleteWrittenComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
+                        perfume = await perfumeStore.fetchPerfume(perfumeId: perfume.perfumeId)
+                    }
+                }
+            }
+            .sheet(isPresented: $isShowingWriteComment, content: {
+                WriteCommentView(score: comment.perfumeScore, isShowingWriteComment: $isShowingWriteComment, perfume: $perfume, reviewText: comment.contents, commentId: comment.commentId)
+                    .presentationDetents([.medium])
+            })
+            
         }
     }
 }

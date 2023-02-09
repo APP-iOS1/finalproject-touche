@@ -13,18 +13,20 @@ class CommentStore: ObservableObject {
     @Published var comments: [Comment] = []
     let database = Firestore.firestore().collection("Perfume")
     
+    // MARK: - Fetch Comment
     func fetchComments(perfumeId: String) async {
         do {
             var tempComments: [Comment] = []
             let snapshot = try await database.document(perfumeId).collection("Comment").getDocuments()
-            for document in snapshot.documents{
+            for document in snapshot.documents {
                 let comment = try document.data(as: Comment.self)
                 tempComments.append(comment)
             }
-            comments = tempComments
+            comments = tempComments.sorted(by: {$0.commentTime > $1.commentTime})
         } catch {}
     }
     
+    // MARK: - Create Comment
     func setComment(comment: Comment, perfumeId: String) async {
         do {
             try await database.document(perfumeId).collection("Comment").document(comment.commentId)
@@ -38,6 +40,26 @@ class CommentStore: ObservableObject {
                     "writerImage": comment.writerImage,
                     "likedPeople": comment.likedPeople
                 ])
+        } catch {}
+    }
+    
+    // MARK: - Update Comment
+    func updateComment(perfumeId: String, commentId: String, contents: String, score: Int) async {
+        do {
+            try await database.document(perfumeId).collection("Comment").document(commentId)
+                .updateData([
+                    "contents": contents,
+                    "perfumeScore": score
+                    // TODO: - 댓글 수정하면 생성 날짜도 업데이트?
+                ])
+        } catch {}
+    }
+    
+    // MARK: - Delete Comment
+    func deleteComment(perfumeId: String, commentId: String) async {
+        do {
+            try await database.document(perfumeId).collection("Comment").document(commentId)
+                .delete()
         } catch {}
     }
     
@@ -82,11 +104,6 @@ class CommentStore: ObservableObject {
         return comment[0]
     }
     
-    func deleteComment(perfumeId: String, commentId: String) async {
-        do {
-            try await database.document(perfumeId).collection("Comment").document(commentId)
-                .delete()
-        } catch {}
-    }
+    
 }
 

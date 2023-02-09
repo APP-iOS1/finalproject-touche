@@ -24,6 +24,19 @@ class PerfumeStore: ObservableObject {
 
     let database = Firestore.firestore().collection("Perfume")
     
+    func readAll() async {
+        do {
+            var tempPerfumes: [Perfume] = []
+            let snapshot = try await database.getDocuments()
+            for document in snapshot.documents {
+                let perfume =  try document.data(as: Perfume.self)
+                tempPerfumes.append(perfume)
+            }
+            print(tempPerfumes.map{$0.fragranceDescription})
+            
+        } catch {}
+    }
+    
     func readRecomendedPerfumes(perfumesId: [String]) async {
         do {
             var tempPerfumes: [Perfume] = []
@@ -106,6 +119,16 @@ class PerfumeStore: ObservableObject {
                 .updateData([
                     "commentCount": (perfume.commentCount + 1),
                     "totalPerfumeScore": (perfume.totalPerfumeScore + score)
+                ])
+        } catch {}
+    }
+    // MARK: - 댓글 수정시 향수 평점 업데이트
+    func updateTotalPerfumeScore(perfumeId: String, oldScore: Int, newScore: Int) async {
+        do {
+            let perfume = await fetchPerfume(perfumeId: perfumeId)
+            try await database.document(perfumeId)
+                .updateData([
+                    "totalPerfumeScore": (perfume.totalPerfumeScore - oldScore) + newScore
                 ])
         } catch {}
     }

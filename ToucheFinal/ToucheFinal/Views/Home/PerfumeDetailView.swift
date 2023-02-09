@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import AlertToast
 
 struct PerfumeDetailView: View {
     /// dismiss action
@@ -22,13 +23,14 @@ struct PerfumeDetailView: View {
     /// showing modal to write comment
     @State var isShowingWriteComment: Bool = false
     /// showing alert to whether login or not
-    @State var alertActive = false
+    @State var loginAlertActive = false
+    @State var isCheckedReview = false
     /// trigger to move signinView
     @State var navLinkActive = false
     /// perfume data
     
     @State var perfume: Perfume
-
+    @State var totalScore: Int = 0
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -63,7 +65,7 @@ struct PerfumeDetailView: View {
             """
             Sign in to favorite your products
             """
-            ,isPresented: $alertActive
+            ,isPresented: $loginAlertActive
         ) {
             Button("Cancel", role: .cancel) {}
             Button {
@@ -72,9 +74,18 @@ struct PerfumeDetailView: View {
                 Text("Sign In")
             }
         }
-        .fullScreenCover(isPresented: $isShowingWriteComment){
-            WriteCommentView(isShowingWriteComment: $isShowingWriteComment, perfume: perfume)
+        .alert(
+            """
+            You already wrote a review with the same account.
+            """
+            ,isPresented: $isCheckedReview
+        ) {
+            Button("OK", role: .cancel) {}
         }
+        .sheet(isPresented: $isShowingWriteComment, content: {
+            WriteCommentView(score: 0, isShowingWriteComment: $isShowingWriteComment, perfume: $perfume, reviewText: "", commentId: "")
+                .presentationDetents([.medium])
+        })
         .modifier(SignInFullCover(isShowing: $navLinkActive))
         .navigationTitle(perfume.displayName)
         .navigationBarTitleDisplayMode(.inline)
@@ -94,11 +105,14 @@ struct PerfumeDetailView: View {
             Task{
                 await commentStore.fetchComments(perfumeId: perfume.perfumeId)
             }
+            print(perfume.perfumeId)
         }
+        
+        
     }
 }
 
-// MARK: HELPER FUNCTION
+// MARK: - HELPER FUNCTION
 private extension PerfumeDetailView {
     /// 가상 키보드 해제 액션
     func hideKeyboard() {
@@ -106,7 +120,7 @@ private extension PerfumeDetailView {
     }
 }
 
-// MARK: VIEW EXTENSION
+// MARK: - VIEW EXTENSION
 private extension PerfumeDetailView {
     /// 향수 브랜드, 제품, 순위 뷰
     func introView(_ proxy: ScrollViewProxy) -> some View {
@@ -122,20 +136,22 @@ private extension PerfumeDetailView {
                     .font(.subheadline)
                     .fontWeight(.light)
                 
-                Button {
-                    withAnimation {
-                        proxy.scrollTo(reviewId)
-                    }
-                } label: {
-                    HStack{
-                        RatingView(
-                            score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount),
-                            frame: 15,
-                            canClick: false)
-                        Text("\("\(perfume.commentCount) View Comments")")
-                            .font(.system(size: 14))
-                            .foregroundColor(.primary)
-                            .underline()
+                HStack {
+                    RatingView(
+                        score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount),
+                        frame: 15,
+                        canClick: false)
+                    Button {
+                        withAnimation {
+                            proxy.scrollTo(reviewId)
+                        }
+                    } label: {
+                        HStack{
+                            Text("\("\(perfume.commentCount) View Comments")")
+                                .font(.system(size: 14))
+                                .foregroundColor(.primary)
+                                .underline()
+                        }
                     }
                 }
             } // VSTACK
@@ -147,15 +163,15 @@ private extension PerfumeDetailView {
                 Button {
                     switch userInfoStore.currentUser {
                     case nil:
-                        alertActive = true
+                        loginAlertActive = true
                     default:
                         Task {
-                        if perfume.likedPeople.contains(userInfoStore.currentUser ?? "") {
-                            // 해당 uid 제거
+                            if perfume.likedPeople.contains(userInfoStore.currentUser ?? "") {
+                                // 해당 uid 제거
                                 await perfumeStore.deleteLikePerfume(perfume: perfume, userId: userInfoStore.currentUser ?? "")
-
-                        } else {
-                            // 해당 uid 추가
+                                
+                            } else {
+                                // 해당 uid 추가
                                 await perfumeStore.addLikePerfume(perfume: perfume, userId: userInfoStore.currentUser ?? "")
                                 
                             }
@@ -182,6 +198,8 @@ private extension PerfumeDetailView {
         .padding(.horizontal, 20)
     }
     
+    // MARK: - Methods
+    
     /// 향수 설명 뷰
     func descriptionView() -> some View {
         // MARK: - Description
@@ -189,20 +207,31 @@ private extension PerfumeDetailView {
             Text("FragranceFamily")
                 .font(.body)
                 .fontWeight(.semibold)
+            
             Text(perfume.fragranceFamily)
                 .font(.body)
                 .fontWeight(.light)
                 .padding(.bottom)
+            
             Text("ScentType")
                 .font(.body)
                 .fontWeight(.semibold)
-            Text(perfume.scentType)
-                .font(.body)
-                .fontWeight(.light)
-                .padding(.bottom)
+            
+            HStack {
+                Rectangle()
+                    .fill(Color(hex: setHexValue(scentType: perfume.scentType)) ?? Color.white)
+                    .frame(width: 6, height: 18)
+                
+                Text(perfume.scentType)
+                    .font(.body)
+                    .fontWeight(.light)
+            }
+            .padding(.bottom)
+            
             Text("KeyNote")
                 .font(.body)
                 .fontWeight(.semibold)
+            
             ForEach(perfume.keyNotes, id: \.self) { note in
                 Text(note)
                     .font(.body)
@@ -213,16 +242,17 @@ private extension PerfumeDetailView {
                 .font(.body)
                 .fontWeight(.semibold)
                 .padding(.top)
+            
             Text(perfume.fragranceDescription)
                 .font(.body)
                 .fontWeight(.light)
                 .padding(.bottom)
             
-            Text("Comments")
-                .font(.title2)
-            + Text(" \(perfume.commentCount)")
-                .font(.caption)
-                .foregroundColor(.secondary)
+                Text("Comments")
+                    .font(.title2)
+                + Text(" \(perfume.commentCount)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
         } // VSTACK
         .padding(.horizontal, 20)
         .modifier(SignInFullCover(isShowing: $navLinkActive))
@@ -236,15 +266,31 @@ private extension PerfumeDetailView {
             Button {
                 switch userInfoStore.currentUser {
                 case nil:
-                    alertActive = true
+                    loginAlertActive = true
                 default:
-                    isShowingWriteComment = true
+                    // 이미 리뷰를 작성한 적이 있는지
+                    if commentStore.comments.filter({ $0.writerId == userInfoStore.currentUser }).count == 0 {
+                        isShowingWriteComment = true
+                    } else {
+                        isCheckedReview = true
+                    }
                 }
             } label: {
                 HStack(alignment: .center) {
-                    Image("woman")
-                        .resizable()
-                        .frame(width: 50, height: 50)
+                    // 로그인 상태면 유저 프로필 사진 보여주기
+                    if userInfoStore.currentUser != nil {
+                        WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
+                            .resizable()
+                            .frame(width: 45, height: 45)
+                            .clipShape(Circle())
+                            .overlay {
+                                Circle().stroke(.black, lineWidth: 0.5)
+                            }
+                    } else {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 45, height: 45)
+                    }
                     
                     Text("Add Comment...")
                         .frame(height: 20)
@@ -259,17 +305,12 @@ private extension PerfumeDetailView {
                     Text("Send")
                         .frame(height: 50)
                 }
-                .onChange(of: isShowingWriteComment) { newValue in
-                    if !newValue {
-                        Task {
-                            await perfume = perfumeStore.fetchPerfume(perfumeId: perfume.perfumeId)
-                        }
-                    }
-                }
+                
             }
             .tint(.primary)
             
-            ForEach(commentStore.comments, id: \.self.commentId) { comment in
+            // Comments
+            ForEach(commentStore.comments, id: \.self) { comment in
                 Divider()
                 CommentCell(comment: comment, perfume: $perfume)
             }
@@ -277,7 +318,7 @@ private extension PerfumeDetailView {
         .onTapGesture {
             hideKeyboard()
         }
-        .padding(.horizontal, 20)
+        .padding([.horizontal, .bottom], 20)
         .autocapitalization(.none)
         .autocorrectionDisabled(true)
         .scrollDismissesKeyboard(.interactively)
@@ -330,7 +371,9 @@ struct PerfumeDetailView_Previews: PreviewProvider {
                                                commentCount: 154,
                                                totalPerfumeScore: 616
                                               ))
-                .environmentObject(UserInfoStore())
+            .environmentObject(UserInfoStore())
+            .environmentObject(PerfumeStore())
+            .environmentObject(CommentStore())
         }
     }
 }
