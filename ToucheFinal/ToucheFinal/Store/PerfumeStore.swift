@@ -17,7 +17,6 @@ class PerfumeStore: ObservableObject {
     @Published var recentlyViewedPerfumes: [Perfume] = []
     @Published var SelectedScentTypePerfumes: [Perfume] = []
     @Published var likedPerfumes: [Perfume] = []
-    @Published var magazinePerfumes: [Perfume] = []
 
     let database = Firestore.firestore().collection("Perfume")
     
@@ -63,19 +62,7 @@ class PerfumeStore: ObservableObject {
         } catch {}
     }
     
-    func readMagazinePerfumes(perfumesId: [String]) async {
-        do {
-            var tempPerfumes: [Perfume] = []
-            let snapshot = try await database.whereField("perfumeId", in: perfumesId ).getDocuments()
-            for document in snapshot.documents {
-                let perfume =  try document.data(as: Perfume.self)
-                tempPerfumes.append(perfume)
-            }
-            magazinePerfumes = tempPerfumes
-            
-        } catch {}
-    }
-    
+        
     func readLikedPerfumes(userId: String) async {
         do {
             var tempPerfumes: [Perfume] = []

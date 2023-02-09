@@ -12,7 +12,8 @@ import SwiftUI
 /// https://www.youtube.com/watch?v=J86h1mt5bio
 
 struct MagazineView: View {
-    @ObservedObject var perfumeStore: PerfumeStore = PerfumeStore()
+    @ObservedObject var magazineStore: MagazineStore = MagazineStore()
+
     @Namespace var animation
     @State var currentItem: Magazine?
     @State var showDetailPage: Bool = false
@@ -20,6 +21,7 @@ struct MagazineView: View {
     @State var animateContent: Bool = false
     @State var scrollOffset: CGFloat = 0
     @State var perfumes: [Perfume] = []
+    @State var magazines: [Magazine] = []
     @State private var scale: CGFloat = 1
     let columns = [
         GridItem(.flexible()),
@@ -27,45 +29,60 @@ struct MagazineView: View {
     ]
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            
-            Text("Magazine")
-                .font(.largeTitle)
-                .padding(.vertical, 15)
-                .fontWeight(.semibold)
-                .opacity(showDetailPage ? 0 : 1)
-            
-            VStack(spacing: 0) {
-                ForEach(magazines) { item in
-                    Button {
-                        withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
-                            currentItem = item
-                            showDetailPage.toggle()
-                        }
+        NavigationStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                HStack {
+                    Text("Magazine")
+                        .font(.largeTitle)
+                        .padding(.vertical, 15)
+                        .fontWeight(.semibold)
+                        .opacity(showDetailPage ? 0 : 1)
+                    Spacer()
+                    NavigationLink {
+                        TestMagazineUploadView()
                     } label: {
-                        CardView(item: item)
-                            .scaleEffect(currentItem?.id == item.id && showDetailPage ? 1 : 0.90)
+                        Image(systemName: "plus.app")
                     }
-                    .buttonStyle(ScaledButtonStyle())
-                    .opacity(showDetailPage ? (currentItem?.id == item.id ? 1 :0) : 1)
+                    
+                }
+                .padding()
+                VStack(spacing: 0) {
+                    ForEach(magazineStore.magazines) { item in
+                        Button {
+                            withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
+                                currentItem = item
+                                showDetailPage.toggle()
+                            }
+                        } label: {
+                            CardView(item: item)
+                                .scaleEffect(currentItem?.id == item.id && showDetailPage ? 1 : 0.90)
+                        }
+                        .buttonStyle(ScaledButtonStyle())
+                        .opacity(showDetailPage ? (currentItem?.id == item.id ? 1 :0) : 1)
+                        
+                    }
+                }
+            }
+            .overlay {
+                if let currentItem = currentItem, showDetailPage {
+                    DetailView(item: currentItem)
+                        .ignoresSafeArea(.container, edges: .top)
                     
                 }
             }
-        }
-        .overlay {
-            if let currentItem = currentItem, showDetailPage {
-                DetailView(item: currentItem)
-                    .ignoresSafeArea(.container, edges: .top)
-                
+            .background(alignment: .top) {
+                RoundedRectangle(cornerRadius: 15, style: .continuous)
+                    .fill(Color.white)
+                    .frame(height: animateView ? nil : 350, alignment: .top)
+                    .scaleEffect(animateView ? 1: 0.93)
+                    .opacity(animateView ? 1 : 0)
+                    .ignoresSafeArea()
             }
-        }
-        .background(alignment: .top) {
-            RoundedRectangle(cornerRadius: 15, style: .continuous)
-                .fill(Color.white)
-                .frame(height: animateView ? nil : 350, alignment: .top)
-                .scaleEffect(animateView ? 1: 0.93)
-                .opacity(animateView ? 1 : 0)
-                .ignoresSafeArea()
+            .onAppear {
+                Task {
+                    await magazineStore.readMagazines()
+                }
+            }
         }
     }
     @ViewBuilder
@@ -75,11 +92,22 @@ struct MagazineView: View {
                 GeometryReader { proxy in
                     let size = proxy.size
                     
-                    Image(item.contentImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: size.width, height: size.height)
-                        .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 20))
+                    AsyncImage(url: URL(string: item.contentImage)) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: size.width, height: size.height)
+                            .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 20))
+                    } placeholder: {
+                        ProgressView()
+                    }
+
+                    
+//                    Image(item.contentImage)
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fill)
+//                        .frame(width: size.width, height: size.height)
+//                        .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 20))
                 }
                 .frame(height: 400)
                 
@@ -129,9 +157,13 @@ struct MagazineView: View {
 //                            }
 //                    )
                 VStack(spacing: 15) {
-                    Image(item.bodyImage)
-                        .resizable()
-                        .scaledToFit()
+                    AsyncImage(url: URL(string: item.bodyImage)) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                    } placeholder: {
+                        ProgressView()
+                    }
                 }
                 .padding()
                 .offset(y: scrollOffset > 0 ? scrollOffset : 0)
@@ -144,7 +176,7 @@ struct MagazineView: View {
                     .padding([.top, .leading], 15)
                 
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(perfumeStore.magazinePerfumes, id: \.self.perfumeId) { perfume in
+                    ForEach(magazineStore.magazineRelatedPerfumes, id: \.self.perfumeId) { perfume in
                         NavigationLink {
                             PerfumeDetailView(perfume: perfume)
                         } label: {
@@ -190,7 +222,7 @@ struct MagazineView: View {
                 animateContent = true
             }
             Task {
-                await perfumeStore.readMagazinePerfumes(perfumesId: item.perfumeIds)
+                await magazineStore.readMagazineRelatedPerfumes(perfumesId: item.perfumeIds)
             }
         }
         .transition(.identity)
