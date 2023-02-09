@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct DeleteAccountView: View {
     enum ReasonForDelete: String, CaseIterable, Identifiable {
@@ -29,6 +30,10 @@ struct DeleteAccountView: View {
     @State private var reasonForDeleteText: String = ""
     
     @State private var showAlert: Bool = false
+    
+    @State private var showConfirmDelete = false
+    @State private var isDeleting = false
+    
 
     var body: some View {
         NavigationView {
@@ -102,6 +107,8 @@ struct DeleteAccountView: View {
                         .alert(isPresented: $showAlert) {
                                             Alert(title: Text("Delete Account"), message: Text("You can cancel the action\nvia the left button."), primaryButton: .destructive(Text("Delete"), action: {
                                                 userInfoStore.deleteAccount()
+                                                userInfoStore.userInfo = nil
+                                                dismiss()
                                             }), secondaryButton: .cancel(Text("Cancel")))
                                         }
                 }

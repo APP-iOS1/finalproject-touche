@@ -179,6 +179,7 @@ final class UserInfoStore: ObservableObject{
                 print(e.localizedDescription)
             } else {
                 print("user deleted successfully")
+               //self.showingDeleteConfirmation = false
             }
         }
         
@@ -186,6 +187,15 @@ final class UserInfoStore: ObservableObject{
         
         database.document(user?.uid ?? "").delete()
     }
+    
+    // SceneDelegate를 통해 deleteAccount 시 앱 초기화면으로 이동
+//    func navigationToInitialView() {
+//            let perfumeTabView = PerfumeTabView()
+//            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+//            window?.rootViewController = UIHostingController(rootView: NavigationView {
+//                perfumeTabView
+//            })
+//        }
     
     /// 이메일 중복 체크
     func duplicateCheck(emailAddress: String) {

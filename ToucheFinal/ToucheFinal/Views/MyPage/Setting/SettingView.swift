@@ -85,17 +85,18 @@ struct SettingView: View {
                         //                }
                         
                         
-                        
-                        Button{
-                            showDeleteAccountView.toggle()
-                        } label :{
-                            HStack{
-                                Text("Delete Account")
-                                Spacer()
-                                //Image(systemName: "arrow.up.right")
+                        if !(userInfoStore.userInfo == nil){
+                            Button{
+                                showDeleteAccountView.toggle()
+                            } label :{
+                                HStack{
+                                    Text("Delete Account")
+                                    Spacer()
+                                    //Image(systemName: "arrow.up.right")
+                                }
+                            }.fullScreenCover(isPresented: $showDeleteAccountView){
+                                DeleteAccountView()
                             }
-                        }.fullScreenCover(isPresented: $showDeleteAccountView){
-                            DeleteAccountView()
                         }
                         Group{
                             Text("SUPPORT")
@@ -111,6 +112,8 @@ struct SettingView: View {
                     .listStyle(.plain)
                     .scrollDisabled(true)
                     VStack{
+                        
+                        if !(userInfoStore.userInfo == nil){
                         Button{
                             userInfoStore.logOut()
                         } label: {
@@ -119,6 +122,7 @@ struct SettingView: View {
                                 .background(.black)
                                 .foregroundColor(.white)
                                 .cornerRadius(20)
+                        }
                         }
                     }
                     .padding(.leading, 20)
