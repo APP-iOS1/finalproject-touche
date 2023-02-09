@@ -9,38 +9,39 @@ import SwiftUI
 
 struct PerfumeDescriptionView: View {
     @State var selectedColors = (UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? [])
+    @State var isEditMode = false
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     var perfumeColors: [PerfumeColor] = PerfumeColor.types
     
     var body: some View {
         VStack(alignment: .leading) {
-            VStack(alignment: .leading) {
-                Text("Select: ")
-                    .font(.title)
-                    .fontWeight(.bold)
-                //.padding(.leading, 20)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(selectedColors, id: \.self) { color in
-                            Circle()
-                                .fill(Color(scentType: color))
-                                .frame(width: 30, height: 30)
-                                .onTapGesture {
-                                    if selectedColors.count > 1 {
-                                        selectedColors.remove(at: selectedColors.firstIndex(of: color) ?? 0)
-                                        UserDefaults.standard.set(selectedColors, forKey: "selectedScentTypes")
-                                    }
-                                }
-                        }
-                    }
-                }
-                .padding(.leading, -5)
-                
-                Divider()
-            }
-            .padding(.leading, 20)
-            
-            PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), selectedColours: $selectedColors, perfumeColour: perfumeColors)
+//            HStack {
+//                Text("Select: ")
+//                    .font(.title)
+//                    .fontWeight(.bold)
+//                //.padding(.leading, 20)
+//                ScrollView(.horizontal, showsIndicators: false) {
+//                    HStack {
+//                        ForEach(selectedColors, id: \.self) { color in
+//                            Circle()
+//                                .fill(Color(scentType: color))
+//                                .frame(width: 30, height: 30)
+//                                .onTapGesture {
+//                                    if selectedColors.count > 1 {
+//                                        selectedColors.remove(at: selectedColors.firstIndex(of: color) ?? 0)
+//                                        UserDefaults.standard.set(selectedColors, forKey: "selectedScentTypes")
+//                                    }
+//                                }
+//                        }
+//                    }
+//                }
+//                .padding(.leading, -5)
+//
+//            }
+//            .frame(height: 30)
+//            .padding(.leading, 20)
+//            Divider()
+            PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), selectedColours: $selectedColors, isEditMode: $isEditMode, perfumeColour: perfumeColors)
                 .padding(.top, -8)
         }
         .toolbar {
@@ -52,8 +53,21 @@ struct PerfumeDescriptionView: View {
                 }
                 .foregroundColor(.black)
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    isEditMode.toggle()
+                } label: {
+                    if isEditMode {
+                        Text("Save")
+                    } else {
+                        Text("Edit")
+                    }
+                }
+                .foregroundColor(.black)
+            }
         }
         .navigationBarBackButtonHidden(true)
+        .navigationTitle("ScentType Description")
     }
     
 }
@@ -69,69 +83,45 @@ struct PerfumeDescriptionDetailView: View {
     
     @State var flags: [Bool]
     @Binding var selectedColours: [String]
-    
+    @Binding var isEditMode: Bool
     var perfumeColour: [PerfumeColor]
     
     var body: some View {
         ScrollView {
             ForEach(Array(perfumeColour.enumerated()), id: \.1.id) { idx, value in
-                /*
-                 DisclosureGroup(isExpanded: $flags[idx]) {
-                 ForEach(value.description ?? [], id: \.self) { desc in
-                 Text(desc)
-                 }
-                 } label: {
-                 HStack {
-                 Circle()
-                 .fill(value.color)
-                 .frame(width: 30, height: 30)
-                 
-                 Text(value.name)
-                 }
-                 }
-                 .contentShape(Rectangle())
-                 .onTapGesture {
-                 withAnimation {
-                 self.flags[idx].toggle()
-                 }
-                 }
-                 */
-                
-                HStack {
+                Button {
+                    if isEditMode {
+                        if let index = selectedColours.firstIndex(of: value.name) {
+                            if (selectedColours.count > 1) {
+                                selectedColours.remove(at: index)
+                            }
+                        } else {
+                            selectedColours.append(value.name)
+                        }
+                        UserDefaults.standard.set(selectedColours, forKey: "selectedScentTypes")
+                    } else {
+                        withAnimation {
+                            self.flags[idx].toggle()
+                        }
+                    }
+                } label: {
                     HStack {
                         Circle()
                             .fill(value.color)
                             .frame(width: 30, height: 30)
-                        
+                            .overlay(
+                                Image(systemName: selectedColours.contains(value.name) ? "checkmark" : "")
+                                    .foregroundColor(.white))
                         Text(value.name)
                             .fontWeight(.bold)
-                    }
-                    //  .border(.black)
-                    .onTapGesture {
-                        if let index = selectedColours.firstIndex(of: value.name) {
-                            
-                            if (selectedColours.count > 1) {
-                                
-                                selectedColours.remove(at: index)
-                            }
-                        } else {
-                            
-                            selectedColours.append(value.name)
-                        }
                         
-                        UserDefaults.standard.set(selectedColours, forKey: "selectedScentTypes")
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .rotationEffect(Angle(degrees: flags[idx] ? 90 : 0))
                     }
-                    
-                    Spacer()
-                    
-                    Image(systemName: "chevron.right")
-                        .rotationEffect(Angle(degrees: flags[idx] ? 90 : 0))
-                        .onTapGesture {
-                            withAnimation {
-                                self.flags[idx].toggle()
-                            }
-                        }
                 }
+                .foregroundColor(.black)
                 .padding(.horizontal)
                 .padding(.top, 10)
                 
@@ -143,6 +133,5 @@ struct PerfumeDescriptionDetailView: View {
                 Divider()
             }
         }
-        .listStyle(.plain)
     }
 }

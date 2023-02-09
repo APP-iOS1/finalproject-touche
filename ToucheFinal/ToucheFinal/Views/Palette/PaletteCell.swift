@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PalletteCell: View {
+struct PaletteCell: View {
     @ObservedObject var colorPaletteCondition: ColorPalette
     @EnvironmentObject var userInfoStore: UserInfoStore
     var color: Color
@@ -34,7 +34,7 @@ struct PalletteCell: View {
                 Circle()
                     .trim(from: 0.7205, to: 0.7795)
                     .stroke(lineWidth: 50)
-                    .opacity(userInfoStore.userInfo == nil ? 1 : opacity)
+                    .opacity(userInfoStore.user == nil ? 1 : opacity)
                     .overlay{
                         Text(name)
                             .font(.system(size: 14))
@@ -55,8 +55,8 @@ struct PalletteCell: View {
     }
 }
 
-struct PalletteCell_Previews: PreviewProvider {
+struct PaletteCell_Previews: PreviewProvider {
     static var previews: some View {
-        PalletteCell(colorPaletteCondition: ColorPalette(), color: .red, degrees: 40, name: "Fresh Aquatics", count: 3)
+        PaletteCell(colorPaletteCondition: ColorPalette(), color: .red, degrees: 40, name: "Fresh Aquatics", count: 3)
     }
 }

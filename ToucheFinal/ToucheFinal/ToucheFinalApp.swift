@@ -13,7 +13,6 @@ import FirebaseCore
 struct ToucheFinalApp: App {
     init() {
             FirebaseApp.configure()
-            UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
         }
     
     var body: some Scene {
