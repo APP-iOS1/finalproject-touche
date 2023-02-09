@@ -218,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				657A092429765EE000E5B565 /* HomeView.swift */,
+				A8934D3429939F8700BC2A66 /* MoreRecommendPerfumeView.swift */,
 				E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */,
 				A8BC32732977BC08004EF50C /* PerfumeCell.swift */,
 				A89E60DA2988CD7500BAB55E /* ColorChipPerfumeCell.swift */,
@@ -229,7 +230,6 @@
 				6189EA0C297A4C07005E6AA9 /* PerfumesGridView.swift */,
 				A8EDB1D1298A24E30055D7B9 /* TestAnimationView.swift */,
 				76BA7515298B4610009B0925 /* Modifier.swift */,
-				A8934D3429939F8700BC2A66 /* MoreRecommendPerfumeView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
