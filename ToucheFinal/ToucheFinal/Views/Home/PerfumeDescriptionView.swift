@@ -14,7 +14,6 @@ struct PerfumeDescriptionView: View {
     var perfumeColors: [PerfumeColor] = PerfumeColor.types
     
     var body: some View {
-        VStack(alignment: .leading) {
 //            HStack {
 //                Text("Select: ")
 //                    .font(.title)
@@ -40,10 +39,7 @@ struct PerfumeDescriptionView: View {
 //            }
 //            .frame(height: 30)
 //            .padding(.leading, 20)
-//            Divider()
             PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), selectedColours: $selectedColors, isEditMode: $isEditMode, perfumeColour: perfumeColors)
-                .padding(.top, -8)
-        }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -87,51 +83,51 @@ struct PerfumeDescriptionDetailView: View {
     var perfumeColour: [PerfumeColor]
     
     var body: some View {
-        ScrollView {
+        List {
             ForEach(Array(perfumeColour.enumerated()), id: \.1.id) { idx, value in
-                Button {
-                    if isEditMode {
-                        if let index = selectedColours.firstIndex(of: value.name) {
-                            if (selectedColours.count > 1) {
-                                selectedColours.remove(at: index)
-                            }
-                        } else {
-                            selectedColours.append(value.name)
-                        }
-                        UserDefaults.standard.set(selectedColours, forKey: "selectedScentTypes")
-                    } else {
-                        withAnimation {
-                            self.flags[idx].toggle()
-                        }
+                DisclosureGroup(isExpanded: $flags[idx]) {
+                    ForEach(value.description ?? [], id: \.self) { desc in
+                        Text(desc)
                     }
                 } label: {
                     HStack {
-                        Circle()
-                            .fill(value.color)
-                            .frame(width: 30, height: 30)
-                            .overlay(
-                                Image(systemName: selectedColours.contains(value.name) ? "checkmark" : "")
-                                    .foregroundColor(.white))
+                        if selectedColours.contains(value.name) {
+                            Circle()
+                                .fill(value.color)
+                                .frame(width: 30, height: 30)
+                                .overlay(
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.white)
+                                )
+                        } else {
+                            Circle()
+                                .fill(value.color)
+                                .frame(width: 30, height: 30)
+                        }
+                        
                         Text(value.name)
-                            .fontWeight(.bold)
-                        
-                        Spacer()
-                        
-                        Image(systemName: "chevron.right")
-                            .rotationEffect(Angle(degrees: flags[idx] ? 90 : 0))
                     }
                 }
-                .foregroundColor(.black)
-                .padding(.horizontal)
-                .padding(.top, 10)
-                
-                if (flags[idx]) {
-                    Text(value.description?[0] ?? "")
-                        .padding([.horizontal, .bottom])
+                .tint(.black)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    withAnimation {
+                        if isEditMode {
+                            if let index = selectedColours.firstIndex(of: value.name) {
+                                if (selectedColours.count > 1) {
+                                    selectedColours.remove(at: index)
+                                }
+                            } else {
+                                selectedColours.append(value.name)
+                            }
+                            UserDefaults.standard.set(selectedColours, forKey: "selectedScentTypes")
+                        } else {
+                            self.flags[idx].toggle()
+                        }
+                    }
                 }
-                
-                Divider()
             }
         }
+        .listStyle(.plain)
     }
 }
