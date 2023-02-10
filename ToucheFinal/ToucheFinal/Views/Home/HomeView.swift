@@ -20,6 +20,9 @@ struct HomeView: View {
     @EnvironmentObject var perfumeStore: PerfumeStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     
+    @AppStorage("language")
+    private var language = LocalizationService.shared.language
+    
     var rows: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let mostSearchedBrands = ["Sol de Janeiro", "Carolina Herrera", "CHANEL", "Valentino", "Yves Saint Laurent", "Dior", "BURBERRY"]
     
@@ -35,7 +38,7 @@ struct HomeView: View {
                                     // TODO: NEW ARRIVALS 클릭시 매거진뷰로 이동
             
                                 } label: {
-                                    Text("NEW ARRIVALS")
+                                    Text("NEW ARRIVALS".localized(language))
                                         .font(.largeTitle)
                                         .fontWeight(.semibold)
                                         .foregroundColor(.white)

@@ -39,6 +39,7 @@
 		61FE13212977D7A1003F0466 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13202977D7A1003F0466 /* CommentCell.swift */; };
 		61FE13232977D7A9003F0466 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13222977D7A8003F0466 /* RatingView.swift */; };
 		61FE13252977DC3F003F0466 /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13242977DC3F003F0466 /* SearchFilterView.swift */; };
+		653F875929967D70009AB5BE /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F875829967D70009AB5BE /* Language.swift */; };
 		656A00E929792E08002E37E6 /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A00E829792E08002E37E6 /* DeleteAccountView.swift */; };
 		656A00EB29792FFD002E37E6 /* SelectNationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A00EA29792FFD002E37E6 /* SelectNationView.swift */; };
 		657A08F92976596900E5B565 /* ToucheFinalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A08F82976596900E5B565 /* ToucheFinalApp.swift */; };
@@ -121,6 +122,7 @@
 		61FE13202977D7A1003F0466 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentCell.swift; path = ToucheFinal/Views/CommentCell.swift; sourceTree = SOURCE_ROOT; };
 		61FE13222977D7A8003F0466 /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RatingView.swift; path = ToucheFinal/Views/RatingView.swift; sourceTree = SOURCE_ROOT; };
 		61FE13242977DC3F003F0466 /* SearchFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilterView.swift; sourceTree = "<group>"; };
+		653F875829967D70009AB5BE /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		656A00E829792E08002E37E6 /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
 		656A00EA29792FFD002E37E6 /* SelectNationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNationView.swift; sourceTree = "<group>"; };
 		656A00EC29795B5B002E37E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 				656A00EC29795B5B002E37E6 /* Info.plist */,
 				61212E612978E32E00D0ED57 /* GoogleService-Info.plist */,
 				658E2E7429953F5C00F6BA7B /* Localizable.strings */,
+				653F875829967D70009AB5BE /* Language.swift */,
 				657A08F82976596900E5B565 /* ToucheFinalApp.swift */,
 				A8BC32782977BF3E004EF50C /* dummyData.swift */,
 				EB1E7B662992AD1E001CA2B4 /* TESTALERTVIEW.swift */,
@@ -468,7 +471,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 				ko,
 			);
 			mainGroup = 657A08EC2976596900E5B565;
@@ -533,6 +535,7 @@
 				61FE131A2977D588003F0466 /* PerfumeTabView.swift in Sources */,
 				AA204A7929879D8300C59C7F /* FilterView.swift in Sources */,
 				233260DC297782E900771B2A /* LogInSignUpView.swift in Sources */,
+				653F875929967D70009AB5BE /* Language.swift in Sources */,
 				A8BAF8DF297A6D1200D1DDCD /* MyCommentListView.swift in Sources */,
 				233260D82977759900771B2A /* SignUpView.swift in Sources */,
 				76E89AD429948D23006213FE /* MagazineStore.swift in Sources */,

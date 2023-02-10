@@ -28,16 +28,21 @@ enum ToucheNation {
 
 
 struct SelectNationView: View {
+    
+    
 
     @Environment(\.dismiss) var dismiss
 
-    @State var nations: [String] = ["Republic Of Korea","France","United States","Japan"].sorted()
+    @State var nations: [String] = ["Korean","English (US)"].sorted()
 
     @State private var selectingNation: String = ""
 
     @State private var selectedNations: [String] = []
 
     @AppStorage("selectedNation") private var selectedNation: String?
+    
+//    @AppStorage("language")
+//    private var language = LocalizationService.shared.language
 
     var body: some View {
 
@@ -66,8 +71,12 @@ struct SelectNationView: View {
                             self.selectedNation = nation
                             UserDefaults.standard.set([selectedNation], forKey: "ToucheNation")
                             UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: nil, errorHandler: nil)
-                            dismiss()
-                            sleep(1)
+                            // MARK: -선택 시 앱 내에서 로컬라이제이션 기능이 적용
+                            if selectedNation == "Korean" {
+                                LocalizationService.shared.language = .korean
+                            } else {
+                                LocalizationService.shared.language = .english
+                            }
                         } label: {
                             Text(nation)
                         }
