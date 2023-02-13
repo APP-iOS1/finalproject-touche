@@ -18,7 +18,7 @@ final class UserInfoStore: ObservableObject{
     @Published var recentlyPerfumesId: [String] = []
     @Published var notice = ""
     @Published var errorMessage = ""
-    @Published var isDuplicated: Bool?
+    @Published var isEmailDuplicated: Bool?
     @Published var writtenCommentsAndPerfumes: [(Perfume, Comment)] = []
     @Published var isShowingFailAlert = false
     @Published var isShowingSuccessAlert = false
@@ -209,11 +209,10 @@ final class UserInfoStore: ObservableObject{
                     print(error.localizedDescription)
                 } else if providers != nil {
                     print("이미 등록된 이메일 입니다.")
-                    self.isDuplicated = true
-                    print("조건문의 isDuplicated 값은 (self.isDuplicated)")
+                    self.isEmailDuplicated = true   // 중복된 (이미 존재하는) 이메일
                 } else {
                     print("계정 정보가 없습니다.")
-                    self.isDuplicated = false
+                    self.isEmailDuplicated = false  // 중복되지 않은 (사용 가능한) 이메일
                 }
             }
     }
