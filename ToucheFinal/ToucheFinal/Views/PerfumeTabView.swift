@@ -12,6 +12,7 @@ import AlertToast
 struct PerfumeTabView: View {
     @FirestoreQuery(collectionPath: "Perfume") var perfumesDB: [Perfume]
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var filterStore: FilterStore
     @State var NameOfAllPerfumes: [String] = UserDefaults.standard.array(forKey: "NameOfAllPerfumes") as? [String] ?? []
     @State var isShowingOnboardingView: Bool = UserDefaults.standard.object(forKey: "isShowingOnboardingView") as? Bool ?? true
     @State private var selectedIndex = 0
@@ -78,18 +79,28 @@ struct PerfumeTabView: View {
         .ignoresSafeArea(.keyboard, edges: .bottom)
         /// 없는 정보로 로그인 할때 알럿
         .toast(isPresenting: $userInfoStore.isShowingFailAlert) {
-            AlertToast(displayMode: .banner(.pop), type: .error(Color.red), title: "Incorrect Information!", subTitle: "Please check email or password", style: .style(titleColor: Color.red, subTitleColor: Color.black))
+            AlertToast(displayMode: .hud, type: .error(Color.red), title: "Incorrect Information!", subTitle: "Please check email or password", style: .style(titleColor: Color.red, subTitleColor: Color.black))
         }
         
         /// 로그인 성공시 알럿
-        .toast(isPresenting: $userInfoStore.isShowingSuccessAlert) {
-            AlertToast(displayMode: .banner(.pop), type: .complete(Color.green), title: "Welcome to Touché !", subTitle: "Sign in Success", style: .style(titleColor: Color.blue))
+        .toast(isPresenting: $userInfoStore.isShowingSuccessAlert, duration: 10) {
+            AlertToast(displayMode: .hud, type: .complete(Color.green), title: "Welcome to Touché !", subTitle: "Sign in Success", style: .style(titleColor: Color.blue))
         }
         
         /// 로그 아웃 성공시 알럿
         .toast(isPresenting: $userInfoStore.isShowingSignoutAlert) {
-            AlertToast(displayMode: .banner(.pop), type: .complete(Color.green), title: "sign out complete.", subTitle: "See you again!", style: .style(titleColor: Color.blue, subTitleColor: Color.black))
+            AlertToast(displayMode: .hud, type: .complete(Color.green), title: "sign out complete.", subTitle: "See you again!", style: .style(titleColor: Color.blue, subTitleColor: Color.black))
         }
+        
+        //MARK: 필터링 개수제한 팝업
+        .toast(isPresenting: $filterStore.isShowingOverCheckedBrandAlert) {
+            AlertToast(displayMode: .hud, type: .error(Color.red), title: "Notice", subTitle: "You can select up to 10 brands.")
+        }
+        
+        .toast(isPresenting: $filterStore.isShowingOverCheckedColorAlert) {
+            AlertToast(displayMode: .hud, type: .error(Color.red), title: "Notice", subTitle: "You can select up to 10 colors.")
+        }
+
     }
     
     /// Firebase 로부터 향수 이름을 받아온다

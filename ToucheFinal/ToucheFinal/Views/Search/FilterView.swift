@@ -129,9 +129,8 @@ final class FilterViewModel: ObservableObject {
 }
 
 struct FilterView: View {
+    @EnvironmentObject var filterStore: FilterStore
     @StateObject var vm = FilterViewModel()
-    @State private var brandPopupActive: Bool = false
-    @State private var colorPopupActive: Bool = false
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
@@ -166,38 +165,6 @@ struct FilterView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        
-        //MARK: 필터링 개수제한 팝업
-//        .popup(isPresented: $brandPopupActive) {
-//            Text("You can select up to 10 brands.")
-//                .bold()
-//                .frame(width: UIScreen.main.bounds.width - 80, height: 25)
-//                .background(Color.red.opacity(0.7))
-//                .cornerRadius(20.0)
-//        } customize: {
-//            $0.autohideIn(2)
-//                .type(.floater(verticalPadding: 30))
-//                .position(.top)
-//                .animation(.spring())
-//                .isOpaque(true)
-//                .closeOnTapOutside(true)
-//        }
-//        
-//        .popup(isPresented: $colorPopupActive) {
-//            Text("You can select up to 10 colors.")
-//                .bold()
-//                .frame(width: UIScreen.main.bounds.width - 80, height: 25)
-//                .background(Color.red.opacity(0.7))
-//                .cornerRadius(20.0)
-//        } customize: {
-//            $0.autohideIn(2)
-//                .type(.floater(verticalPadding: 30))
-//                .position(.top)
-//                .animation(.spring())
-//                .isOpaque(true)
-//                .closeOnTapOutside(true)
-//        }
-
     }
 }
 
@@ -341,20 +308,20 @@ private extension FilterView {
                                 Button {
                                     //MARK: 최대 10개까지만 저장시키는 방식
 
-                                    if vm.brands.count < 11 && vm.isSelectedBrand(brand) {
+                                    if vm.brands.count < 2 && vm.isSelectedBrand(brand) {
                                         vm.removeBrand(brand)
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
                                         
-                                    } else if vm.brands.count < 10 && !(vm.isSelectedBrand(brand)) {
+                                    } else if vm.brands.count < 2 && !(vm.isSelectedBrand(brand)) {
                                         vm.appendBrand(brand)
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
                                         
-                                    } else if vm.brands.count == 10 {
+                                    } else if vm.brands.count == 2 {
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
-                                        brandPopupActive = true
+                                        filterStore.isShowingOverCheckedBrandAlert.toggle()
 //                                        print("팝업 실행")
                                     }
                                 } label: {
@@ -376,20 +343,20 @@ private extension FilterView {
                         Section(vm.colorSections[index].letter) {
                             ForEach(vm.colorSections[index].colors) { color in
                                 Button {
-                                    if vm.colors.count < 11 && vm.isSelectedColor(color) {
+                                    if vm.colors.count < 2 && vm.isSelectedColor(color) {
                                         vm.removeColor(color)
                                         
                                         //print("현재 선택된 컬러 개수는: \(vm.colors.count)")
                                         
-                                    } else if vm.colors.count < 10 && !(vm.isSelectedColor(color)) {
+                                    } else if vm.colors.count < 2 && !(vm.isSelectedColor(color)) {
                                         vm.apppendColor(color)
                                         
                                         //print("현재 선택된 컬러 개수는: \(vm.colors.count)")
                                         
-                                    } else if vm.colors.count == 10 {
+                                    } else if vm.colors.count == 2 {
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
-                                        colorPopupActive = true
+                                        filterStore.isShowingOverCheckedColorAlert.toggle()
                                         //print("팝업 실행")
                                     }
                                 } label: {

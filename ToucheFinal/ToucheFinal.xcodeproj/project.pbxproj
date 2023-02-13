@@ -87,6 +87,7 @@
 		AA239BAB2991CF0400D834C5 /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA239BAA2991CF0400D834C5 /* SearchQuery.swift */; };
 		AAA5F6EC298BB00B00DA8B09 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA5F6EB298BB00A00DA8B09 /* View+.swift */; };
 		E8EA934129877DFD009FAFB4 /* PerfumeDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */; };
+		EB16C7DC299A235500BF3530 /* FilterStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB16C7DB299A235500BF3530 /* FilterStore.swift */; };
 		EB1E7B652992ACF0001CA2B4 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = EB1E7B642992ACF0001CA2B4 /* AlertToast */; };
 		EB1E7B672992AD1E001CA2B4 /* TESTALERTVIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E7B662992AD1E001CA2B4 /* TESTALERTVIEW.swift */; };
 		EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5AEDF6297A360000C4F5D8 /* TestView.swift */; };
@@ -167,6 +168,7 @@
 		AA239BAA2991CF0400D834C5 /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
 		AAA5F6EB298BB00A00DA8B09 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeDescriptionView.swift; sourceTree = "<group>"; };
+		EB16C7DB299A235500BF3530 /* FilterStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterStore.swift; sourceTree = "<group>"; };
 		EB1E7B662992AD1E001CA2B4 /* TESTALERTVIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESTALERTVIEW.swift; sourceTree = "<group>"; };
 		EB5AEDF6297A360000C4F5D8 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		EB7F90D62988B125005C7CFB /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				657A091D29765E9000E5B565 /* PerfumeStore.swift */,
+				EB16C7DB299A235500BF3530 /* FilterStore.swift */,
 				EB5AEDF6297A360000C4F5D8 /* TestView.swift */,
 				657A091F29765E9C00E5B565 /* CommentStore.swift */,
 				657A092129765EAC00E5B565 /* UserInfoStore.swift */,
@@ -561,6 +564,7 @@
 				EBB879AA29879FA300167ABA /* PaletteCell.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
 				EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */,
+				EB16C7DC299A235500BF3530 /* FilterStore.swift in Sources */,
 				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,
 				233260D42977757500771B2A /* LogInView.swift in Sources */,
 				657A092229765EAC00E5B565 /* UserInfoStore.swift in Sources */,
@@ -725,7 +729,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ToucheFinal/Preview Content\"";
-				DEVELOPMENT_TEAM = 54ZG4WU22U;
+				DEVELOPMENT_TEAM = 4JL8SRWP2X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;
@@ -757,7 +761,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ToucheFinal/Preview Content\"";
-				DEVELOPMENT_TEAM = 54ZG4WU22U;
+				DEVELOPMENT_TEAM = 4JL8SRWP2X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;

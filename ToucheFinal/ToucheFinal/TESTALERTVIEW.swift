@@ -13,47 +13,61 @@ struct TESTALERTVIEW: View {
     @State private var isShowingAlert2 = false
     @State private var isShowingAlert3 = false
     @State private var isShowingAlert4 = false
+    @State private var brandPopupActive = false
     
     var body: some View {
-        VStack {
-            Button {
-                isShowingAlert.toggle()
-            } label: {
-                Text("성공")
-                    .frame(width: 360, height: 46)
-                    .background(.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(7)
-            }
-            
-            Button {
-                isShowingAlert2.toggle()
-            } label: {
-                Text("실패")
-                    .frame(width: 360, height: 46)
-                    .background(.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(7)
-            }
-            
-            Button {
-                isShowingAlert3.toggle()
-            } label: {
-                Text("로딩")
-                    .frame(width: 360, height: 46)
-                    .background(.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(7)
-            }
-            
-            Button {
-                isShowingAlert4.toggle()
-            } label: {
-                Text("로그아웃")
-                    .frame(width: 360, height: 46)
-                    .background(.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(7)
+        ZStack {
+            Color.red
+            ScrollView {
+                Button {
+                    isShowingAlert.toggle()
+                } label: {
+                    Text("성공")
+                        .frame(width: 360, height: 46)
+                        .background(.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(7)
+                }
+                
+                Button {
+                    isShowingAlert2.toggle()
+                } label: {
+                    Text("실패")
+                        .frame(width: 360, height: 46)
+                        .background(.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(7)
+                }
+                
+                Button {
+                    isShowingAlert3.toggle()
+                } label: {
+                    Text("로딩")
+                        .frame(width: 360, height: 46)
+                        .background(.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(7)
+                }
+                
+                Button {
+                    isShowingAlert4.toggle()
+                } label: {
+                    Text("로그아웃")
+                        .frame(width: 360, height: 46)
+                        .background(.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(7)
+                }
+                
+                Button {
+                    brandPopupActive.toggle()
+                } label: {
+                    Text("모든알람테스트")
+                        .frame(width: 360, height: 46)
+                        .background(.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(7)
+                }
             }
         }
         .toast(isPresenting: $isShowingAlert){
@@ -70,6 +84,19 @@ struct TESTALERTVIEW: View {
         
         .toast(isPresenting: $isShowingAlert4){
             AlertToast(displayMode: .hud, type: .complete(Color.green), title: "sign out complete.", subTitle: "See you again!", style: .style(titleColor: Color.blue, subTitleColor: Color.black))
+        }
+        
+        //MARK: 필터링 개수제한 팝업
+        .toast(isPresenting: $brandPopupActive) {
+            AlertToast(displayMode: .alert, type: .systemImage("xmark", Color.black), title: "Notice", subTitle: "You can select up to 10 brands.")
+        }
+        
+        .toast(isPresenting: $brandPopupActive) {
+            AlertToast(displayMode: .hud, type: .systemImage("xmark", Color.black), title: "Notice", subTitle: "You can select up to 10 brands.")
+        }
+        
+        .toast(isPresenting: $brandPopupActive) {
+            AlertToast(displayMode: .banner(.pop), type: .systemImage("xmark", Color.black), title: "Notice", subTitle: "You can select up to 10 brands.")
         }
     }
 }
