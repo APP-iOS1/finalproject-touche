@@ -16,6 +16,8 @@ final class FilterViewModel: ObservableObject {
     @Published var tab: Tab = .brand
     @Published var brandSearch: String = ""
     @Published var colorSearch: String = ""
+    @Published var isShowingOverCheckedBrandAlert = false
+    @Published var isShowingOverCheckedColorAlert = false
     
     // grouping: [https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298](https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298)
     
@@ -129,8 +131,7 @@ final class FilterViewModel: ObservableObject {
 }
 
 struct FilterView: View {
-    @EnvironmentObject var filterStore: FilterStore
-    @StateObject var vm = FilterViewModel()
+    @EnvironmentObject var vm: FilterViewModel
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
@@ -308,20 +309,20 @@ private extension FilterView {
                                 Button {
                                     //MARK: 최대 10개까지만 저장시키는 방식
 
-                                    if vm.brands.count < 2 && vm.isSelectedBrand(brand) {
+                                    if vm.brands.count < 11 && vm.isSelectedBrand(brand) {
                                         vm.removeBrand(brand)
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
                                         
-                                    } else if vm.brands.count < 2 && !(vm.isSelectedBrand(brand)) {
+                                    } else if vm.brands.count < 10 && !(vm.isSelectedBrand(brand)) {
                                         vm.appendBrand(brand)
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
                                         
-                                    } else if vm.brands.count == 2 {
+                                    } else if vm.brands.count == 10 {
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
-                                        filterStore.isShowingOverCheckedBrandAlert.toggle()
+                                        vm.isShowingOverCheckedBrandAlert.toggle()
 //                                        print("팝업 실행")
                                     }
                                 } label: {
@@ -343,20 +344,20 @@ private extension FilterView {
                         Section(vm.colorSections[index].letter) {
                             ForEach(vm.colorSections[index].colors) { color in
                                 Button {
-                                    if vm.colors.count < 2 && vm.isSelectedColor(color) {
+                                    if vm.colors.count < 11 && vm.isSelectedColor(color) {
                                         vm.removeColor(color)
                                         
                                         //print("현재 선택된 컬러 개수는: \(vm.colors.count)")
                                         
-                                    } else if vm.colors.count < 2 && !(vm.isSelectedColor(color)) {
+                                    } else if vm.colors.count < 10 && !(vm.isSelectedColor(color)) {
                                         vm.apppendColor(color)
                                         
                                         //print("현재 선택된 컬러 개수는: \(vm.colors.count)")
                                         
-                                    } else if vm.colors.count == 2 {
+                                    } else if vm.colors.count == 10 {
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
-                                        filterStore.isShowingOverCheckedColorAlert.toggle()
+                                        vm.isShowingOverCheckedColorAlert.toggle()
                                         //print("팝업 실행")
                                     }
                                 } label: {

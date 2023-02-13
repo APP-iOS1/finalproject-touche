@@ -12,7 +12,7 @@ import AlertToast
 struct PerfumeTabView: View {
     @FirestoreQuery(collectionPath: "Perfume") var perfumesDB: [Perfume]
     @EnvironmentObject var userInfoStore: UserInfoStore
-    @EnvironmentObject var filterStore: FilterStore
+    @EnvironmentObject var filterViewModel: FilterViewModel
     @State var NameOfAllPerfumes: [String] = UserDefaults.standard.array(forKey: "NameOfAllPerfumes") as? [String] ?? []
     @State var isShowingOnboardingView: Bool = UserDefaults.standard.object(forKey: "isShowingOnboardingView") as? Bool ?? true
     @State private var selectedIndex = 0
@@ -93,11 +93,11 @@ struct PerfumeTabView: View {
         }
         
         //MARK: 필터링 개수제한 팝업
-        .toast(isPresenting: $filterStore.isShowingOverCheckedBrandAlert) {
+        .toast(isPresenting: $filterViewModel.isShowingOverCheckedBrandAlert) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: "Notice", subTitle: "You can select up to 10 brands.")
         }
         
-        .toast(isPresenting: $filterStore.isShowingOverCheckedColorAlert) {
+        .toast(isPresenting: $filterViewModel.isShowingOverCheckedColorAlert) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: "Notice", subTitle: "You can select up to 10 colors.")
         }
 

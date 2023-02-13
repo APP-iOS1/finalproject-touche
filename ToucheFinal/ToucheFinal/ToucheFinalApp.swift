@@ -21,7 +21,7 @@ struct ToucheFinalApp: App {
         let perfumeStore = PerfumeStore()
         let colorPalette = ColorPalette()
         let commentStore = CommentStore()
-        let filterStore = FilterStore()
+        let filterStore = FilterViewModel()
         WindowGroup {
             PerfumeTabView()
                 .environmentObject(colorPalette)
