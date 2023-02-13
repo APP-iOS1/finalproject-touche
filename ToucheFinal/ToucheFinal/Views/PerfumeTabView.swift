@@ -26,7 +26,7 @@ struct PerfumeTabView: View {
                     ZStack() {
                         switch selectedIndex {
                         case 0:
-                            HomeView()
+                            HomeView(selectedIndex: $selectedIndex)
                         case 1:
                             PaletteView()
                         case 2:

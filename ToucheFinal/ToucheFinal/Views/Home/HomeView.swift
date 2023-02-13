@@ -16,7 +16,7 @@ struct HomeView: View {
     
     @State private var isShowingPromotion: Bool = true
     @State private var perfumes: [Perfume] = []
-        
+    @Binding var selectedIndex: Int
     @EnvironmentObject var perfumeStore: PerfumeStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     
@@ -34,9 +34,9 @@ struct HomeView: View {
                         .frame(height: 200)
                         .overlay(alignment: .top) {
                             HStack{
-                                NavigationLink {
+                                Button {
                                     // TODO: NEW ARRIVALS 클릭시 매거진뷰로 이동
-            
+                                    selectedIndex = 2
                                 } label: {
                                     Text("NEW ARRIVALS")
                                     //Text("NEW ARRIVALS".localized(language))
