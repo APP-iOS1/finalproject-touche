@@ -83,7 +83,7 @@ struct PerfumeTabView: View {
         }
         
         /// 로그인 성공시 알럿
-        .toast(isPresenting: $userInfoStore.isShowingSuccessAlert, duration: 10) {
+        .toast(isPresenting: $userInfoStore.isShowingSuccessAlert) {
             AlertToast(displayMode: .hud, type: .complete(Color.green), title: "Welcome to Touché !", subTitle: "Sign in Success", style: .style(titleColor: Color.blue))
         }
         
