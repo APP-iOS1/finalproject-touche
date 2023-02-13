@@ -8,6 +8,8 @@
 import SwiftUI
 import FirebaseAuth
 import SDWebImageSwiftUI
+import AVFoundation
+import Photos
 
 struct EditMyProfileView: View {
     @State private var isShowingDialog: Bool = false
@@ -67,10 +69,12 @@ struct EditMyProfileView: View {
                 .confirmationDialog(dialogTitle, isPresented: $isShowingDialog){
                     Button("Change from Gallery"){
                         showGallerySheet = true
+                        checkAlbumPermission()
                     }
                     
                     Button("Take Photo"){
                         showCameraSheet = true
+                        checkCameraPermission()
                     }
                     
                     Button("Cancel",role: .cancel){
@@ -218,9 +222,35 @@ struct EditMyProfileView: View {
             editName = userNickname
             editNation = userNation
         }
-       
     }
 }
+
+// MARK: - 카메라 접근 권한 묻는 함수
+func checkCameraPermission(){
+    AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+        if granted {
+            print("Camera: 권한 허용")
+        } else {
+            print("Camera: 권한 거부")
+        }
+    })
+}
+
+// MARK: - 앨범 접근 권한 묻는 함수
+func checkAlbumPermission(){
+        PHPhotoLibrary.requestAuthorization( { status in
+            switch status{
+            case .authorized:
+                print("Album: 권한 허용")
+            case .denied:
+                print("Album: 권한 거부")
+            case .restricted, .notDetermined:
+                print("Album: 선택하지 않음")
+            default:
+                break
+            }
+        })
+    }
 
 extension String {
     func toImage() -> UIImage {

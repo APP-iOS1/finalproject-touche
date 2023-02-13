@@ -19,6 +19,8 @@ struct SettingView: View {
     @AppStorage("language")
     private var language = LocalizationService.shared.language
     
+    let bundleID = Bundle.main.bundleIdentifier
+    
     var body: some View {
         
         NavigationView {
@@ -31,9 +33,11 @@ struct SettingView: View {
                         
                         Button{
                             Task{
-                                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                                if let url = URL(string: "app-settings:\(bundleID!)") {
                                     
                                     await UIApplication.shared.open(url)
+//                                  
+                                    
                                 }
                             }
                         } label :{
