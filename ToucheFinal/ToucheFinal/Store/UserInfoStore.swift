@@ -134,7 +134,6 @@ final class UserInfoStore: ObservableObject{
         do {
             // MARK: 회원가입 성공하면, uid 받아오기.
             let result = try await Auth.auth().createUser(withEmail: emailAddress, password: password)
-            isShowingSuccessAlert.toggle()
             // MARK: 곧바로 로그인.
             await logIn(emailAddress: emailAddress, password: password)
             

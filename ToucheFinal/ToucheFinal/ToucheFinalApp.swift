@@ -21,13 +21,14 @@ struct ToucheFinalApp: App {
         let perfumeStore = PerfumeStore()
         let colorPalette = ColorPalette()
         let commentStore = CommentStore()
+        let filterStore = FilterViewModel()
         WindowGroup {
             PerfumeTabView()
                 .environmentObject(colorPalette)
                 .environmentObject(userInfoStore)
                 .environmentObject(perfumeStore)
                 .environmentObject(commentStore)
-           
+                .environmentObject(filterStore)
         }
     }
 }
