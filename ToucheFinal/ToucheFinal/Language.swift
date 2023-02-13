@@ -3,7 +3,7 @@
 //  ToucheFinal
 //
 //  Created by Yooj on 2023/02/10.
-//
+// Localization을 기기 내 설정이 아닌 앱 내 설정에서 빠르게 변경 가능한 기능, 유민영 강사님께 문의 후 삭제하거나 유지 예정
 
 import Foundation
 

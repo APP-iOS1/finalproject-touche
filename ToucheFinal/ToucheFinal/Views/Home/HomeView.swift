@@ -38,7 +38,8 @@ struct HomeView: View {
                                     // TODO: NEW ARRIVALS 클릭시 매거진뷰로 이동
             
                                 } label: {
-                                    Text("NEW ARRIVALS".localized(language))
+                                    Text("NEW ARRIVALS")
+                                    //Text("NEW ARRIVALS".localized(language))
                                         .font(.largeTitle)
                                         .fontWeight(.semibold)
                                         .foregroundColor(.white)
