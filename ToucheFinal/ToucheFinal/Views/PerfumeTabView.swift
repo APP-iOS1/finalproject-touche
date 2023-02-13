@@ -69,9 +69,7 @@ struct PerfumeTabView: View {
                 }
                 .onAppear {
                     print(selectedColors)
-                    repeat {
-                        fetchPerfumeNamesToUserDefaults()
-                    } while NameOfAllPerfumes.count == 0
+                    fetchPerfumeNamesToUserDefaults()
                 }
             }
         }
