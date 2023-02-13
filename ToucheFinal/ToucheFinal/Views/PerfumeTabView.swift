@@ -92,6 +92,11 @@ struct PerfumeTabView: View {
             AlertToast(displayMode: .hud, type: .complete(Color.green), title: "sign out complete.", subTitle: "See you again!", style: .style(titleColor: Color.blue, subTitleColor: Color.black))
         }
         
+        /// ScentTypeDescriptionView 고른 색상 한개 이하일때 알럿
+        .toast(isPresenting: $userInfoStore.isShowingScentTypeDesciptionAlert) {
+            AlertToast(displayMode: .hud, type: .error(Color.red), title: "Notice", subTitle: "At least __One Color__ must be selected")
+        }
+        
         //MARK: 필터링 개수제한 팝업
         .toast(isPresenting: $filterViewModel.isShowingOverCheckedBrandAlert) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: "Notice", subTitle: "You can select up to 10 brands.")

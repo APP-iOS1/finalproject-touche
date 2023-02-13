@@ -23,6 +23,7 @@ final class UserInfoStore: ObservableObject{
     @Published var isShowingFailAlert = false
     @Published var isShowingSuccessAlert = false
     @Published var isShowingSignoutAlert = false
+    @Published var isShowingScentTypeDesciptionAlert = false
     
     private let database = Firestore.firestore().collection("User")
     
