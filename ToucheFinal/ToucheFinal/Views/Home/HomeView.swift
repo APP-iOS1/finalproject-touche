@@ -16,7 +16,7 @@ struct HomeView: View {
     
     @State private var isShowingPromotion: Bool = true
     @State private var perfumes: [Perfume] = []
-        
+    @Binding var selectedIndex: Int
     @EnvironmentObject var perfumeStore: PerfumeStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     
@@ -34,9 +34,9 @@ struct HomeView: View {
                         .frame(height: 200)
                         .overlay(alignment: .top) {
                             HStack{
-                                NavigationLink {
+                                Button {
                                     // TODO: NEW ARRIVALS 클릭시 매거진뷰로 이동
-            
+                                    selectedIndex = 2
                                 } label: {
                                     Text("NEW ARRIVALS")
                                     //Text("NEW ARRIVALS".localized(language))
@@ -49,30 +49,32 @@ struct HomeView: View {
                         }
                         .padding()
                         .background(.black)
-                    
-                    if isShowingPromotion{
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("CHECK OUT THE PROMOTIONS.")
-                                    .foregroundColor(.black)
-                                
-                                Text("MORE")
-                                    .underline()
-                                    .foregroundColor(.black)
-                            }
-                            Spacer()
-                            Button {
-                                isShowingPromotion = false
-                            } label: {
-                                Text("CLOSE")
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        .padding()
-                        .background(Color(.gray).opacity(0.4))
-                        .padding(.top, -10)
+                    //TODO: 프로모션 들어오면 사용할 기능
+                    Group {
+                        //                    if isShowingPromotion{
+                        //                        HStack {
+                        //                            VStack(alignment: .leading) {
+                        //                                Text("CHECK OUT THE PROMOTIONS.")
+                        //                                    .foregroundColor(.black)
+                        //
+                        //                                Text("MORE")
+                        //                                    .underline()
+                        //                                    .foregroundColor(.black)
+                        //                            }
+                        //                            Spacer()
+                        //                            Button {
+                        //                                isShowingPromotion = false
+                        //                            } label: {
+                        //                                Text("CLOSE")
+                        //                                    .foregroundColor(.gray)
+                        //                            }
+                        //                        }
+                        //                        .padding()
+                        //                        .background(Color(.gray).opacity(0.4))
+                        //                        .padding(.top, -10)
+                        //                    }
                     }
-            
+                    
                     // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
@@ -94,7 +96,7 @@ struct HomeView: View {
                                         PerfumeDetailView(perfume: perfume)
                                     } label: {
                                         PerfumeCell(perfume: perfume)
-//                                        PerfumeCellModified(perfume: perfume, show: $show, animation: animation)
+                                        //                                        PerfumeCellModified(perfume: perfume, show: $show, animation: animation)
                                     }
                                 }
                             }
@@ -102,14 +104,40 @@ struct HomeView: View {
                             .padding(.top, -11)
                         }
                         .frame(height: 240)
-
+                    }
+                        
+                        // MARK: 코멘트 많이 달린 향수
+                    VStack(alignment: .leading, spacing: 0.0) {
+                        HStack(alignment: .bottom) {
+                            Text("TOP COMMNENTS 10")
+                                .modifier(TextViewModeifier(isTitleSection: true))
+                            Spacer()
+                        }
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack(spacing: 24.0) {
+                                ForEach(perfumeStore.mostCommentsPerfumes.prefix(10), id: \.self.perfumeId) { perfume in
+                                    NavigationLink {
+                                        PerfumeDetailView(perfume: perfume)
+                                    } label: {
+                                        PerfumeCell(perfume: perfume)
+                                    }
+                                }
+                            }
+                            .padding()
+                            .padding(.top, -11)
+                        }
+                        .frame(height: 240)
+                    }
+                        
                         // MARK: 최근 클릭한 향수
+                    if !perfumeStore.recentlyViewedPerfumes.isEmpty {
                         VStack(alignment: .leading, spacing: 0.0) {
                             HStack(alignment: .bottom) {
                                 Text("RECENTLY VIEWED")
                                     .modifier(TextViewModeifier(isTitleSection: true))
                                 Spacer()
                             }
+                            
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack(spacing: 24.0) {
                                     ForEach(perfumeStore.recentlyViewedPerfumes, id: \.self.perfumeId) { perfume in
@@ -123,61 +151,29 @@ struct HomeView: View {
                                 .padding()
                                 .padding(.top, -11)
                             }
-                            .frame(height: 240)
-                            
                         }
-                    
-                        // MARK: 코멘트 많이 달린 향수
-                        VStack(alignment: .leading, spacing: 0.0) {
-                            HStack(alignment: .bottom) {
-                                Text("TOP COMMNENTS 10")
-                                    .modifier(TextViewModeifier(isTitleSection: true))
-                                Spacer()
-                            }
-                            ScrollView(.horizontal, showsIndicators: false){
-                                HStack(spacing: 24.0) {
-                                    ForEach(perfumeStore.mostCommentsPerfumes.prefix(10), id: \.self.perfumeId) { perfume in
-                                        NavigationLink {
-                                            PerfumeDetailView(perfume: perfume)
-                                        } label: {
-                                            PerfumeCell(perfume: perfume)
-                                        }
-                                    }
-                                }
-                                .padding()
-                                .padding(.top, -11)
-                            }
-                            .frame(height: 240)
-                            
-                        }
-                        
+                        .frame(height: 240)
                     }
+                        
                 }
                 .onAppear{
-                    if userInfoStore.user != nil {    //  로그인 상태일 때
-                        Task {
-                            await userInfoStore.fetchUser(user: userInfoStore.user)
+                    Task {
+                        await userInfoStore.fetchUser(user: userInfoStore.user)
+                        if userInfoStore.userInfo != nil {    //  로그인 상태일 때
                             guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
-                        }
-                    } else {    //  로그인 했을 경우
-                        Task {
+                        } else {    //  로그인 했을 경우
                             let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
                         }
-                    }
-                    
-                    Task {
                         let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
                         await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
-                        
                         await perfumeStore.readMostCommentsPerfumes()
                     }
-                    
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                     Image(systemName: "magnifyingglass").foregroundColor(.black)

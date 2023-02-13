@@ -14,32 +14,7 @@ struct PerfumeDescriptionView: View {
     var perfumeColors: [PerfumeColor] = PerfumeColor.types
     
     var body: some View {
-//            HStack {
-//                Text("Select: ")
-//                    .font(.title)
-//                    .fontWeight(.bold)
-//                //.padding(.leading, 20)
-//                ScrollView(.horizontal, showsIndicators: false) {
-//                    HStack {
-//                        ForEach(selectedColors, id: \.self) { color in
-//                            Circle()
-//                                .fill(Color(scentType: color))
-//                                .frame(width: 30, height: 30)
-//                                .onTapGesture {
-//                                    if selectedColors.count > 1 {
-//                                        selectedColors.remove(at: selectedColors.firstIndex(of: color) ?? 0)
-//                                        UserDefaults.standard.set(selectedColors, forKey: "selectedScentTypes")
-//                                    }
-//                                }
-//                        }
-//                    }
-//                }
-//                .padding(.leading, -5)
-//
-//            }
-//            .frame(height: 30)
-//            .padding(.leading, 20)
-            PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), selectedColours: $selectedColors, isEditMode: $isEditMode, perfumeColour: perfumeColors)
+            PerfumeDescriptionDetailView(flags: Array(repeating: false, count: perfumeColors.count), selectedColors: $selectedColors, isEditMode: $isEditMode, perfumeColour: perfumeColors)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -51,10 +26,12 @@ struct PerfumeDescriptionView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    isEditMode.toggle()
+                    withAnimation {
+                        isEditMode.toggle()
+                    }
                 } label: {
                     if isEditMode {
-                        Text("Save")
+                        Text("Done")
                     } else {
                         Text("Edit")
                     }
@@ -78,56 +55,78 @@ struct PerfumeDescriptionView_Previews: PreviewProvider {
 struct PerfumeDescriptionDetailView: View {
     
     @State var flags: [Bool]
-    @Binding var selectedColours: [String]
+    @State private var selectedIndex: Int = 16
+    @Binding var selectedColors: [String]
     @Binding var isEditMode: Bool
     var perfumeColour: [PerfumeColor]
     
     var body: some View {
-        List {
-            ForEach(Array(perfumeColour.enumerated()), id: \.1.id) { idx, value in
-                DisclosureGroup(isExpanded: $flags[idx]) {
-                    ForEach(value.description ?? [], id: \.self) { desc in
-                        Text(desc)
-                    }
-                } label: {
-                    HStack {
-                        if selectedColours.contains(value.name) {
-                            Circle()
-                                .fill(value.color)
-                                .frame(width: 30, height: 30)
-                                .overlay(
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.white)
-                                )
-                        } else {
-                            Circle()
-                                .fill(value.color)
-                                .frame(width: 30, height: 30)
+        ScrollViewReader { proxy in
+            List {
+                ForEach(Array(perfumeColour.enumerated()), id: \.1.id) { idx, value in
+                    DisclosureGroup(isExpanded: $flags[idx]) {
+                        ForEach(value.description ?? [], id: \.self) { desc in
+                            Text(desc)
                         }
-                        
-                        Text(value.name)
-                    }
-                }
-                .tint(.black)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    withAnimation {
-                        if isEditMode {
-                            if let index = selectedColours.firstIndex(of: value.name) {
-                                if (selectedColours.count > 1) {
-                                    selectedColours.remove(at: index)
-                                }
-                            } else {
-                                selectedColours.append(value.name)
+                    } label: {
+                        HStack {
+                            if isEditMode {
+                                Image(systemName: selectedColors.contains(value.name) ? "checkmark.circle" : "circle")
+                                    .foregroundColor(selectedColors.contains(value.name) ? .green : .gray)
                             }
-                            UserDefaults.standard.set(selectedColours, forKey: "selectedScentTypes")
-                        } else {
-                            self.flags[idx].toggle()
+                            HStack {
+                                Circle()
+                                    .fill(value.color)
+                                    .frame(width: 30, height: 30)
+                                Text(value.name)
+                                if selectedColors.contains(value.name) && !isEditMode{
+                                    Image(systemName: "checkmark.circle")
+                                        .foregroundColor(.green)
+                                }
+                            }
+                            .id(value.id)
+                            .padding(.vertical, 5)
+                        }
+                    }
+                    .tint(.black)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation {
+                            if isEditMode {
+                                if let index = selectedColors.firstIndex(of: value.name) {
+                                    if (selectedColors.count > 1) {
+                                        selectedColors.remove(at: index)
+                                    }
+                                } else {
+                                    selectedColors.append(value.name)
+                                }
+                                UserDefaults.standard.set(selectedColors, forKey: "selectedScentTypes")
+                            } else {
+                                if selectedIndex != 16 {
+                                    flags[selectedIndex] = false
+                                }
+                                if selectedIndex == idx {
+                                    selectedIndex = 16
+                                } else {
+                                    selectedIndex = idx
+                                    flags[selectedIndex] = true
+                                }
+                            }
+                        }
+                    }
+                    .onChange(of: flags[idx]) { newValue in
+                        withAnimation {
+                            if idx != 15 {
+                                proxy.scrollTo(value.id, anchor: .top)
+                            } else {
+                                proxy.scrollTo(value.id, anchor: .center)
+                            }
                         }
                     }
                 }
             }
+            .listStyle(.plain)
+            Spacer()
         }
-        .listStyle(.plain)
     }
 }
