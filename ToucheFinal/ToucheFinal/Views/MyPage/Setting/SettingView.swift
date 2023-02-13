@@ -16,6 +16,9 @@ struct SettingView: View {
     
     @State private var showingAlert: Bool = false
     
+    @AppStorage("language")
+    private var language = LocalizationService.shared.language
+    
     var body: some View {
         
         NavigationView {
@@ -44,13 +47,8 @@ struct SettingView: View {
                         
                         
 //                        Button{
-//                            // MARK: [미구현] 디바이스 로케이션 설정으로 즉각 이동 필요
-//                            Task{
-//                                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-//
-//                                    await UIApplication.shared.open(url)
-//                                }
-//                            }
+//                            LocalizationService.shared.language = .english
+//                            print("되는건가?")
 //                        } label :{
 //                            HStack{
 //                                Text("Location Service")
@@ -106,7 +104,7 @@ struct SettingView: View {
                             Text("Contact Us")
                             Text("Privacy Policy")
                             Text("Terms & Conditions")
-                            Text("Help and Inforamtion")
+                            
                         }
                     }
                     .listStyle(.plain)

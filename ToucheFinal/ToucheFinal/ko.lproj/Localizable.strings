@@ -1,0 +1,85 @@
+/* 
+  Localizable.strings
+  ToucheFinal
+
+  Created by Yooj on 2023/02/09.
+  
+*/
+"NEW ARRIVALS" = "새로 업데이트 된 향수";
+"CHECK OUT THE PROMOTIONS." = "지금 프로모션을 확인하세요";
+"MORE" = "더보기";
+"CLOSE" = "닫기";
+"RECOMMENDATION PERFUME FOR YOU" = "당신을 위한 향수 추천";
+"RECENTLY VIEWED" = "최근 본 향수";
+"ScentType Description" = "향수타입 설명";
+"Save" = "저장";
+"Filter" = "필터";
+"Search" = "검색";
+"Brand" = "브랜드";
+"Color" = "컬러";
+"Search" = "검색";
+"Search products, brands" = "상품과 브랜드로 검색하세요";
+"No recent search history." = "최근 검색어가 없습니다.";
+"Cancel" = "취소하기";
+"brand" = "브랜드";
+"Perfume Palette" = "퍼퓸 팔레트";
+"Wish List" = "내가 좋아한 향수";
+"Edit Profile" = "프로필 수정";
+"Reviewed" = "내 리뷰";
+"Liked" = "좋아요";
+"Done" = "완료";
+"Edit Photo" = "이미지 수정";
+"Nickname" = "닉네임";
+"Email" = "이메일";
+"Region" = "지역";
+"View Comments" = "개의 코멘트";
+"FragranceFamily" = "향수 분위기";
+"ScentType" = "향수 타입";
+"KeyNote" = "중심 노트";
+"Descriptions" = "향수 설명";
+"Comments" = "댓글";
+"Add Comment..." = "댓글 남기기";
+"Send" = "완료";
+"Post Comment" = "댓글 등록하기";
+"TOP COMMNENTS 10" = "댓글 순위 탑 10";
+"SETTINGS" = "설정";
+"Notification" = "앱 설정";
+"Country / Region" = "지역 설정";
+"Delete Account" = "회원 탈퇴";
+"SUPPORT" = "고객 지원";
+"Contact Us" = "문의하기";
+"Privacy Policy" = "개인정보 보호정책";
+"Terms & Conditions" = "이용약관";
+"Sign Out" = "로그아웃";
+"To use more features" = "더 많은 기능을 이용하고 싶다면";
+"Sign In" = "로그인";
+"Sign Up" = "회원가입";
+"You can write reviews of perfumes you have used." = "로그인하시면 가진 향수에 대한 리뷰를 남길 수 있습니다.";
+"Password" = "비밀번호";
+"Enter Email" = "이메일을 입력하세요.";
+"Enter Password" = "비밀번호를 입력하세요.";
+"Incorrect Information!" = "잘못된 정보입니다!";
+"Please check email or password" = "이메일과 비밀번호 형식을 살펴보세요.";
+"Please enter a valid email." = "올바른 형식의 이메일을 입력하세요.";
+"Check" = "중복 체크";
+"Confirm Password" = "비밀번호 중복확인";
+"Name" = "닉네임";
+"Enter Name" = "닉네임을 입력하세요.";
+"Password must be at least 8 characters." = "비밀번호는 최소 8자리 이상 입력해주세요.";
+"Password does not match." = "비밀번호가 일치하지 않습니다.";
+"Search Your Nation" = "나라를 검색하세요.";
+"France" = "프랑스";
+"Japan" = "일본";
+"Republic Of Korea" = "대한민국";
+"United States" = "미국";
+"Brand" = "브랜드";
+"01 Brand" = "01 브랜드";
+"02 Color" = "02 컬러";
+"Clear" = "초기화";
+"Apply" = "적용하기";
+"Result" = "결과";
+"Edit" = "변경";
+
+
+
+
