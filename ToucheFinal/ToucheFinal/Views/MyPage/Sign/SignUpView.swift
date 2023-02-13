@@ -174,25 +174,31 @@ struct SignUpView: View {
             .padding()
             .textFieldStyle(.roundedBorder)
             
-            
-            Button {
-                Task {
-                    await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
-                    userInfoStore.isDuplicated = nil
-                    
-                    // 향수 디테일 뷰에서 회원 가입 할때 모달창 디스미스 위한 조건문
-                    if userInfoStore.loginState == .success {
-                        dismiss()
+//            NavigationLink {
+//                ConfirmEmailView()
+//            } label: {
+                Button {
+                    Task {
+                        print("회원가입 버튼")
+                        await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
+                        userInfoStore.isDuplicated = nil
+                        
+                        // 향수 디테일 뷰에서 회원 가입 할때 모달창 디스미스 위한 조건문
+//                        if userInfoStore.loginState == .success {
+//                            dismiss()
+//                        }
                     }
+                } label: {
+                    Text("Sign Up")
+                        .frame(width: 360, height: 46)
+                        .background(isSignUpDisabled ? .gray : .black)
+                        .foregroundColor(.white)
+                        .cornerRadius(7)
                 }
-            } label: {
-                Text("Sign Up")
-                    .frame(width: 360, height: 46)
-                    .background(isSignUpDisabled ? .gray : .black)
-                    .foregroundColor(.white)
-                    .cornerRadius(7)
-            }
-            .disabled(isSignUpDisabled)
+                .disabled(isSignUpDisabled)
+//            }
+
+            
             
 //            Spacer()
         }

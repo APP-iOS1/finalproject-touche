@@ -154,6 +154,7 @@ struct HomeView: View {
                     }
                 }
                 .onAppear{
+                    print(userInfoStore.user?.isEmailVerified)
                     if userInfoStore.user != nil {    //  로그인 상태일 때
                         Task {
                             await userInfoStore.fetchUser(user: userInfoStore.user)

@@ -115,7 +115,16 @@ final class UserInfoStore: ObservableObject{
             self.notice = "login"
         } catch {}
     }
-    
+    func sendVerificationEmail() {
+        print(user?.isEmailVerified)
+        user?.sendEmailVerification(completion: {(error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+            }
+        })
+        print("메일 전송")
+    }
     
     /// 회원가입 기능
     /// - Parameters:
