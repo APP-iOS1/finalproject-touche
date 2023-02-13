@@ -49,30 +49,32 @@ struct HomeView: View {
                         }
                         .padding()
                         .background(.black)
-                    
-                    if isShowingPromotion{
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("CHECK OUT THE PROMOTIONS.")
-                                    .foregroundColor(.black)
-                                
-                                Text("MORE")
-                                    .underline()
-                                    .foregroundColor(.black)
-                            }
-                            Spacer()
-                            Button {
-                                isShowingPromotion = false
-                            } label: {
-                                Text("CLOSE")
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        .padding()
-                        .background(Color(.gray).opacity(0.4))
-                        .padding(.top, -10)
+                    //TODO: 프로모션 들어오면 사용할 기능
+                    Group {
+                        //                    if isShowingPromotion{
+                        //                        HStack {
+                        //                            VStack(alignment: .leading) {
+                        //                                Text("CHECK OUT THE PROMOTIONS.")
+                        //                                    .foregroundColor(.black)
+                        //
+                        //                                Text("MORE")
+                        //                                    .underline()
+                        //                                    .foregroundColor(.black)
+                        //                            }
+                        //                            Spacer()
+                        //                            Button {
+                        //                                isShowingPromotion = false
+                        //                            } label: {
+                        //                                Text("CLOSE")
+                        //                                    .foregroundColor(.gray)
+                        //                            }
+                        //                        }
+                        //                        .padding()
+                        //                        .background(Color(.gray).opacity(0.4))
+                        //                        .padding(.top, -10)
+                        //                    }
                     }
-            
+                    
                     // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
@@ -154,30 +156,23 @@ struct HomeView: View {
                     }
                 }
                 .onAppear{
-                    if userInfoStore.user != nil {    //  로그인 상태일 때
-                        Task {
-                            await userInfoStore.fetchUser(user: userInfoStore.user)
+                    Task {
+                        await userInfoStore.fetchUser(user: userInfoStore.user)
+                        if userInfoStore.userInfo != nil {    //  로그인 상태일 때
                             guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
-                        }
-                    } else {    //  로그인 했을 경우
-                        Task {
+                        } else {    //  로그인 했을 경우
                             let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
                         }
-                    }
-                    
-                    Task {
                         let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
                         await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
-                        
                         await perfumeStore.readMostCommentsPerfumes()
                     }
-                    
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                     Image(systemName: "magnifyingglass").foregroundColor(.black)

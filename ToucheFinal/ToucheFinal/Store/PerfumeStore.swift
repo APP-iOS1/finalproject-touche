@@ -45,7 +45,7 @@ class PerfumeStore: ObservableObject {
                 let perfume =  try document.data(as: Perfume.self)
                 tempPerfumes.append(perfume)
             }
-            recomendedPerfumes = Array(Set(tempPerfumes))
+            recomendedPerfumes = tempPerfumes.sorted{$0.likedPeople.count > $1.likedPeople.count}
         } catch {}
     }
     
@@ -63,7 +63,6 @@ class PerfumeStore: ObservableObject {
                 }
             }
             recentlyViewedPerfumes = Array(tempPerfumes.prefix(min(tempPerfumes.count / 2, 7)))
-            
         } catch {}
     }
     
