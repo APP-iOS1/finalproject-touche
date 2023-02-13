@@ -19,6 +19,12 @@ struct SettingView: View {
     @AppStorage("language")
     private var language = LocalizationService.shared.language
     
+    let bundleID = Bundle.main.bundleIdentifier
+    
+    @State var showContactUsView: Bool = false
+    @State var showPrivacyPolicyView: Bool = false
+    @State var showTermsandConditionsView: Bool = false
+    
     var body: some View {
         
         NavigationView {
@@ -31,9 +37,11 @@ struct SettingView: View {
                         
                         Button{
                             Task{
-                                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                                if let url = URL(string: "app-settings:\(bundleID!)") {
                                     
                                     await UIApplication.shared.open(url)
+//                                  
+                                    
                                 }
                             }
                         } label :{
@@ -46,16 +54,7 @@ struct SettingView: View {
                         
                         
                         
-//                        Button{
-//                            LocalizationService.shared.language = .english
-//                            print("되는건가?")
-//                        } label :{
-//                            HStack{
-//                                Text("Location Service")
-//                                Spacer()
-//                                Image(systemName: "arrow.up.right")
-//                            }
-//                        }
+
                         
                         Button {
                             showSelectNationView.toggle()
@@ -71,16 +70,7 @@ struct SettingView: View {
                         }
                         
                         
-                        //                Button{
-                        //                    userInfoStore.logOut()
-                        //                    //dismiss()
-                        //                } label :{
-                        //                    HStack{
-                        //                        Text("Log Out")
-                        //                        Spacer()
-                        //                        Image(systemName: "arrow.up.right")
-                        //                    }
-                        //                }
+  
                         
                         
                         if !(userInfoStore.userInfo == nil){
@@ -101,10 +91,25 @@ struct SettingView: View {
                                 .font(.system(size: 20))
                                 .fontWeight(.bold)
                                 .padding(.top,50)
-                            Text("Contact Us")
-                            Text("Privacy Policy")
-                            Text("Terms & Conditions")
-                            
+                            Button("Contact Us"){
+                                showContactUsView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showContactUsView){
+                                ContactUsView()
+                            }
+                            Button("Privacy Policy"){
+                                showPrivacyPolicyView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showPrivacyPolicyView){
+                                PrivacyPolicyView()
+                            }
+                            Button("Terms & Conditions"){
+                                showTermsandConditionsView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showTermsandConditionsView){
+                                TermsConditionsView()
+                            }
+            
                         }
                     }
                     .listStyle(.plain)
