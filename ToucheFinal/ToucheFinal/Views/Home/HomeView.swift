@@ -96,7 +96,7 @@ struct HomeView: View {
                                         PerfumeDetailView(perfume: perfume)
                                     } label: {
                                         PerfumeCell(perfume: perfume)
-//                                        PerfumeCellModified(perfume: perfume, show: $show, animation: animation)
+                                        //                                        PerfumeCellModified(perfume: perfume, show: $show, animation: animation)
                                     }
                                 }
                             }
@@ -104,14 +104,40 @@ struct HomeView: View {
                             .padding(.top, -11)
                         }
                         .frame(height: 240)
-
+                    }
+                        
+                        // MARK: 코멘트 많이 달린 향수
+                    VStack(alignment: .leading, spacing: 0.0) {
+                        HStack(alignment: .bottom) {
+                            Text("TOP COMMNENTS 10")
+                                .modifier(TextViewModeifier(isTitleSection: true))
+                            Spacer()
+                        }
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack(spacing: 24.0) {
+                                ForEach(perfumeStore.mostCommentsPerfumes.prefix(10), id: \.self.perfumeId) { perfume in
+                                    NavigationLink {
+                                        PerfumeDetailView(perfume: perfume)
+                                    } label: {
+                                        PerfumeCell(perfume: perfume)
+                                    }
+                                }
+                            }
+                            .padding()
+                            .padding(.top, -11)
+                        }
+                        .frame(height: 240)
+                    }
+                        
                         // MARK: 최근 클릭한 향수
+                    if !perfumeStore.recentlyViewedPerfumes.isEmpty {
                         VStack(alignment: .leading, spacing: 0.0) {
                             HStack(alignment: .bottom) {
                                 Text("RECENTLY VIEWED")
                                     .modifier(TextViewModeifier(isTitleSection: true))
                                 Spacer()
                             }
+                            
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack(spacing: 24.0) {
                                     ForEach(perfumeStore.recentlyViewedPerfumes, id: \.self.perfumeId) { perfume in
@@ -125,35 +151,10 @@ struct HomeView: View {
                                 .padding()
                                 .padding(.top, -11)
                             }
-                            .frame(height: 240)
-                            
                         }
-                    
-                        // MARK: 코멘트 많이 달린 향수
-                        VStack(alignment: .leading, spacing: 0.0) {
-                            HStack(alignment: .bottom) {
-                                Text("TOP COMMNENTS 10")
-                                    .modifier(TextViewModeifier(isTitleSection: true))
-                                Spacer()
-                            }
-                            ScrollView(.horizontal, showsIndicators: false){
-                                HStack(spacing: 24.0) {
-                                    ForEach(perfumeStore.mostCommentsPerfumes.prefix(10), id: \.self.perfumeId) { perfume in
-                                        NavigationLink {
-                                            PerfumeDetailView(perfume: perfume)
-                                        } label: {
-                                            PerfumeCell(perfume: perfume)
-                                        }
-                                    }
-                                }
-                                .padding()
-                                .padding(.top, -11)
-                            }
-                            .frame(height: 240)
-                            
-                        }
-                        
+                        .frame(height: 240)
                     }
+                        
                 }
                 .onAppear{
                     Task {
