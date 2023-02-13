@@ -69,32 +69,39 @@ struct PerfumeTabView: View {
                 }
                 .onAppear {
                     print(selectedColors)
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                        print("perfumesDB.count : \(perfumesDB.count)")
-                        print("USERDEFAULTS . CountOfDB : \(NameOfAllPerfumes.count)")
-                        
-                        /// 로컬 향수 이름들의 갯수와 BD 향수 이름 개수가 다를 경우 향수 이름들 다시 패치한다
-                        if NameOfAllPerfumes.count != perfumesDB.count {
-                            print("향수 개수 다름!! 향수 이름 패치 시작")
-                            var searchResults: [String] {
-                                let perfumeNames = perfumesDB.filter { perfume in
-                                    perfume.displayName != ""
-                                }
-                                    .map { $0.displayName}
-                                return perfumeNames
-                            }
-                            
-                            UserDefaults.standard.set(searchResults, forKey: "NameOfAllPerfumes")
-                            print("perfumesDB.count : \(perfumesDB.count)")
-                            print("USERDEFAULTS . CountOfDB : \(NameOfAllPerfumes.count)")
-                        } else {
-                            print("향수 이름 개수 데이터 변동 없음.")
-                        }
-                    }
+                    repeat {
+                        fetchPerfumeNamesToUserDefaults()
+                    } while NameOfAllPerfumes.count == 0
                 }
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
+    }
+    
+    /// Firebase 로부터 향수 이름을 받아온다
+    func fetchPerfumeNamesToUserDefaults() {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            // print("perfumesDB.count : \(perfumesDB.count)")
+            // print("USERDEFAULTS . CountOfDB : \(NameOfAllPerfumes.count)")
+            
+            /// 로컬 향수 이름들의 갯수와 BD 향수 이름 개수가 다를 경우 향수 이름들 다시 패치한다
+            if NameOfAllPerfumes.count != perfumesDB.count {
+                print("향수 개수 다름!! 향수 이름 패치 시작")
+                var searchResults: [String] {
+                    let perfumeNames = perfumesDB.filter { perfume in
+                        perfume.displayName != ""
+                    }
+                        .map { $0.displayName}
+                    return perfumeNames
+                }
+                
+                UserDefaults.standard.set(searchResults, forKey: "NameOfAllPerfumes")
+                // print("perfumesDB.count : \(perfumesDB.count)")
+                // print("USERDEFAULTS . CountOfDB : \(NameOfAllPerfumes.count)")
+            } else {
+                print("향수 이름 개수 데이터 변동 없음.")
+            }
+        }
     }
 }
 
