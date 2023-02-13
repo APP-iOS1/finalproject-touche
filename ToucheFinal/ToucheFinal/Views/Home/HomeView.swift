@@ -151,8 +151,8 @@ struct HomeView: View {
                                 .padding()
                                 .padding(.top, -11)
                             }
+                            .frame(height: 240)
                         }
-                        .frame(height: 240)
                     }
                         
                 }
