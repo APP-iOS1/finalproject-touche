@@ -29,9 +29,14 @@ struct SignInFullCover: ViewModifier {
 
     }
 }
-//
-//struct Modifier_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Modifier()
-//    }
-//}
+
+struct KeyboardTextField: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .textInputAutocapitalization(.never)  // 대문자 방지
+      .disableAutocorrection(true)          // 자동완성 방지
+  }
+}
+// 키보드 스타일은 따로 설정하기
+//.keyboardType(.emailAddress) // 이메일용 키보드
+//.keyboardType(.alphabet)
