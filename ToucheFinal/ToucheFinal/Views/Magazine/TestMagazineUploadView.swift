@@ -17,7 +17,10 @@ struct TestMagazineUploadView: View {
     @State var selectedBodyUImage: UIImage?
     @State var title: String = ""
     @State var subTitle: String = ""
-
+    @State var perfumeId = ""
+    @State var perfumeIds = [String]()
+    @State var perfumeIdInputSheet = false
+    @State var inputError = false
     @StateObject var vm = MagazineStore()
     var body: some View {
         NavigationStack {
@@ -25,7 +28,12 @@ struct TestMagazineUploadView: View {
                 VStack {
                     
                     TextField("title", text: $title)
+                        .padding()
                     TextField("subTitle", text: $subTitle)
+                        .padding()
+                    Button("perfumeId 입력") {
+                        perfumeIdInputSheet.toggle()
+                    }
                     
                     GeometryReader { proxy in
                         let size = proxy.size
@@ -103,7 +111,7 @@ struct TestMagazineUploadView: View {
                     Spacer()
                     
                     Button("Upload") {
-                        let magazine = Magazine(id: UUID().uuidString, title: title, subTitle: subTitle, contentImage: "", bodyImage: "", createdDate: 0, perfumeIds: ["P12420", "P12495"])
+                        let magazine = Magazine(id: UUID().uuidString, title: title, subTitle: subTitle, contentImage: "", bodyImage: "", createdDate: 0, perfumeIds: perfumeIds)
                         Task {
                             await vm.createMagazine(magazine: magazine, selectedContentUImage: selectedContentUImage, selectedBodyUImage: selectedBodyUImage)
                         }
@@ -113,6 +121,18 @@ struct TestMagazineUploadView: View {
                 }
                 .navigationTitle("PhotosPicker")
             }
+            .sheet(isPresented: $perfumeIdInputSheet) {
+                TextField("perfumeId 하나씩", text: $perfumeId)
+                Button("추가") {
+                    if perfumeId.trimmingCharacters(in: .whitespaces).count > 1 {
+                        perfumeIds.append(perfumeId)
+                        perfumeId = ""
+                    } else {
+                        inputError.toggle()
+                    }
+                }
+            }
+            .alert("잘못입력함", isPresented: $inputError) {}
         }
     }
 }
