@@ -13,7 +13,7 @@ struct MyPageView: View {
     var perfume: Perfume
     var comment: Comment
     
-    @State private var image: UIImage = UIImage()
+    //  @State private var image: UIImage = UIImage()
     @State private var userNickname: String = ""
     @State private var showEditMyProfileView = false
     @State private var nation: String = ""
@@ -62,7 +62,13 @@ struct MyPageView: View {
                         Text("Edit Profile")
                     }
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
-                        EditMyProfileView()
+                        //EditMyProfileView()
+                        
+                        /*
+                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
+                         */
+                        
+                        EditMyProfileView(userNickname: $userNickname, userNation: $nation)
                     }
                     
                 } // GROUP

@@ -26,6 +26,12 @@ struct EditMyProfileView: View {
     /// photo picker로 갤러리에서 이미지 변경시 사용
     @State private var isChangedImage: Bool = false
     
+    
+    //  @Binding var image: UIImage
+    @Binding var userNickname: String
+    @Binding var userNation: String
+    
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
     var nation: [String] = ["🇺🇸", "🇰🇷", "🇫🇷", "🇪🇸", "🇨🇦"]
@@ -180,17 +186,78 @@ struct EditMyProfileView: View {
 //                                userNickname = editName
 //                                editNation = editNation
                             
-                            if isChangedImage {
-                                let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
-                                await userInfoStore.updateUserProfile(uid: userInfoStore.user?.uid ?? "", nickname: editName, nation: editNation, userProfileImageUrl: strImg[0])
+                            //MARK: - 닉네임 Update Method 호출
+                                await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editName)
+//                            }
+                            
+                            //MARK: - 기존 버전
+                            /*
+                            let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
+                             */
+                            
+                            //  isChangedImage 얘에 변화가 감지 되었을 때,
+                            if (isChangedImage == true) {   //  isChangedImage
+                                //MARK: - (바꾼 버전) editImage를 png화 하여 사진을 Upload하는 (Storage로) 메서드를 호출하고 그 메서드의 반환 타입은 String
+                                
+                                let strImg: String = await userInfoStore.uploadPhoto(editImage.pngData())
+                                
+                                print("strImg: \(strImg)")
+                                
+                                //MARK: - User 컬렉션 doc의 'userProfileImage'에 위의 strImg 값을 넘겨줘서 저장
+                                let val: String = await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg)
+                                
+                                print("val: \(val)")
+                                
+                                /*
+                                 let imageUrl = URL(string: val)!
+                                 
+                                 //MARK: - Runtime 시점에 오류 발생!
+                                 //  ref: https://www.inflearn.com/questions/748436/synchronous-url-loading-%EC%98%A4%EB%A5%98
+                                 
+                                 //  ref: https://www.reddit.com/r/swift/comments/5m0tdb/is_it_possible_to_convert_url_to_uiimage/
+                                 let imageData = try! Data(contentsOf: imageUrl)
+                                 
+                                 let image = UIImage(data: imageData)
+                                 
+                                 if let img = image {
+                                 
+                                 editImage = img
+                                 }
+                                 */
+                                
+                                //MARK: - Runtime 에러 URLSession으로 해결
+                                if let imageUrl = URL(string: val) {
+                                    
+                                    URLSession.shared.dataTask(with: imageUrl, completionHandler: { data, _, _ in
+                                        
+                                        guard let imageData = data else { return }
+                                        
+                                        DispatchQueue.main.async {  //  UI처리는 무조건 main thread에서 작업한다!
+                                            
+                                            let image = UIImage(data: imageData)
+                                            
+                                            if let img = image {
+                                                
+                                                editImage = img
+                                            }
+                                        }
+                                    })
+                                }
                             } else {
-                                await userInfoStore.updateUserProfile(uid: userInfoStore.user?.uid ?? "", nickname: editName, nation: editNation, userProfileImageUrl: "")
+                                
+                                print("Nope!")
                             }
                             
+                            /*
+                             await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: userNation)
+                             */
+                            
                             await userInfoStore.fetchUser(user: userInfoStore.user)
+                            
                             dismiss()
                         }
                     }
+                    .disabled(editImage == UIImage())
                     
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
                     // TODO: Location 구현 후 비활성화 설정하기
@@ -246,7 +313,7 @@ extension String {
 
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        EditMyProfileView()
+        EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
             .environmentObject(UserInfoStore())
     }
 }
