@@ -89,7 +89,7 @@ struct PerfumeTabView: View {
         
         /// 로그 아웃 성공시 알럿
         .toast(isPresenting: $userInfoStore.isShowingSignoutAlert) {
-            AlertToast(displayMode: .hud, type: .complete(Color.green), title: "sign out complete.", subTitle: "See you again!", style: .style(titleColor: Color.blue, subTitleColor: Color.black))
+            AlertToast(displayMode: .hud, type: .complete(Color.green), title: "Sign out complete.", subTitle: "See you again!", style: .style(titleColor: Color.blue, subTitleColor: Color.black))
         }
         
         /// ScentTypeDescriptionView 고른 색상 한개 이하일때 알럿
