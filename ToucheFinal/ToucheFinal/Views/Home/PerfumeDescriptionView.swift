@@ -53,7 +53,7 @@ struct PerfumeDescriptionView_Previews: PreviewProvider {
 
 //MARK: - Perfume Description Detail View
 struct PerfumeDescriptionDetailView: View {
-    
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @State var flags: [Bool]
     @State private var selectedIndex: Int = 16
     @Binding var selectedColors: [String]
@@ -96,6 +96,9 @@ struct PerfumeDescriptionDetailView: View {
                                 if let index = selectedColors.firstIndex(of: value.name) {
                                     if (selectedColors.count > 1) {
                                         selectedColors.remove(at: index)
+                                    } else {
+                                        // 한개 남았을때 알럿 보여주기 위한 토글
+                                        userInfoStore.isShowingScentTypeDesciptionAlert.toggle()
                                     }
                                 } else {
                                     selectedColors.append(value.name)
