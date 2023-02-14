@@ -1,10 +1,9 @@
 //
-//  Home.swift
-//  Magazine
+//  Magazine1.swift
+//  ToucheFinal
 //
-//  Created by TAEHYOUNG KIM on 2023/02/09.
+//  Created by TAEHYOUNG KIM on 2023/02/14.
 //
-
 import SwiftUI
 
 /// https://www.youtube.com/watch?v=jwWfhM7ZuaI
@@ -36,16 +35,10 @@ struct MagazineView: View {
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                         .opacity(showDetailPage ? 0 : 1)
-//                    NavigationLink {
-//                        TestMagazineUploadView()
-//                    } label: {
-//                        Image(systemName: "plus.rectangle.portrait.fill")
-//                    }
-
-                }
+                 }
                 .padding()
                 VStack(spacing: 0) {
-                    ForEach(magazineStore.magazines) { item in
+                    ForEach(dummyWithOtherProjectFirebaseStorage.reversed()) { item in
                         Button {
                             withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
                                 currentItem = item
@@ -57,7 +50,7 @@ struct MagazineView: View {
                         }
                         .buttonStyle(ScaledButtonStyle())
                         .opacity(showDetailPage ? (currentItem?.id == item.id ? 1 :0) : 1)
-                        
+
                     }
                 }
             }
@@ -77,15 +70,13 @@ struct MagazineView: View {
                     .ignoresSafeArea()
             }
             .refreshable {
-                Task {
-                    await magazineStore.readMagazines()
-                }
+//                Task {
+                    //                    await magazineStore.readMagazines()
+//                }
             }
-            .onAppear {
-                Task {
-                    await magazineStore.readMagazines()
-                }
-            }
+//            .task {
+//                await magazineStore.readMagazines()
+//            }
         }
     }
     @ViewBuilder
@@ -94,30 +85,24 @@ struct MagazineView: View {
             ZStack(alignment: .topLeading) {
                 GeometryReader { proxy in
                     let size = proxy.size
-//                    Image("Chanel")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                        .frame(width: size.width, height: size.height)
-//                        .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 20))
-
                     CacheAsyncImage(url: URL(string: item.contentImage)) { image in
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: size.width, height: size.height)
-                            .clipShape(CustomCorner(corners:  [.topLeft, .topRight], radius: 20))
+                            .clipShape(CustomCorner(corners: (showDetailPage ? [] : [.topLeft, .topRight]), radius: 20))
                     } placeholder: {
                         ProgressView()
                             .frame(width: size.width, height: size.height)
                     }
                 }
                 .frame(height: 400)
-                
+
             }
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
-                    .font(.title).bold() 
-                
+                    .font(.title).bold()
+
                 Text(item.subTitle)
                     .font(.caption)
                     .foregroundColor(.gray)
@@ -132,32 +117,14 @@ struct MagazineView: View {
         .shadow(color: .black.opacity(showDetailPage ? 0 : 0.3), radius: 20, x: 0, y: 10)
         .matchedGeometryEffect(id: item.id, in: animation)
     }
-    
+
     func DetailView(item: Magazine) -> some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
+
                 CardView(item: item)
                     .scaleEffect(animateView ? 1 : 0.9)
-//                    .gesture(
-//
-//                        DragGesture(minimumDistance: 0, coordinateSpace: .global)
-//                            .onChanged { value in
-//                                let endLocationY = value.location.y
-//                                let startLocationY = value.startLocation.y
-//                                let screenHeight = UIScreen.main.bounds.height
-//                                let dragHeight = (endLocationY - startLocationY) / screenHeight
-//                                    if scale > 0.7 {
-//                                    scale = 1 - dragHeight
-//                                    }
-//                                print(dragHeight)
-//                            }
-//                            .onEnded { value in
-//                                    if scale < 0.9 {
-//                                    animateView.toggle()
-//                                    }
-//                                scale = 1
-//                            }
-//                    )
+
                 VStack(spacing: 15) {
                     CacheAsyncImage(url: URL(string: item.bodyImage)) { image in
                         image
@@ -171,12 +138,12 @@ struct MagazineView: View {
                 .offset(y: scrollOffset > 0 ? scrollOffset : 0)
                 .opacity(animateContent ? 1 : 0)
                 .scaleEffect(animateView ? 1 : 0, anchor: .top)
-                
+
                 Text("Related product")
                     .font(.title2).bold()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding([.top, .leading], 15)
-                
+
                 LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(magazineStore.magazineRelatedPerfumes, id: \.self.perfumeId) { perfume in
                         NavigationLink {
@@ -187,15 +154,15 @@ struct MagazineView: View {
                     }
                 }
                 .padding(.horizontal, 10)
-                
+
                 Spacer(minLength: 50)
-                
+
             }
             .offset(y: scrollOffset > 0 ? -scrollOffset : 0)
             .offset(offset: $scrollOffset)
         }
-        .statusBar(hidden: true)
-//        .scaleEffect(scale)
+        .statusBarHidden()
+        
         .overlay(alignment: .topTrailing, content: {
             Button {
                 withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)){
@@ -215,6 +182,7 @@ struct MagazineView: View {
             .padding(20)
             .opacity(animateView ? 1 : 0)
             Spacer()
+
         })
         .onAppear {
             withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)){
@@ -223,18 +191,20 @@ struct MagazineView: View {
             withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7).delay(0.1)){
                 animateContent = true
             }
-            Task {
-                await magazineStore.readMagazineRelatedPerfumes(perfumesId: item.perfumeIds)
-            }
+        }
+        .task {
+            await magazineStore.readMagazineRelatedPerfumes(perfumesId: item.perfumeIds)
         }
         .transition(.identity)
-        
     }
 }
 
 struct MagazineView_Previews: PreviewProvider {
     static var previews: some View {
         MagazineView()
+            .environmentObject(UserInfoStore())
+            .environmentObject(PerfumeStore())
+            .environmentObject(CommentStore())
     }
 }
 
@@ -260,7 +230,7 @@ extension View {
         guard let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
             return .zero
         }
-        
+
         guard let safeArea = screen.windows.first?.safeAreaInsets else {
             return .zero
         }
@@ -271,7 +241,7 @@ extension View {
             .overlay {
                 GeometryReader { proxy in
                     let minY = proxy.frame(in: .named("SCROLL")).minY
-                    
+
                     Color.clear
                         .preference(key: OffsetKey.self, value: minY)
                 }
@@ -284,7 +254,7 @@ extension View {
 
 struct OffsetKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
-    
+
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = nextValue()
     }

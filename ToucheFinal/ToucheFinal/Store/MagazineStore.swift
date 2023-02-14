@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseStorage
 
 class MagazineStore: ObservableObject {

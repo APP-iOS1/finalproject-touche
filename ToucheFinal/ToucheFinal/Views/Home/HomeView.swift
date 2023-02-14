@@ -28,58 +28,38 @@ struct HomeView: View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack {
-//                    Rectangle()
-//                        .frame(height: 200)
-//                        .overlay(alignment: .top) {
-//                            HStack{
-//                                NavigationLink {
-//                                    // TODO: NEW ARRIVALS 클릭시 매거진뷰로 이동
-//
-//                                } label: {
-//                                    Text("NEW ARRIVALS")
-//                                    //Text("NEW ARRIVALS".localized(language))
-//                                        .font(.largeTitle)
-//                                        .fontWeight(.semibold)
-//                                        .foregroundColor(.white)
-//                                }
-//                                Spacer()
-//                            }
-//                        }
-//                        .padding()
-//                        .background(.black)
                     VStack(alignment: .leading) {
-                        Button {
-                            selectedIndex = 2
-                        } label: {
-                            MagazineBanner(magazine: magazines.first!)
-                        }
-                        .tint(.white)
+                        MagazineBanner(magazine: dummyWithOtherProjectFirebaseStorage.last!)
+                            .onTapGesture {
+                                selectedIndex = 2
+                            }
+                            .tint(.white)
                     }
-//                        Spacer()
-//                    if isShowingPromotion{
-//                        HStack {
-//                            VStack(alignment: .leading) {
-//                                Text("CHECK OUT THE PROMOTIONS.")
-//                                    .foregroundColor(.black)
-//
-//                                Text("MORE")
-//                                    .underline()
-//                                    .foregroundColor(.black)
-//                            }
-//                            Spacer()
-//                            Button {
-//                                isShowingPromotion = false
-//                            } label: {
-//                                Text("CLOSE")
-//                                    .foregroundColor(.gray)
-//                            }
-//                        }
-//                        .padding()
-//                        .background(Color(.gray).opacity(0.4))
-//                        .padding(.top, -10)
-//                    }
-            
-
+                    //                        Spacer()
+                    //                    if isShowingPromotion{
+                    //                        HStack {
+                    //                            VStack(alignment: .leading) {
+                    //                                Text("CHECK OUT THE PROMOTIONS.")
+                    //                                    .foregroundColor(.black)
+                    //
+                    //                                Text("MORE")
+                    //                                    .underline()
+                    //                                    .foregroundColor(.black)
+                    //                            }
+                    //                            Spacer()
+                    //                            Button {
+                    //                                isShowingPromotion = false
+                    //                            } label: {
+                    //                                Text("CLOSE")
+                    //                                    .foregroundColor(.gray)
+                    //                            }
+                    //                        }
+                    //                        .padding()
+                    //                        .background(Color(.gray).opacity(0.4))
+                    //                        .padding(.top, -10)
+                    //                    }
+                    
+                    
                     // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
@@ -93,7 +73,7 @@ struct HomeView: View {
                                     .modifier(TextViewModeifier(isTitleSection: false))
                             }
                         }
-
+                        
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: 24.0) {
                                 ForEach(perfumeStore.recomendedPerfumes.prefix(6), id: \.self.perfumeId) { perfume in
@@ -110,8 +90,8 @@ struct HomeView: View {
                         }
                         .frame(height: 240)
                     }
-                        
-                        // MARK: 코멘트 많이 달린 향수
+                    
+                    // MARK: 코멘트 많이 달린 향수
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
                             Text("TOP COMMNENTS 10")
@@ -133,8 +113,8 @@ struct HomeView: View {
                         }
                         .frame(height: 240)
                     }
-                        
-                        // MARK: 최근 클릭한 향수
+                    
+                    // MARK: 최근 클릭한 향수
                     if !perfumeStore.recentlyViewedPerfumes.isEmpty {
                         VStack(alignment: .leading, spacing: 0.0) {
                             HStack(alignment: .bottom) {
@@ -159,7 +139,7 @@ struct HomeView: View {
                             .frame(height: 240)
                         }
                     }
-                        
+                    
                 }
                 .onAppear{
                     print(Auth.auth().currentUser?.isEmailVerified)

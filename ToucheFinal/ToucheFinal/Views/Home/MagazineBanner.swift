@@ -38,6 +38,6 @@ struct MagazineBanner: View {
 
 struct MagazineBanner_Previews: PreviewProvider {
     static var previews: some View {
-        MagazineBanner(magazine: magazines[0])
+        MagazineBanner(magazine: dummyWithOtherProjectFirebaseStorage[0])
     }
 }
