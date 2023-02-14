@@ -13,7 +13,7 @@ struct MyPageView: View {
     var perfume: Perfume
     var comment: Comment
     
-    @State private var image: UIImage = UIImage()
+    //  @State private var image: UIImage = UIImage()
     @State private var userNickname: String = ""
     @State private var showEditMyProfileView = false
     @State private var nation: String = ""
@@ -51,8 +51,7 @@ struct MyPageView: View {
                     
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
-                  //    Text(userInfoStore.userInfo?.userNation.flag ?? "")
-                        Text(userInfoStore.userInfo?.userNation.flag() ?? "")
+                        Text(nation)
                     }
                     
                     
@@ -62,7 +61,11 @@ struct MyPageView: View {
                         Text("Edit Profile")
                     }
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
-                        EditMyProfileView()
+                        /*
+                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
+                         */
+                        
+                        EditMyProfileView(userNickname: $userNickname, userNation: $nation)
                     }
                     
                 } // GROUP
@@ -169,25 +172,27 @@ struct MyPageView: View {
             } // TOOLBAR
             .task {
                 await userInfoStore.readWrittenComments()
+                
                 await perfumeStore.readLikedPerfumes(userId: userInfoStore.userInfo?.userId ?? "")
                 
                 await userInfoStore.fetchUser(user: userInfoStore.user)
                 
                 print(userInfoStore.writtenCommentsAndPerfumes)
                 
-                guard let user = Auth.auth().currentUser else {return}
+                guard let user = Auth.auth().currentUser else { return }
                 
-                print("user? : \(user.uid)")
+                //  print("user? : \(user.uid)")
                 
                 userNickname = await userInfoStore.getNickName(uid: user.uid)
+                
                 await userInfoStore.fetchUser(user: user)
-//                print(userInfoStore.userInfo)
+                //  print(userInfoStore.userInfo)
+                
                 await userInfoStore.readWrittenComments()
+                
+                nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
-        .refreshable {
-            print("?")
-        }
     }
 }
 
@@ -214,3 +219,4 @@ struct MyPageView_Previews: PreviewProvider {
             .environmentObject(PerfumeStore())
     }
 }
+
