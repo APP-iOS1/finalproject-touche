@@ -266,17 +266,7 @@ final class UserInfoStore: ObservableObject{
         }
     }
     
-    /// 사용 중인 유저의 닉네임을 수정
-    final func updateUserNickName(uid: String, nickname: String) async -> Void {
-        let path = database
-        do {
-            try await path.document(uid).updateData(["userNickName": nickname])
-        } catch {
-#if DEBUG
-            print("\(error.localizedDescription)")
-#endif
-        }
-    }
+    
 
     func updateRecentlyPerfumes(recentlyPerfumesId: [String]) async {
         do {
@@ -353,7 +343,6 @@ final class UserInfoStore: ObservableObject{
                     print("path: \(delPath)")
                     try await storageRef.child(delPath).delete()
                 }
-                
             }
             return imagesURL
             
@@ -363,91 +352,40 @@ final class UserInfoStore: ObservableObject{
         }
     }
     
-    func setProfilePhotoUrl(uid: String, userProfileImageUrl: String) async -> Void {
-            let path = database
-            do {
-                try await path.document(uid).updateData(["userProfileImage": userProfileImageUrl])
-            } catch { }
-        }
-    
-    func setProfileNationality(uid: String, nation: String) async -> Void {
-        
+    /// 사용 중인 유저의 닉네임을 수정
+    final func updateUserProfile(uid: String, nickname: String, nation: String, userProfileImageUrl: String) async -> Void {
+        let path = database
+        var userNation = ""
+        var userProfileImageUrl = ""
+
         do {
-            
-            //try await database.document(uid).updateData(["userNation" : nation])
-            
-            print(nation)
-            
             switch nation {
             case "🇺🇸":
-                try await database.document(uid).updateData(["userNation" : "United States of America"])
-                break;
-                
+                userNation = "United States of America"
             case "🇰🇷":
-                try await database.document(uid).updateData(["userNation" : "Republic of Korea"])
-                break;
-                
+                userNation = "Republic of Korea"
             case "🇫🇷":
-                try await database.document(uid).updateData(["userNation" : "France"])
-                break;
-                
+                userNation = "France"
             case "🇪🇸":
-                try await database.document(uid).updateData(["userNation" : "España"])
-                break;
-                
+                userNation = "España"
             case "🇨🇦":
-                try await database.document(uid).updateData(["userNation" : "Canada"])
-                break;
-                
+                userNation = "Canada"
             default:
-                print("None")
-                break;
-            }
-        } catch {
-            
-        }
-    }
-    
-    func getProfileNationality(uid: String) async -> String {
-        do {
-            let target = try await database.document("\(uid)").getDocument()
-            
-            let docData = target.data()
-            var temp: String = docData?["userNation"] as? String ?? ""
-            
-            print("User's Nation?: \(temp)")
-            
-            switch temp {
-            case "United States of America":
-                temp = "🇺🇸"
-                break;
-                
-            case "Republic of Korea":
-                temp = "🇰🇷"
-                break;
-                
-            case "France":
-                temp = "🇫🇷"
-                break;
-                
-            case "España":
-                temp = "🇪🇸"
-                break;
-                
-            case "Canada":
-                temp = "🇨🇦"
-                break;
-                
-            default:
-                temp = ""
-                break;
+                userNation = "None"
             }
             
-            return temp
+            if userProfileImageUrl == "" {
+                userProfileImageUrl = userInfo?.userProfileImage ?? ""
+            }
+            
+            try await path.document(uid).updateData([
+                "userNickName": nickname,
+                "userNation": userNation,
+                "userProfileImage": userProfileImageUrl])
         } catch {
-            print(error.localizedDescription)
-            return "error"
+#if DEBUG
+            print("\(error.localizedDescription)")
+#endif
         }
     }
-
 }

@@ -52,7 +52,7 @@ struct MyPageView: View {
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
                   //    Text(userInfoStore.userInfo?.userNation.flag ?? "")
-                        Text(nation)
+                        Text(userInfoStore.userInfo?.userNation.flag() ?? "")
                     }
                     
                     
@@ -62,7 +62,7 @@ struct MyPageView: View {
                         Text("Edit Profile")
                     }
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
-                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
+                        EditMyProfileView()
                     }
                     
                 } // GROUP
@@ -183,8 +183,6 @@ struct MyPageView: View {
                 await userInfoStore.fetchUser(user: user)
 //                print(userInfoStore.userInfo)
                 await userInfoStore.readWrittenComments()
-                
-                nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
         .refreshable {
