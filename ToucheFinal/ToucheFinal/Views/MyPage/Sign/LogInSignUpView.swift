@@ -48,11 +48,7 @@ struct LogInSignUpView: View {
                 case 0:
                     LogInView()
                 default:
-                    if userInfoStore.userInfo != nil {
-                        ConfirmEmailView()
-                    } else {
                         SignUpView()
-                    }
                 }
                 Spacer()
             }

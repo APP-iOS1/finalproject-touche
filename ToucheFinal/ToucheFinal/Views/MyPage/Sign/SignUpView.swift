@@ -18,6 +18,7 @@ struct SignUpView: View {
     @State var password: String = ""
     @State var checkPassword: String = ""
     @State var nickName: String = ""
+    @State var sendMailAlertActive: Bool = false
     
     // 이메일 중복처리 확인
 //    var isEmailDuplicatedSatisfied: Bool {
@@ -182,10 +183,11 @@ struct SignUpView: View {
                         print("회원가입 버튼")
                         await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
                         userInfoStore.isDuplicated = nil
-                        
+                        userInfoStore.sendVerificationEmail()
                         // 향수 디테일 뷰에서 회원 가입 할때 모달창 디스미스 위한 조건문
 //                        if userInfoStore.loginState == .success {
-//                            dismiss()
+                            sendMailAlertActive.toggle()
+                            
 //                        }
                     }
                 } label: {
@@ -203,6 +205,13 @@ struct SignUpView: View {
 //            Spacer()
         }
         .onAppear{print("SignUp")}
+        .alert("Sign up", isPresented: $sendMailAlertActive) {
+            Button("OK"){
+                presentationMode.wrappedValue.dismiss()
+            }
+        } message: {
+            Text("메일이 발송되었습니다. 받은 메일에서 링크를 클릭하여 회원가입을 완료해 주세요.")
+        }
     }
     func checkEmail(email: String) -> Bool {
             let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"

@@ -115,8 +115,16 @@ final class UserInfoStore: ObservableObject{
             self.notice = "login"
         } catch {}
     }
+    
+    /// 인증된 이메일인지 체크
+    func checkVerificationEmail(emailAddress: String, password: String) async {
+        do {
+            let _ = try await Auth.auth().signIn(withEmail: emailAddress, password: password)
+        } catch {}
+    }
+    
+    /// 이메일 인증 메일 전송
     func sendVerificationEmail() {
-        print(user?.isEmailVerified)
         user?.sendEmailVerification(completion: {(error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -145,7 +153,7 @@ final class UserInfoStore: ObservableObject{
             let result = try await Auth.auth().createUser(withEmail: emailAddress, password: password)
             isShowingSuccessAlert.toggle()
             // MARK: 곧바로 로그인.
-            await logIn(emailAddress: emailAddress, password: password)
+//            await logIn(emailAddress: emailAddress, password: password)
             
             // MARK: UserInfo로 변환
             guard let uid = user?.uid else {return}
@@ -197,7 +205,6 @@ final class UserInfoStore: ObservableObject{
         }
         
         self.signInState = .signOut
-        
         database.document(user?.uid ?? "").delete()
     }
     

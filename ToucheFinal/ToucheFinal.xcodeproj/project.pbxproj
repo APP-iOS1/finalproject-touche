@@ -17,7 +17,6 @@
 		239049802977B9420097B20A /* LogInRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2390497F2977B9420097B20A /* LogInRootView.swift */; };
 		239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239049812977CBBF0097B20A /* WriteCommentView.swift */; };
 		23E417F3298959BC0051707E /* ColorPaletteUnderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E417F2298959BC0051707E /* ColorPaletteUnderView.swift */; };
-		23E432EB2999FB06007BFE1E /* ConfirmEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E432EA2999FB06007BFE1E /* ConfirmEmailView.swift */; };
 		6115A2C929790EFE00BE740E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6115A2C829790EFE00BE740E /* FirebaseStorage */; };
 		61212E5E2978E2DF00D0ED57 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E5D2978E2DF00D0ED57 /* FirebaseFirestore */; };
 		61212E602978E30E00D0ED57 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E5F2978E30E00D0ED57 /* FirebaseFirestoreSwift */; };
@@ -106,7 +105,6 @@
 		2390497F2977B9420097B20A /* LogInRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRootView.swift; sourceTree = "<group>"; };
 		239049812977CBBF0097B20A /* WriteCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteCommentView.swift; sourceTree = "<group>"; };
 		23E417F2298959BC0051707E /* ColorPaletteUnderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteUnderView.swift; sourceTree = "<group>"; };
-		23E432EA2999FB06007BFE1E /* ConfirmEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailView.swift; sourceTree = "<group>"; };
 		61212E612978E32E00D0ED57 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61212E632978E35A00D0ED57 /* SephoraFirebaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SephoraFirebaseView.swift; sourceTree = "<group>"; };
 		61212E652978E37200D0ED57 /* APIStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStore.swift; sourceTree = "<group>"; };
@@ -279,7 +277,6 @@
 			children = (
 				233260D32977757500771B2A /* LogInView.swift */,
 				233260D72977759900771B2A /* SignUpView.swift */,
-				23E432EA2999FB06007BFE1E /* ConfirmEmailView.swift */,
 				233260D9297775B700771B2A /* SignOutView.swift */,
 				233260DB297782E900771B2A /* LogInSignUpView.swift */,
 				2390497F2977B9420097B20A /* LogInRootView.swift */,
@@ -579,7 +576,6 @@
 				A8BC32722977AB6A004EF50C /* FilteringResultView.swift in Sources */,
 				A8BC3270297776C1004EF50C /* SearchView.swift in Sources */,
 				A8934D3529939F8700BC2A66 /* MoreRecommendPerfumeView.swift in Sources */,
-				23E432EB2999FB06007BFE1E /* ConfirmEmailView.swift in Sources */,
 				AA204A7729876CED00C59C7F /* Color+.swift in Sources */,
 				23E417F3298959BC0051707E /* ColorPaletteUnderView.swift in Sources */,
 				61FE13232977D7A9003F0466 /* RatingView.swift in Sources */,
