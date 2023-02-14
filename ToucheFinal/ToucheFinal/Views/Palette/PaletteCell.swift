@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PaletteCell: View {
-    @ObservedObject var colorPaletteCondition: ColorPalette
+    var selectedColor: Color
     @EnvironmentObject var userInfoStore: UserInfoStore
     var color: Color
     var degrees: Double
@@ -45,8 +45,8 @@ struct PaletteCell: View {
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                     }
-                    .offset(y: colorPaletteCondition.selectedColor == color  ? -15 : 0)
-                    .animation(.easeOut(duration: 1), value: colorPaletteCondition.selectedColor)
+                    .offset(y: selectedColor == color  ? -15 : 0)
+                    .animation(.easeOut(duration: 1), value: selectedColor)
                     .rotationEffect(Angle(degrees: degrees))
                     .foregroundColor(color)
             }
@@ -57,6 +57,6 @@ struct PaletteCell: View {
 
 struct PaletteCell_Previews: PreviewProvider {
     static var previews: some View {
-        PaletteCell(colorPaletteCondition: ColorPalette(), color: .red, degrees: 40, name: "Fresh Aquatics", count: 3)
+        PaletteCell(selectedColor: .clear, color: .red, degrees: 40, name: "Fresh Aquatics", count: 3)
     }
 }
