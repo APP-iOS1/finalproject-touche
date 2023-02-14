@@ -181,11 +181,12 @@ struct HomeView: View {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
                         }
-                        let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
-                        await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
-                        await perfumeStore.readMostCommentsPerfumes()
-                        
-                        await magazineStore.readMagazines()
+                        Task {
+                            let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+                            await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
+                            await perfumeStore.readMostCommentsPerfumes()
+                            await magazineStore.readMagazines()
+                        }
                     }
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {

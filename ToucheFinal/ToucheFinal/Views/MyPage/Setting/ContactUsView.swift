@@ -18,8 +18,8 @@ struct ContactUsView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 200, height: 50)
-                VStack{
-                    Text
+                VStack {
+//                    Text
                     HStack{
                         Image(systemName: "envelope")
                         Text("contactus@touche.com")
