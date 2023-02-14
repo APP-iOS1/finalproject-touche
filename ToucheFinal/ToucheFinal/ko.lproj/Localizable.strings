@@ -79,6 +79,10 @@
 "Apply" = "적용하기";
 "Result" = "결과";
 "Edit" = "변경";
+// MARK: 영/한 문구 검토 부탁드립니다.
+"Did not write a **review.**" = "작성한 리뷰가 없습니다.";
+"You don't have **any perfume**\n that you **really like?**" = "하트를 누른 향수가 없습니다.";
+//
 "Touché Privacy Policy" = "Touché 개인정보 보호정책";
 "(1) Privacy Processing"  = "(1) 개인정보 처리";
 "The protection of natural persons in relation to the processing of personal data is a fundamental right. Article 8(1) of the Charter of Fundamental Rights of the European Union (the 'Charter') and Article 16(1) of the Treaty on the Functioning of the European Union (TFEU) provide that everyone has the right to the protection of personal data concerning him or her." = "개인정보처리의 보호는 개인의 기본적인 권리이다. 유럽연합 기본권 헌장(이하 ‘헌장’) 제8조 (1)항과 유럽연합기능조약(이하 TFEU)의 제 16조 (1)항에서는 모든 사람은 본인의 개인정보를 보호할 권리가 있다고 규정하고 있다.";
