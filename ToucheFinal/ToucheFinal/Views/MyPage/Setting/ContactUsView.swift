@@ -14,7 +14,17 @@ struct ContactUsView: View {
     var body: some View {
         NavigationView{
             VStack{
-                Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+                Image("touche2")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 50)
+                VStack{
+                    Text
+                    HStack{
+                        Image(systemName: "envelope")
+                        Text("contactus@touche.com")
+                    }
+                }
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){

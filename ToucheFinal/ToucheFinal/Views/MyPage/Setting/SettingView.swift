@@ -101,13 +101,13 @@ struct SettingView: View {
                                 showPrivacyPolicyView.toggle()
                             }
                             .fullScreenCover(isPresented: $showPrivacyPolicyView){
-                                PrivacyPolicyView()
+                                PrivacyView()
                             }
                             Button("Terms & Conditions"){
                                 showTermsandConditionsView.toggle()
                             }
                             .fullScreenCover(isPresented: $showTermsandConditionsView){
-                                TermsConditionsView()
+                                TermsandConditionsView()
                             }
             
                         }
