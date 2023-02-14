@@ -16,4 +16,21 @@ extension String{
     func stringss(num: Int) -> String {
         return String(self.prefix(num))
     }
+    
+    func flag() -> String {
+        switch self {
+        case "United States of America":
+            return "🇺🇸"
+        case "Republic of Korea":
+            return "🇰🇷"
+        case "France":
+            return "🇫🇷"
+        case "España":
+            return "🇪🇸"
+        case "Canada":
+            return "🇨🇦"
+        default:
+            return ""
+        }
+    }
 }

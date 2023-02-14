@@ -17,21 +17,14 @@ struct EditMyProfileView: View {
     // 뷰에 반영된건 없는데, confirmationDialog 에서 안쓰면 에러나서 씀
     @State private var showGallerySheet = false
     @State private var showCameraSheet = false
-    @State private var editName: String = ""
     @State private var editIsValid: Bool =  false
     /// nickName 중복처리 true/false 확인용
     @State private var nickNameCheck: Bool = false
+    @State private var editName: String = ""
     @State private var editImage: UIImage = UIImage()
     @State private var editNation: String = ""
     /// photo picker로 갤러리에서 이미지 변경시 사용
     @State private var isChangedImage: Bool = false
-    
-    @State private var isSelected: [Bool] = [false, false, false, false, false]
-    
-    @Binding var image: UIImage
-    @Binding var userNickname: String
-    @Binding var userNation: String
-   
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
@@ -134,19 +127,11 @@ struct EditMyProfileView: View {
                             HStack {
                                 ForEach(0 ..< 5) { idx in
                                     Button {
-                                        
-                                        //  모든 애들을
-                                        for idx in isSelected.indices {
-                                            
-                                            isSelected[idx] = false //  여기서 다 끔
-                                        }
-                                        
-                                        isSelected[idx].toggle()    //  해당 idx만 on!
-                                        userNation = nation[idx]
+                                        editNation = nation[idx]
                                     } label: {
                                         Text(nation[idx])
                                             .overlay(
-                                                Circle().stroke(isSelected[idx] ? .green : .clear, lineWidth: 2)
+                                                Circle().stroke(editNation == nation[idx] ? .green : .clear, lineWidth: 2)
                                             )
                                     }
                                     .buttonStyle(.customButton)
@@ -193,19 +178,16 @@ struct EditMyProfileView: View {
                             //if editIsValid && nickNameCheck == false {
                                 // 수정 완료 기능
 //                                userNickname = editName
-//                                userNation = editNation
-                                
-                                await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editName)
-//                            }
+//                                editNation = editNation
                             
-                            let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
-                            
-                            await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg.last ?? "")
-                            
-                            await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: userNation)
+                            if isChangedImage {
+                                let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
+                                await userInfoStore.updateUserProfile(uid: userInfoStore.user?.uid ?? "", nickname: editName, nation: editNation, userProfileImageUrl: strImg[0])
+                            } else {
+                                await userInfoStore.updateUserProfile(uid: userInfoStore.user?.uid ?? "", nickname: editName, nation: editNation, userProfileImageUrl: "")
+                            }
                             
                             await userInfoStore.fetchUser(user: userInfoStore.user)
-                            
                             dismiss()
                         }
                     }
@@ -219,8 +201,8 @@ struct EditMyProfileView: View {
             .navigationBarTitleDisplayMode(.inline)
         }// NavigationView 종료
         .onAppear{
-            editName = userNickname
-            editNation = userNation
+            editName = userInfoStore.userInfo?.userNickName ?? ""
+            editNation = userInfoStore.userInfo?.userNation.flag() ?? ""
         }
     }
 }
@@ -264,7 +246,7 @@ extension String {
 
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        EditMyProfileView(image: .constant(UIImage()), userNickname: .constant(""), userNation: .constant(""))
+        EditMyProfileView()
             .environmentObject(UserInfoStore())
     }
 }
