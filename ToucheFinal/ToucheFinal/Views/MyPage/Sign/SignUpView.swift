@@ -19,11 +19,6 @@ struct SignUpView: View {
     @State var checkPassword: String = ""
     @State var nickName: String = ""
     
-    // 이메일 중복처리 확인
-//    var isEmailDuplicatedSatisfied: Bool {
-//        return userInfoStore.isDuplicated == true
-//    }
-    
     // 이메일 정규식 검사
     var isEmailRuleSatisfied : Bool {
         return checkEmail(email: email) || email.isEmpty
@@ -46,9 +41,8 @@ struct SignUpView: View {
 
     // 회원가입 버튼
     var isSignUpDisabled: Bool {
-        
         // 조건을 다 만족하면 회원가입 버튼 abled
-        if userInfoStore.isDuplicated == false && isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && isNickNameSatisfied {
+        if userInfoStore.isEmailDuplicated == false && isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && isNickNameSatisfied && !password.isEmpty && !checkPassword.isEmpty {
             return false
         } else { return true }// 하나라도 만족하지 않는다면 disabled
     }
@@ -56,10 +50,12 @@ struct SignUpView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading){
+                // Email
                 Group {
                     HStack {
                         Text("Email")
-                        if userInfoStore.isDuplicated == false {
+                        // 이메일 형식이고 중복이 아닌 경우에 checkmark 나오기
+                        if checkEmail(email: email) == true && userInfoStore.isEmailDuplicated == false {
                             Image(systemName: "checkmark.circle")
                                 .foregroundColor(.green)
                         }
@@ -74,22 +70,24 @@ struct SignUpView: View {
                         }
                         .disabled(email.isEmpty)
                     }
-                    TextField("Enter email", text: $email)
+                    
+                    TextField("Enter Email", text: $email)
                         .textInputAutocapitalization(.never) // 대문자 방지
                         .disableAutocorrection(true) // 자동수정 방지
                         .keyboardType(.emailAddress) // 이메일용 키보드
                         .frame(height: 40)
                         .padding(.top, -6)
+                        // 이메일 중복체크 후에 텍스트필드에서 수정한 경우 초록체크모양 사라지고 중복 재확인해야 Sign Up 버튼 활성화됨
+                        .onChange(of: email) { _ in
+                            userInfoStore.isEmailDuplicated = nil
+                        }
                     
-                    //MARK: 중복확인을 통과했을 때 어떻게 처리할지?
-                    //signup 버튼과 같이 이메일 중복여부를 체크한 이후 텍스트필드에서 입력을 하나 지우면
-                    //여전히 중복됐음을 알리는 텍스트가 잔존하는 문제
                     if !isEmailRuleSatisfied {
                         Text("Please enter a vaild email.")
                             .font(.caption)
                             .foregroundColor(.red)
                             .padding(.top, -9)
-                    } else if userInfoStore.isDuplicated == true {
+                    } else if userInfoStore.isEmailDuplicated == true {
                         Text("This email address already exists.")
                             .font(.caption)
                             .foregroundColor(.red)
@@ -102,6 +100,7 @@ struct SignUpView: View {
                 }
                 .padding(.vertical, 1)
                 
+                // Password
                 Group{
                     Text("Password")
                     
@@ -114,6 +113,7 @@ struct SignUpView: View {
                         .font(.caption)
                         .foregroundColor(.red)
                         .padding(.top, -9)
+                    
                     
                     Text("Confirm Password")
                     
@@ -129,9 +129,10 @@ struct SignUpView: View {
                 }
                 .padding(.vertical, 1)
                 
+                // Nick Name
                 Group{
                     HStack {
-                        Text("Name")
+                        Text("Nick Name")
                         if nickNameCheck == false {
                             Image(systemName: "checkmark.circle")
                                 .foregroundColor(.green)
@@ -155,14 +156,17 @@ struct SignUpView: View {
 
                     }
                     
-                    TextField("Enter Name", text: $nickName)
+                    TextField("Enter Nick Name", text: $nickName)
                         .textInputAutocapitalization(.never) // 대문자 방지
                         .disableAutocorrection(true) // 자동수정 방지
                         .frame(height: 40)
                         .padding(.top, -6)
-//                        .padding(.bottom, 10)
+                    // 닉네임 중복체크 후에 텍스트필드에서 수정한 경우 초록체크모양 사라지고 중복 재확인해야 Sign Up 버튼 활성화됨
+                        .onChange(of: nickName) { _ in
+                            nickNameCheck = nil
+                        }
                     
-                    // 중복된 닉네임-true
+                    // nickNameCheck == true:중복된 닉네임 (=이미 존재하는 닉네임)
                     if nickNameCheck == true && !nickName.isEmpty {
                         Text("Already exists.")
                             .font(.caption)
@@ -170,15 +174,16 @@ struct SignUpView: View {
                             .padding(.top, -9)
                     }
                 }
+                .padding(.vertical, 1)
             }
             .padding()
             .textFieldStyle(.roundedBorder)
             
             
+            // Sign Up Button
             Button {
                 Task {
                     await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
-                    userInfoStore.isDuplicated = nil
                     
                     // 향수 디테일 뷰에서 회원 가입 할때 모달창 디스미스 위한 조건문
                     if userInfoStore.loginState == .success {
@@ -193,10 +198,15 @@ struct SignUpView: View {
                     .cornerRadius(7)
             }
             .disabled(isSignUpDisabled)
+            .padding(.top, 10)
             
-//            Spacer()
         }
-        .onAppear{print("SignUp")}
+        .onAppear{
+//            print("SignUp")
+            // 이메일, 닉네임 옆 초록 체크표시 없애기
+            userInfoStore.isEmailDuplicated = nil
+            nickNameCheck = nil
+        }
     }
     func checkEmail(email: String) -> Bool {
             let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
@@ -207,7 +217,6 @@ struct SignUpView: View {
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         SignUpView()
-            
-            
+            .environmentObject(UserInfoStore())
     }
 }
