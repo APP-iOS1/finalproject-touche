@@ -47,7 +47,7 @@ struct HomeView: View {
 //                        }
 //                        .padding()
 //                        .background(.black)
-                    VStack {
+                    VStack(alignment: .leading) {
                         Button {
                             selectedIndex = 2
                         } label: {
@@ -93,7 +93,7 @@ struct HomeView: View {
                                     .modifier(TextViewModeifier(isTitleSection: false))
                             }
                         }
-                        
+
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: 24.0) {
                                 ForEach(perfumeStore.recomendedPerfumes.prefix(6), id: \.self.perfumeId) { perfume in
@@ -163,38 +163,30 @@ struct HomeView: View {
                 }
                 .onAppear{
                     print(Auth.auth().currentUser?.isEmailVerified)
-                    if userInfoStore.user != nil {    //  로그인 상태일 때
-                        Task {
-                            print("로그인")
+                    Task {
+                        if userInfoStore.user != nil {    //  로그인
                             await userInfoStore.fetchUser(user: userInfoStore.user)
                             guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
-                        }
-                    } else {    //  로그인 안 했을 경우
-                        Task {
-                            print("비로그인")
-
+                        } else {    //  비로그인
                             let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
                         }
-                        Task {
-                            let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
-                            await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
-                            await perfumeStore.readMostCommentsPerfumes()
-                            await magazineStore.readMagazines()
-                        }
+                        let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+                        let perfumesId = setRecomendedPerfumesId(perfumesId: selectedScentTypes)
+                        await perfumeStore.readRecomendedPerfumes(perfumesId: perfumesId)
+                        await perfumeStore.readMostCommentsPerfumes()
+                        await magazineStore.readMagazines()
                     }
+                    perfumeStore.recentSearches = UserDefaults.standard.array(forKey: "recentSearchesUD") as? [String] ?? [String]()
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                     Image(systemName: "magnifyingglass").foregroundColor(.black)
                 })
-                .onAppear {
-                    perfumeStore.recentSearches = UserDefaults.standard.array(forKey: "recentSearchesUD") as? [String] ?? [String]()
-                }
                 .navigationBarItems(trailing: NavigationLink(destination: FilterView()) {
                     Image(systemName: "slider.vertical.3").foregroundColor(.black)
                 })
@@ -220,10 +212,10 @@ struct TextViewModeifier: ViewModifier {
             .padding(.bottom, -5)
     }
 }
-//
+
 //struct HomeView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        HomeView()
+//        HomeView(selectedIndex: .constant(0))
 //            .environmentObject(UserInfoStore())
 //            .environmentObject(PerfumeStore())
 //            .environmentObject(MagazineStore())

@@ -105,7 +105,7 @@ struct MagazineView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: size.width, height: size.height)
-                            .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 20))
+                            .clipShape(CustomCorner(corners:  [.topLeft, .topRight], radius: 20))
                     } placeholder: {
                         ProgressView()
                             .frame(width: size.width, height: size.height)
