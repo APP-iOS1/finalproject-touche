@@ -83,7 +83,6 @@ struct PerfumeDescriptionView: View {
                         if newValue {
                             if idx != 15 {
                                 proxy.scrollTo(value.id, anchor: .top)
-                                print(idx)
                             } else {
                                 proxy.scrollTo(value.id, anchor: .center)
                             }
@@ -107,6 +106,10 @@ struct PerfumeDescriptionView: View {
                 Button {
                     withAnimation {
                         isEditMode.toggle()
+                    }
+                    if isEditMode && selectedIndex != 16 {
+                        flags[selectedIndex] = false
+                        selectedIndex = 16
                     }
                 } label: {
                     if isEditMode {
