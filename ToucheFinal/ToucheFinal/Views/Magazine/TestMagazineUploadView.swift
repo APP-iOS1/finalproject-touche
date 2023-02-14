@@ -29,6 +29,7 @@ struct TestMagazineUploadView: View {
                     
                     TextField("title", text: $title)
                         .padding()
+                    TextEditor(text: $title)
                     TextField("subTitle", text: $subTitle)
                         .padding()
                     Button("perfumeId 입력") {
