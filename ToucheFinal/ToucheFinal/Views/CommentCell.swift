@@ -12,7 +12,7 @@ struct CommentCell: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var commentStore: CommentStore
     @EnvironmentObject var perfumeStore: PerfumeStore
-    @State var  comment: Comment
+    @State var comment: Comment
     @State var isShowingWriteComment: Bool = false
     @State var deleteAlertActive: Bool = false
     @Binding var perfume: Perfume

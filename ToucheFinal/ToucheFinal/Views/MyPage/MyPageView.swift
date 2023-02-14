@@ -44,9 +44,19 @@ struct MyPageView: View {
                         .transition(.fade)
                         .cornerRadius(50)
                         .frame(width: 100, height: 100)
-                        .background(Color.black.opacity(0.2))
+                        .background {
+                            Image(systemName: "person.fill")
+                                .resizable()
+                                .padding(.top, 6)
+                                .padding(.horizontal, 3)
+                                .foregroundColor(.gray)
+                                .clipShape(Circle())
+                                .overlay {
+                                    Circle()
+                                        .stroke(.gray, lineWidth: 0.1)
+                                }
+                        }
                         .aspectRatio(contentMode: .fill)
-                        .clipShape(Circle())
                         .padding(.top, 20)
                     
                     HStack{
