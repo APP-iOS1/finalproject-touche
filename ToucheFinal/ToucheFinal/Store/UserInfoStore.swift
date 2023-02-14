@@ -18,11 +18,12 @@ final class UserInfoStore: ObservableObject{
     @Published var recentlyPerfumesId: [String] = []
     @Published var notice = ""
     @Published var errorMessage = ""
-    @Published var isDuplicated: Bool?
+    @Published var isEmailDuplicated: Bool?
     @Published var writtenCommentsAndPerfumes: [(Perfume, Comment)] = []
     @Published var isShowingFailAlert = false
     @Published var isShowingSuccessAlert = false
     @Published var isShowingSignoutAlert = false
+    @Published var isShowingScentTypeDesciptionAlert = false
     
     private let database = Firestore.firestore().collection("User")
     
@@ -116,6 +117,23 @@ final class UserInfoStore: ObservableObject{
         } catch {}
     }
     
+    /// 인증된 이메일인지 체크
+    func checkVerificationEmail(emailAddress: String, password: String) async {
+        do {
+            let _ = try await Auth.auth().signIn(withEmail: emailAddress, password: password)
+        } catch {}
+    }
+    
+    /// 이메일 인증 메일 전송
+    func sendVerificationEmail() {
+        user?.sendEmailVerification(completion: {(error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+            }
+        })
+        print("메일 전송")
+    }
     
     /// 회원가입 기능
     /// - Parameters:
@@ -134,9 +152,8 @@ final class UserInfoStore: ObservableObject{
         do {
             // MARK: 회원가입 성공하면, uid 받아오기.
             let result = try await Auth.auth().createUser(withEmail: emailAddress, password: password)
-            isShowingSuccessAlert.toggle()
             // MARK: 곧바로 로그인.
-            await logIn(emailAddress: emailAddress, password: password)
+//            await logIn(emailAddress: emailAddress, password: password)
             
             // MARK: UserInfo로 변환
             guard let uid = user?.uid else {return}
@@ -188,7 +205,6 @@ final class UserInfoStore: ObservableObject{
         }
         
         self.signInState = .signOut
-        
         database.document(user?.uid ?? "").delete()
     }
     
@@ -209,11 +225,10 @@ final class UserInfoStore: ObservableObject{
                     print(error.localizedDescription)
                 } else if providers != nil {
                     print("이미 등록된 이메일 입니다.")
-                    self.isDuplicated = true
-                    print("조건문의 isDuplicated 값은 (self.isDuplicated)")
+                    self.isEmailDuplicated = true   // 중복된 (이미 존재하는) 이메일
                 } else {
                     print("계정 정보가 없습니다.")
-                    self.isDuplicated = false
+                    self.isEmailDuplicated = false  // 중복되지 않은 (사용 가능한) 이메일
                 }
             }
     }
@@ -251,17 +266,7 @@ final class UserInfoStore: ObservableObject{
         }
     }
     
-    /// 사용 중인 유저의 닉네임을 수정
-    final func updateUserNickName(uid: String, nickname: String) async -> Void {
-        let path = database
-        do {
-            try await path.document(uid).updateData(["userNickName": nickname])
-        } catch {
-#if DEBUG
-            print("\(error.localizedDescription)")
-#endif
-        }
-    }
+    
 
     func updateRecentlyPerfumes(recentlyPerfumesId: [String]) async {
         do {
@@ -310,8 +315,6 @@ final class UserInfoStore: ObservableObject{
     }
     
     // storage에 사진이 올라가는 메서드
-    //MARK: - 기존 버전 uploadPhoto()
-    /*
     func uploadPhoto(_ imagesData: [Data]) async -> [String] {
         do{
             print("사진 업로드 시작")
@@ -340,7 +343,6 @@ final class UserInfoStore: ObservableObject{
                     print("path: \(delPath)")
                     try await storageRef.child(delPath).delete()
                 }
-                
             }
             return imagesURL
             
@@ -349,141 +351,41 @@ final class UserInfoStore: ObservableObject{
             fatalError()
         }
     }
-     */
     
-    //MARK: - 새로 바꾼 uploadPhoto()
-    func uploadPhoto(_ imagesData: Data?) async -> String {
-        do{
-            print("사진 업로드 시작")
-            
-            var imageURL: String = ""
-            
-            print("imgsData: \(imagesData)")
-            
-            if let imageData = imagesData {
-                
-                let uuid = UUID().uuidString
-                let path = "images/\(uuid).jpg"
-                let fileRef = storageRef.child(path)
-                
-                print(imageData)
-                
-                let _ = try await fileRef.putDataAsync(imageData, metadata: nil)
-                let url = try await fileRef.downloadURL()
-                imageURL = url.absoluteString
-                
-                print("사진 업로드 성공: \(imageURL)")
-                
-                await fetchUser(user: Auth.auth().currentUser)
-                print("신규가입자: \(userInfo?.userProfileImage)")
-                
-                // delPath에서 오류나는 이유는 신규가입자일 경우, storage에 저장한 프로필이미지id가 없으니까 path를 못찾기때문
-                // 신규가입자일 경우는 사진추가(업로드)만 하고, 프로필이미지를 한번이라도 변경한 경우에만 delete를 한 후에 업로드하기
-                if !(userInfo?.userProfileImage == "") {
-                    let delPath = "images/\(String( userInfo?.userProfileImage.split(separator: "%2F")[1].split(separator: "?")[0] ?? ""))"
-                    print("path: \(delPath)")
-                    try await storageRef.child(delPath).delete()
-                }
-            }
-            
-            return imageURL
-            
-        } catch{
-            print("사진 업로드 실패")
-            fatalError()
-        }
-    }
-    
-    func setProfilePhotoUrl(uid: String, userProfileImageUrl: String) async -> String {   //  String
+    /// 사용 중인 유저의 닉네임을 수정
+    final func updateUserProfile(uid: String, nickname: String, nation: String, userProfileImageUrl: String) async -> Void {
         let path = database
+        var userNation = ""
+        var userProfileImageUrl = ""
+
         do {
-            
-            print("userProfileImageUrl: \(userProfileImageUrl)")
-            try await path.document(uid).updateData(["userProfileImage": userProfileImageUrl])
-            
-            return userProfileImageUrl
-        } catch { }
-        
-        fatalError()
-    }
-    
-    func setProfileNationality(uid: String, nation: String) async -> Void {
-        
-        do {
-            
-            print(nation)
-            
             switch nation {
             case "🇺🇸":
-                try await database.document(uid).updateData(["userNation" : "United States of America"])
-                break;
-                
+                userNation = "United States of America"
             case "🇰🇷":
-                try await database.document(uid).updateData(["userNation" : "Republic of Korea"])
-                break;
-                
+                userNation = "Republic of Korea"
             case "🇫🇷":
-                try await database.document(uid).updateData(["userNation" : "France"])
-                break;
-                
+                userNation = "France"
             case "🇪🇸":
-                try await database.document(uid).updateData(["userNation" : "España"])
-                break;
-                
+                userNation = "España"
             case "🇨🇦":
-                try await database.document(uid).updateData(["userNation" : "Canada"])
-                break;
-                
+                userNation = "Canada"
             default:
-                print("None")
-                break;
-            }
-        } catch {
-            
-        }
-    }
-    
-    func getProfileNationality(uid: String) async -> String {
-        do {
-            let target = try await database.document("\(uid)").getDocument()
-            
-            let docData = target.data()
-            var temp: String = docData?["userNation"] as? String ?? ""
-            
-            print("User's Nation?: \(temp)")
-            
-            switch temp {
-            case "United States of America":
-                temp = "🇺🇸"
-                break;
-                
-            case "Republic of Korea":
-                temp = "🇰🇷"
-                break;
-                
-            case "France":
-                temp = "🇫🇷"
-                break;
-                
-            case "España":
-                temp = "🇪🇸"
-                break;
-                
-            case "Canada":
-                temp = "🇨🇦"
-                break;
-                
-            default:
-                temp = ""
-                break;
+                userNation = "None"
             }
             
-            return temp
-        } catch {
-            print(error.localizedDescription)
+            if userProfileImageUrl == "" {
+                userProfileImageUrl = userInfo?.userProfileImage ?? ""
+            }
             
-            return "error"
+            try await path.document(uid).updateData([
+                "userNickName": nickname,
+                "userNation": userNation,
+                "userProfileImage": userProfileImageUrl])
+        } catch {
+#if DEBUG
+            print("\(error.localizedDescription)")
+#endif
         }
     }
-
 }
