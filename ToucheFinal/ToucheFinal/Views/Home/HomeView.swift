@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-
-import SwiftUI
 import FirebaseAuth
 import FirebaseFirestoreSwift
 import AlertToast
@@ -19,7 +17,7 @@ struct HomeView: View {
     @Binding var selectedIndex: Int
     @EnvironmentObject var perfumeStore: PerfumeStore
     @EnvironmentObject var userInfoStore: UserInfoStore
-    
+    @StateObject var magazineStore: MagazineStore = MagazineStore()
     @AppStorage("language")
     private var language = LocalizationService.shared.language
     
@@ -30,51 +28,58 @@ struct HomeView: View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack {
-                    Rectangle()
-                        .frame(height: 200)
-                        .overlay(alignment: .top) {
-                            HStack{
-                                Button {
-                                    // TODO: NEW ARRIVALS 클릭시 매거진뷰로 이동
-                                    selectedIndex = 2
-                                } label: {
-                                    Text("NEW ARRIVALS")
-                                    //Text("NEW ARRIVALS".localized(language))
-                                        .font(.largeTitle)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.white)
-                                }
-                                Spacer()
-                            }
+//                    Rectangle()
+//                        .frame(height: 200)
+//                        .overlay(alignment: .top) {
+//                            HStack{
+//                                NavigationLink {
+//                                    // TODO: NEW ARRIVALS 클릭시 매거진뷰로 이동
+//
+//                                } label: {
+//                                    Text("NEW ARRIVALS")
+//                                    //Text("NEW ARRIVALS".localized(language))
+//                                        .font(.largeTitle)
+//                                        .fontWeight(.semibold)
+//                                        .foregroundColor(.white)
+//                                }
+//                                Spacer()
+//                            }
+//                        }
+//                        .padding()
+//                        .background(.black)
+                    VStack {
+                        Button {
+                            selectedIndex = 2
+                        } label: {
+                            MagazineBanner(magazine: magazines.first!)
                         }
-                        .padding()
-                        .background(.black)
-                    //TODO: 프로모션 들어오면 사용할 기능
-                    Group {
-                        //                    if isShowingPromotion{
-                        //                        HStack {
-                        //                            VStack(alignment: .leading) {
-                        //                                Text("CHECK OUT THE PROMOTIONS.")
-                        //                                    .foregroundColor(.black)
-                        //
-                        //                                Text("MORE")
-                        //                                    .underline()
-                        //                                    .foregroundColor(.black)
-                        //                            }
-                        //                            Spacer()
-                        //                            Button {
-                        //                                isShowingPromotion = false
-                        //                            } label: {
-                        //                                Text("CLOSE")
-                        //                                    .foregroundColor(.gray)
-                        //                            }
-                        //                        }
-                        //                        .padding()
-                        //                        .background(Color(.gray).opacity(0.4))
-                        //                        .padding(.top, -10)
-                        //                    }
+                        .tint(.white)
                     }
-                    
+//                        Spacer()
+//                    if isShowingPromotion{
+//                        HStack {
+//                            VStack(alignment: .leading) {
+//                                Text("CHECK OUT THE PROMOTIONS.")
+//                                    .foregroundColor(.black)
+//
+//                                Text("MORE")
+//                                    .underline()
+//                                    .foregroundColor(.black)
+//                            }
+//                            Spacer()
+//                            Button {
+//                                isShowingPromotion = false
+//                            } label: {
+//                                Text("CLOSE")
+//                                    .foregroundColor(.gray)
+//                            }
+//                        }
+//                        .padding()
+//                        .background(Color(.gray).opacity(0.4))
+//                        .padding(.top, -10)
+//                    }
+            
+
                     // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
@@ -173,6 +178,8 @@ struct HomeView: View {
                         let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
                         await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
                         await perfumeStore.readMostCommentsPerfumes()
+                        
+                        await magazineStore.readMagazines()
                     }
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
@@ -206,11 +213,12 @@ struct TextViewModeifier: ViewModifier {
             .padding(.bottom, -5)
     }
 }
-
+//
 //struct HomeView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        HomeView()
 //            .environmentObject(UserInfoStore())
 //            .environmentObject(PerfumeStore())
+//            .environmentObject(MagazineStore())
 //    }
 //}

@@ -34,16 +34,14 @@ struct MagazineView: View {
                 HStack {
                     Text("Magazine")
                         .font(.largeTitle)
-                        .padding(.vertical, 15)
                         .fontWeight(.semibold)
                         .opacity(showDetailPage ? 0 : 1)
-                    Spacer()
-                    NavigationLink {
-                        TestMagazineUploadView()
-                    } label: {
-                        Image(systemName: "plus.app")
-                    }
-                    
+//                    NavigationLink {
+//                        TestMagazineUploadView()
+//                    } label: {
+//                        Image(systemName: "plus.rectangle.portrait.fill")
+//                    }
+
                 }
                 .padding()
                 VStack(spacing: 0) {
@@ -63,11 +61,11 @@ struct MagazineView: View {
                     }
                 }
             }
+            .padding(.top, 0.1)
             .overlay {
                 if let currentItem = currentItem, showDetailPage {
                     DetailView(item: currentItem)
                         .ignoresSafeArea(.container, edges: .top)
-                    
                 }
             }
             .background(alignment: .top) {
@@ -77,6 +75,11 @@ struct MagazineView: View {
                     .scaleEffect(animateView ? 1: 0.93)
                     .opacity(animateView ? 1 : 0)
                     .ignoresSafeArea()
+            }
+            .refreshable {
+                Task {
+                    await magazineStore.readMagazines()
+                }
             }
             .onAppear {
                 Task {
@@ -91,8 +94,13 @@ struct MagazineView: View {
             ZStack(alignment: .topLeading) {
                 GeometryReader { proxy in
                     let size = proxy.size
-                    
-                    AsyncImage(url: URL(string: item.contentImage)) { image in
+//                    Image("Chanel")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fill)
+//                        .frame(width: size.width, height: size.height)
+//                        .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 20))
+
+                    CacheAsyncImage(url: URL(string: item.contentImage)) { image in
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -100,21 +108,15 @@ struct MagazineView: View {
                             .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 20))
                     } placeholder: {
                         ProgressView()
+                            .frame(width: size.width, height: size.height)
                     }
-
-                    
-//                    Image(item.contentImage)
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                        .frame(width: size.width, height: size.height)
-//                        .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 20))
                 }
                 .frame(height: 400)
                 
             }
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
-                    .font(.title).bold()
+                    .font(.title).bold() 
                 
                 Text(item.subTitle)
                     .font(.caption)
@@ -157,7 +159,7 @@ struct MagazineView: View {
 //                            }
 //                    )
                 VStack(spacing: 15) {
-                    AsyncImage(url: URL(string: item.bodyImage)) { image in
+                    CacheAsyncImage(url: URL(string: item.bodyImage)) { image in
                         image
                             .resizable()
                             .scaledToFit()
@@ -192,6 +194,7 @@ struct MagazineView: View {
             .offset(y: scrollOffset > 0 ? -scrollOffset : 0)
             .offset(offset: $scrollOffset)
         }
+        .statusBar(hidden: true)
 //        .scaleEffect(scale)
         .overlay(alignment: .topTrailing, content: {
             Button {
@@ -205,14 +208,13 @@ struct MagazineView: View {
                 }
             } label: {
                 Image(systemName: "xmark.circle.fill")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, .black)
                     .font(.title)
-                    .foregroundColor(.black)
             }
-            .padding()
-            .padding(.top, safeArea().top)
-            .offset(y: -10)
+            .padding(20)
             .opacity(animateView ? 1 : 0)
-            
+            Spacer()
         })
         .onAppear {
             withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)){
