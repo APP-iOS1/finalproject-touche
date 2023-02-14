@@ -79,6 +79,7 @@ struct HomeView: View {
 //                        .padding(.top, -10)
 //                    }
             
+
                     // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
@@ -100,7 +101,7 @@ struct HomeView: View {
                                         PerfumeDetailView(perfume: perfume)
                                     } label: {
                                         PerfumeCell(perfume: perfume)
-//                                        PerfumeCellModified(perfume: perfume, show: $show, animation: animation)
+                                        //                                        PerfumeCellModified(perfume: perfume, show: $show, animation: animation)
                                     }
                                 }
                             }
@@ -108,14 +109,40 @@ struct HomeView: View {
                             .padding(.top, -11)
                         }
                         .frame(height: 240)
-
+                    }
+                        
+                        // MARK: 코멘트 많이 달린 향수
+                    VStack(alignment: .leading, spacing: 0.0) {
+                        HStack(alignment: .bottom) {
+                            Text("TOP COMMNENTS 10")
+                                .modifier(TextViewModeifier(isTitleSection: true))
+                            Spacer()
+                        }
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack(spacing: 24.0) {
+                                ForEach(perfumeStore.mostCommentsPerfumes.prefix(10), id: \.self.perfumeId) { perfume in
+                                    NavigationLink {
+                                        PerfumeDetailView(perfume: perfume)
+                                    } label: {
+                                        PerfumeCell(perfume: perfume)
+                                    }
+                                }
+                            }
+                            .padding()
+                            .padding(.top, -11)
+                        }
+                        .frame(height: 240)
+                    }
+                        
                         // MARK: 최근 클릭한 향수
+                    if !perfumeStore.recentlyViewedPerfumes.isEmpty {
                         VStack(alignment: .leading, spacing: 0.0) {
                             HStack(alignment: .bottom) {
                                 Text("RECENTLY VIEWED")
                                     .modifier(TextViewModeifier(isTitleSection: true))
                                 Spacer()
                             }
+                            
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack(spacing: 24.0) {
                                     ForEach(perfumeStore.recentlyViewedPerfumes, id: \.self.perfumeId) { perfume in
@@ -130,62 +157,30 @@ struct HomeView: View {
                                 .padding(.top, -11)
                             }
                             .frame(height: 240)
-                            
                         }
-                    
-                        // MARK: 코멘트 많이 달린 향수
-                        VStack(alignment: .leading, spacing: 0.0) {
-                            HStack(alignment: .bottom) {
-                                Text("TOP COMMNENTS 10")
-                                    .modifier(TextViewModeifier(isTitleSection: true))
-                                Spacer()
-                            }
-                            ScrollView(.horizontal, showsIndicators: false){
-                                HStack(spacing: 24.0) {
-                                    ForEach(perfumeStore.mostCommentsPerfumes.prefix(10), id: \.self.perfumeId) { perfume in
-                                        NavigationLink {
-                                            PerfumeDetailView(perfume: perfume)
-                                        } label: {
-                                            PerfumeCell(perfume: perfume)
-                                        }
-                                    }
-                                }
-                                .padding()
-                                .padding(.top, -11)
-                            }
-                            .frame(height: 240)
-                            
-                        }
-                        
                     }
+                        
                 }
                 .onAppear{
-                    if userInfoStore.user != nil {    //  로그인 상태일 때
-                        Task {
-                            await userInfoStore.fetchUser(user: userInfoStore.user)
+                    Task {
+                        await userInfoStore.fetchUser(user: userInfoStore.user)
+                        if userInfoStore.userInfo != nil {    //  로그인 상태일 때
                             guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
-                        }
-                    } else {    //  로그인 했을 경우
-                        Task {
+                        } else {    //  로그인 했을 경우
                             let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
                         }
-                    }
-                    
-                    Task {
                         let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
                         await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
-                        
                         await perfumeStore.readMostCommentsPerfumes()
                         
                         await magazineStore.readMagazines()
                     }
-                    
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                     Image(systemName: "magnifyingglass").foregroundColor(.black)

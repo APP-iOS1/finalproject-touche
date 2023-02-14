@@ -54,7 +54,7 @@ struct LogInView: View {
             } label: {
                 Text("Sign In")
                     .frame(width: 360, height: 46)
-                    .background(.black)
+                    .background(email.isEmpty || password.isEmpty ? .gray : .black)
                     .foregroundColor(.white)
                     .cornerRadius(7)
             }
