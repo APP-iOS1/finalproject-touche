@@ -18,11 +18,12 @@ final class UserInfoStore: ObservableObject{
     @Published var recentlyPerfumesId: [String] = []
     @Published var notice = ""
     @Published var errorMessage = ""
-    @Published var isDuplicated: Bool?
+    @Published var isEmailDuplicated: Bool?
     @Published var writtenCommentsAndPerfumes: [(Perfume, Comment)] = []
     @Published var isShowingFailAlert = false
     @Published var isShowingSuccessAlert = false
     @Published var isShowingSignoutAlert = false
+    @Published var isShowingScentTypeDesciptionAlert = false
     
     private let database = Firestore.firestore().collection("User")
     
@@ -151,7 +152,6 @@ final class UserInfoStore: ObservableObject{
         do {
             // MARK: 회원가입 성공하면, uid 받아오기.
             let result = try await Auth.auth().createUser(withEmail: emailAddress, password: password)
-            isShowingSuccessAlert.toggle()
             // MARK: 곧바로 로그인.
 //            await logIn(emailAddress: emailAddress, password: password)
             
@@ -225,11 +225,10 @@ final class UserInfoStore: ObservableObject{
                     print(error.localizedDescription)
                 } else if providers != nil {
                     print("이미 등록된 이메일 입니다.")
-                    self.isDuplicated = true
-                    print("조건문의 isDuplicated 값은 (self.isDuplicated)")
+                    self.isEmailDuplicated = true   // 중복된 (이미 존재하는) 이메일
                 } else {
                     print("계정 정보가 없습니다.")
-                    self.isDuplicated = false
+                    self.isEmailDuplicated = false  // 중복되지 않은 (사용 가능한) 이메일
                 }
             }
     }

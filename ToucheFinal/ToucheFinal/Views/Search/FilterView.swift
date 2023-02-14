@@ -16,6 +16,8 @@ final class FilterViewModel: ObservableObject {
     @Published var tab: Tab = .brand
     @Published var brandSearch: String = ""
     @Published var colorSearch: String = ""
+    @Published var isShowingOverCheckedBrandAlert = false
+    @Published var isShowingOverCheckedColorAlert = false
     
     // grouping: [https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298](https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298)
     
@@ -129,9 +131,7 @@ final class FilterViewModel: ObservableObject {
 }
 
 struct FilterView: View {
-    @StateObject var vm = FilterViewModel()
-    @State private var brandPopupActive: Bool = false
-    @State private var colorPopupActive: Bool = false
+    @EnvironmentObject var vm: FilterViewModel
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
@@ -166,38 +166,6 @@ struct FilterView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        
-        //MARK: 필터링 개수제한 팝업
-//        .popup(isPresented: $brandPopupActive) {
-//            Text("You can select up to 10 brands.")
-//                .bold()
-//                .frame(width: UIScreen.main.bounds.width - 80, height: 25)
-//                .background(Color.red.opacity(0.7))
-//                .cornerRadius(20.0)
-//        } customize: {
-//            $0.autohideIn(2)
-//                .type(.floater(verticalPadding: 30))
-//                .position(.top)
-//                .animation(.spring())
-//                .isOpaque(true)
-//                .closeOnTapOutside(true)
-//        }
-//        
-//        .popup(isPresented: $colorPopupActive) {
-//            Text("You can select up to 10 colors.")
-//                .bold()
-//                .frame(width: UIScreen.main.bounds.width - 80, height: 25)
-//                .background(Color.red.opacity(0.7))
-//                .cornerRadius(20.0)
-//        } customize: {
-//            $0.autohideIn(2)
-//                .type(.floater(verticalPadding: 30))
-//                .position(.top)
-//                .animation(.spring())
-//                .isOpaque(true)
-//                .closeOnTapOutside(true)
-//        }
-
     }
 }
 
@@ -354,7 +322,7 @@ private extension FilterView {
                                     } else if vm.brands.count == 10 {
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
-                                        brandPopupActive = true
+                                        vm.isShowingOverCheckedBrandAlert.toggle()
 //                                        print("팝업 실행")
                                     }
                                 } label: {
@@ -389,7 +357,7 @@ private extension FilterView {
                                     } else if vm.colors.count == 10 {
                                         
                                         //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
-                                        colorPopupActive = true
+                                        vm.isShowingOverCheckedColorAlert.toggle()
                                         //print("팝업 실행")
                                     }
                                 } label: {

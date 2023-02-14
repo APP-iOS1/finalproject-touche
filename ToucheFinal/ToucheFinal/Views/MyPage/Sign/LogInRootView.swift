@@ -21,20 +21,6 @@ struct LogInRootView: View {
     //            MyPageView()
             }
         }
-        /// 없는 정보로 로그인 할때 경고창
-        .toast(isPresenting: $userInfoStore.isShowingFailAlert) {
-            AlertToast(displayMode: .hud, type: .error(Color.red), title: "Incorrect Information!", subTitle: "Please check email or password", style: .style(titleColor: Color.red, subTitleColor: Color.black))
-        }
-        
-        /// 로그인 성공시 알럿
-        .toast(isPresenting: $userInfoStore.isShowingSuccessAlert) {
-            AlertToast(displayMode: .hud, type: .complete(Color.green), title: "Welcome to Touché !", subTitle: "Sign in Success", style: .style(titleColor: Color.blue))
-        }
-        
-        /// 로그 아웃 성공시 알럿
-        .toast(isPresenting: $userInfoStore.isShowingSignoutAlert){
-            AlertToast(displayMode: .hud, type: .complete(Color.green), title: "sign out complete.", subTitle: "See you again!", style: .style(titleColor: Color.blue, subTitleColor: Color.black))
-        }
     }
 }
 
