@@ -48,7 +48,7 @@ struct LogInSignUpView: View {
                 case 0:
                     LogInView()
                 default:
-                    SignUpView()
+                        SignUpView()
                 }
                 Spacer()
             }

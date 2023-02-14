@@ -7,12 +7,14 @@
 
 import SwiftUI
 import AlertToast
+import FirebaseAuth
 
 struct LogInRootView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
+    
     var body: some View {
         VStack {
-            if userInfoStore.userInfo != nil {
+            if Auth.auth().currentUser?.isEmailVerified ?? false {
                 MyPageView(perfume: dummy[0], comment: commentDummy[0]) // 로그인 되면
             } else { // 로그인 안되면
                 SignOutView()

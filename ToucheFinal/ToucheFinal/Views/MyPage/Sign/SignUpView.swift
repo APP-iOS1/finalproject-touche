@@ -18,6 +18,7 @@ struct SignUpView: View {
     @State var password: String = ""
     @State var checkPassword: String = ""
     @State var nickName: String = ""
+    @State var sendMailAlertActive: Bool = false
     
     // 이메일 정규식 검사
     var isEmailRuleSatisfied : Bool {
@@ -179,33 +180,47 @@ struct SignUpView: View {
             .padding()
             .textFieldStyle(.roundedBorder)
             
-            
-            // Sign Up Button
-            Button {
-                Task {
-                    await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
-                    
-                    // 향수 디테일 뷰에서 회원 가입 할때 모달창 디스미스 위한 조건문
-                    if userInfoStore.loginState == .success {
-                        dismiss()
+//            NavigationLink {
+//                ConfirmEmailView()
+//            } label: {
+                Button {
+                    Task {
+                        print("회원가입 버튼")
+                        await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
+                        userInfoStore.isDuplicated = nil
+                        userInfoStore.sendVerificationEmail()
+                        // 향수 디테일 뷰에서 회원 가입 할때 모달창 디스미스 위한 조건문
+//                        if userInfoStore.loginState == .success {
+                            sendMailAlertActive.toggle()
+                            
+//                        }
+
                     }
+                } label: {
+                    Text("Sign Up")
+                        .frame(width: 360, height: 46)
+                        .background(isSignUpDisabled ? .gray : .black)
+                        .foregroundColor(.white)
+                        .cornerRadius(7)
                 }
-            } label: {
-                Text("Sign Up")
-                    .frame(width: 360, height: 46)
-                    .background(isSignUpDisabled ? .gray : .black)
-                    .foregroundColor(.white)
-                    .cornerRadius(7)
-            }
-            .disabled(isSignUpDisabled)
-            .padding(.top, 10)
+                .disabled(isSignUpDisabled)
+//            }
+
+            
+
             
         }
-        .onAppear{
-//            print("SignUp")
-            // 이메일, 닉네임 옆 초록 체크표시 없애기
+        .onAppear{print("SignUp")
+         // 이메일, 닉네임 옆 초록 체크표시 없애기
             userInfoStore.isEmailDuplicated = nil
             nickNameCheck = nil
+        }
+        .alert("Sign up", isPresented: $sendMailAlertActive) {
+            Button("OK"){
+                presentationMode.wrappedValue.dismiss()
+            }
+        } message: {
+            Text("메일이 발송되었습니다. 받은 메일에서 링크를 클릭하여 회원가입을 완료해 주세요.")
         }
     }
     func checkEmail(email: String) -> Bool {

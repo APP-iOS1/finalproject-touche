@@ -162,14 +162,20 @@ struct HomeView: View {
                         
                 }
                 .onAppear{
-                    Task {
-                        await userInfoStore.fetchUser(user: userInfoStore.user)
-                        if userInfoStore.userInfo != nil {    //  로그인 상태일 때
+                    print(Auth.auth().currentUser?.isEmailVerified)
+                    if userInfoStore.user != nil {    //  로그인 상태일 때
+                        Task {
+                            print("로그인")
+                            await userInfoStore.fetchUser(user: userInfoStore.user)
                             guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
-                        } else {    //  로그인 했을 경우
+                        }
+                    } else {    //  로그인 안 했을 경우
+                        Task {
+                            print("비로그인")
+
                             let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
