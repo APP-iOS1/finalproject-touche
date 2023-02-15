@@ -15,12 +15,16 @@ struct VersionView: View {
         NavigationView{
             VStack{
                 
-                Image("AppIcon")
+                Image("touche3")
                     .resizable()
-                    .cornerRadius(20)
-                Text("현재 버전: 1.0")
+                    .frame(width: UIScreen.main.bounds.width - 287, height: 100.0)
+                    .cornerRadius(15)
+                    .padding(.top, 30)
+                    .padding(.bottom, 17)
+                Text("Version: 1.0")
                 Spacer()
             }
+            .navigationBarTitle("Version", displayMode: .inline)
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){
                     Button {
