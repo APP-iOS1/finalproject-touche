@@ -43,6 +43,8 @@
 		6550DD35299A1AFA004AF206 /* ContactUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550DD34299A1AFA004AF206 /* ContactUsView.swift */; };
 		6550DD37299A1B1E004AF206 /* TermsandConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550DD36299A1B1E004AF206 /* TermsandConditionsView.swift */; };
 		6550DD39299A1B3B004AF206 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550DD38299A1B3B004AF206 /* PrivacyView.swift */; };
+		6550DD3B299BE933004AF206 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550DD3A299BE933004AF206 /* LaunchScreenView.swift */; };
+		6550DD3D299C7908004AF206 /* VersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550DD3C299C7908004AF206 /* VersionView.swift */; };
 		656A00E929792E08002E37E6 /* DeleteAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A00E829792E08002E37E6 /* DeleteAccountView.swift */; };
 		656A00EB29792FFD002E37E6 /* SelectNationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A00EA29792FFD002E37E6 /* SelectNationView.swift */; };
 		657A08F92976596900E5B565 /* ToucheFinalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A08F82976596900E5B565 /* ToucheFinalApp.swift */; };
@@ -131,6 +133,8 @@
 		6550DD34299A1AFA004AF206 /* ContactUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsView.swift; sourceTree = "<group>"; };
 		6550DD36299A1B1E004AF206 /* TermsandConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsandConditionsView.swift; sourceTree = "<group>"; };
 		6550DD38299A1B3B004AF206 /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
+		6550DD3A299BE933004AF206 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		6550DD3C299C7908004AF206 /* VersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionView.swift; sourceTree = "<group>"; };
 		656A00E829792E08002E37E6 /* DeleteAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountView.swift; sourceTree = "<group>"; };
 		656A00EA29792FFD002E37E6 /* SelectNationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNationView.swift; sourceTree = "<group>"; };
 		656A00EC29795B5B002E37E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -303,6 +307,7 @@
 				6550DD38299A1B3B004AF206 /* PrivacyView.swift */,
 				6550DD36299A1B1E004AF206 /* TermsandConditionsView.swift */,
 				6550DD34299A1AFA004AF206 /* ContactUsView.swift */,
+				6550DD3C299C7908004AF206 /* VersionView.swift */,
 				656A00EA29792FFD002E37E6 /* SelectNationView.swift */,
 				656A00E829792E08002E37E6 /* DeleteAccountView.swift */,
 			);
@@ -387,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				61FE13182977D587003F0466 /* PerfumeTabView.swift */,
+				6550DD3A299BE933004AF206 /* LaunchScreenView.swift */,
 				617449442988A02E0064BEE8 /* Onboarding */,
 				61FE131B2977D5B9003F0466 /* Home */,
 				76D6DABE2993F80D00EAA5BB /* Magazine */,
@@ -544,6 +550,7 @@
 				657A091729765BF000E5B565 /* Perfume.swift in Sources */,
 				61FE13252977DC3F003F0466 /* SearchFilterView.swift in Sources */,
 				EB7F90D9298903C5005C7CFB /* ColorChipPerfumeCell.swift in Sources */,
+				6550DD3B299BE933004AF206 /* LaunchScreenView.swift in Sources */,
 				657A091E29765E9000E5B565 /* PerfumeStore.swift in Sources */,
 				61212E662978E37200D0ED57 /* APIStore.swift in Sources */,
 				6189EA0B297A33B0005E6AA9 /* String+.swift in Sources */,
@@ -589,6 +596,7 @@
 				657A091929765CFE00E5B565 /* Comment.swift in Sources */,
 				A8DDBB44297939FB003AC935 /* SearchResultView.swift in Sources */,
 				6550DD37299A1B1E004AF206 /* TermsandConditionsView.swift in Sources */,
+				6550DD3D299C7908004AF206 /* VersionView.swift in Sources */,
 				AAA5F6EC298BB00B00DA8B09 /* View+.swift in Sources */,
 				233378B82989EA5100294C58 /* ColorPalette.swift in Sources */,
 				AA1B9A7B298C9EAA008817B4 /* HexParsing.swift in Sources */,
@@ -750,11 +758,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Touche;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Album permissions to save videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Camera permissions for taking photos and videos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -782,11 +793,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Touche;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Album permissions to save videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Camera permissions for taking photos and videos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

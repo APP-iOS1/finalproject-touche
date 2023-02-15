@@ -62,8 +62,9 @@ struct FilteringResultView: View {
                         
                     }
                 }
-                //MARK: 윗쪽 그리드셀 조금 잘리는 문제로 패딩 추가
+                //MARK: 윗아래 그리드셀 조금 잘리는 문제로 패딩 추가
                 .padding(.top, 5)
+                .padding(.bottom, 30)
             }
         }
         .padding(.horizontal)
