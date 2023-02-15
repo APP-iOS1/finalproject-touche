@@ -32,8 +32,8 @@ struct MyPageMyCommentCell: View {
                         .multilineTextAlignment(.leading)
                     Text(comment.contents).font(.custom("NotoSans-Regular", size: 10))
                         .multilineTextAlignment(.leading)
-                        .lineLimit(2...4)
-                    RatingView(score: .constant(perfume.totalPerfumeScore/perfume.commentCount), frame: 15, canClick: false)
+                        .lineLimit(1...2)
+                    RatingView(score: .constant(perfume.totalPerfumeScore/perfume.commentCount), frame: 13, canClick: false)
                     
                     
                 }

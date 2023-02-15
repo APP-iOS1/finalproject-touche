@@ -112,7 +112,7 @@ struct WriteCommentView: View {
                 }label: {
                     Text("Post Comment")
                         .frame(width: 330, height: 46)
-                        .background(.black)
+                        .background(manager.reviewText.isEmpty || score < 1 ? .gray : .black)
                         .foregroundColor(.white)
                         .cornerRadius(7)
                 }
