@@ -44,6 +44,7 @@ struct CommentCell: View {
                 HStack {
                     Text(comment.writerNickName)
                         .bold()
+                        .font(.system(size: 17))
                     if userInfoStore.user?.uid == comment.writerId {
                         Spacer()
                         
@@ -67,9 +68,11 @@ struct CommentCell: View {
                 .foregroundColor(.black)
                 
                 Text(comment.contents)
+                    .font(.system(size: 13))
                     .frame(width: 300, alignment: .leading)
+                    .offset(y: 5)
                 HStack {
-                    RatingView(score: .constant(comment.perfumeScore), frame: 15, canClick: false)
+                    RatingView(score: .constant(comment.perfumeScore), frame: 13, canClick: false)
                     Button {
                         Task {
                             guard let userId = userInfoStore.user?.uid else {return}
@@ -85,11 +88,11 @@ struct CommentCell: View {
                     } label: {
                         Image(systemName: comment.likedPeople.contains(userInfoStore.user?.uid ?? "") ? "hand.thumbsup.fill" : "hand.thumbsup")
                             .resizable()
-                            .frame(width: 18, height: 18)
+                            .frame(width: 13, height: 13)
                             .foregroundColor(.black)
                     }
                     Text("\(comment.likedPeople.count)")
-                        .font(.system(size: 14))
+                        .font(.system(size: 13))
                         .padding(.leading, -3)
                 }
             }
@@ -141,5 +144,6 @@ struct CommentCell_Previews: PreviewProvider {
                                      likedPeople: ["1", "2"],
                                      commentCount: 154,
                                      totalPerfumeScore: 616)))
+        .environmentObject(UserInfoStore())
     }
 }
