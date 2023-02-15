@@ -95,74 +95,75 @@ struct EditMyProfileView: View {
                 Divider()
                     .frame(maxWidth: .infinity)
                 
-                VStack{
-                    HStack{
+                HStack {
+                    VStack {
                         Text("Nickname")
-                        Spacer(minLength: 50)
-                        
-                        VStack{
-                            TextField("Edit your Name", text: $editName)
-                                .padding(.bottom, -5)
-                                .foregroundColor(.black)
-                            // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
-                                .onChange(of: editName) { value in
-                                    if editName.count > 0 && editName.count < 20 {
-                                        self.editIsValid = true
-                                    } else {
-                                        self.editIsValid = false
-                                    }
-                                }
-                            Rectangle().frame(height: 0.45)
-                                .foregroundColor(Color(uiColor: .systemGray5))
-                        }
-                    } // 네임 텍스트 필드 HStack
-                    //  .padding(.bottom, 25)
-                    .padding(.bottom, 10)
-                  
-                    HStack{
+                            .padding(10)
+                            .frame(maxWidth: 100, alignment: .leading)
                         Text("Email")
-                        Spacer(minLength: 50)   //  추가
-                        
-                        VStack(alignment: .leading){
-                            Text(userInfoStore.userInfo?.userEmail ?? "")
-                                .padding(.bottom, -5)
-                        
-                            Rectangle()//   .frame(height: 0.66)
-                                .frame(height: 0.45)
-                                .foregroundColor(Color(uiColor: .systemGray5))
-                        }
-                        //  .frame(width: 276)
-                        .frame(width: 235)
-                    } // 이메일 HStack
-                    .padding(.bottom, 10)
-                    
-                    HStack {
+                            .padding(10)
+                            .frame(maxWidth: 100, alignment: .leading)
                         Text("Region")
-                        Spacer(minLength: 60)
-                        VStack{
-                            HStack {
-                                ForEach(0 ..< 5) { idx in
-                                    Button {
-                                        editNation = nation[idx]
-                                    } label: {
-                                        Text(nation[idx])
-                                            .overlay(
-                                                Circle().stroke(editNation == nation[idx] ? .green : .clear, lineWidth: 2)
-                                            )
-                                    }
-                                    .buttonStyle(.customButton)
-                                    .padding(.trailing, -13)
+                            .padding(10)
+                            .frame(maxWidth: 100, alignment: .leading)
+                            .padding(.vertical, 8)
+                    }
+                    .padding(.leading, 9)
+                    
+                    VStack {
+                        TextField("Edit your Name", text: $editName)
+                        // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
+                            .onChange(of: editName) { value in
+                                if editName.count > 0 && editName.count < 20 {
+                                    self.editIsValid = true
+                                } else {
+                                    self.editIsValid = false
                                 }
-                                
-                                Spacer()
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(7)
+                            .overlay(
+                                VStack {
+                                    Spacer()
+                                    Rectangle().frame(height: 0.8)
+                                        .foregroundColor(Color(uiColor: .systemGray5))
+                                }
+                            )
+                            .padding(.trailing, 11)
+                        
+                        Text(userInfoStore.userInfo?.userEmail ?? "")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(7)
+                            .overlay(
+                                VStack {
+                                    Spacer()
+                                    Rectangle().frame(height: 0.8)
+                                        .foregroundColor(Color(uiColor: .systemGray5))
+                                }
+                            )
+                            .padding(.trailing, 11)
+                        
+                        HStack {
+                            ForEach(0 ..< 5) { idx in
+                                Button {
+                                    editNation = nation[idx]
+                                } label: {
+                                    Text(nation[idx])
+                                        .overlay(
+                                            Circle().stroke(editNation == nation[idx] ? .green : .clear, lineWidth: 2)
+                                        )
+                                }
+                                .buttonStyle(.customButton)
+                                .padding(.trailing, -13)
                             }
                         }
-                    } // 로케이션 HStack
-                 
+                        
+                        .padding(.trailing)
+                        .padding(.vertical, 10)
+                        .offset(x: -10, y: 10)
                     }
-                    //.border(.black)
-                    .padding()
-                
+                }
+                .padding(.bottom, 20)
                     Divider()
                         //.frame(minWidth: .infinity)
                     Spacer()
@@ -323,7 +324,18 @@ extension String {
 
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
-            .environmentObject(UserInfoStore())
+        Group {
+            EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+                .environmentObject(UserInfoStore())
+                .previewDevice("iPhone 13 mini")
+            
+            EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+                .environmentObject(UserInfoStore())
+                .previewDevice("iPhone 14 Pro")
+            
+            EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+                .environmentObject(UserInfoStore())
+                .previewDevice("iPhone SE (2nd generation)")
+        }
     }
 }
