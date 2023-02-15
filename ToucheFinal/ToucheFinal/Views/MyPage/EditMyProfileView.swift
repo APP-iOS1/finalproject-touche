@@ -45,10 +45,20 @@ struct EditMyProfileView: View {
                         .resizable()
                         .cornerRadius(50)
                         .frame(width: 100, height: 100)
-                        .background(Color.black.opacity(0.2))
+                        .background {
+                            Image(systemName: "person.fill")
+                                .resizable()
+                                .padding(.top, 6)
+                                .padding(.horizontal, 3)
+                                .foregroundColor(.gray)
+                                .clipShape(Circle())
+                                .overlay {
+                                    Circle()
+                                        .stroke(.gray, lineWidth: 0.1)
+                                }
+                        }
                         .aspectRatio(contentMode: .fill)
-                        .clipShape(Circle())
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 10)
                     
                     if isChangedImage == true {
                         Image(uiImage: self.editImage)
@@ -58,7 +68,7 @@ struct EditMyProfileView: View {
                             .background(Color.black.opacity(0.2))
                             .aspectRatio(contentMode: .fill)
                             .clipShape(Circle())
-                            .padding(.bottom, 20)
+                            .padding(.bottom, 10)
                     }
                 }
                 
@@ -86,8 +96,8 @@ struct EditMyProfileView: View {
                 Divider()
                     .frame(maxWidth: .infinity)
                 
-                VStack{
-                    HStack{
+                HStack {
+                    VStack {
                         Text("Nickname")
                         Spacer(minLength: 50)
                         
@@ -96,6 +106,9 @@ struct EditMyProfileView: View {
                                 .padding(.bottom, -5)
                                 .foregroundColor(.black)
                                 //.border(Color.red, width: $editNickname.hasReachedLimit.wrappedValue ? 1 : 0)
+                                .keyboardType(.alphabet)
+                                .modifier(KeyboardTextField())
+
                             // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
                             /*
                                 .onChange(of: editNickname) { value in
@@ -130,13 +143,57 @@ struct EditMyProfileView: View {
                     .padding(.bottom, 10)
                   
                     HStack{
+/*
+                            .padding(10)
+                            .frame(maxWidth: 100, alignment: .leading)
+                            */
+
                         Text("Email")
-                        Spacer(minLength: 50)   //  추가
+                            .padding(10)
+                            .frame(maxWidth: 100, alignment: .leading)
+                        Text("Region")
+                            .padding(10)
+                            .frame(maxWidth: 100, alignment: .leading)
+                            .padding(.vertical, 8)
+                    }
+                    .padding(.leading, 9)
+                    
+                    VStack {
+                        TextField("Edit your Name", text: $editName)
+                            .keyboardType(.alphabet)
+                            .modifier(KeyboardTextField())
+                        // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
+                            .onChange(of: editName) { value in
+                                if editName.count > 0 && editName.count < 20 {
+                                    self.editIsValid = true
+                                } else {
+                                    self.editIsValid = false
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(7)
+                            .overlay(
+                                VStack {
+                                    Spacer()
+                                    Rectangle().frame(height: 0.8)
+                                        .foregroundColor(Color(uiColor: .systemGray5))
+                                }
+                            )
+                            .padding(.trailing, 11)
                         
-                        VStack(alignment: .leading){
-                            Text(userInfoStore.userInfo?.userEmail ?? "")
-                                .padding(.bottom, -5)
+                        Text(userInfoStore.userInfo?.userEmail ?? "")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(7)
+                            .overlay(
+                                VStack {
+                                    Spacer()
+                                    Rectangle().frame(height: 0.8)
+                                        .foregroundColor(Color(uiColor: .systemGray5))
+                                }
+                            )
+                            .padding(.trailing, 11)
                         
+
                             Rectangle()//   .frame(height: 0.66)
                                 .frame(height: 0.45)
                                 .foregroundColor(Color(uiColor: .systemGray5))
@@ -170,17 +227,28 @@ struct EditMyProfileView: View {
                                     }
                                     .buttonStyle(.customButton)
                                     .padding(.trailing, -13)
+
+                        HStack {
+                            ForEach(0 ..< 5) { idx in
+                                Button {
+                                    editNation = nation[idx]
+                                } label: {
+                                    Text(nation[idx])
+                                        .overlay(
+                                            Circle().stroke(editNation == nation[idx] ? .green : .clear, lineWidth: 2)
+                                        )
                                 }
-                                
-                                Spacer()
+                                .buttonStyle(.customButton)
+                                .padding(.trailing, -13)
                             }
                         }
-                    } // 로케이션 HStack
-                 
+                        
+                        .padding(.trailing)
+                        .padding(.vertical, 10)
+                        .offset(x: -10, y: 10)
                     }
-                    //.border(.black)
-                    .padding()
-                
+                }
+                .padding(.bottom, 20)
                     Divider()
                         //.frame(minWidth: .infinity)
                     Spacer()
@@ -307,6 +375,10 @@ struct EditMyProfileView: View {
             
             editNation = userNation
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
+
     }
 }
 
@@ -349,7 +421,18 @@ extension String {
 
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
-            .environmentObject(UserInfoStore())
+        Group {
+            EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+                .environmentObject(UserInfoStore())
+                .previewDevice("iPhone 13 mini")
+            
+            EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+                .environmentObject(UserInfoStore())
+                .previewDevice("iPhone 14 Pro")
+            
+            EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+                .environmentObject(UserInfoStore())
+                .previewDevice("iPhone SE (2nd generation)")
+        }
     }
 }
