@@ -115,8 +115,30 @@ struct PerfumeDetailView: View {
             }
             print(perfume.perfumeId)
         }
-        
-        
+        .onDisappear {
+            Task {
+                if userInfoStore.user != nil {    //  로그인
+                    await userInfoStore.fetchUser(user: userInfoStore.user)
+                    guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
+                    if !recentlyPerfumesId.isEmpty {
+                        await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                    }
+                } else {    //  비로그인
+                    let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+                    if !recentlyPerfumesId.isEmpty {
+                        await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                    }
+                }
+                let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+                let perfumesId = setRecomendedPerfumesId(perfumesId: selectedScentTypes)
+                await perfumeStore.readRecomendedPerfumes(perfumesId: perfumesId)
+                await perfumeStore.readMostCommentsPerfumes()
+            }
+        }
+    }
+    
+    func setRecomendedPerfumesId(perfumesId: [String]) -> [String] {
+        return Array(perfumesId.prefix(10))
     }
 }
 

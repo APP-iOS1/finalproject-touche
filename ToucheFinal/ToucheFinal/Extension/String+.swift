@@ -30,7 +30,7 @@ extension String{
         case "Canada":
             return "🇨🇦"
         default:
-            return ""
+            return "🏳️"
         }
     }
     
