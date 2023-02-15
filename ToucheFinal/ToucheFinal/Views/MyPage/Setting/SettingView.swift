@@ -24,6 +24,7 @@ struct SettingView: View {
     @State var showContactUsView: Bool = false
     @State var showPrivacyPolicyView: Bool = false
     @State var showTermsandConditionsView: Bool = false
+    @State var showVersionView: Bool = false
     
     var body: some View {
         NavigationView {
@@ -47,18 +48,6 @@ struct SettingView: View {
                                 Image(systemName: "arrow.up.right")
                             }
                         }
-                        Button {
-                            showSelectNationView.toggle()
-                        } label: {
-                            HStack{
-                                Text("Country / Region")
-                                Spacer()
-                                //Image(systemName: "chevron.right")
-                            }
-                        }
-                        .fullScreenCover(isPresented: $showSelectNationView) {
-                            SelectNationView()
-                        }
                         if !(userInfoStore.userInfo == nil){
                             Button{
                                 showDeleteAccountView.toggle()
@@ -72,30 +61,35 @@ struct SettingView: View {
                                 DeleteAccountView()
                             }
                         }
-                    }
-                    /// SUPPORT Group
-                    Group{
-                        Text("SUPPORT")
-                            .font(.system(size: 20))
-                            .fontWeight(.bold)
-                            .padding(.top,50)
-                        Button("Contact Us"){
-                            showContactUsView.toggle()
-                        }
-                        .fullScreenCover(isPresented: $showContactUsView){
-                            ContactUsView()
-                        }
-                        Button("Privacy Policy"){
-                            showPrivacyPolicyView.toggle()
-                        }
-                        .fullScreenCover(isPresented: $showPrivacyPolicyView){
-                            PrivacyView()
-                        }
-                        Button("Terms & Conditions"){
-                            showTermsandConditionsView.toggle()
-                        }
-                        .fullScreenCover(isPresented: $showTermsandConditionsView){
-                            TermsandConditionsView()
+                        Group{
+                            Text("SUPPORT")
+                                .font(.system(size: 20))
+                                .fontWeight(.bold)
+                                .padding(.top,50)
+                            Button("Contact Us"){
+                                showContactUsView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showContactUsView){
+                                ContactUsView()
+                            }
+                            Button("Privacy Policy"){
+                                showPrivacyPolicyView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showPrivacyPolicyView){
+                                PrivacyView()
+                            }
+                            Button("Terms & Conditions"){
+                                showTermsandConditionsView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showTermsandConditionsView){
+                                TermsandConditionsView()
+                            }
+                            Button("Version"){
+                                showVersionView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showVersionView){
+                                VersionView()
+                            }
                         }
                     }
                 } // List 종료

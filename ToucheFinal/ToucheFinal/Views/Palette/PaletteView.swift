@@ -110,7 +110,7 @@ struct PaletteView: View {
                     
                     //MARK: -Wish list
                     HStack {
-                        Text("Wish List")
+                        Text("Liked")
                             .font(.title)
                             .fontWeight(.semibold)
                         

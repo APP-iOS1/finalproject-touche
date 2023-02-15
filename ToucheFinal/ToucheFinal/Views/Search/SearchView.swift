@@ -71,6 +71,7 @@ struct SearchView: View {
                                     Image(systemName: "magnifyingglass")
                                     Text(result)
                                         .font(.system(size: 16))
+                                        .lineLimit(1)
                                     Spacer()
                                 }
                             }
@@ -108,6 +109,7 @@ struct SearchView: View {
                                 Image(systemName: "magnifyingglass")
                                 Text(result)
                                     .font(.system(size: 16))
+                                    .lineLimit(1)
                                 Spacer()
                                 Image(systemName: "arrow.up.right")
                                 
@@ -133,6 +135,7 @@ struct SearchView: View {
                                 Image(systemName: "magnifyingglass")
                                 Text(result)
                                     .font(.system(size: 16))
+                                    .lineLimit(1)
                                 Spacer()
                                 Image(systemName: "arrow.up.right")
                                 
