@@ -26,7 +26,7 @@ struct WriteCommentView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollView {
                 Spacer()
                 HStack {
                     AsyncImage(url: URL(string: perfume.heroImage)) { image in
@@ -58,6 +58,8 @@ struct WriteCommentView: View {
                 ZStack {
                     TextEditor(text: $manager.reviewText)
                         .scrollContentBackground(.hidden)
+                        .keyboardType(.alphabet)
+                        .modifier(KeyboardTextField())
                     // Placeholder
                     VStack {
                         HStack {
@@ -112,14 +114,13 @@ struct WriteCommentView: View {
                 }label: {
                     Text("Post Comment")
                         .frame(width: 330, height: 46)
-                        .background(.black)
+                        .background(manager.reviewText.isEmpty || score < 1 ? .gray : .black)
                         .foregroundColor(.white)
                         .cornerRadius(7)
                 }
                 .disabled(manager.reviewText.count < 1 || score < 1)
                 Spacer()
             }
-            .padding()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -135,6 +136,9 @@ struct WriteCommentView: View {
                 manager.reviewText = reviewText
                 oldScore = score
             }
+        } //NavigationStack
+        .onTapGesture {
+            hideKeyboard()
         }
     }
     func readPerfumes() {

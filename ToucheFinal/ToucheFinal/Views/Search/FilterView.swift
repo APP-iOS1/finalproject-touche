@@ -155,6 +155,8 @@ struct FilterView: View {
         .scrollDismissesKeyboard(.interactively)
         .navigationBarTitle("Filter")
         .navigationBarTitleDisplayMode(.inline)
+        .keyboardType(.alphabet)
+        .modifier(KeyboardTextField())
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {

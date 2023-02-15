@@ -110,7 +110,7 @@ final class UserInfoStore: ObservableObject{
     func logIn(emailAddress: String, password: String) async {
         do {
             let result = try await Auth.auth().signIn(withEmail: emailAddress, password: password)
-            isShowingSuccessAlert.toggle()
+            
             await fetchUser(user: result.user)
             self.loginState = .success
             self.notice = "login"
@@ -119,22 +119,12 @@ final class UserInfoStore: ObservableObject{
         }
     }
     
-    /// 인증된 이메일인지 체크
-    func checkVerificationEmail(emailAddress: String, password: String) async {
-        do {
-            let _ = try await Auth.auth().signIn(withEmail: emailAddress, password: password)
-        } catch {}
-    }
-    
     /// 이메일 인증 메일 전송
-    func sendVerificationEmail() {
-        user?.sendEmailVerification(completion: {(error) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-            }
-        })
-        print("메일 전송")
+    func sendVerificationEmail() async {
+        do {
+            try await Auth.auth().currentUser?.sendEmailVerification()
+            print("메일 전송")
+        }catch {}
     }
     
     /// 회원가입 기능
@@ -179,10 +169,10 @@ final class UserInfoStore: ObservableObject{
     }
     
     /// 로그아웃 기능
-    func logOut() {
+    func logOut() async {
         do {
             try Auth.auth().signOut()
-            isShowingSignoutAlert.toggle()
+//            isShowingSignoutAlert.toggle()
             userInfo = nil
             user = nil
             currentUser = nil

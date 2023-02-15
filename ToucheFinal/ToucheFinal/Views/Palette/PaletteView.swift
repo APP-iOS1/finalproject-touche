@@ -100,7 +100,7 @@ struct PaletteView: View {
                     
                     //MARK: -Wish list
                     HStack {
-                        Text("Wish List")
+                        Text("Liked")
                             .font(.title)
                             .fontWeight(.semibold)
                         
@@ -108,7 +108,7 @@ struct PaletteView: View {
                     }
                     .padding(.top, 30)
                     
-                    if userInfoStore.user != nil {
+                    if userInfoStore.user?.isEmailVerified ?? false {
                         LazyVGrid(columns: columns, spacing: 15) {
                             ForEach(perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {

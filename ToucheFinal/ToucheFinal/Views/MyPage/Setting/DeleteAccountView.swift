@@ -89,7 +89,8 @@ struct DeleteAccountView: View {
                             VStack {
                                 TextField("Provide reason.", text: $reasonForDeleteText, axis: .vertical)
                                     .padding(5)
-                                
+                                    .keyboardType(.alphabet)
+                                    .modifier(KeyboardTextField())        
                                 Spacer()
                             }
                             .frame(maxWidth: .infinity, minHeight: 130)
@@ -148,6 +149,9 @@ struct DeleteAccountView: View {
                 .toolbarBackground(Color.white, for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .padding()
+                .onTapGesture {
+                  hideKeyboard()
+                }
             }
         }
     }

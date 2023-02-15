@@ -83,7 +83,7 @@ struct HomeView: View {
                     // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
-                            Text("RECOMMENDATION PERFUME FOR YOU")
+                            Text("RECOMMENDATION FOR YOU")
                                 .modifier(TextViewModeifier(isTitleSection: true))
                             Spacer()
                             NavigationLink {
