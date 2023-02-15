@@ -323,7 +323,6 @@ struct SignUpView: View {
         }
         .sheet(isPresented: $isShowingSheet) {
             modalName = ""
-            print(modalName)
         } content: {
             switch modalName {
             case "terms":
