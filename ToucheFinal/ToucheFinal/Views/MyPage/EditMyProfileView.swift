@@ -44,10 +44,20 @@ struct EditMyProfileView: View {
                         .resizable()
                         .cornerRadius(50)
                         .frame(width: 100, height: 100)
-                        .background(Color.black.opacity(0.2))
+                        .background {
+                            Image(systemName: "person.fill")
+                                .resizable()
+                                .padding(.top, 6)
+                                .padding(.horizontal, 3)
+                                .foregroundColor(.gray)
+                                .clipShape(Circle())
+                                .overlay {
+                                    Circle()
+                                        .stroke(.gray, lineWidth: 0.1)
+                                }
+                        }
                         .aspectRatio(contentMode: .fill)
-                        .clipShape(Circle())
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 10)
                     
                     if isChangedImage == true {
                         Image(uiImage: self.editImage)
@@ -57,7 +67,7 @@ struct EditMyProfileView: View {
                             .background(Color.black.opacity(0.2))
                             .aspectRatio(contentMode: .fill)
                             .clipShape(Circle())
-                            .padding(.bottom, 20)
+                            .padding(.bottom, 10)
                     }
                 }
                 

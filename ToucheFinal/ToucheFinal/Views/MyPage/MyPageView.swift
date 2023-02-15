@@ -57,7 +57,7 @@ struct MyPageView: View {
                                 }
                         }
                         .aspectRatio(contentMode: .fill)
-                        .padding(.top, 20)
+                        .padding(.bottom, 10)
                     
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
