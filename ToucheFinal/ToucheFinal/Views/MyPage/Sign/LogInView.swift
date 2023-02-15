@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import FirebaseAuth
 
 struct LogInView: View {
     enum Field {
@@ -18,6 +19,8 @@ struct LogInView: View {
     @State var password: String = ""
     @State var isShowingAlert: Bool = false
     @FocusState private var focusedField: Field?
+    @State var loginFailActive: Bool = false
+    @FocusState private var isFocused: Bool
     
     @EnvironmentObject var userInfoStore: UserInfoStore
     @Environment(\.dismiss) var dismiss
@@ -61,13 +64,18 @@ struct LogInView: View {
             .textFieldStyle(.roundedBorder)
             Button {
                 Task {
-                    await userInfoStore.logIn(emailAddress: email, password: password)
-                    
-                    if userInfoStore.loginState == .success {
+//                    await userInfoStore.fetchUser(user: userInfoStore.user)
+                    await userInfoStore.checkVerificationEmail(emailAddress: email, password: password)
+                    if Auth.auth().currentUser?.isEmailVerified ?? false {
+                        await userInfoStore.logIn(emailAddress: email, password: password)
 //                        isShowingSuccessAlert.toggle()
+                        print("true")
                         dismiss()
                     } else {
-                        userInfoStore.isShowingFailAlert.toggle()
+                        loginFailActive.toggle()
+//                        userInfoStore.isShowingFailAlert.toggle()
+                        userInfoStore.sendVerificationEmail()
+                        print("아직 false")
                     }
                 }
             } label: {
@@ -79,10 +87,16 @@ struct LogInView: View {
             }
             .disabled(email.isEmpty || password.isEmpty )
             .padding(.top, 10)
-            .alert("Log In", isPresented: $isShowingAlert) {
-                Button("OK"){}
+//            .alert("Log In", isPresented: $isShowingAlert) {
+//                Button("OK"){}
+//            } message: {
+//                Text("로그인 버튼 눌렀을 때")
+//            }
+            .alert("log in", isPresented: $loginFailActive) {
+                Button("OK"){
+                }
             } message: {
-                Text("로그인 버튼 눌렀을 때")
+                Text("인증되지 않은 이메일입니다. 받은 메일을 확인하여 인증해 주세요.")
             }
             Spacer()
         } //VStack

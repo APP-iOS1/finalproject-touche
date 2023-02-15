@@ -13,7 +13,7 @@ struct MyPageView: View {
     var perfume: Perfume
     var comment: Comment
     
-    @State private var image: UIImage = UIImage()
+    //  @State private var image: UIImage = UIImage()
     @State private var userNickname: String = ""
     @State private var showEditMyProfileView = false
     @State private var nation: String = ""
@@ -52,7 +52,7 @@ struct MyPageView: View {
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
                   //    Text(userInfoStore.userInfo?.userNation.flag ?? "")
-                        Text(nation)
+                        Text(userInfoStore.userInfo?.userNation.flag() ?? "")
                     }
                     
                     
@@ -62,7 +62,13 @@ struct MyPageView: View {
                         Text("Edit Profile")
                     }
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
+                        //EditMyProfileView()
+                        
+                        /*
                         EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
+                         */
+                        
+                        EditMyProfileView(userNickname: $userNickname, userNation: $nation)
                     }
                     
                 } // GROUP
@@ -183,8 +189,6 @@ struct MyPageView: View {
                 await userInfoStore.fetchUser(user: user)
 //                print(userInfoStore.userInfo)
                 await userInfoStore.readWrittenComments()
-                
-                nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
         .refreshable {

@@ -239,12 +239,30 @@ private extension PerfumeDetailView {
                 .font(.body)
                 .fontWeight(.light)
                 .padding(.bottom)
-            
+            HStack {
                 Text("Comments")
                     .font(.title2)
                 + Text(" \(perfume.commentCount)")
                     .font(.caption)
                     .foregroundColor(.secondary)
+                Spacer()
+                Text("Leave your review")
+                    .underline()
+                    .onTapGesture(perform: {
+                        switch userInfoStore.currentUser {
+                        case nil:
+                            loginAlertActive = true
+                        default:
+                            // 이미 리뷰를 작성한 적이 있는지
+                            if commentStore.comments.filter({ $0.writerId == userInfoStore.currentUser }).count == 0 {
+                                isShowingWriteComment = true
+                            } else {
+                                isCheckedReview = true
+                            }
+                        }
+                    })
+            }
+            .padding(.top, 10)
         } // VSTACK
         .padding(.horizontal, 20)
         .modifier(SignInFullCover(isShowing: $navLinkActive))
@@ -255,52 +273,6 @@ private extension PerfumeDetailView {
     func commentView() -> some View {
         // MARK: - Comments
         ScrollView {
-            Button {
-                switch userInfoStore.currentUser {
-                case nil:
-                    loginAlertActive = true
-                default:
-                    // 이미 리뷰를 작성한 적이 있는지
-                    if commentStore.comments.filter({ $0.writerId == userInfoStore.currentUser }).count == 0 {
-                        isShowingWriteComment = true
-                    } else {
-                        isCheckedReview = true
-                    }
-                }
-            } label: {
-                HStack(alignment: .center) {
-                    // 로그인 상태면 유저 프로필 사진 보여주기
-                    if userInfoStore.currentUser != nil {
-                        WebImage(url: URL(string: userInfoStore.userInfo?.userProfileImage ?? ""))
-                            .resizable()
-                            .frame(width: 45, height: 45)
-                            .clipShape(Circle())
-                            .overlay {
-                                Circle().stroke(.black, lineWidth: 0.5)
-                            }
-                    } else {
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .frame(width: 45, height: 45)
-                    }
-                    
-                    Text("Add Comment...")
-                        .frame(height: 20)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.tertiary)
-                        .padding(4.0)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 8.0)
-                                .strokeBorder(.tertiary, lineWidth: 1)
-                        }
-                    
-                    Text("Send")
-                        .frame(height: 50)
-                }
-                
-            }
-            .tint(.primary)
-            
             // Comments
             ForEach(commentStore.comments, id: \.self) { comment in
                 Divider()

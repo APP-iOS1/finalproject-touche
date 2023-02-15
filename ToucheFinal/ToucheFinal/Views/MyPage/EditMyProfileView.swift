@@ -8,6 +8,8 @@
 import SwiftUI
 import FirebaseAuth
 import SDWebImageSwiftUI
+import AVFoundation
+import Photos
 
 struct EditMyProfileView: View {
     @State private var isShowingDialog: Bool = false
@@ -15,21 +17,20 @@ struct EditMyProfileView: View {
     // 뷰에 반영된건 없는데, confirmationDialog 에서 안쓰면 에러나서 씀
     @State private var showGallerySheet = false
     @State private var showCameraSheet = false
-    @State private var editName: String = ""
     @State private var editIsValid: Bool =  false
     /// nickName 중복처리 true/false 확인용
     @State private var nickNameCheck: Bool = false
+    @State private var editName: String = ""
     @State private var editImage: UIImage = UIImage()
     @State private var editNation: String = ""
     /// photo picker로 갤러리에서 이미지 변경시 사용
     @State private var isChangedImage: Bool = false
     
-    @State private var isSelected: [Bool] = [false, false, false, false, false]
     
-    @Binding var image: UIImage
+    //  @Binding var image: UIImage
     @Binding var userNickname: String
     @Binding var userNation: String
-   
+    
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
@@ -67,10 +68,12 @@ struct EditMyProfileView: View {
                 .confirmationDialog(dialogTitle, isPresented: $isShowingDialog){
                     Button("Change from Gallery"){
                         showGallerySheet = true
+                        checkAlbumPermission()
                     }
                     
                     Button("Take Photo"){
                         showCameraSheet = true
+                        checkCameraPermission()
                     }
                     
                     Button("Cancel",role: .cancel){
@@ -132,19 +135,11 @@ struct EditMyProfileView: View {
                             HStack {
                                 ForEach(0 ..< 5) { idx in
                                     Button {
-                                        
-                                        //  모든 애들을
-                                        for idx in isSelected.indices {
-                                            
-                                            isSelected[idx] = false //  여기서 다 끔
-                                        }
-                                        
-                                        isSelected[idx].toggle()    //  해당 idx만 on!
-                                        userNation = nation[idx]
+                                        editNation = nation[idx]
                                     } label: {
                                         Text(nation[idx])
                                             .overlay(
-                                                Circle().stroke(isSelected[idx] ? .green : .clear, lineWidth: 2)
+                                                Circle().stroke(editNation == nation[idx] ? .green : .clear, lineWidth: 2)
                                             )
                                     }
                                     .buttonStyle(.customButton)
@@ -191,22 +186,80 @@ struct EditMyProfileView: View {
                             //if editIsValid && nickNameCheck == false {
                                 // 수정 완료 기능
 //                                userNickname = editName
-//                                userNation = editNation
-                                
+//                                editNation = editNation
+                            
+                            //MARK: - 닉네임 Update Method 호출
                                 await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editName)
 //                            }
                             
+                            //MARK: - 기존 버전
+                            /*
                             let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
+                             */
                             
-                            await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg.last ?? "")
+                            //  isChangedImage 얘에 변화가 감지 되었을 때,
+                            if (isChangedImage == true) {   //  isChangedImage
+                                //MARK: - (바꾼 버전) editImage를 png화 하여 사진을 Upload하는 (Storage로) 메서드를 호출하고 그 메서드의 반환 타입은 String
+                                
+                                let strImg: String = await userInfoStore.uploadPhoto(editImage.pngData())
+                                
+                                print("strImg: \(strImg)")
+                                
+                                //MARK: - User 컬렉션 doc의 'userProfileImage'에 위의 strImg 값을 넘겨줘서 저장
+                                let val: String = await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg)
+                                
+                                print("val: \(val)")
+                                
+                                /*
+                                 let imageUrl = URL(string: val)!
+                                 
+                                 //MARK: - Runtime 시점에 오류 발생!
+                                 //  ref: https://www.inflearn.com/questions/748436/synchronous-url-loading-%EC%98%A4%EB%A5%98
+                                 
+                                 //  ref: https://www.reddit.com/r/swift/comments/5m0tdb/is_it_possible_to_convert_url_to_uiimage/
+                                 let imageData = try! Data(contentsOf: imageUrl)
+                                 
+                                 let image = UIImage(data: imageData)
+                                 
+                                 if let img = image {
+                                 
+                                 editImage = img
+                                 }
+                                 */
+                                
+                                //MARK: - Runtime 에러 URLSession으로 해결
+                                if let imageUrl = URL(string: val) {
+                                    
+                                    URLSession.shared.dataTask(with: imageUrl, completionHandler: { data, _, _ in
+                                        
+                                        guard let imageData = data else { return }
+                                        
+                                        DispatchQueue.main.async {  //  UI처리는 무조건 main thread에서 작업한다!
+                                            
+                                            let image = UIImage(data: imageData)
+                                            
+                                            if let img = image {
+                                                
+                                                editImage = img
+                                            }
+                                        }
+                                    })
+                                }
+                            } else {
+                                
+                                print("Nope!")
+                            }
                             
-                            await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: userNation)
+                            /*
+                             await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: userNation)
+                             */
                             
                             await userInfoStore.fetchUser(user: userInfoStore.user)
                             
                             dismiss()
                         }
                     }
+                    .disabled(editImage == UIImage())
                     
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
                     // TODO: Location 구현 후 비활성화 설정하기
@@ -217,15 +270,42 @@ struct EditMyProfileView: View {
             .navigationBarTitleDisplayMode(.inline)
         }// NavigationView 종료
         .onAppear{
-            editName = userNickname
-            editNation = userNation
+            editName = userInfoStore.userInfo?.userNickName ?? ""
+            editNation = userInfoStore.userInfo?.userNation.flag() ?? ""
         }
         .onTapGesture {
             hideKeyboard()
         }
-       
+
     }
 }
+
+// MARK: - 카메라 접근 권한 묻는 함수
+func checkCameraPermission(){
+    AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+        if granted {
+            print("Camera: 권한 허용")
+        } else {
+            print("Camera: 권한 거부")
+        }
+    })
+}
+
+// MARK: - 앨범 접근 권한 묻는 함수
+func checkAlbumPermission(){
+        PHPhotoLibrary.requestAuthorization( { status in
+            switch status{
+            case .authorized:
+                print("Album: 권한 허용")
+            case .denied:
+                print("Album: 권한 거부")
+            case .restricted, .notDetermined:
+                print("Album: 선택하지 않음")
+            default:
+                break
+            }
+        })
+    }
 
 extension String {
     func toImage() -> UIImage {
@@ -239,7 +319,7 @@ extension String {
 
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        EditMyProfileView(image: .constant(UIImage()), userNickname: .constant(""), userNation: .constant(""))
+        EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
             .environmentObject(UserInfoStore())
     }
 }
