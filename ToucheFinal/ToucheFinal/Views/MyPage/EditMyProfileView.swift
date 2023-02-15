@@ -13,6 +13,8 @@ import Photos
 import Combine
 
 struct EditMyProfileView: View {
+    @ObservedObject var editNickname: TextLimiter = TextLimiter(limit: 12)
+    
     @State private var isShowingDialog: Bool = false
     @State private var dialogTitle: String = "Title"
     // 뷰에 반영된건 없는데, confirmationDialog 에서 안쓰면 에러나서 씀
@@ -21,17 +23,15 @@ struct EditMyProfileView: View {
     @State private var editIsValid: Bool =  false
     /// nickName 중복처리 true/false 확인용
     @State private var nickNameCheck: Bool = false
-    //@State private var editNickname: String = ""
-    @ObservedObject var editNickname: TextLimiter = TextLimiter(limit: 12)
     @State private var editImage: UIImage = UIImage()
     @State private var editNation: String = ""
     /// photo picker로 갤러리에서 이미지 변경시 사용
     @State private var isChangedImage: Bool = false
-    @State private var isSelected: [Bool] = [false, false, false, false, false]
     
     //  @Binding var image: UIImage
     @Binding var userNickname: String
     @Binding var userNation: String
+    
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userInfoStore: UserInfoStore
@@ -99,55 +99,8 @@ struct EditMyProfileView: View {
                 HStack {
                     VStack {
                         Text("Nickname")
-                        Spacer(minLength: 50)
-                        
-                        VStack{
-                            TextField("Edit your Nickname", text: $editNickname.value)
-                                .padding(.bottom, -5)
-                                .foregroundColor(.black)
-                                //.border(Color.red, width: $editNickname.hasReachedLimit.wrappedValue ? 1 : 0)
-                                .keyboardType(.alphabet)
-                                .modifier(KeyboardTextField())
-
-                            // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
-                            /*
-                                .onChange(of: editNickname) { value in
-                                    if (editNickname.value.count > 0 && editNickname.value.count < 13) {
-                                        self.editIsValid = true
-                                    } else {
-                                        self.editIsValid = false
-                                    }
-                                }
-                             */
-                                .onReceive(Just($editNickname.value)) { val in  //  ref: https://eunjin3786.tistory.com/412
-                                    print("val: \(val.wrappedValue)")
-                                    
-                                    let nickname = val.wrappedValue
-                                    
-                                    userNickname = nickname
-                                }
-                                //  .textInputAutocapitalization(.never)    //  textfield 입력시 무조건 소문자로만 입력 됨
-                            
-                            if ((userNickname.isEmpty) || (userNickname.count > 12)) {
-                                Rectangle().frame(height: 0.45)
-                                //  .foregroundColor(Color(uiColor: .systemGray5))
-                                    .foregroundColor(Color(uiColor: .red))
-                            } else {
-                                
-                                Rectangle().frame(height: 0.45)
-                                    .foregroundColor(Color(uiColor: .systemGray5))
-                            }
-                        }
-                    } // 네임 텍스트 필드 HStack
-                    //  .padding(.bottom, 25)
-                    .padding(.bottom, 10)
-                  
-                    HStack{
-/*
                             .padding(10)
                             .frame(maxWidth: 100, alignment: .leading)
-                            */
-
                         Text("Email")
                             .padding(10)
                             .frame(maxWidth: 100, alignment: .leading)
@@ -159,16 +112,23 @@ struct EditMyProfileView: View {
                     .padding(.leading, 9)
                     
                     VStack {
-                        TextField("Edit your Name", text: $editName)
+                        TextField("Edit your Name", text: $editNickname.value)
                             .keyboardType(.alphabet)
                             .modifier(KeyboardTextField())
                         // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
-                            .onChange(of: editName) { value in
-                                if editName.count > 0 && editName.count < 20 {
-                                    self.editIsValid = true
-                                } else {
-                                    self.editIsValid = false
-                                }
+//                            .onChange(of: editNickname) { value in
+//                                if editNickname.count > 0 && editNickname.count < 20 {
+//                                    self.editIsValid = true
+//                                } else {
+//                                    self.editIsValid = false
+//                                }
+//                            }
+                            .onReceive(Just($editNickname.value)) { val in  //  ref: https://eunjin3786.tistory.com/412
+                                print("val: \(val.wrappedValue)")
+                                
+                                let nickname = val.wrappedValue
+                                
+                                userNickname = nickname
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(7)
@@ -176,7 +136,7 @@ struct EditMyProfileView: View {
                                 VStack {
                                     Spacer()
                                     Rectangle().frame(height: 0.8)
-                                        .foregroundColor(Color(uiColor: .systemGray5))
+                                        .foregroundColor(Color(uiColor: (editNickname.value.count > 12) || editNickname.value.isEmpty ? .red : .systemGray5 ))
                                 }
                             )
                             .padding(.trailing, 11)
@@ -193,41 +153,6 @@ struct EditMyProfileView: View {
                             )
                             .padding(.trailing, 11)
                         
-
-                            Rectangle()//   .frame(height: 0.66)
-                                .frame(height: 0.45)
-                                .foregroundColor(Color(uiColor: .systemGray5))
-                        }
-                        //  .frame(width: 276)
-                        .frame(width: 235)
-                    } // 이메일 HStack
-                    .padding(.bottom, 10)
-                    
-                    HStack {
-                        Text("Region")
-                        Spacer(minLength: 60)
-                        VStack{
-                            HStack {
-                                ForEach(0 ..< 5) { idx in
-                                    Button {
-                                        for idx in isSelected.indices {
-                                            
-                                            isSelected[idx] = false
-                                        }
-                                        
-                                        isSelected[idx].toggle()
-                                        userNation = nation[idx]
-                                    } label: {
-                                        Text(nation[idx])
-                                            .overlay(
-                                                //  Circle().stroke(editNation == nation[idx] ? .green : .clear, lineWidth: 2)
-                                                
-                                                Circle().stroke(isSelected[idx] ? .green : .clear, lineWidth: 2)
-                                            )
-                                    }
-                                    .buttonStyle(.customButton)
-                                    .padding(.trailing, -13)
-
                         HStack {
                             ForEach(0 ..< 5) { idx in
                                 Button {
@@ -281,26 +206,22 @@ struct EditMyProfileView: View {
                                 // 수정 완료 기능
 //                                userNickname = editName
 //                                editNation = editNation
-//                            }
                             
                             //MARK: - 닉네임 Update Method 호출
-                            if (editNickname.value != "") {
-                                await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editNickname.value) //  nickname 업데이트 할 때, 공백처리는 해주었는데, regex는 적용 못시켜봄(-> 수요일 도전 예정)
-                            } else {
-                                
-                                print("입력 좀...")
-                            }
+                            await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editNickname.value)
+//                            }
                             
                             //MARK: - 기존 버전
                             /*
                             let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
                              */
                             
-                            if (isChangedImage == true) {
-                                //MARK: - (바꾼 버전) editImage를 png (or JPEG)화 하여 사진을 Upload하는 (Storage로) 메서드를 호출하고 그 메서드의 반환 타입은 String
-                                //let strImg: String = await userInfoStore.uploadPhoto(editImage.pngData()) //  png화
-                                let strImg: String = await userInfoStore.uploadPhoto(editImage.jpegData(compressionQuality: 0.5))   //  JPEG화
+                            //  isChangedImage 얘에 변화가 감지 되었을 때,
+                            if (isChangedImage == true) {   //  isChangedImage
+                                //MARK: - (바꾼 버전) editImage를 png화 하여 사진을 Upload하는 (Storage로) 메서드를 호출하고 그 메서드의 반환 타입은 String
                                 
+                                let strImg: String = await userInfoStore.uploadPhoto(editImage.jpegData(compressionQuality: 0.5))   //  JPEG화
+
                                 print("strImg: \(strImg)")
                                 
                                 //MARK: - User 컬렉션 doc의 'userProfileImage'에 위의 strImg 값을 넘겨줘서 저장
@@ -345,16 +266,19 @@ struct EditMyProfileView: View {
                                 }
                             } else {
                                 
-                                print("Nope")
+                                print("Nope!")
                             }
                             
+                            /*
                              await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: userNation)
+                             */
                             
                             await userInfoStore.fetchUser(user: userInfoStore.user)
                             
                             dismiss()
                         }
                     }
+                    .disabled(editImage == UIImage())
                     
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
                     // TODO: Location 구현 후 비활성화 설정하기
@@ -365,20 +289,12 @@ struct EditMyProfileView: View {
             .navigationBarTitleDisplayMode(.inline)
         }// NavigationView 종료
         .onAppear{
-            /*
-            editName = userInfoStore.userInfo?.userNickName ?? ""
+            editNickname.value = userInfoStore.userInfo?.userNickName ?? ""
             editNation = userInfoStore.userInfo?.userNation.flag() ?? ""
-             */
-            
-            editNickname.value = userNickname
-            //print("editName: \(editName)")
-            
-            editNation = userNation
         }
         .onTapGesture {
             hideKeyboard()
         }
-
     }
 }
 
@@ -395,19 +311,19 @@ func checkCameraPermission(){
 
 // MARK: - 앨범 접근 권한 묻는 함수
 func checkAlbumPermission(){
-        PHPhotoLibrary.requestAuthorization( { status in
-            switch status{
-            case .authorized:
-                print("Album: 권한 허용")
-            case .denied:
-                print("Album: 권한 거부")
-            case .restricted, .notDetermined:
-                print("Album: 선택하지 않음")
-            default:
-                break
-            }
-        })
-    }
+    PHPhotoLibrary.requestAuthorization( { status in
+        switch status{
+        case .authorized:
+            print("Album: 권한 허용")
+        case .denied:
+            print("Album: 권한 거부")
+        case .restricted, .notDetermined:
+            print("Album: 선택하지 않음")
+        default:
+            break
+        }
+    })
+}
 
 extension String {
     func toImage() -> UIImage {

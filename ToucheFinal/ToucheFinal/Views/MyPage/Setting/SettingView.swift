@@ -48,9 +48,9 @@ struct SettingView: View {
                                 Image(systemName: "arrow.up.right")
                             }
                         }
-
+                        
                         if userInfoStore.user?.isEmailVerified ?? false {
-
+                            
                             Button{
                                 showDeleteAccountView.toggle()
                             } label :{
@@ -63,6 +63,7 @@ struct SettingView: View {
                                 DeleteAccountView()
                             }
                         }
+                    }
                         Group{
                             Text("SUPPORT")
                                 .font(.system(size: 20))
