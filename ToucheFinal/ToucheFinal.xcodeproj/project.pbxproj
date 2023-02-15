@@ -91,6 +91,8 @@
 		AA204A7929879D8300C59C7F /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA204A7829879D8300C59C7F /* FilterView.swift */; };
 		AA239BAB2991CF0400D834C5 /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA239BAA2991CF0400D834C5 /* SearchQuery.swift */; };
 		AAA5F6EC298BB00B00DA8B09 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA5F6EB298BB00A00DA8B09 /* View+.swift */; };
+		E80DF6EA299C923400A28ACF /* RegexTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80DF6E9299C923400A28ACF /* RegexTestView.swift */; };
+		E8D9BF41299BD3EB0004ADDF /* TextLimiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D9BF40299BD3EB0004ADDF /* TextLimiter.swift */; };
 		E8EA934129877DFD009FAFB4 /* PerfumeDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */; };
 		EB1E7B652992ACF0001CA2B4 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = EB1E7B642992ACF0001CA2B4 /* AlertToast */; };
 		EB1E7B672992AD1E001CA2B4 /* TESTALERTVIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E7B662992AD1E001CA2B4 /* TESTALERTVIEW.swift */; };
@@ -176,6 +178,8 @@
 		AA204A7829879D8300C59C7F /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		AA239BAA2991CF0400D834C5 /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
 		AAA5F6EB298BB00A00DA8B09 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
+		E80DF6E9299C923400A28ACF /* RegexTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexTestView.swift; sourceTree = "<group>"; };
+		E8D9BF40299BD3EB0004ADDF /* TextLimiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLimiter.swift; sourceTree = "<group>"; };
 		E8EA934029877DFD009FAFB4 /* PerfumeDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfumeDescriptionView.swift; sourceTree = "<group>"; };
 		EB1E7B662992AD1E001CA2B4 /* TESTALERTVIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESTALERTVIEW.swift; sourceTree = "<group>"; };
 		EB5AEDF6297A360000C4F5D8 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
@@ -220,6 +224,7 @@
 			children = (
 				61212E682978E3B100D0ED57 /* LongDescriptionParsing.swift */,
 				AA1B9A7A298C9EAA008817B4 /* HexParsing.swift */,
+				E8D9BF40299BD3EB0004ADDF /* TextLimiter.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -264,6 +269,7 @@
 				A8BAF8DC297A55FD00D1DDCD /* MyPageMyCommentCell.swift */,
 				A8BAF8DE297A6D1200D1DDCD /* MyCommentListView.swift */,
 				65A7AB392977812700DB4860 /* EditMyProfileView.swift */,
+				E80DF6E9299C923400A28ACF /* RegexTestView.swift */,
 				65C7E5A6298C1371006C54C3 /* CustomNationButton.swift */,
 				65A7AB3729777E6000DB4860 /* ImagePicker.swift */,
 				61FE131F2977D6A3003F0466 /* Setting */,
@@ -541,6 +547,7 @@
 				61212E642978E35A00D0ED57 /* SephoraFirebaseView.swift in Sources */,
 				E8EA934129877DFD009FAFB4 /* PerfumeDescriptionView.swift in Sources */,
 				61FE13192977D588003F0466 /* PerfumeDetailView.swift in Sources */,
+				E80DF6EA299C923400A28ACF /* RegexTestView.swift in Sources */,
 				657A091729765BF000E5B565 /* Perfume.swift in Sources */,
 				61FE13252977DC3F003F0466 /* SearchFilterView.swift in Sources */,
 				EB7F90D9298903C5005C7CFB /* ColorChipPerfumeCell.swift in Sources */,
@@ -577,6 +584,7 @@
 				65A7AB3C2977AFAD00DB4860 /* SettingView.swift in Sources */,
 				65A7AB3829777E6000DB4860 /* ImagePicker.swift in Sources */,
 				EBB879AA29879FA300167ABA /* PaletteCell.swift in Sources */,
+				E8D9BF41299BD3EB0004ADDF /* TextLimiter.swift in Sources */,
 				657A092729765F1000E5B565 /* MyPageView.swift in Sources */,
 				EB5AEDF7297A360000C4F5D8 /* TestView.swift in Sources */,
 				239049822977CBBF0097B20A /* WriteCommentView.swift in Sources */,
@@ -750,6 +758,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Touche;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Album permissions to save videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Camera permissions for taking photos and videos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -761,7 +771,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.ToucheFinall;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.ToucheFinal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -782,6 +792,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Touche;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Album permissions to save videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Camera permissions for taking photos and videos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -793,7 +805,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.ToucheFinall;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.ToucheFinal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

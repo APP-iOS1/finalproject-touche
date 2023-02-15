@@ -258,7 +258,8 @@ final class UserInfoStore: ObservableObject{
             let docData = target.data()
             let tmpName: String = docData?["userNickName"] as? String ?? ""
             
-            print("유저닉네임: \(tmpName)")
+            //  print("유저닉네임: \(tmpName)")
+            print("유저닉네임:\(tmpName)")
             return tmpName
         } catch {
             print(error.localizedDescription)
@@ -271,7 +272,15 @@ final class UserInfoStore: ObservableObject{
     final func updateUserNickName(uid: String, nickname: String) async -> Void {
         let path = database
         do {
-            try await path.document(uid).updateData(["userNickName": nickname])
+            var resNickname: String = nickname
+            var processingOnBothSides = nickname.trimmingCharacters(in: .whitespaces)   //  양쪽 사이드 공백 제거
+            let removeSpacesBetweenStr = processingOnBothSides.replacingOccurrences(of: " ", with: "", options: .regularExpression) //  string 사이에 공백 제거
+            
+            print("removeSpacesBetweenStr:\(removeSpacesBetweenStr)")
+            
+            resNickname = removeSpacesBetweenStr
+            
+            try await path.document(uid).updateData(["userNickName": resNickname.lowercased()]) //  저장은 오로지 소문자로만!
         } catch {
 #if DEBUG
             print("\(error.localizedDescription)")
@@ -448,11 +457,13 @@ final class UserInfoStore: ObservableObject{
         }
     }
     
-    func setProfilePhotoUrl(uid: String, userProfileImageUrl: String) async -> String {   //  String
+    func setProfilePhotoUrl(uid: String, userProfileImageUrl: String) async -> String {
         let path = database
+        
         do {
             
             print("userProfileImageUrl: \(userProfileImageUrl)")
+            
             try await path.document(uid).updateData(["userProfileImage": userProfileImageUrl])
             
             return userProfileImageUrl

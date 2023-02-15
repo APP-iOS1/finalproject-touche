@@ -133,7 +133,7 @@ struct SignUpView: View {
                 // Nick Name
                 Group{
                     HStack {
-                        Text("Nick Name")
+                        Text("NickName")
                         if nickNameCheck == false {
                             Image(systemName: "checkmark.circle")
                                 .foregroundColor(.green)

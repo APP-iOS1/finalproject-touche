@@ -115,7 +115,8 @@ struct PerfumeTabView: View {
             // print("USERDEFAULTS . CountOfDB : \(NameOfAllPerfumes.count)")
             
             /// 로컬 향수 이름들의 갯수와 BD 향수 이름 개수가 다를 경우 향수 이름들 다시 패치한다
-            if NameOfAllPerfumes.count != perfumesDB.count {
+            //  if NameOfAllPerfumes.count != perfumesDB.count {
+            if NameOfAllPerfumes.isEmpty {
                 print("향수 개수 다름!! 향수 이름 패치 시작")
                 var searchResults: [String] {
                     let perfumeNames = perfumesDB.filter { perfume in
