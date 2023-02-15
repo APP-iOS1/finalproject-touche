@@ -10,7 +10,7 @@ import SwiftUI
 struct PrivacyView: View {
     
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         
         NavigationView{
@@ -87,6 +87,7 @@ struct PrivacyView: View {
                     }
                 }
             }
+            .navigationBarTitle("Privacy policy", displayMode: .inline)
         }
     }
 }
