@@ -24,7 +24,7 @@ struct SignOutView: View {
                         LogInSignUpView(selectedIndex: 0)
                     } label: {
                         Text("Sign In")
-                            .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 44)
+                            .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 46)
                             .background(.black)
                             .foregroundColor(.white)
                             .cornerRadius(7)
@@ -34,7 +34,7 @@ struct SignOutView: View {
                         LogInSignUpView(selectedIndex: 1)
                     } label: {
                         Text("Sign Up")
-                            .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 44)
+                            .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 46)
                             .foregroundColor(.black)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 7).stroke(Color.black, lineWidth: 0.5)
