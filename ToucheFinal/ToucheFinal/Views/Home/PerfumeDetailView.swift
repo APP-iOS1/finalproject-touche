@@ -254,7 +254,7 @@ private extension PerfumeDetailView {
                     .font(.caption)
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("Leave your review")
+                Text("Leave your comment")
                     .underline()
                     .onTapGesture(perform: {
                         switch userInfoStore.user?.isEmailVerified ?? false {
@@ -282,7 +282,7 @@ private extension PerfumeDetailView {
     /// Comment를 남길수 있는 뷰
     func commentView() -> some View {
         // MARK: - Comments
-        ScrollView {
+        VStack {
             // Comments
             ForEach(commentStore.comments, id: \.self) { comment in
                 Divider()
