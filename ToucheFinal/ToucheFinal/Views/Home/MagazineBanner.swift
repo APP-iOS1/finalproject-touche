@@ -36,8 +36,8 @@ struct MagazineBanner: View {
     }
 }
 
-struct MagazineBanner_Previews: PreviewProvider {
-    static var previews: some View {
-        MagazineBanner(magazine: dummyWithOtherProjectFirebaseStorage[0])
-    }
-}
+//struct MagazineBanner_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MagazineBanner(magazine: dummyWithOtherProjectFirebaseStorage[0])
+//    }
+//}

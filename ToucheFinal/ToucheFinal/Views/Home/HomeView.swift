@@ -29,7 +29,7 @@ struct HomeView: View {
             ScrollView(showsIndicators: false) {
                 VStack {
                     VStack(alignment: .leading) {
-                        MagazineBanner(magazine: dummyWithOtherProjectFirebaseStorage.last!)
+                        MagazineBanner(magazine: magazineStore.magazines.first ?? Magazine(id: "", title: "", subTitle: "", contentImage: "", bodyImage: "", createdDate: 0, perfumeIds: []))
                             .onTapGesture {
                                 selectedIndex = 2
                             }
@@ -141,6 +141,7 @@ struct HomeView: View {
                     }
                     
                 }
+
                 .onAppear{
                     print(Auth.auth().currentUser?.isEmailVerified)
                     Task {
@@ -156,11 +157,14 @@ struct HomeView: View {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
                         }
+                        
                         let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
                         let perfumesId = setRecomendedPerfumesId(perfumesId: selectedScentTypes)
                         await perfumeStore.readRecomendedPerfumes(perfumesId: perfumesId)
                         await perfumeStore.readMostCommentsPerfumes()
                         await magazineStore.readMagazines()
+                        
+                        print("매거진스: \(magazineStore.magazines)")
                     }
                     perfumeStore.recentSearches = UserDefaults.standard.array(forKey: "recentSearchesUD") as? [String] ?? [String]()
                 }

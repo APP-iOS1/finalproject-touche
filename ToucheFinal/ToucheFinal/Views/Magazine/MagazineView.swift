@@ -29,54 +29,61 @@ struct MagazineView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                HStack {
-                    Text("Magazine")
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                        .opacity(showDetailPage ? 0 : 1)
-                 }
-                .padding()
-                VStack(spacing: 0) {
-                    ForEach(dummyWithOtherProjectFirebaseStorage.reversed()) { item in
-                        Button {
-                            withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
-                                currentItem = item
-                                showDetailPage.toggle()
+            if let currentItem = currentItem, showDetailPage {
+                DetailView(item: currentItem)
+                    .ignoresSafeArea(.container, edges: .top)
+            } else {
+                ScrollView(.vertical, showsIndicators: false) {
+                    HStack {
+                        Text("Magazine")
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                            .opacity(showDetailPage ? 0 : 1)
+                    }
+                    .padding()
+                    
+                    
+                    VStack(spacing: 0) {
+                        ForEach(magazineStore.magazines) { item in
+                            Button {
+                                withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.3)) {
+                                    currentItem = item
+                                    showDetailPage.toggle()
+                                }
+                            } label: {
+                                CardView(item: item)
+                                    .scaleEffect(currentItem?.id == item.id && showDetailPage ? 1 : 0.9)
                             }
-                        } label: {
-                            CardView(item: item)
-                                .scaleEffect(currentItem?.id == item.id && showDetailPage ? 1 : 0.90)
+                            .buttonStyle(ScaledButtonStyle())
+                            .opacity(showDetailPage ? (currentItem?.id == item.id ? 1 :0) : 1)
+                            
                         }
-                        .buttonStyle(ScaledButtonStyle())
-                        .opacity(showDetailPage ? (currentItem?.id == item.id ? 1 :0) : 1)
-
                     }
                 }
-            }
-            .padding(.top, 0.1)
-            .overlay {
-                if let currentItem = currentItem, showDetailPage {
-                    DetailView(item: currentItem)
-                        .ignoresSafeArea(.container, edges: .top)
+                .padding(.top, 0.1)
+                //            .overlay {
+                //                if let currentItem = currentItem, showDetailPage {
+                //                    DetailView(item: currentItem)
+                //                        .ignoresSafeArea(.container, edges: .top)
+                //                }
+                //            }
+                .background(alignment: .top) {
+                    RoundedRectangle(cornerRadius: 15, style: .continuous)
+                        .fill(Color.white)
+                        .frame(height: animateView ? nil : 350, alignment: .top)
+                        .scaleEffect(animateView ? 1: 0.93)
+                        .opacity(animateView ? 1 : 0)
+                        .ignoresSafeArea()
+                }
+                .refreshable {
+                    Task {
+                        await magazineStore.readMagazines()
+                    }
+                }
+                .task {
+                    await magazineStore.readMagazines()
                 }
             }
-            .background(alignment: .top) {
-                RoundedRectangle(cornerRadius: 15, style: .continuous)
-                    .fill(Color.white)
-                    .frame(height: animateView ? nil : 350, alignment: .top)
-                    .scaleEffect(animateView ? 1: 0.93)
-                    .opacity(animateView ? 1 : 0)
-                    .ignoresSafeArea()
-            }
-            .refreshable {
-//                Task {
-                    //                    await magazineStore.readMagazines()
-//                }
-            }
-//            .task {
-//                await magazineStore.readMagazines()
-//            }
         }
     }
     @ViewBuilder
@@ -95,6 +102,7 @@ struct MagazineView: View {
                         ProgressView()
                             .frame(width: size.width, height: size.height)
                     }
+
                 }
                 .frame(height: 400)
 
@@ -113,6 +121,7 @@ struct MagazineView: View {
                 Color.white
             )
             .clipShape(CustomCorner(corners: showDetailPage ? [] : [.bottomLeft, .bottomRight], radius: 20))
+
         }
         .shadow(color: .black.opacity(showDetailPage ? 0 : 0.3), radius: 20, x: 0, y: 10)
         .matchedGeometryEffect(id: item.id, in: animation)
@@ -124,7 +133,7 @@ struct MagazineView: View {
 
                 CardView(item: item)
                     .scaleEffect(animateView ? 1 : 0.9)
-
+                
                 VStack(spacing: 15) {
                     CacheAsyncImage(url: URL(string: item.bodyImage)) { image in
                         image
@@ -143,7 +152,7 @@ struct MagazineView: View {
                     .font(.title2).bold()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding([.top, .leading], 15)
-
+                
                 LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(magazineStore.magazineRelatedPerfumes, id: \.self.perfumeId) { perfume in
                         NavigationLink {
@@ -162,7 +171,6 @@ struct MagazineView: View {
             .offset(offset: $scrollOffset)
         }
         .statusBarHidden()
-        
         .overlay(alignment: .topTrailing, content: {
             Button {
                 withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)){
