@@ -9,7 +9,7 @@
 "CHECK OUT THE PROMOTIONS." = "지금 프로모션을 확인하세요";
 "MORE" = "더보기";
 "CLOSE" = "닫기";
-"RECOMMENDATION PERFUME FOR YOU" = "당신을 위한 향수 추천";
+"RECOMMENDATION FOR YOU" = "당신을 위한 향수 추천";
 "RECENTLY VIEWED" = "최근 본 향수";
 "ScentType Description" = "향수타입 설명";
 "Save" = "저장";
@@ -94,7 +94,7 @@
 "Rapid technological developments and globalisation have brought new challenges for the protection of personal data. The scale of the collection and sharing of personal data has increased significantly. Technology allows both private companies and public authorities to make use of personal data on an unprecedented scale in order to pursue their activities. Natural persons increasingly make personal information available publicly and globally. Technology has transformed both the economy and social life, and should further facilitate the free flow of personal data within the Union and the transfer to third countries and international organisations, while ensuring a high level of the protection of personal data." = "격한 기술발전과 세계화에 따라 개인정보보호 분야에 새로운 도전이 제기되었다. 개인정보의 수집 및 공유 규모가 상당한 수준으로 확대되었다. 기술을 통해 민간기업과 공공기관이 업무수행을 위해 전례 없는 규모로 개인정보를 활용하게 되었다. 개인은 개인정보를 공적으로 세계적으로 활용할 수 있다. 기술은 경제와 사회생활을 변화시켜왔다. 앞으로는 기술을 통해 유럽 역내의 자유로운 정보 이동과 제 3국 및 국제기구로의 개인정보 이전을 용이하게 하고, 개인정보를 높은 수준으로 보호해야 한다.";
 "(7) Protection Framework" = "(7) 개인정보보호 프레임워크";
 "Those developments require a strong and more coherent data protection framework in the Union, backed by strong enforcement, given the importance of creating the trust that will allow the digital economy to develop across the internal market. Natural persons should have control of their own personal data. Legal and practical certainty for natural persons, economic operators and public authorities should be enhanced." = "역내시장에서 디지털 경제를 발전시키기 위해서 신뢰 구축이 중요하다는 점을 고려하면, 강력한 집행력을 기반으로 하는 유럽연합에 더 강력하고 일관성 있는 개인정보보호 프레임워크(framework)가 필요하다. 개인은 본인의 개인정보에 대한 통제권을 보유해야 한다. 개인, 경제 주체 및 공공기관을 위한 법적, 실질적 확실성이 강화되어야 한다.";
-"Touché Terms & Conditions" = "Touché 이용약관";
+"Terms & Conditions" = "이용약관";
 "Chapter 1 General Provisions" = "제 1장 총칙";
 "This is a guide to help you understand the terms and conditions of use as a whole, including the purpose of this terms and conditions of use." = "본 이용약관의 취지를 포함하여 이용약관 전반에 대한 이해를 돕기 위한 안내입니다.";
 "Article 1 (Purpose)" = "제 1조 (목적)";

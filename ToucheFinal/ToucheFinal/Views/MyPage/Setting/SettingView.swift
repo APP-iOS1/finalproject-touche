@@ -24,6 +24,7 @@ struct SettingView: View {
     @State var showContactUsView: Bool = false
     @State var showPrivacyPolicyView: Bool = false
     @State var showTermsandConditionsView: Bool = false
+    @State var showVersionView: Bool = false
     
     var body: some View {
         
@@ -56,18 +57,18 @@ struct SettingView: View {
                         
 
                         
-                        Button {
-                            showSelectNationView.toggle()
-                        } label: {
-                            HStack{
-                                Text("Country / Region")
-                                Spacer()
-                                //Image(systemName: "chevron.right")
-                            }
-                        }
-                        .fullScreenCover(isPresented: $showSelectNationView) {
-                            SelectNationView()
-                        }
+//                        Button {
+//                            showSelectNationView.toggle()
+//                        } label: {
+//                            HStack{
+//                                Text("Country / Region")
+//                                Spacer()
+//                                //Image(systemName: "chevron.right")
+//                            }
+//                        }
+//                        .fullScreenCover(isPresented: $showSelectNationView) {
+//                            SelectNationView()
+//                        }
                         
                         
   
@@ -109,7 +110,14 @@ struct SettingView: View {
                             .fullScreenCover(isPresented: $showTermsandConditionsView){
                                 TermsandConditionsView()
                             }
-            
+                            Button("Version"){
+                                showVersionView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showVersionView){
+                                VersionView()
+                            }
+                            
+                           
                         }
                     }
                     .listStyle(.plain)
