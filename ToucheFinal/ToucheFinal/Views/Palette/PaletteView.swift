@@ -169,11 +169,16 @@ struct PaletteView: View {
                 Task {
                     if let userId = userInfoStore.user?.uid {
                         await perfumeStore.readLikedPerfumes(userId: userId)
-                        for perfume in perfumeStore.likedPerfumes {
-                            scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
-                        }
-                        if let mostWishScentType = scentTypeCount.max(by: { $0.value < $1.value}) {
-                            setMaxCountScentType(scentType: mostWishScentType.key)
+                        if perfumeStore.likedPerfumes.isEmpty {
+                            guard let randomScentType = userSelectedScentType.randomElement() else {return}
+                            setMaxCountScentType(scentType: randomScentType)
+                        } else {
+                            for perfume in perfumeStore.likedPerfumes {
+                                scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
+                            }
+                            if let mostWishScentType = scentTypeCount.max(by: { $0.value < $1.value}) {
+                                setMaxCountScentType(scentType: mostWishScentType.key)
+                            }
                         }
                     } else {
                         guard let randomScentType = userSelectedScentType.randomElement() else {return}

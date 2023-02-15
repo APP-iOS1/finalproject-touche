@@ -174,19 +174,19 @@ struct HomeView: View {
                         }
                     } else {    //  로그인 안 했을 경우
                         Task {
-                            print("비로그인")
-
+                            print("비로그인")       
                             let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
                         }
-                        Task {
-                            let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
-                            await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
-                            await perfumeStore.readMostCommentsPerfumes()
-                            await magazineStore.readMagazines()
-                        }
+                    }
+                    
+                    Task {
+                        let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+                        await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
+                        await perfumeStore.readMostCommentsPerfumes()
+                        await magazineStore.readMagazines()
                     }
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {

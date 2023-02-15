@@ -114,7 +114,9 @@ final class UserInfoStore: ObservableObject{
             await fetchUser(user: result.user)
             self.loginState = .success
             self.notice = "login"
-        } catch {}
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     /// 인증된 이메일인지 체크
@@ -191,21 +193,21 @@ final class UserInfoStore: ObservableObject{
     }
     
     /// 계정 삭제 기능
-    func deleteAccount() {
-        //  user?.delete()
-        user = Auth.auth().currentUser
-        
-        user?.delete { error in
-            if let e = error {
-                print(e.localizedDescription)
-            } else {
-                print("user deleted successfully")
-               //self.showingDeleteConfirmation = false
-            }
+    func deleteAccount(email: String, password: String) async -> Bool {
+        do {
+            user = Auth.auth().currentUser
+            let credential = EmailAuthProvider.credential(withEmail: userInfo?.userEmail ?? "", password: password)
+            try await user?.reauthenticate(with: credential)
+            try await database.document(user?.uid ?? "").delete()
+            try await user?.delete()
+            self.signInState = .signOut
+            return true
+        } catch {
+#if DEBUG
+            print(error.localizedDescription)
+#endif
+            return false
         }
-        
-        self.signInState = .signOut
-        database.document(user?.uid ?? "").delete()
     }
     
     // SceneDelegate를 통해 deleteAccount 시 앱 초기화면으로 이동
@@ -219,7 +221,6 @@ final class UserInfoStore: ObservableObject{
     
     /// 이메일 중복 체크
     func duplicateCheck(emailAddress: String) {
-
             Auth.auth().fetchSignInMethods(forEmail: emailAddress) { providers, error in
                 if let error {
                     print(error.localizedDescription)
