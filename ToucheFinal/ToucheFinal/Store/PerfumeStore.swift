@@ -155,7 +155,7 @@ class PerfumeStore: ObservableObject {
     func readMostCommentsPerfumes() async {
         do {
             var tempPerfumes: [Perfume] = []
-            let snapshot = try await database.order(by: "commentCount", descending: true).limit(to: 100).getDocuments()
+            let snapshot = try await database.order(by: "commentCount", descending: true).limit(to: 10).getDocuments()
             for document in snapshot.documents {
                 let perfume =  try document.data(as: Perfume.self)
                 tempPerfumes.append(perfume)

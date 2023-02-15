@@ -10,11 +10,10 @@ import SwiftUI
 struct PaletteView: View {
     @EnvironmentObject var perfumeStore: PerfumeStore
     @EnvironmentObject var userInfoStore: UserInfoStore
-    @ObservedObject var colorPaletteCondition = ColorPalette()
     
+    @State private var selectedColor: Color = .clear
     @State private var perfumes: [Perfume] = []
     @State private var scentTypeCount: [String: Double] = [:]
-    @State private var selectedColor: Color = Color("customGray")
     @State private var rotationDegrees: Double = 0
     @State private var selectedScentType = ""
     @State private var isTapped = false
@@ -41,12 +40,12 @@ struct PaletteView: View {
                         Group{
                             ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
                                 PaletteCell(
-                                    colorPaletteCondition: colorPaletteCondition, color: color.color,
+                                    selectedColor: selectedColor, color: color.color,
                                     degrees: Double(index) * 22.5,
                                     name: color.name,
                                     count: scentTypeCount[color.name] ?? 0)
                                 .onTapGesture {
-                                    colorPaletteCondition.selectedColor = color.color
+                                    selectedColor = color.color
                                     selectedScentType = color.name
                                     isTapped = true
                                     perfumes = perfumeStore.likedPerfumes.filter {$0.scentType == color.name}
@@ -58,7 +57,6 @@ struct PaletteView: View {
                         .padding(.vertical, 20)
                         .rotationEffect(Angle(degrees: 360 - rotationDegrees))
                         .animation(.easeInOut(duration: 1), value: rotationDegrees)
-                        
                         
                         // MARK: - 팔레트 눌렀을때 나오는 가운데 부분
                         ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
@@ -73,14 +71,6 @@ struct PaletteView: View {
                                 }
                                 .opacity(isTapped ? (color.name == selectedScentType ? 1 : 0) : 0)
                                 .animation(.linear(duration: 0.5), value: selectedScentType)
-                            //                                .onTapGesture {
-                            //                                    if isTapped {
-                            //                                        colorPaletteCondition.selectedColor = .clear
-                            //                                        selectedScentType = ""
-                            //                                        isTapped = false
-                            //                                        perfumes.removeAll()
-                            //                                    }
-                            //                                }
                         }
                     }
                     
@@ -170,7 +160,7 @@ struct PaletteView: View {
             }
             .background(
                 ZStack {
-                    ColorPaletteUnderView(colorPaletteCondition: colorPaletteCondition, perfumesCount: perfumes.count)
+                    ColorPaletteUnderView(selectedColor: selectedColor, perfumesCount: perfumes.count)
                 }
             )
             .modifier(SignInFullCover(isShowing: $navLinkActive))
@@ -179,11 +169,16 @@ struct PaletteView: View {
                 Task {
                     if let userId = userInfoStore.user?.uid {
                         await perfumeStore.readLikedPerfumes(userId: userId)
-                        for perfume in perfumeStore.likedPerfumes {
-                            scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
-                        }
-                        if let mostWishScentType = scentTypeCount.max(by: { $0.value < $1.value}) {
-                            setMaxCountScentType(scentType: mostWishScentType.key)
+                        if perfumeStore.likedPerfumes.isEmpty {
+                            guard let randomScentType = userSelectedScentType.randomElement() else {return}
+                            setMaxCountScentType(scentType: randomScentType)
+                        } else {
+                            for perfume in perfumeStore.likedPerfumes {
+                                scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
+                            }
+                            if let mostWishScentType = scentTypeCount.max(by: { $0.value < $1.value}) {
+                                setMaxCountScentType(scentType: mostWishScentType.key)
+                            }
                         }
                     } else {
                         guard let randomScentType = userSelectedScentType.randomElement() else {return}
@@ -191,13 +186,12 @@ struct PaletteView: View {
                     }
                 }
             }
-            .onDisappear()
         }
     }
     
     func setMaxCountScentType(scentType: String) {
         perfumes = perfumeStore.likedPerfumes.filter{$0.scentType == scentType}
-        colorPaletteCondition.selectedColor = Color(scentType: scentType)
+        selectedColor = Color(scentType: scentType)
         selectedScentType = scentType
         isTapped = true
         if let colorPaletteCondition = PerfumeColor.types.firstIndex(where: {
