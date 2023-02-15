@@ -314,10 +314,10 @@
 				65A7AB3B2977AFAD00DB4860 /* SettingView.swift */,
 				6550DD38299A1B3B004AF206 /* PrivacyView.swift */,
 				6550DD36299A1B1E004AF206 /* TermsandConditionsView.swift */,
+				653CE9C2299D2EFD009EE313 /* MailView.swift */,
 				6550DD34299A1AFA004AF206 /* ContactUsView.swift */,
 				6550DD3C299C7908004AF206 /* VersionView.swift */,
 				656A00EA29792FFD002E37E6 /* SelectNationView.swift */,
-				653CE9C2299D2EFD009EE313 /* MailView.swift */,
 				656A00E829792E08002E37E6 /* DeleteAccountView.swift */,
 			);
 			path = Setting;
@@ -765,7 +765,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ToucheFinal/Preview Content\"";
-				DEVELOPMENT_TEAM = 54ZG4WU22U;
+				DEVELOPMENT_TEAM = 249UL743C2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;
@@ -784,7 +784,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.ToucheFinal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.ToucheFinall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -800,7 +800,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ToucheFinal/Preview Content\"";
-				DEVELOPMENT_TEAM = 54ZG4WU22U;
+				DEVELOPMENT_TEAM = 249UL743C2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToucheFinal/Info.plist;
@@ -819,7 +819,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.ToucheFinal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.ToucheFinall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

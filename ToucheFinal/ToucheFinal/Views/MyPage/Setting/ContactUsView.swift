@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import MessageUI
+import AlertToast
 
 struct ContactUsView: View {
 
@@ -17,12 +18,13 @@ struct ContactUsView: View {
     private let pasteboard = UIPasteboard.general
     @State private var buttonText: String = "Copy"
     @State private var email: String = "contactus@touche.com"
+    @State private var isCopied: Bool = false
     
     var body: some View {
         
         NavigationView{
             ScrollView{
-                VStack(alignment: .leading){
+                VStack{
                 Image("touche2")
                     .resizable()
                     .scaledToFit()
@@ -31,24 +33,33 @@ struct ContactUsView: View {
                     .frame(width: 200)
             
                 VStack(alignment: .leading){
-                    // 클릭 시 
+                    // 클릭 시
+                    
                     Button("Send mail to Team Touché"){
-                      // @IBAction func buttonClicked
+                        DispatchQueue.main.async {
+                            MailComposeViewController.shared.sendEmail()
+                        }
+                        
                     }
+                    .frame(width: UIScreen.main.bounds.width - 30, height: 46.0)
+                    .background(.black)
                     .foregroundColor(.white)
-                    .frame(maxWidth: .infinity, minHeight: 46)
-                    .background(.gray)
                     .cornerRadius(7)
-                    .padding(.bottom, 15)
+                    .padding(.top, 18)
+                    .padding(.bottom, 18)
                     
-                    
-                    Button("Copy Team Touché's Mail"){
+                    Button("Copy Team Touché's mail"){
+                        isCopied.toggle()
                         copyToClipboard()
                     }
+                    .frame(width: UIScreen.main.bounds.width - 30, height: 46.0)
+                    .background(.black)
                     .foregroundColor(.white)
-                    .frame(maxWidth: .infinity, minHeight: 46)
-                    .background(.gray)
                     .cornerRadius(7)
+                    .toast(isPresenting: $isCopied){
+                        AlertToast(displayMode: .hud, type: .complete(Color.red), title: "Copied Success!", subTitle: "Paste it where you want.", style: .style(titleColor: Color.green, subTitleColor: Color.black))
+                    }
+                    
                 }
                 .tint(.black)
                 Spacer()
@@ -72,6 +83,28 @@ struct ContactUsView: View {
         pasteboard.string = self.email
         self.buttonText = "Copied"
     }
+    
+    class MailComposeViewController: UIViewController, MFMailComposeViewControllerDelegate {
+    
+        static let shared = MailComposeViewController()
+    
+        func sendEmail() {
+            if MFMailComposeViewController.canSendMail() {
+                let mail = MFMailComposeViewController()
+                mail.mailComposeDelegate = self
+                mail.setToRecipients(["test@test.com"])
+
+                UIApplication.shared.windows.last?.rootViewController?.present(mail, animated: true, completion: nil)
+            } else {
+                // Alert
+            }
+        }
+    
+        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+            controller.dismiss(animated: true, completion: nil)
+        }
+    }
+    
 }
 
 
