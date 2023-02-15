@@ -61,8 +61,8 @@ struct MyPageView: View {
                     
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
-                  //    Text(userInfoStore.userInfo?.userNation.flag ?? "")
-                        Text(userInfoStore.userInfo?.userNation.flag() ?? "")
+                        Text(nation)
+                        //  Text(userInfoStore.userInfo?.userNation.flag() ?? "")
                     }
                     
                     
@@ -216,13 +216,16 @@ struct MyPageView: View {
                 print(userInfoStore.writtenCommentsAndPerfumes)
                 
                 guard let user = Auth.auth().currentUser else {return}
-                
                 print("user? : \(user.uid)")
                 
                 userNickname = await userInfoStore.getNickName(uid: user.uid)
+                
                 await userInfoStore.fetchUser(user: user)
-//                print(userInfoStore.userInfo)
+                print(userInfoStore.userInfo)
+                
                 await userInfoStore.readWrittenComments()
+                
+                nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
         .refreshable {

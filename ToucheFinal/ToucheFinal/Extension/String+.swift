@@ -33,4 +33,10 @@ extension String{
             return ""
         }
     }
+    
+    func isValidNickname() -> Bool {
+        let regex = "^.*([a-zA-Z0-9])+.*$"
+        let nickNameTest = NSPredicate(format:"SELF MATCHES %@", regex)
+        return nickNameTest.evaluate(with: self)
+    }
 }

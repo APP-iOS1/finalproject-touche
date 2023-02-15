@@ -162,6 +162,9 @@ struct HomeView: View {
                         
                 }
                 .onAppear{
+                    
+                    userInfoStore.logOut()
+                    
                     print(Auth.auth().currentUser?.isEmailVerified)
                     if userInfoStore.user != nil {    //  로그인 상태일 때
                         Task {
