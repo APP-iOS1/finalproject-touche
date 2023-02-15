@@ -215,7 +215,7 @@ struct SignUpView: View {
                     }
                 } label: {
                     Text("Sign Up")
-                        .frame(width: 360, height: 46)
+                        .frame(width: UIScreen.main.bounds.width - 30, height: 46)
                         .background(isSignUpDisabled ? .gray : .black)
                         .foregroundColor(.white)
                         .cornerRadius(7)
