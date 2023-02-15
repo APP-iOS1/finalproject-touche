@@ -73,7 +73,7 @@ struct SettingView: View {
   
                         
                         
-                        if !(userInfoStore.userInfo == nil){
+                        if userInfoStore.user?.isEmailVerified ?? false {
                             Button{
                                 showDeleteAccountView.toggle()
                             } label :{
@@ -116,9 +116,12 @@ struct SettingView: View {
                     .scrollDisabled(true)
                     VStack{
                         
-                        if !(userInfoStore.userInfo == nil){
+                        if userInfoStore.user?.isEmailVerified ?? false {
                         Button{
-                            userInfoStore.logOut()
+                            Task {
+                                await userInfoStore.logOut()
+                                userInfoStore.isShowingSignoutAlert.toggle()
+                            }
                         } label: {
                             Text("Sign Out")
                                 .frame(width: 150, height: 40.0)

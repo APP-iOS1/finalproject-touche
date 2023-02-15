@@ -14,7 +14,7 @@ struct LogInRootView: View {
     
     var body: some View {
         VStack {
-            if Auth.auth().currentUser?.isEmailVerified ?? false {
+            if userInfoStore.user?.isEmailVerified ?? false {
                 MyPageView(perfume: dummy[0], comment: commentDummy[0]) // 로그인 되면
             } else { // 로그인 안되면
                 SignOutView()

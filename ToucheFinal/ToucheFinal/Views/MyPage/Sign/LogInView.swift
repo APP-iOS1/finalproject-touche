@@ -12,7 +12,6 @@ import FirebaseAuth
 struct LogInView: View {
     @State var email: String = ""
     @State var password: String = ""
-    @State var isShowingAlert: Bool = false
     @State var loginFailActive: Bool = false
     @FocusState private var isFocused: Bool
     
@@ -44,18 +43,22 @@ struct LogInView: View {
             .textFieldStyle(.roundedBorder)
             Button {
                 Task {
-//                    await userInfoStore.fetchUser(user: userInfoStore.user)
-                    await userInfoStore.checkVerificationEmail(emailAddress: email, password: password)
-                    if Auth.auth().currentUser?.isEmailVerified ?? false {
-                        await userInfoStore.logIn(emailAddress: email, password: password)
-//                        isShowingSuccessAlert.toggle()
-                        print("true")
-                        dismiss()
+                    await userInfoStore.logOut()
+                    //                    await userInfoStore.fetchUser(user: userInfoStore.user)
+//                    await userInfoStore.checkVerificationEmail(emailAddress: email, password: password)
+                    await userInfoStore.logIn(emailAddress: email, password: password)
+                    if userInfoStore.loginState == .success { // 로그인 성공했고
+                        if userInfoStore.user?.isEmailVerified ?? false { // 이메일 인증도 됐으면
+                            userInfoStore.isShowingSuccessAlert.toggle()
+                            print("true")
+                            dismiss()
+                        } else {
+                            loginFailActive.toggle()
+                            await userInfoStore.sendVerificationEmail()
+                            print("아직 false")
+                        }
                     } else {
-                        loginFailActive.toggle()
-//                        userInfoStore.isShowingFailAlert.toggle()
-                        userInfoStore.sendVerificationEmail()
-                        print("아직 false")
+                        userInfoStore.isShowingFailAlert.toggle()
                     }
                 }
             } label: {
@@ -67,16 +70,11 @@ struct LogInView: View {
             }
             .disabled(email.isEmpty || password.isEmpty )
             .padding(.top, 10)
-//            .alert("Log In", isPresented: $isShowingAlert) {
-//                Button("OK"){}
-//            } message: {
-//                Text("로그인 버튼 눌렀을 때")
-//            }
-            .alert("log in", isPresented: $loginFailActive) {
+            .alert("Send mail", isPresented: $loginFailActive) {
                 Button("OK"){
                 }
             } message: {
-                Text("인증되지 않은 이메일입니다. 받은 메일을 확인하여 인증해 주세요.")
+                Text("This email is not authorized. Please check the mail you received and complete the authentication.")
             }
             Spacer()
         }
