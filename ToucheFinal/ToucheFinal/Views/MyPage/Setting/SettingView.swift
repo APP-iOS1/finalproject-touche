@@ -27,22 +27,18 @@ struct SettingView: View {
     @State var showVersionView: Bool = false
     
     var body: some View {
-        
         NavigationView {
-            
-                VStack(alignment: .leading){
-                    List{
+            VStack(alignment: .leading){
+                List{
+                    /// SETTINGS Group
+                    Group {
                         Text("SETTINGS")
                             .font(.system(size: 20))
                             .fontWeight(.bold)
-                        
                         Button{
                             Task{
                                 if let url = URL(string: "app-settings:\(bundleID!)") {
-                                    
                                     await UIApplication.shared.open(url)
-//                                  
-                                    
                                 }
                             }
                         } label :{
@@ -52,28 +48,6 @@ struct SettingView: View {
                                 Image(systemName: "arrow.up.right")
                             }
                         }
-                        
-                        
-                        
-
-                        
-//                        Button {
-//                            showSelectNationView.toggle()
-//                        } label: {
-//                            HStack{
-//                                Text("Country / Region")
-//                                Spacer()
-//                                //Image(systemName: "chevron.right")
-//                            }
-//                        }
-//                        .fullScreenCover(isPresented: $showSelectNationView) {
-//                            SelectNationView()
-//                        }
-                        
-                        
-  
-                        
-                        
                         if !(userInfoStore.userInfo == nil){
                             Button{
                                 showDeleteAccountView.toggle()
@@ -116,15 +90,14 @@ struct SettingView: View {
                             .fullScreenCover(isPresented: $showVersionView){
                                 VersionView()
                             }
-                            
-                           
                         }
                     }
-                    .listStyle(.plain)
-                    .scrollDisabled(true)
-                    VStack{
-                        
-                        if !(userInfoStore.userInfo == nil){
+                } // List 종료
+                .listStyle(.plain)
+                .scrollDisabled(true)
+                .frame(maxHeight: 400)
+                VStack{
+                    if !(userInfoStore.userInfo == nil){
                         Button{
                             userInfoStore.logOut()
                         } label: {
@@ -134,12 +107,12 @@ struct SettingView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(20)
                         }
-                        }
                     }
-                    .padding(.leading, 20)
-                    Spacer(minLength: 110)
-                }// VStack 종료
-        
+                }
+                .padding(.leading, 20)
+                Spacer()
+            }// VStack 종료
+            Spacer()
         } // NavigationView 종료
         
         .toolbar {
@@ -159,5 +132,6 @@ struct SettingView: View {
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
         SettingView()
+            .environmentObject(UserInfoStore())
     }
 }

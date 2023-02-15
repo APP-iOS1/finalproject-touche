@@ -98,8 +98,36 @@ struct EditMyProfileView: View {
                 HStack {
                     VStack {
                         Text("Nickname")
+/*
+                        Spacer(minLength: 50)
+                        
+                        VStack{
+                            TextField("Edit your Name", text: $editName)
+                                .padding(.bottom, -5)
+                                .foregroundColor(.black)
+                                .keyboardType(.alphabet)
+                                .modifier(KeyboardTextField())
+                            // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
+                                .onChange(of: editName) { value in
+                                    if editName.count > 0 && editName.count < 20 {
+                                        self.editIsValid = true
+                                    } else {
+                                        self.editIsValid = false
+                                    }
+                                }
+                            Rectangle().frame(height: 0.45)
+                                .foregroundColor(Color(uiColor: .systemGray5))
+                        }
+                    } // 네임 텍스트 필드 HStack
+                    //  .padding(.bottom, 25)
+                    .padding(.bottom, 10)
+                  
+                    HStack{
+*/
+
                             .padding(10)
                             .frame(maxWidth: 100, alignment: .leading)
+
                         Text("Email")
                             .padding(10)
                             .frame(maxWidth: 100, alignment: .leading)
@@ -112,6 +140,8 @@ struct EditMyProfileView: View {
                     
                     VStack {
                         TextField("Edit your Name", text: $editName)
+                            .keyboardType(.alphabet)
+                            .modifier(KeyboardTextField())
                         // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
                             .onChange(of: editName) { value in
                                 if editName.count > 0 && editName.count < 20 {
@@ -282,6 +312,10 @@ struct EditMyProfileView: View {
             editName = userInfoStore.userInfo?.userNickName ?? ""
             editNation = userInfoStore.userInfo?.userNation.flag() ?? ""
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
+
     }
 }
 

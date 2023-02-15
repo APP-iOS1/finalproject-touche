@@ -161,8 +161,7 @@ struct SearchView: View {
             prompt: "Search products, brands"
         )
         .keyboardType(.alphabet)
-        .autocorrectionDisabled()
-        .textInputAutocapitalization(.never)    // 첫 영문자 대문자로 시작 막음
+        .modifier(KeyboardTextField())
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -174,6 +173,9 @@ struct SearchView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
     
     // MARK: 함수들 다른 파일로 옮길 예정

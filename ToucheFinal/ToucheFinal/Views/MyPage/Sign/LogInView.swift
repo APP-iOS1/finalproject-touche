@@ -10,9 +10,15 @@ import AlertToast
 import FirebaseAuth
 
 struct LogInView: View {
+    enum Field {
+        case email
+        case password
+    }
+    
     @State var email: String = ""
     @State var password: String = ""
     @State var isShowingAlert: Bool = false
+    @FocusState private var focusedField: Field?
     @State var loginFailActive: Bool = false
     @FocusState private var isFocused: Bool
     
@@ -26,9 +32,10 @@ struct LogInView: View {
                     .padding(.top, 1)
                 
                 TextField("Enter Email", text: $email)
-                    .textInputAutocapitalization(.never) // 대문자 방지
-                    .disableAutocorrection(true) // 자동수정 방지
+                    .focused($focusedField, equals: .email)
+                    .modifier(KeyboardTextField())
                     .keyboardType(.emailAddress) // 이메일용 키보드
+                    .submitLabel(.next)
                     .frame(height: 40)
                     .padding(.top, -8.5)
                     .padding(.bottom, 17)
@@ -36,9 +43,22 @@ struct LogInView: View {
                 Text("Password")
                 
                 SecureField("Enter Password", text: $password)
+                    .focused($focusedField, equals: .password)
                     .textInputAutocapitalization(.never)
+                    .submitLabel(.done)
                     .frame(height: 40)
                     .padding(.top, -8.5)
+            }
+            .onAppear {
+                focusedField = .email
+            }
+            .onSubmit {
+                switch focusedField {
+                case .email:
+                    focusedField = .password
+                default:
+                    print("sign in ..")
+                }
             }
             .padding()
             .textFieldStyle(.roundedBorder)
@@ -79,7 +99,7 @@ struct LogInView: View {
                 Text("인증되지 않은 이메일입니다. 받은 메일을 확인하여 인증해 주세요.")
             }
             Spacer()
-        }
+        } //VStack
         .background(Color.white) // background 컬러 지정안해주면 화면 밖 눌러도 키보드 안내려감.
         .onTapGesture() {
             endEditing()

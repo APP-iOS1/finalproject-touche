@@ -58,6 +58,8 @@ struct WriteCommentView: View {
                 ZStack {
                     TextEditor(text: $manager.reviewText)
                         .scrollContentBackground(.hidden)
+                        .keyboardType(.alphabet)
+                        .modifier(KeyboardTextField())
                     // Placeholder
                     VStack {
                         HStack {
@@ -118,7 +120,7 @@ struct WriteCommentView: View {
                 }
                 .disabled(manager.reviewText.count < 1 || score < 1)
                 Spacer()
-            }
+            } //VStack
             .padding()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -135,6 +137,9 @@ struct WriteCommentView: View {
                 manager.reviewText = reviewText
                 oldScore = score
             }
+        } //NavigationStack
+        .onTapGesture {
+            hideKeyboard()
         }
     }
     func readPerfumes() {

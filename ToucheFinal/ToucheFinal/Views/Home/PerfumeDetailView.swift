@@ -112,14 +112,6 @@ struct PerfumeDetailView: View {
     }
 }
 
-// MARK: - HELPER FUNCTION
-private extension PerfumeDetailView {
-    /// 가상 키보드 해제 액션
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
-
 // MARK: - VIEW EXTENSION
 private extension PerfumeDetailView {
     /// 향수 브랜드, 제품, 순위 뷰
@@ -286,7 +278,7 @@ private extension PerfumeDetailView {
                 Divider()
                 CommentCell(comment: comment, perfume: $perfume)
             }
-        }
+        }//
         .onTapGesture {
             hideKeyboard()
         }
@@ -350,4 +342,11 @@ struct PerfumeDetailView_Previews: PreviewProvider {
     }
 }
 
+// MARK: - HELPER FUNCTION
+extension PerfumeDetailView {
+    /// 가상 키보드 해제 액션
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
 
