@@ -63,7 +63,7 @@ struct HomeView: View {
                     // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
-                            Text("RECOMMENDATION PERFUME FOR YOU")
+                            Text("RECOMMENDATION FOR YOU")
                                 .modifier(TextViewModeifier(isTitleSection: true))
                             Spacer()
                             NavigationLink {
@@ -143,6 +143,9 @@ struct HomeView: View {
                 }
 
                 .onAppear{
+                    
+                    userInfoStore.logOut()
+                    
                     print(Auth.auth().currentUser?.isEmailVerified)
                     Task {
                         if userInfoStore.user != nil {    //  로그인
@@ -157,14 +160,12 @@ struct HomeView: View {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
                         }
-                        
                         let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
                         let perfumesId = setRecomendedPerfumesId(perfumesId: selectedScentTypes)
                         await perfumeStore.readRecomendedPerfumes(perfumesId: perfumesId)
                         await perfumeStore.readMostCommentsPerfumes()
                         await magazineStore.readMagazines()
-                        
-                        print("매거진스: \(magazineStore.magazines)")
+
                     }
                     perfumeStore.recentSearches = UserDefaults.standard.array(forKey: "recentSearchesUD") as? [String] ?? [String]()
                 }

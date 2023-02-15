@@ -31,6 +31,11 @@ struct PerfumeDetailView: View {
     
     @State var perfume: Perfume
     @State var totalScore: Int = 0
+    var viewSize: Double {
+        UIScreen.main.bounds.width
+        
+    }
+
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -82,9 +87,11 @@ struct PerfumeDetailView: View {
         ) {
             Button("OK", role: .cancel) {}
         }
+
         .sheet(isPresented: $isShowingWriteComment, content: {
             WriteCommentView(score: 0, isShowingWriteComment: $isShowingWriteComment, perfume: $perfume, reviewText: "", commentId: "")
-                .presentationDetents([.medium])
+//                .presentationDetents([.medium])
+                .presentationDetents([.height(viewSize > 375 ? 450 : 450)])
         })
         .modifier(SignInFullCover(isShowing: $navLinkActive))
         .navigationTitle(perfume.displayName)
@@ -101,6 +108,7 @@ struct PerfumeDetailView: View {
             }
         }
         .onAppear{
+        print(viewSize)
             updateRecentlyPerfumes()
             Task{
                 await commentStore.fetchComments(perfumeId: perfume.perfumeId)
@@ -109,14 +117,6 @@ struct PerfumeDetailView: View {
         }
         
         
-    }
-}
-
-// MARK: - HELPER FUNCTION
-private extension PerfumeDetailView {
-    /// 가상 키보드 해제 액션
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
@@ -161,8 +161,8 @@ private extension PerfumeDetailView {
             // Like
             VStack(spacing: 16.0){
                 Button {
-                    switch userInfoStore.currentUser {
-                    case nil:
+                    switch userInfoStore.user?.isEmailVerified ?? false {
+                    case false:
                         loginAlertActive = true
                     default:
                         Task {
@@ -257,9 +257,10 @@ private extension PerfumeDetailView {
                 Text("Leave your review")
                     .underline()
                     .onTapGesture(perform: {
-                        switch userInfoStore.currentUser {
-                        case nil:
+                        switch userInfoStore.user?.isEmailVerified ?? false {
+                        case false:
                             loginAlertActive = true
+                            
                         default:
                             // 이미 리뷰를 작성한 적이 있는지
                             if commentStore.comments.filter({ $0.writerId == userInfoStore.currentUser }).count == 0 {
@@ -267,6 +268,7 @@ private extension PerfumeDetailView {
                             } else {
                                 isCheckedReview = true
                             }
+                            
                         }
                     })
             }
@@ -286,7 +288,7 @@ private extension PerfumeDetailView {
                 Divider()
                 CommentCell(comment: comment, perfume: $perfume)
             }
-        }
+        }//
         .onTapGesture {
             hideKeyboard()
         }
@@ -350,4 +352,11 @@ struct PerfumeDetailView_Previews: PreviewProvider {
     }
 }
 
+// MARK: - HELPER FUNCTION
+extension PerfumeDetailView {
+    /// 가상 키보드 해제 액션
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
 

@@ -20,10 +20,7 @@ struct TermsandConditionsView: View {
                         .scaledToFit()
                         .frame(width: 200, height: 50)
                     VStack(alignment: .leading){
-                        Text("Touché Terms & Conditions")
-                            .fontWeight(.semibold)
-                            .font(.system(size: 19))
-                            .padding(.bottom, 7)
+                        
                         
                         Group{
                             Text("Chapter 1 General Provisions")
@@ -87,6 +84,7 @@ struct TermsandConditionsView: View {
                     }
                 }
             }
+            .navigationBarTitle("Terms & Conditions", displayMode: .inline)
         }
     }
 }

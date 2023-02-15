@@ -10,13 +10,11 @@ import Magnetic
 import SwiftUI
 
 class MagneticViewcontroller: UIViewController {
-
     @IBOutlet weak var SkipBtn: UIButton!
     @IBOutlet weak var FinishBtn: UIButton!
     @IBOutlet weak var magneticView: MagneticView! {
         didSet {
             magnetic.magneticDelegate = self
-//            magnetic.removeNodeOnLongPress = true
         }
     }
     
@@ -125,7 +123,7 @@ extension MagneticViewcontroller: MagneticDelegate {
         node.selectedColor = tempSelectedColor
         guard let name = node.name else {return}
         selectedScentTypes[name] = false
-        FinishBtn.isEnabled = !selectedScentTypes.isEmpty
+        FinishBtn.isEnabled = !selectedScentTypes.filter{$0.value == true}.isEmpty
     }
     
     func magnetic(_ magnetic: Magnetic, didRemove node: Node) {}

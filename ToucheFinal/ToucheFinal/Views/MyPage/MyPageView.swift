@@ -44,15 +44,25 @@ struct MyPageView: View {
                         .transition(.fade)
                         .cornerRadius(50)
                         .frame(width: 100, height: 100)
-                        .background(Color.black.opacity(0.2))
+                        .background {
+                            Image(systemName: "person.fill")
+                                .resizable()
+                                .padding(.top, 6)
+                                .padding(.horizontal, 3)
+                                .foregroundColor(.gray)
+                                .clipShape(Circle())
+                                .overlay {
+                                    Circle()
+                                        .stroke(.gray, lineWidth: 0.1)
+                                }
+                        }
                         .aspectRatio(contentMode: .fill)
-                        .clipShape(Circle())
-                        .padding(.top, 20)
+                        .padding(.bottom, 10)
                     
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
-                  //    Text(userInfoStore.userInfo?.userNation.flag ?? "")
-                        Text(userInfoStore.userInfo?.userNation.flag() ?? "")
+                        Text(nation)
+                        //  Text(userInfoStore.userInfo?.userNation.flag() ?? "")
                     }
                     
                     
@@ -116,50 +126,74 @@ struct MyPageView: View {
                 
                 switch selection {
                 case .reviewed:
-                    ScrollView(.vertical, showsIndicators: false) {
-                        LazyVStack(alignment: .center, spacing: 12.0) {
-                            ForEach(userInfoStore.writtenCommentsAndPerfumes, id: \.self.0) { (perfume, comment) in
-                                MyPageMyCommentCell(perfume: perfume, comment: comment)
+                    
+                    if userInfoStore.writtenCommentsAndPerfumes.count == 0 {
+                        Divider()
+                        Spacer()
+                        // TODO: 문구 수정하기
+                        Text("Did not write a **review.**")
+                            .multilineTextAlignment(.center)
+                        Spacer()
+                        Spacer()
+                    } else {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            LazyVStack(alignment: .center, spacing: 12.0) {
+                                ForEach(userInfoStore.writtenCommentsAndPerfumes, id: \.self.0) { (perfume, comment) in
+                                    MyPageMyCommentCell(perfume: perfume, comment: comment)
+                                }
                             }
+                            .padding(.vertical, 8.0)
+                        } // SCROLL
+                        .overlay(alignment: .top) {
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundStyle(.quaternary)
                         }
-                        .padding(.vertical, 8.0)
-                    } // SCROLL
-                    .overlay(alignment: .top) {
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundStyle(.quaternary)
+                        .animation(.easeOut, value: selection)
                     }
-                    .animation(.easeOut, value: selection)
+                    
                     
                 case .liked:
-                    ScrollView(.vertical, showsIndicators: false) {
-                        LazyVGrid(columns: columns, alignment: .center, spacing: 4.0) {
-                            ForEach(perfumeStore.likedPerfumes, id: \.perfumeId) { (perfume: Perfume) in
-                                NavigationLink {
-                                    PerfumeDetailView(perfume: perfume)
-                                } label: {
-                                    WebImage(url: URL(string: perfume.image450))
-                                        .resizable()
-                                        .aspectRatio(1.0, contentMode: .fit)
-                                        .clipShape(RoundedRectangle(cornerRadius: 4.0))
-                                        .shadow(color: .primary.opacity(0.8) ,radius: 0.2)
-                                        .overlay(alignment: .topTrailing) {
-                                            Image(systemName: "arrowshape.turn.up.right")
-                                                .padding(4.0)
-                                                .tint(.primary)
-                                        }
-                                }
+                    if perfumeStore.likedPerfumes.count == 0 {
+                        Divider()
+                        Spacer()
+                        // TODO: 문구 수정하기
+                        Text("You don't have **any perfume**\n that you **really like?**")
+                            .multilineTextAlignment(.center)
+                        Spacer()
+                        Spacer()
+                    } else {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            LazyVGrid(columns: columns, alignment: .center, spacing: 4.0) {
+                                ForEach(perfumeStore.likedPerfumes, id: \.perfumeId) { (perfume: Perfume) in
+                                    NavigationLink {
+                                        PerfumeDetailView(perfume: perfume)
+                                    } label: {
+                                        WebImage(url: URL(string: perfume.image450))
+                                            .resizable()
+                                            .aspectRatio(1.0, contentMode: .fit)
+                                            .clipShape(RoundedRectangle(cornerRadius: 4.0))
+                                            .shadow(color: .primary.opacity(0.8) ,radius: 0.2)
+                                            .overlay(alignment: .topTrailing) {
+                                                Image(systemName: "arrowshape.turn.up.right")
+                                                    .padding(4.0)
+                                                    .tint(.primary)
+                                            }
+                                    }
 
+                                }
                             }
+                            .padding(.vertical, 8.0)
+                        } // SCROLL
+                        .overlay(alignment: .top) {
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundStyle(.quaternary)
                         }
-                        .padding(.vertical, 8.0)
-                    } // SCROLL
-                    .overlay(alignment: .top) {
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundStyle(.quaternary)
+                        .animation(.easeOut, value: selection)
                     }
-                    .animation(.easeOut, value: selection)
+                    
+                    
                 }
             } // VSTACK
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -182,13 +216,16 @@ struct MyPageView: View {
                 print(userInfoStore.writtenCommentsAndPerfumes)
                 
                 guard let user = Auth.auth().currentUser else {return}
-                
                 print("user? : \(user.uid)")
                 
                 userNickname = await userInfoStore.getNickName(uid: user.uid)
+                
                 await userInfoStore.fetchUser(user: user)
-//                print(userInfoStore.userInfo)
+                print(userInfoStore.userInfo)
+                
                 await userInfoStore.readWrittenComments()
+                
+                nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
         .refreshable {

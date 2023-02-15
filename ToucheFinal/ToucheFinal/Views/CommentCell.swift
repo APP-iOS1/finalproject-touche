@@ -12,7 +12,7 @@ struct CommentCell: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var commentStore: CommentStore
     @EnvironmentObject var perfumeStore: PerfumeStore
-    @State var  comment: Comment
+    @State var comment: Comment
     @State var isShowingWriteComment: Bool = false
     @State var deleteAlertActive: Bool = false
     @Binding var perfume: Perfume
@@ -44,6 +44,7 @@ struct CommentCell: View {
                 HStack {
                     Text(comment.writerNickName)
                         .bold()
+                        .font(.system(size: 17))
                     if userInfoStore.user?.uid == comment.writerId {
                         Spacer()
                         
@@ -67,36 +68,39 @@ struct CommentCell: View {
                 .foregroundColor(.black)
                 
                 Text(comment.contents)
+                    .font(.system(size: 13))
                     .frame(width: 300, alignment: .leading)
+                    .offset(y: 5)
                 HStack {
-                    RatingView(score: .constant(comment.perfumeScore), frame: 15, canClick: false)
+                    RatingView(score: .constant(comment.perfumeScore), frame: 13, canClick: false)
                     Button {
                         Task {
-                            guard let userId = userInfoStore.user?.uid else {return}
-                            if comment.likedPeople.contains(userId) {
-                            // 해당 uid 제거
-                                await commentStore.deleteLikeComment(perfumeId: perfume.perfumeId, commentId: comment.commentId, userId: userId)
-                            } else {
-                                // 해당 uid 추가
-                                await commentStore.addLikePerfume(perfumeId: perfume.perfumeId, commentId: comment.commentId, userId: userId)
-                            }
-                            comment = await commentStore.fetchComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
+                            if userInfoStore.user?.isEmailVerified ?? false {
+                                guard let userId = userInfoStore.user?.uid else {return}
+                                
+                                if comment.likedPeople.contains(userId) {
+                                    // 해당 uid 제거
+                                    await commentStore.deleteLikeComment(perfumeId: perfume.perfumeId, commentId: comment.commentId, userId: userId)
+                                } else {
+                                    // 해당 uid 추가
+                                    await commentStore.addLikePerfume(perfumeId: perfume.perfumeId, commentId: comment.commentId, userId: userId)
+                                }
+                            } // if
+                                comment = await commentStore.fetchComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
                         }
                     } label: {
                         Image(systemName: comment.likedPeople.contains(userInfoStore.user?.uid ?? "") ? "hand.thumbsup.fill" : "hand.thumbsup")
                             .resizable()
-                            .frame(width: 18, height: 18)
+                            .frame(width: 13, height: 13)
                             .foregroundColor(.black)
                     }
                     Text("\(comment.likedPeople.count)")
-                        .font(.system(size: 14))
+                        .font(.system(size: 13))
                         .padding(.leading, -3)
                 }
             }
             .alert(
-                """
-                Are you sure you want to delete the review?
-                """
+                "Delete"
                 ,isPresented: $deleteAlertActive
             ) {
                 Button("Cancel", role: .cancel) {}
@@ -109,11 +113,14 @@ struct CommentCell: View {
                         perfume = await perfumeStore.fetchPerfume(perfumeId: perfume.perfumeId)
                     }
                 }
+            } message: {
+                Text("Are you sure you want to delete the review?")
             }
-            .sheet(isPresented: $isShowingWriteComment, content: {
+            .sheet(isPresented: $isShowingWriteComment) {
                 WriteCommentView(score: comment.perfumeScore, isShowingWriteComment: $isShowingWriteComment, perfume: $perfume, reviewText: comment.contents, commentId: comment.commentId)
-                    .presentationDetents([.medium])
-            })
+//                    .presentationDetents([.medium])
+                    .presentationDetents([.height(800)])
+            }
             
         }
     }
@@ -141,5 +148,6 @@ struct CommentCell_Previews: PreviewProvider {
                                      likedPeople: ["1", "2"],
                                      commentCount: 154,
                                      totalPerfumeScore: 616)))
+        .environmentObject(UserInfoStore())
     }
 }
