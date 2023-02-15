@@ -118,7 +118,7 @@ struct PaletteView: View {
                     }
                     .padding(.top, 30)
                     
-                    if userInfoStore.user != nil {
+                    if userInfoStore.user?.isEmailVerified ?? false {
                         LazyVGrid(columns: columns, spacing: 15) {
                             ForEach(perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {

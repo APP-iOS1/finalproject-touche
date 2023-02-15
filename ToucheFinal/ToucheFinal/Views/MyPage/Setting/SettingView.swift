@@ -48,7 +48,9 @@ struct SettingView: View {
                                 Image(systemName: "arrow.up.right")
                             }
                         }
-                        if !(userInfoStore.userInfo == nil){
+
+                        if userInfoStore.user?.isEmailVerified ?? false {
+
                             Button{
                                 showDeleteAccountView.toggle()
                             } label :{
@@ -92,14 +94,16 @@ struct SettingView: View {
                             }
                         }
                     }
-                } // List 종료
-                .listStyle(.plain)
-                .scrollDisabled(true)
-                .frame(maxHeight: 400)
-                VStack{
-                    if !(userInfoStore.userInfo == nil){
+                    .listStyle(.plain)
+                    .scrollDisabled(true)
+                    .frame(maxHeight: 400)
+                    VStack{
+                        if userInfoStore.user?.isEmailVerified ?? false {
                         Button{
-                            userInfoStore.logOut()
+                            Task {
+                                await userInfoStore.logOut()
+                                userInfoStore.isShowingSignoutAlert.toggle()
+                            }
                         } label: {
                             Text("Sign Out")
                                 .frame(width: 150, height: 40.0)

@@ -26,7 +26,7 @@ struct WriteCommentView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollView {
                 Spacer()
                 HStack {
                     AsyncImage(url: URL(string: perfume.heroImage)) { image in
@@ -120,8 +120,7 @@ struct WriteCommentView: View {
                 }
                 .disabled(manager.reviewText.count < 1 || score < 1)
                 Spacer()
-            } //VStack
-            .padding()
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {

@@ -75,15 +75,18 @@ struct CommentCell: View {
                     RatingView(score: .constant(comment.perfumeScore), frame: 13, canClick: false)
                     Button {
                         Task {
-                            guard let userId = userInfoStore.user?.uid else {return}
-                            if comment.likedPeople.contains(userId) {
-                            // 해당 uid 제거
-                                await commentStore.deleteLikeComment(perfumeId: perfume.perfumeId, commentId: comment.commentId, userId: userId)
-                            } else {
-                                // 해당 uid 추가
-                                await commentStore.addLikePerfume(perfumeId: perfume.perfumeId, commentId: comment.commentId, userId: userId)
-                            }
-                            comment = await commentStore.fetchComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
+                            if userInfoStore.user?.isEmailVerified ?? false {
+                                guard let userId = userInfoStore.user?.uid else {return}
+                                
+                                if comment.likedPeople.contains(userId) {
+                                    // 해당 uid 제거
+                                    await commentStore.deleteLikeComment(perfumeId: perfume.perfumeId, commentId: comment.commentId, userId: userId)
+                                } else {
+                                    // 해당 uid 추가
+                                    await commentStore.addLikePerfume(perfumeId: perfume.perfumeId, commentId: comment.commentId, userId: userId)
+                                }
+                            } // if
+                                comment = await commentStore.fetchComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
                         }
                     } label: {
                         Image(systemName: comment.likedPeople.contains(userInfoStore.user?.uid ?? "") ? "hand.thumbsup.fill" : "hand.thumbsup")
@@ -97,9 +100,7 @@ struct CommentCell: View {
                 }
             }
             .alert(
-                """
-                Are you sure you want to delete the review?
-                """
+                "Delete"
                 ,isPresented: $deleteAlertActive
             ) {
                 Button("Cancel", role: .cancel) {}
@@ -112,11 +113,14 @@ struct CommentCell: View {
                         perfume = await perfumeStore.fetchPerfume(perfumeId: perfume.perfumeId)
                     }
                 }
+            } message: {
+                Text("Are you sure you want to delete the review?")
             }
-            .sheet(isPresented: $isShowingWriteComment, content: {
+            .sheet(isPresented: $isShowingWriteComment) {
                 WriteCommentView(score: comment.perfumeScore, isShowingWriteComment: $isShowingWriteComment, perfume: $perfume, reviewText: comment.contents, commentId: comment.commentId)
-                    .presentationDetents([.medium])
-            })
+//                    .presentationDetents([.medium])
+                    .presentationDetents([.height(800)])
+            }
             
         }
     }
