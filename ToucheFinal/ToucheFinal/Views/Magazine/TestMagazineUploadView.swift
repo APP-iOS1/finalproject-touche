@@ -108,15 +108,25 @@ struct TestMagazineUploadView: View {
                             }
                         }
                     
-                    
                     Spacer()
-                    
-                    Button("Upload") {
-                        let magazine = Magazine(id: UUID().uuidString, title: title, subTitle: subTitle, contentImage: "", bodyImage: "", createdDate: 0, perfumeIds: perfumeIds)
-                        Task {
-                            await vm.createMagazine(magazine: magazine, selectedContentUImage: selectedContentUImage, selectedBodyUImage: selectedBodyUImage)
-                        }
-                    }
+//                    ForEach(dummyWithOtherProjectFirebaseStorage) { item in
+//                        Button {
+//                            let magazine = item
+//                            Task {
+//                                await vm.createMagazine(magazine: magazine, selectedContentUImage: selectedContentUImage, selectedBodyUImage: selectedBodyUImage)
+//                            }
+//
+//                        } label: {
+//                            Text(item.title)
+//                        }
+//
+//                    }
+//                    Button("Upload") {
+//                        let magazine = Magazine(id: UUID().uuidString, title: title, subTitle: subTitle, contentImage: "", bodyImage: "", createdDate: Date(), perfumeIds: perfumeIds)
+//                        Task {
+//                            await vm.createMagazine(magazine: magazine, selectedContentUImage: selectedContentUImage, selectedBodyUImage: selectedBodyUImage)
+//                        }
+//                    }
                     
                     
                 }

@@ -8,26 +8,22 @@
 import SwiftUI
 
 struct MagazineBanner: View {
-//    var animation: Namespace.ID
-//    @Environment(\.colorScheme) var color
     var magazine: Magazine
     var body: some View {
-        VStack(alignment: .leading ,spacing: 0) {
+        VStack() {
             Spacer()
-            VStack(alignment: .leading, spacing: 4) {
-                Text(magazine.title)
-                    .font(.title).bold()
-                    .foregroundColor(.white)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(16)
-            .background(
-                Color.black
-            )
+            Text(magazine.title)
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(16)
+                .background(Color.black)
+                
         }
         .frame(maxWidth: .infinity, minHeight: 400)
         .background(
-            
             CacheAsyncImage(url: URL(string: magazine.contentImage)) { image in
                 image
                     .resizable()
@@ -37,16 +33,11 @@ struct MagazineBanner: View {
             }
         )
         .clipShape(Rectangle())
-//        .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
-//        .padding(20)
-
     }
 }
 
-struct MagazineBanner_Previews: PreviewProvider {
-    @Namespace static var animation
-    
-    static var previews: some View {
-        MagazineBanner(magazine: magazines[0])
-    }
-}
+//struct MagazineBanner_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MagazineBanner(magazine: dummyWithOtherProjectFirebaseStorage[0])
+//    }
+//}

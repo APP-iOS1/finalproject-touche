@@ -28,58 +28,38 @@ struct HomeView: View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack {
-//                    Rectangle()
-//                        .frame(height: 200)
-//                        .overlay(alignment: .top) {
-//                            HStack{
-//                                NavigationLink {
-//                                    // TODO: NEW ARRIVALS 클릭시 매거진뷰로 이동
-//
-//                                } label: {
-//                                    Text("NEW ARRIVALS")
-//                                    //Text("NEW ARRIVALS".localized(language))
-//                                        .font(.largeTitle)
-//                                        .fontWeight(.semibold)
-//                                        .foregroundColor(.white)
-//                                }
-//                                Spacer()
-//                            }
-//                        }
-//                        .padding()
-//                        .background(.black)
-                    VStack {
-                        Button {
-                            selectedIndex = 2
-                        } label: {
-                            MagazineBanner(magazine: magazines.first!)
-                        }
-                        .tint(.white)
+                    VStack(alignment: .leading) {
+                        MagazineBanner(magazine: magazineStore.magazines.first ?? Magazine(id: "", title: "", subTitle: "", contentImage: "", bodyImage: "", createdDate: 0, perfumeIds: []))
+                            .onTapGesture {
+                                selectedIndex = 2
+                            }
+                            .tint(.white)
                     }
-//                        Spacer()
-//                    if isShowingPromotion{
-//                        HStack {
-//                            VStack(alignment: .leading) {
-//                                Text("CHECK OUT THE PROMOTIONS.")
-//                                    .foregroundColor(.black)
-//
-//                                Text("MORE")
-//                                    .underline()
-//                                    .foregroundColor(.black)
-//                            }
-//                            Spacer()
-//                            Button {
-//                                isShowingPromotion = false
-//                            } label: {
-//                                Text("CLOSE")
-//                                    .foregroundColor(.gray)
-//                            }
-//                        }
-//                        .padding()
-//                        .background(Color(.gray).opacity(0.4))
-//                        .padding(.top, -10)
-//                    }
-            
-
+                    //                        Spacer()
+                    //                    if isShowingPromotion{
+                    //                        HStack {
+                    //                            VStack(alignment: .leading) {
+                    //                                Text("CHECK OUT THE PROMOTIONS.")
+                    //                                    .foregroundColor(.black)
+                    //
+                    //                                Text("MORE")
+                    //                                    .underline()
+                    //                                    .foregroundColor(.black)
+                    //                            }
+                    //                            Spacer()
+                    //                            Button {
+                    //                                isShowingPromotion = false
+                    //                            } label: {
+                    //                                Text("CLOSE")
+                    //                                    .foregroundColor(.gray)
+                    //                            }
+                    //                        }
+                    //                        .padding()
+                    //                        .background(Color(.gray).opacity(0.4))
+                    //                        .padding(.top, -10)
+                    //                    }
+                    
+                    
                     // MARK: - Recommend Perfume for You
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
@@ -110,8 +90,8 @@ struct HomeView: View {
                         }
                         .frame(height: 240)
                     }
-                        
-                        // MARK: 코멘트 많이 달린 향수
+                    
+                    // MARK: 코멘트 많이 달린 향수
                     VStack(alignment: .leading, spacing: 0.0) {
                         HStack(alignment: .bottom) {
                             Text("TOP COMMNENTS 10")
@@ -133,8 +113,8 @@ struct HomeView: View {
                         }
                         .frame(height: 240)
                     }
-                        
-                        // MARK: 최근 클릭한 향수
+                    
+                    // MARK: 최근 클릭한 향수
                     if !perfumeStore.recentlyViewedPerfumes.isEmpty {
                         VStack(alignment: .leading, spacing: 0.0) {
                             HStack(alignment: .bottom) {
@@ -159,45 +139,39 @@ struct HomeView: View {
                             .frame(height: 240)
                         }
                     }
-                        
+                    
                 }
+
                 .onAppear{
                     
                     userInfoStore.logOut()
                     
                     print(Auth.auth().currentUser?.isEmailVerified)
-                    if userInfoStore.user != nil {    //  로그인 상태일 때
-                        Task {
-                            print("로그인")
+                    Task {
+                        if userInfoStore.user != nil {    //  로그인
                             await userInfoStore.fetchUser(user: userInfoStore.user)
                             guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
-                        }
-                    } else {    //  로그인 안 했을 경우
-                        Task {
-                            print("비로그인")       
+                        } else {    //  비로그인
                             let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
                             if !recentlyPerfumesId.isEmpty {
                                 await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
                             }
                         }
-                    }
-                    
-                    Task {
                         let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
-                        await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
+                        let perfumesId = setRecomendedPerfumesId(perfumesId: selectedScentTypes)
+                        await perfumeStore.readRecomendedPerfumes(perfumesId: perfumesId)
                         await perfumeStore.readMostCommentsPerfumes()
                         await magazineStore.readMagazines()
+
                     }
+                    perfumeStore.recentSearches = UserDefaults.standard.array(forKey: "recentSearchesUD") as? [String] ?? [String]()
                 }
                 .navigationBarItems(trailing: NavigationLink(destination: SearchView()) {
                     Image(systemName: "magnifyingglass").foregroundColor(.black)
                 })
-                .onAppear {
-                    perfumeStore.recentSearches = UserDefaults.standard.array(forKey: "recentSearchesUD") as? [String] ?? [String]()
-                }
                 .navigationBarItems(trailing: NavigationLink(destination: FilterView()) {
                     Image(systemName: "slider.vertical.3").foregroundColor(.black)
                 })
@@ -223,10 +197,10 @@ struct TextViewModeifier: ViewModifier {
             .padding(.bottom, -5)
     }
 }
-//
+
 //struct HomeView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        HomeView()
+//        HomeView(selectedIndex: .constant(0))
 //            .environmentObject(UserInfoStore())
 //            .environmentObject(PerfumeStore())
 //            .environmentObject(MagazineStore())
