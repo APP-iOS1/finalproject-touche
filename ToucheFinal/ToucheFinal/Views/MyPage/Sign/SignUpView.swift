@@ -8,28 +8,35 @@
 import SwiftUI
 
 struct SignUpView: View {
+    enum Field {
+        case email
+        case password
+        case checkPassword
+        case nickName
+    }
+    
     @Environment(\.dismiss) var dismiss
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     @State var email: String = ""
-    @State private var emailCheck: Bool?
     @State private var nickNameCheck: Bool?
     @State var password: String = ""
     @State var checkPassword: String = ""
     @State var nickName: String = ""
+    @FocusState private var focusedField: Field?
     @State var sendMailAlertActive: Bool = false
     
     // 이메일 정규식 검사
     var isEmailRuleSatisfied : Bool {
         return checkEmail(email: email) || email.isEmpty
     }
-        
+    
     // 비밀번호 형식 확인
     var isPasswordRuleSatisfied : Bool {
         return password.count > 7 || password.isEmpty
     }
-        
+    
     // 비밀번호 확인
     var isPasswordSame: Bool {
         return ((password == checkPassword) && !password.isEmpty) || checkPassword.isEmpty
@@ -39,7 +46,7 @@ struct SignUpView: View {
     var isNickNameSatisfied: Bool {
         return nickNameCheck == false && !nickName.isEmpty
     }
-
+    
     // 회원가입 버튼
     var isSignUpDisabled: Bool {
         // 조건을 다 만족하면 회원가입 버튼 abled
@@ -47,7 +54,7 @@ struct SignUpView: View {
             return false
         } else { return true }// 하나라도 만족하지 않는다면 disabled
     }
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading){
@@ -73,12 +80,13 @@ struct SignUpView: View {
                     }
                     
                     TextField("Enter Email", text: $email)
-                        .textInputAutocapitalization(.never) // 대문자 방지
-                        .disableAutocorrection(true) // 자동수정 방지
+                        .focused($focusedField, equals: .email)
+                        .modifier(KeyboardTextField())
                         .keyboardType(.emailAddress) // 이메일용 키보드
+                        .submitLabel(.next)
                         .frame(height: 40)
                         .padding(.top, -6)
-                        // 이메일 중복체크 후에 텍스트필드에서 수정한 경우 초록체크모양 사라지고 중복 재확인해야 Sign Up 버튼 활성화됨
+                    // 이메일 중복체크 후에 텍스트필드에서 수정한 경우 초록체크모양 사라지고 중복 재확인해야 Sign Up 버튼 활성화됨
                         .onChange(of: email) { _ in
                             userInfoStore.isEmailDuplicated = nil
                         }
@@ -106,9 +114,11 @@ struct SignUpView: View {
                     Text("Password")
                     
                     SecureField("Enter Password", text: $password)
+                        .focused($focusedField, equals: .password)
                         .frame(height: 40)
                         .padding(.top, -6)
                         .textContentType(UITextContentType.username)
+                        .submitLabel(.next)
                     
                     Text(isPasswordRuleSatisfied ? "" : "Password must be at least 8 characters.")
                         .font(.caption)
@@ -119,9 +129,11 @@ struct SignUpView: View {
                     Text("Confirm Password")
                     
                     SecureField("Enter Password again", text: $checkPassword)
+                        .focused($focusedField, equals: .checkPassword)
                         .frame(height: 40)
                         .padding(.top, -6)
                         .textContentType(UITextContentType.username)
+                        .submitLabel(.next)
                     
                     Text(isPasswordSame ? "" : "Password does not match.")
                         .font(.caption)
@@ -154,12 +166,14 @@ struct SignUpView: View {
                                 .foregroundColor(nickName.isEmpty ? .gray : .black)
                         }
                         .disabled(nickName.isEmpty)
-
+                        
                     }
                     
                     TextField("Enter Nick Name", text: $nickName)
-                        .textInputAutocapitalization(.never) // 대문자 방지
-                        .disableAutocorrection(true) // 자동수정 방지
+                        .focused($focusedField, equals: .nickName)
+                        .modifier(KeyboardTextField())
+                        .keyboardType(.alphabet)
+                        .submitLabel(.done)
                         .frame(height: 40)
                         .padding(.top, -6)
                     // 닉네임 중복체크 후에 텍스트필드에서 수정한 경우 초록체크모양 사라지고 중복 재확인해야 Sign Up 버튼 활성화됨
@@ -176,6 +190,9 @@ struct SignUpView: View {
                     }
                 }
                 .padding(.vertical, 1)
+            }
+            .onTapGesture {
+                hideKeyboard()
             }
             .padding()
             .textFieldStyle(.roundedBorder)
@@ -210,10 +227,25 @@ struct SignUpView: View {
 
             
         }
-        .onAppear{print("SignUp")
+        .onAppear{
+            print("SignUp")
          // 이메일, 닉네임 옆 초록 체크표시 없애기
             userInfoStore.isEmailDuplicated = nil
             nickNameCheck = nil
+            
+            focusedField = .email
+        }
+        .onSubmit {
+            switch focusedField {
+            case .email:
+                focusedField = .password
+            case .password:
+                focusedField = .checkPassword
+            case .checkPassword:
+                focusedField = .nickName
+            default:
+                print("sign up ..")
+            }
         }
         .alert("Sign up", isPresented: $sendMailAlertActive) {
             Button("OK"){
@@ -224,9 +256,9 @@ struct SignUpView: View {
         }
     }
     func checkEmail(email: String) -> Bool {
-            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
-            return  NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: email)
-        }
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
+        return  NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: email)
+    }
 }
 
 struct SignUpView_Previews: PreviewProvider {
