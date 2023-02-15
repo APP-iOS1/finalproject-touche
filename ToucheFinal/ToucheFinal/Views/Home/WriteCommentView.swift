@@ -58,7 +58,7 @@ struct WriteCommentView: View {
                 ZStack {
                     TextEditor(text: $manager.reviewText)
                         .scrollContentBackground(.hidden)
-//                        .keyboardType(.alphabet)
+                        .keyboardType(.alphabet)
                         .modifier(KeyboardTextField())
                     // Placeholder
                     VStack {
