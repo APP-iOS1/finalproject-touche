@@ -226,7 +226,7 @@ struct SignUpView: View {
                     }
                 } label: {
                     Text("Sign Up")
-                        .frame(width: 360, height: 46)
+                        .frame(width: UIScreen.main.bounds.width - 30, height: 46)
                         .background(isSignUpDisabled ? .gray : .black)
                         .foregroundColor(.white)
                         .cornerRadius(7)
@@ -258,13 +258,11 @@ struct SignUpView: View {
                 print("sign up ..")
             }
         }
-        .alert("Sign up", isPresented: $sendMailAlertActive) {
+        .alert("Your mail has been sent. Please click the link in the mail you received to complete sign up.", isPresented: $sendMailAlertActive) {
             Button("OK"){
                 presentationMode.wrappedValue.dismiss()
             }
-        } message: {
-            Text("Your mail has been sent. Please click the link in the mail you received to complete sign up.")
-        }
+        } 
     }
     func checkEmail(email: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"

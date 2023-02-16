@@ -31,7 +31,7 @@ struct PaletteView: View {
             ScrollView {
                 VStack {
                     Text("Perfume Palette")
-                        .font(.largeTitle)
+                        .font(.title)
                         .padding(.bottom, 40)
                         .fontWeight(.semibold)
                     
@@ -79,7 +79,7 @@ struct PaletteView: View {
                         HStack {
                             Text(selectedScentType)
                                 .minimumScaleFactor(0.7)
-                                .font(.title)
+                                .font(.title3)
                                 .fontWeight(.semibold)
                                 .lineLimit(1)
                             if userSelectedScentType.contains(selectedScentType) {
@@ -96,12 +96,14 @@ struct PaletteView: View {
                             .padding()
                             .background(.white)
                             .cornerRadius(10)
+//                            .font(.body)
+                            .fontWeight(.light)
                     }
                     
                     //MARK: -Wish list
                     HStack {
                         Text("Liked")
-                            .font(.title)
+                            .font(.title3)
                             .fontWeight(.semibold)
                         
                         Spacer()
@@ -139,11 +141,7 @@ struct PaletteView: View {
                         .onTapGesture(perform: {
                             isSignin.toggle()
                         })
-                        .alert(
-                        """
-                        Please sign in to like / comment on products
-                        """
-                        ,isPresented: $isSignin
+                        .alert("Sign in to favorite your products",isPresented: $isSignin
                         ) {
                             Button("Cancel", role: .cancel) {}
                             Button {
@@ -167,12 +165,16 @@ struct PaletteView: View {
             .padding(.top, 0.1)
             .onAppear {
                 Task {
-                    if let userId = userInfoStore.user?.uid {
+                    
+                    if userInfoStore.user?.isEmailVerified ?? false {
+                        print("true 실행")
+                        let userId = userInfoStore.user?.uid ?? ""
                         await perfumeStore.readLikedPerfumes(userId: userId)
                         if perfumeStore.likedPerfumes.isEmpty {
                             guard let randomScentType = userSelectedScentType.randomElement() else {return}
                             setMaxCountScentType(scentType: randomScentType)
                         } else {
+                            print("false 실행")
                             for perfume in perfumeStore.likedPerfumes {
                                 scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
                             }
