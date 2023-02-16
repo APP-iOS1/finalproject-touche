@@ -59,10 +59,11 @@ struct MyPageView: View {
                         .padding(.bottom, 10)
                     
                     HStack{
-                        Text(userInfoStore.userInfo?.userNickName ?? "")
-                        Text(userInfoStore.userInfo?.userNation.flag() ?? "")
+                        Text("\(userInfoStore.userInfo?.userNation.flag() ?? "")")
+                            .opacity(0)
+                        Text("\(userInfoStore.userInfo?.userNickName ?? "")")
+                        Text("\(userInfoStore.userInfo?.userNation.flag() ?? "")")
                     }
-                    
                     
                     Button {
                         showEditMyProfileView.toggle()
