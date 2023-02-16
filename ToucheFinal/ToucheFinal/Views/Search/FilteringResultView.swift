@@ -67,7 +67,7 @@ struct FilteringResultView: View {
                 .padding(.bottom, 30)
             }
             .overlay(alignment: .center) {
-                Text(perfumes.wrappedValue.isEmpty  ? "There are \(Text("No products").bold()) registered." : "")
+                Text(perfumes.wrappedValue.isEmpty  ? "There are **No products** registered." : "")
             }
         }
         .padding(.horizontal)
