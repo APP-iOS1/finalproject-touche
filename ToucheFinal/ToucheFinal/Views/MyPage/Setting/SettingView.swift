@@ -114,7 +114,7 @@ struct SettingView: View {
                     }
                     .listStyle(.plain)
                     .scrollDisabled(true)
-                    .frame(maxHeight: 400)
+                    .frame(maxHeight: 600)
                 Spacer()
                     HStack{
 
