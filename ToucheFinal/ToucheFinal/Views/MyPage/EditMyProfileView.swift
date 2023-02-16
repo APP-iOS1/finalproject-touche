@@ -136,7 +136,21 @@ struct EditMyProfileView: View {
                                 VStack {
                                     Spacer()
                                     Rectangle().frame(height: 0.8)
-                                        .foregroundColor(Color(uiColor: (editNickname.value.count > 12) || editNickname.value.isEmpty ? .red : .systemGray5 ))
+                                        .foregroundColor((editNickname.value.isEmpty) || (editNickname.value.count > 12) ? Color(uiColor: .red) : Color(uiColor: .systemGray5))
+                                        .overlay {
+                                            if (editNickname.value.isEmpty) || (editNickname.value.count > 12) {
+                                                HStack {
+                                                    Text("Nickname can not be blank!")
+                                                        .font(.system(size: 10))
+                                                        .offset(y: 6)
+                                                        .padding(.leading, 10)
+                                                        .foregroundColor(.red)
+                                                        .kerning(1)
+                                                    
+                                                    Spacer()
+                                                }
+                                            }
+                                        }
                                 }
                             )
                             .padding(.trailing, 11)
@@ -277,7 +291,7 @@ struct EditMyProfileView: View {
                             dismiss()
                         }
                     }
-                    .disabled(editImage == UIImage())
+                    .disabled(editImage == UIImage() || editNickname.value.isEmpty)
                     
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
                     // TODO: Location 구현 후 비활성화 설정하기
