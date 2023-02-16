@@ -172,7 +172,7 @@ struct MagazineView: View {
             .offset(offset: $scrollOffset)
         }
         .statusBarHidden()
-        .overlay(alignment: .topTrailing, content: {
+        .overlay(alignment: .topLeading, content: {
             Button {
                 withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)){
                     animateView = false

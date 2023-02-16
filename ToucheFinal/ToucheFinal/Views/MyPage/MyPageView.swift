@@ -198,6 +198,7 @@ struct MyPageView: View {
                                     
                                 }
                             }
+                            .padding(.horizontal, 5)
                             .padding(.vertical, 8.0)
                         } // SCROLL
                         .overlay(alignment: .top) {
