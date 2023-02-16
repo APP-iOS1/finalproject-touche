@@ -13,7 +13,7 @@ import Photos
 import Combine
 
 struct EditMyProfileView: View {
-    @ObservedObject var editNickname: TextLimiter = TextLimiter(limit: 12)
+    @StateObject var editNickname: TextLimiter = TextLimiter(limit: 12)
     
     @State private var isShowingDialog: Bool = false
     @State private var dialogTitle: String = "Title"
@@ -29,8 +29,8 @@ struct EditMyProfileView: View {
     @State private var isChangedImage: Bool = false
     
     //  @Binding var image: UIImage
-    @Binding var userNickname: String
-    @Binding var userNation: String
+    //@Binding var userNickname: String
+    //@Binding var userNation: String
     
     
     @Environment(\.dismiss) var dismiss
@@ -126,9 +126,14 @@ struct EditMyProfileView: View {
                             .onReceive(Just($editNickname.value)) { val in  //  ref: https://eunjin3786.tistory.com/412
                                 print("val: \(val.wrappedValue)")
                                 
-                                let nickname = val.wrappedValue
-                                
-                                userNickname = nickname
+                                //if (val.wrappedValue != "") {
+                                    
+                                    let nickname = val.wrappedValue
+                                    
+                                    //userNickname = nickname
+                                    userInfoStore.userNickname = nickname
+                                    
+                                //}
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(7)
@@ -178,9 +183,9 @@ struct EditMyProfileView: View {
                         //.frame(minWidth: .infinity)
                     Spacer()
                 }
-            .sheet(isPresented: $showGallerySheet){
+            .fullScreenCover(isPresented: $showGallerySheet){
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$editImage)}
-            .sheet(isPresented: $showCameraSheet) {
+            .fullScreenCover(isPresented: $showCameraSheet) {
                 ImagePicker(sourceType: .camera, selectedImage: self.$editImage)
             }
             .toolbar{
@@ -208,7 +213,7 @@ struct EditMyProfileView: View {
 //                                editNation = editNation
                             
                             //MARK: - 닉네임 Update Method 호출
-                            await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editNickname.value)
+                            //await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editNickname.value)
 //                            }
                             
                             //MARK: - 기존 버전
@@ -217,17 +222,23 @@ struct EditMyProfileView: View {
                              */
                             
                             //  isChangedImage 얘에 변화가 감지 되었을 때,
-                            if (isChangedImage == true) {   //  isChangedImage
+                            //if (isChangedImage == true) {   //  isChangedImage
                                 //MARK: - (바꾼 버전) editImage를 png화 하여 사진을 Upload하는 (Storage로) 메서드를 호출하고 그 메서드의 반환 타입은 String
                                 
                                 let strImg: String = await userInfoStore.uploadPhoto(editImage.jpegData(compressionQuality: 0.5))   //  JPEG화
 
                                 print("strImg: \(strImg)")
                                 
-                                //MARK: - User 컬렉션 doc의 'userProfileImage'에 위의 strImg 값을 넘겨줘서 저장
-                                let val: String = await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg)
+                            if (userInfoStore.userNickname != "") {
                                 
-                                print("val: \(val)")
+                                await userInfoStore.updateUserProfile(uid: userInfoStore.user?.uid ?? "", nickname: editNickname.value, nation: editNation, userProfileImageUrl: strImg)   //  strImg[0] -> strImg
+                                
+                            }
+                                
+                                //MARK: - User 컬렉션 doc의 'userProfileImage'에 위의 strImg 값을 넘겨줘서 저장
+                                //let val: String = await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg)
+                                
+                                //print("val: \(val)")
                                 
                                 /*
                                  let imageUrl = URL(string: val)!
@@ -247,27 +258,29 @@ struct EditMyProfileView: View {
                                  */
                                 
                                 //MARK: - Runtime 에러 URLSession으로 해결
-                                if let imageUrl = URL(string: val) {
-                                    
-                                    URLSession.shared.dataTask(with: imageUrl, completionHandler: { data, _, _ in
-                                        
-                                        guard let imageData = data else { return }
-                                        
-                                        DispatchQueue.main.async {  //  UI처리는 무조건 main thread에서 작업한다!
-                                            
-                                            let image = UIImage(data: imageData)
-                                            
-                                            if let img = image {
-                                                
-                                                editImage = img
-                                            }
-                                        }
-                                    })
-                                }
-                            } else {
+//                                if let imageUrl = URL(string: val) {
+//
+//                                    URLSession.shared.dataTask(with: imageUrl, completionHandler: { data, _, _ in
+//
+//                                        guard let imageData = data else { return }
+//
+//                                        DispatchQueue.main.async {  //  UI처리는 무조건 main thread에서 작업한다!
+//
+//                                            let image = UIImage(data: imageData)
+//
+//                                            if let img = image {
+//
+//                                                editImage = img
+//                                            }
+//                                        }
+//                                    })
+//                                }
+                            //} else {
                                 
-                                print("Nope!")
-                            }
+                                //print("Nope!")
+                                
+                                //await userInfoStore.updateUserProfile(uid: userInfoStore.user?.uid ?? "", nickname: editNickname.value, nation: editNation, userProfileImageUrl: "")
+                            //}
                             
                             /*
                              await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: userNation)
@@ -278,7 +291,7 @@ struct EditMyProfileView: View {
                             dismiss()
                         }
                     }
-                    .disabled(editImage == UIImage())
+                    //  .disabled(editImage == UIImage())
                     
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
                     // TODO: Location 구현 후 비활성화 설정하기
@@ -338,15 +351,16 @@ extension String {
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+            //  EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+            EditMyProfileView()
                 .environmentObject(UserInfoStore())
                 .previewDevice("iPhone 13 mini")
             
-            EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+            EditMyProfileView()
                 .environmentObject(UserInfoStore())
                 .previewDevice("iPhone 14 Pro")
             
-            EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
+            EditMyProfileView()
                 .environmentObject(UserInfoStore())
                 .previewDevice("iPhone SE (2nd generation)")
         }

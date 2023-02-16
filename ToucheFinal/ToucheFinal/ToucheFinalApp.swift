@@ -8,7 +8,6 @@
 import SwiftUI
 import FirebaseCore
 
-
 @main
 struct ToucheFinalApp: App {
     init() {

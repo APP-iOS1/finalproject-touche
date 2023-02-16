@@ -61,8 +61,8 @@ struct MyPageView: View {
                     
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
-                        Text(nation)
-                        //  Text(userInfoStore.userInfo?.userNation.flag() ?? "")
+                        //  Text(nation)
+                        Text(userInfoStore.userInfo?.userNation.flag() ?? "")
                     }
                     
                     
@@ -78,7 +78,9 @@ struct MyPageView: View {
                         EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
                          */
                         
-                        EditMyProfileView(userNickname: $userNickname, userNation: $nation)
+                        //EditMyProfileView(userNickname: $userNickname, userNation: $nation)
+                        
+                        EditMyProfileView()
                     }
                     
                 } // GROUP
@@ -221,11 +223,11 @@ struct MyPageView: View {
                 userNickname = await userInfoStore.getNickName(uid: user.uid)
                 
                 await userInfoStore.fetchUser(user: user)
-                print(userInfoStore.userInfo)
+                //print(userInfoStore.userInfo)
                 
                 await userInfoStore.readWrittenComments()
                 
-                nation = await userInfoStore.getProfileNationality(uid: user.uid)
+                //nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
         .refreshable {
