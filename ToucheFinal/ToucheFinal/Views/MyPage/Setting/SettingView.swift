@@ -33,7 +33,7 @@ struct SettingView: View {
                     /// SETTINGS Group
                     Group {
                         Text("SETTINGS")
-                            .font(.system(size: 20))
+                            .font(.headline)
                             .fontWeight(.bold)
                         Button{
                             Task{
@@ -66,7 +66,7 @@ struct SettingView: View {
                     }
                         Group{
                             Text("SUPPORT")
-                                .font(.system(size: 20))
+                                .font(.headline)
                                 .fontWeight(.bold)
                                 .padding(.top,50)
                             Button("Contact Us"){

@@ -31,7 +31,7 @@ struct PaletteView: View {
             ScrollView {
                 VStack {
                     Text("Perfume Palette")
-                        .font(.largeTitle)
+                        .font(.title)
                         .padding(.bottom, 40)
                         .fontWeight(.semibold)
                     
@@ -79,7 +79,7 @@ struct PaletteView: View {
                         HStack {
                             Text(selectedScentType)
                                 .minimumScaleFactor(0.7)
-                                .font(.title)
+                                .font(.title3)
                                 .fontWeight(.semibold)
                                 .lineLimit(1)
                             if userSelectedScentType.contains(selectedScentType) {
@@ -96,12 +96,14 @@ struct PaletteView: View {
                             .padding()
                             .background(.white)
                             .cornerRadius(10)
+//                            .font(.body)
+                            .fontWeight(.light)
                     }
                     
                     //MARK: -Wish list
                     HStack {
                         Text("Liked")
-                            .font(.title)
+                            .font(.title3)
                             .fontWeight(.semibold)
                         
                         Spacer()

@@ -41,10 +41,11 @@ struct CommentCell: View {
                     }
             }
             VStack(alignment: .leading){
+                //
                 HStack {
                     Text(comment.writerNickName)
-                        .bold()
-                        .font(.system(size: 17))
+                        .font(.subheadline)
+                        .fontWeight(.bold)
                     if userInfoStore.user?.uid == comment.writerId {
                         Spacer()
                         
@@ -66,9 +67,10 @@ struct CommentCell: View {
                 }
                 .frame(width: 300, alignment: .leading)
                 .foregroundColor(.black)
-                
+                //
                 Text(comment.contents)
-                    .font(.system(size: 13))
+                    .font(.subheadline)
+                    .fontWeight(.light)
                     .frame(width: 300, alignment: .leading)
                     .offset(y: 5)
                 HStack {

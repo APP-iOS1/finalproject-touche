@@ -13,11 +13,14 @@ struct SignOutView: View {
             VStack {
                 HStack {
                     Text("To use more features")
-                        .font(.system(size: 28))
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                     Spacer()
                 }
                 .frame(height: 80)
-                .padding(.horizontal, 20)
+                .padding(.leading, 20)
                 .padding(.top, -35)
                 HStack{
                     NavigationLink {
@@ -43,7 +46,7 @@ struct SignOutView: View {
                     }.tint(.white)
                     
                 }
-                .padding(.top, -10)
+                .padding(.top, -15)
                 .padding(.bottom)
                 
                 Divider()
