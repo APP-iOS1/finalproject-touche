@@ -21,11 +21,27 @@ struct AcknowledgementsView: View {
                         .padding(.bottom, 15)
                         .padding(.top, 10)
                     Group{
+                        Text("Source Libraries:")
+                            .fontWeight(.semibold)
                         Text("AlertToast")
                         Text("Magnetic")
                         Text("SDWebImageSwiftUI")
                         Text("Segemented Picker")
                         Text("SwiftSoup")
+                    }
+                    .foregroundColor(.gray)
+                    .padding(.bottom, 5)
+                    //Spacer()
+                    Group{
+                        Text("API:")
+                            .fontWeight(.semibold)
+                        
+                            Text("The data used by Touché")
+                        HStack{
+                            Text("is from")
+                            Text("Sephora API")
+                                .underline(true, color: .gray)
+                        }
                     }
                     .foregroundColor(.gray)
                     .padding(.bottom, 5)
