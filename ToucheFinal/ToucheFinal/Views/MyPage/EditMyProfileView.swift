@@ -76,6 +76,15 @@ struct EditMyProfileView: View {
                     isShowingDialog = true
                     isChangedImage = true
                 }
+                .frame(width: UIScreen.main.bounds.width - 310, height: 30)
+                .font(.footnote)
+                .lineLimit(1)
+                .minimumScaleFactor(0.4)
+                .foregroundColor(.black)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5).stroke(Color.black, lineWidth: 0.5)
+                        .cornerRadius(5)
+                )
                 .confirmationDialog(dialogTitle, isPresented: $isShowingDialog){
                     Button("Change from Gallery"){
                         showGallerySheet = true

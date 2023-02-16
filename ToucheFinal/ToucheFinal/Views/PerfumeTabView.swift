@@ -17,11 +17,16 @@ struct PerfumeTabView: View {
     @State var isShowingOnboardingView: Bool = UserDefaults.standard.object(forKey: "isShowingOnboardingView") as? Bool ?? true
     @State private var selectedIndex = 0
     @State private var touchTab = false
+    @State var isLoading: Bool = true
     
     let selectedColors = (UserDefaults.standard.array(forKey: "selectedFragranceTypes") as? [String] ?? [])
     let tabBarNames = ["Home", "Palette", "Magazine", "Profile"]
     var body: some View {
         Group {
+            ZStack{
+                if isLoading {
+                    LaunchScreenView().transition(.identity).zIndex(1)
+                }
             if isShowingOnboardingView {
                 OnboardingView(isShowingOnboardingView: $isShowingOnboardingView)
             } else {
@@ -73,7 +78,15 @@ struct PerfumeTabView: View {
                     print(selectedColors)
                     fetchPerfumeNamesToUserDefaults()
                 }
-                .padding(.bottom, 10)
+
+            } // else
+            }
+        }
+        .onAppear{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                isLoading.toggle()
+
+                //.padding(.bottom, 10)
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
