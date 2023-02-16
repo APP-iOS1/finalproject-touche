@@ -16,7 +16,6 @@ struct MyPageView: View {
     //  @State private var image: UIImage = UIImage()
     @State private var userNickname: String = ""
     @State private var showEditMyProfileView = false
-    @State private var nation: String = ""
     @State private var rotation: Double = 0
     
     @Environment(\.dismiss) var dismiss
@@ -25,7 +24,7 @@ struct MyPageView: View {
     @EnvironmentObject var perfumeStore: PerfumeStore
     
     @State private var selection: Selection = .reviewed
-
+    
     let columns: [GridItem] = .init(repeating: .init(.flexible(), spacing: 4.0), count: 3)
     
     enum Selection {
@@ -57,34 +56,44 @@ struct MyPageView: View {
                                 }
                         }
                         .aspectRatio(contentMode: .fill)
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 4)
                     
                     HStack{
-                        Text(userInfoStore.userInfo?.userNickName ?? "")
-                        Text(nation)
-                        //  Text(userInfoStore.userInfo?.userNation.flag() ?? "")
+                        Text("\(userInfoStore.userInfo?.userNation.flag() ?? "")")
+                            .opacity(0)
+                        Text("\(userInfoStore.userInfo?.userNickName ?? "")")
+                        Text("\(userInfoStore.userInfo?.userNation.flag() ?? "")")
                     }
-                    
                     
                     Button {
                         showEditMyProfileView.toggle()
                     } label: {
                         Text("Edit Profile")
+                            .frame(width: UIScreen.main.bounds.width - 310, height: 30)
+                            .font(.footnote)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.4)
+                            .foregroundColor(.black)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 5).stroke(Color.black, lineWidth: 0.5)
+                                    .cornerRadius(5)
+                            )
                     }
+                    .padding(.bottom, 5)
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
                         //EditMyProfileView()
                         
                         /*
-                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
+                         EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
                          */
                         
-                        EditMyProfileView(userNickname: $userNickname, userNation: $nation)
+                        EditMyProfileView(userNickname: $userNickname)
                     }
                     
                 } // GROUP
                 
                 Divider()
-                    //.padding(.bottom, 0)
+                //.padding(.bottom, 0)
                 
                 // CONTENT SECTION
                 HStack(alignment: .center, spacing: 20) {
@@ -96,14 +105,19 @@ struct MyPageView: View {
                                 .resizable()
                                 .aspectRatio(1.0, contentMode: .fit)
                                 .foregroundColor(selection == .reviewed ? .primary : .secondary)
-                                .frame(height: 25.0)
+                                .frame(height: 23.0)
                             
-                            Text("Reviewed")
+                            Text("Comment")
                                 .foregroundColor(selection == .reviewed ? .primary : .secondary)
                                 .font(.system(size: 15))
+                                .padding(.top, -3)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    Divider()
+                        .frame(height: 33.0)
+                        .padding(.top, -7)
                     
                     Button {
                         selection = .liked
@@ -113,11 +127,12 @@ struct MyPageView: View {
                                 .resizable()
                                 .aspectRatio(1.0, contentMode: .fit)
                                 .foregroundColor(selection == .liked ? .primary : .secondary)
-                                .frame(height: 25.0)
+                                .frame(height: 22.0)
                             
                             Text("Liked")
                                 .foregroundColor(selection == .liked ? .primary : .secondary)
                                 .font(.system(size: 15))
+                                .padding(.top, -4)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -131,7 +146,7 @@ struct MyPageView: View {
                         Divider()
                         Spacer()
                         // TODO: 문구 수정하기
-                        Text("Did not write a **review.**")
+                        Text("No **comments** have been created.")
                             .multilineTextAlignment(.center)
                         Spacer()
                         Spacer()
@@ -158,7 +173,7 @@ struct MyPageView: View {
                         Divider()
                         Spacer()
                         // TODO: 문구 수정하기
-                        Text("You don't have **any perfume**\n that you **really like?**")
+                        Text("You don't have a **perfume**\n that you **like** yet.")
                             .multilineTextAlignment(.center)
                         Spacer()
                         Spacer()
@@ -180,7 +195,7 @@ struct MyPageView: View {
                                                     .tint(.primary)
                                             }
                                     }
-
+                                    
                                 }
                             }
                             .padding(.vertical, 8.0)
@@ -225,7 +240,6 @@ struct MyPageView: View {
                 
                 await userInfoStore.readWrittenComments()
                 
-                nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
         .refreshable {

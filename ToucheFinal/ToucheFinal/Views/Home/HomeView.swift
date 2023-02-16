@@ -145,7 +145,7 @@ struct HomeView: View {
                 .onAppear{
                     print(Auth.auth().currentUser?.isEmailVerified)
                     Task {
-                        if userInfoStore.user != nil {    //  로그인
+                        if userInfoStore.user?.isEmailVerified ?? false {    //  로그인
                             await userInfoStore.fetchUser(user: userInfoStore.user)
                             guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
                             if !recentlyPerfumesId.isEmpty {

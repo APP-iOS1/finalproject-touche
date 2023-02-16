@@ -37,11 +37,12 @@ struct MagazineView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     HStack {
                         Text("Magazine")
-                            .font(.largeTitle)
+                            .font(.title)
                             .fontWeight(.semibold)
                             .opacity(showDetailPage ? 0 : 1)
                     }
-                    .padding()
+                    .padding(.top, 15)
+                    .padding(.bottom, -5)
                     
                     
                     VStack(spacing: 0) {

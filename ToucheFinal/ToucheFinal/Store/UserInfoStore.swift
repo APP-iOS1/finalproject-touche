@@ -467,7 +467,7 @@ final class UserInfoStore: ObservableObject{
         
         do {
             
-            print(nation)
+            print("nation\(nation)")
             
             switch nation {
             case "🇺🇸":
