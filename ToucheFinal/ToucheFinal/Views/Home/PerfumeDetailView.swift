@@ -81,7 +81,7 @@ struct PerfumeDetailView: View {
         }
         .alert(
             """
-            You already wrote a review with the same account.
+            You already wrote a comment with the same account.
             """
             ,isPresented: $isCheckedReview
         ) {
@@ -254,7 +254,7 @@ private extension PerfumeDetailView {
                     .font(.caption)
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("Leave your review")
+                Text("Leave your comment")
                     .underline()
                     .onTapGesture(perform: {
                         switch userInfoStore.user?.isEmailVerified ?? false {

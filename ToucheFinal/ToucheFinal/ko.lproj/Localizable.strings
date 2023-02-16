@@ -54,7 +54,7 @@
 "To use more features" = "더 많은 기능을 이용하고 싶다면";
 "Sign In" = "로그인";
 "Sign Up" = "회원가입";
-"You can write reviews of perfumes you have used." = "로그인하시면 가진 향수에 대한 리뷰를 남길 수 있습니다.";
+"You can write comments of perfumes you have used." = "로그인 하시면 향수에 대한 리뷰를 남길 수 있습니다.";
 "Password" = "비밀번호";
 "Enter Email" = "이메일을 입력하세요.";
 "Enter Password" = "비밀번호를 입력하세요.";
@@ -128,5 +128,8 @@
 "Too busy / Too distracting." = "너무 바쁩니다.";
 "Enter directly." = "사유를 직접 입력합니다.";
 "Provide reason." = "탈퇴 사유를 입력해주세요.";
+"You already wrote a comment with the same account." = "이미 같은 계정으로 코멘트를 입력했습니다.";
+"Leave your comment" = "리뷰 남기기";
+"Are you sure you want to delete the comment?" = "리뷰를 삭제하시겠습니까?";
 
 
