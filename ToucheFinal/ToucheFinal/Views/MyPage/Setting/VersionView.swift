@@ -17,7 +17,7 @@ struct VersionView: View {
                 
                 Image("touche3")
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width - 287, height: 100.0)
+                    .frame(width: 100, height: 100)
                     .cornerRadius(15)
                     .padding(.top, 30)
                     .padding(.bottom, 17)

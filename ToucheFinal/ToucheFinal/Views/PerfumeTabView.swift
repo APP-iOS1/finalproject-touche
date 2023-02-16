@@ -27,65 +27,65 @@ struct PerfumeTabView: View {
                 if isLoading {
                     LaunchScreenView().transition(.identity).zIndex(1)
                 }
-            if isShowingOnboardingView {
-                OnboardingView(isShowingOnboardingView: $isShowingOnboardingView)
-            } else {
-                VStack{
-                    ZStack() {
-                        switch selectedIndex {
-                        case 0:
-                            HomeView(selectedIndex: $selectedIndex)
-                        case 1:
-                            PaletteView()
-                        case 2:
-                            MagazineView()
-                        default:
-                            LogInRootView()
-                        }
-                    }
-                    Spacer()
-                    Divider()
-//                        .offset(y: -8)
-                    HStack{
-                        Spacer()
-                        
-                        ForEach(0..<4) { num in
-                            VStack(alignment: .center){
-                                Text(tabBarNames[num])
-                                    .font(.system(size: 15, weight: .light))
-                                    .foregroundColor(selectedIndex == num ? Color(.black) : Color(.tertiaryLabel))
-                                    .overlay(alignment: .bottom) {
-                                        if selectedIndex == num {
-                                            Circle()
-                                                .foregroundColor(Color(.black))
-                                                .frame(width: 101, height: 4)
-                                                .offset(y: 8)
-                                        }
-                                    }
+                if isShowingOnboardingView {
+                    OnboardingView(isShowingOnboardingView: $isShowingOnboardingView)
+                } else {
+                    VStack( spacing: 0){
+                        ZStack() {
+                            switch selectedIndex {
+                            case 0:
+                                HomeView(selectedIndex: $selectedIndex)
+                            case 1:
+                                PaletteView()
+                            case 2:
+                                MagazineView()
+                            default:
+                                LogInRootView()
                             }
-                            .gesture(
-                                TapGesture()
-                                    .onEnded { _ in
-                                        selectedIndex = num
-                                    }
-                            )
-                            Spacer()
                         }
+//                        Spacer()
+                        Divider()
+//                            .offset(y: -8)
+                        HStack( alignment: .center){
+                            Spacer()
+                            ForEach(0..<4) { num in
+                                VStack(alignment: .center){
+                                    Text(tabBarNames[num])
+                                        .font(.system(size: 15, weight: .light))
+                                        .foregroundColor(selectedIndex == num ? Color(.black) : Color(.tertiaryLabel))
+                                        .overlay(alignment: .bottom) {
+                                            if selectedIndex == num {
+                                                Circle()
+                                                    .foregroundColor(Color(.black))
+                                                    .frame(width: 101, height: 4)
+                                                    .offset(y: 8)
+                                            }
+                                        }
+                                }
+                                .offset(y: -4)
+                                .gesture(
+                                    TapGesture()
+                                        .onEnded { _ in
+                                            selectedIndex = num
+                                        }
+                                )
+                                Spacer()
+                            }
+                        }
+                        .padding([.top, .bottom], 20)
                     }
-                    .padding([.top, .bottom], 10)
-                }
-                .onAppear {
-                    print(selectedColors)
-                    fetchPerfumeNamesToUserDefaults()
-                }
-
-            } // else
+                    .onAppear {
+                        print(selectedColors)
+                        fetchPerfumeNamesToUserDefaults()
+                    }
+                    
+                } // else
             }
         }
         .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                 isLoading.toggle()
-
+                
                 //.padding(.bottom, 10)
             }
         }
@@ -118,7 +118,7 @@ struct PerfumeTabView: View {
         .toast(isPresenting: $filterViewModel.isShowingOverCheckedColorAlert) {
             AlertToast(displayMode: .hud, type: .error(Color.red), title: "Notice", subTitle: "You can select up to 10 colors.")
         }
-
+        
     }
     
     /// Firebase 로부터 향수 이름을 받아온다
@@ -128,7 +128,7 @@ struct PerfumeTabView: View {
             // print("USERDEFAULTS . CountOfDB : \(NameOfAllPerfumes.count)")
             
             /// 로컬 향수 이름들의 갯수와 BD 향수 이름 개수가 다를 경우 향수 이름들 다시 패치한다
-
+            
             //  if NameOfAllPerfumes.count != perfumesDB.count {
             if NameOfAllPerfumes.isEmpty {
                 print("향수 개수 다름!! 향수 이름 패치 시작")

@@ -59,19 +59,20 @@ struct MyPageView: View {
                         .padding(.bottom, 4)
                     
                     HStack{
+                        Text(userInfoStore.userInfo?.userNation.flag() ?? "")
+                            .opacity(0)
                         Text(userInfoStore.userInfo?.userNickName ?? "")
                         //  Text(nation)
                         Text(userInfoStore.userInfo?.userNation.flag() ?? "")
                     }
                     
+                    
                     Button {
                         showEditMyProfileView.toggle()
                     } label: {
                         Text("Edit Profile")
-                            .frame(width: UIScreen.main.bounds.width - 310, height: 30)
+                            .frame(width: 75, height: 30)
                             .font(.footnote)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.4)
                             .foregroundColor(.black)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 5).stroke(Color.black, lineWidth: 0.5)
@@ -222,10 +223,9 @@ struct MyPageView: View {
                 }
             } // TOOLBAR
             .task {
+                await userInfoStore.fetchUser(user: userInfoStore.user)
                 await userInfoStore.readWrittenComments()
                 await perfumeStore.readLikedPerfumes(userId: userInfoStore.userInfo?.userId ?? "")
-                
-                await userInfoStore.fetchUser(user: userInfoStore.user)
                 
                 print(userInfoStore.writtenCommentsAndPerfumes)
                 
@@ -240,9 +240,6 @@ struct MyPageView: View {
                 await userInfoStore.readWrittenComments()
             }
         } // NAVIGATION
-        .refreshable {
-            print("?")
-        }
     }
 }
 

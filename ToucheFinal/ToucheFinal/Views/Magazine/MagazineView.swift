@@ -11,7 +11,7 @@ import SwiftUI
 /// https://www.youtube.com/watch?v=J86h1mt5bio
 
 struct MagazineView: View {
-    @ObservedObject var magazineStore: MagazineStore = MagazineStore()
+    @StateObject var magazineStore: MagazineStore = MagazineStore()
 
     @Namespace var animation
     @State var currentItem: Magazine?
@@ -83,6 +83,7 @@ struct MagazineView: View {
                         await magazineStore.readMagazines()
                     }
                 }
+                
                 .task {
                     await magazineStore.readMagazines()
                 }
@@ -108,7 +109,6 @@ struct MagazineView: View {
 
                 }
                 .frame(height: 400)
-
             }
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
@@ -198,6 +198,8 @@ struct MagazineView: View {
 
         })
         .onAppear {
+            print("d")
+            
             withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)){
                 animateView = true
             }

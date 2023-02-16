@@ -76,7 +76,7 @@ struct EditMyProfileView: View {
                     isShowingDialog = true
                     isChangedImage = true
                 }
-                .frame(width: UIScreen.main.bounds.width - 310, height: 30)
+                .frame(width: 75, height: 30)
                 .font(.footnote)
                 .lineLimit(1)
                 .minimumScaleFactor(0.4)

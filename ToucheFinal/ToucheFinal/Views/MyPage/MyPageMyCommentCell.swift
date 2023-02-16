@@ -38,7 +38,7 @@ struct MyPageMyCommentCell: View {
                         .foregroundColor(.black.opacity(0.8))
                         .multilineTextAlignment(.leading)
                         .lineLimit(1...2)
-                    RatingView(score: .constant(perfume.totalPerfumeScore/perfume.commentCount), frame: 13, canClick: false)
+                    RatingView(score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount), frame: 13, canClick: false)
                     
                     
                 }

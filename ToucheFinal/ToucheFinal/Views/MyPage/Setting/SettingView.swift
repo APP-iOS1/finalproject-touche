@@ -29,118 +29,114 @@ struct SettingView: View {
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading){
-                List{
-                    /// SETTINGS Group
-                    Group {
-                        Text("SETTINGS")
-                            .font(.headline)
-                            .fontWeight(.bold)
-                        Button{
-                            Task{
-                                if let url = URL(string: "app-settings:\(bundleID!)") {
-                                    await UIApplication.shared.open(url)
-                                }
-                            }
-                        } label :{
-                            HStack{
-                                Text("Notification")
-                                Spacer()
-                                Image(systemName: "arrow.up.right")
-                            }
-                        }
-                        
-                        if userInfoStore.user?.isEmailVerified ?? false {
-                            
+                ScrollView {
+                    List{
+                        /// SETTINGS Group
+                        Group {
+                            Text("SETTINGS")
+                                .font(.headline)
+                                .fontWeight(.bold)
                             Button{
-                                showDeleteAccountView.toggle()
+                                Task{
+                                    if let url = URL(string: "app-settings:\(bundleID!)") {
+                                        await UIApplication.shared.open(url)
+                                    }
+                                }
                             } label :{
                                 HStack{
-                                    Text("Delete Account")
+                                    Text("Notification")
                                     Spacer()
-                                    //Image(systemName: "arrow.up.right")
+                                    Image(systemName: "arrow.up.right")
                                 }
-                            }.fullScreenCover(isPresented: $showDeleteAccountView){
-                                DeleteAccountView()
+                            }
+                            
+                            if userInfoStore.user?.isEmailVerified ?? false {
+                                
+                                Button{
+                                    showDeleteAccountView.toggle()
+                                } label :{
+                                    HStack{
+                                        Text("Delete Account")
+                                        Spacer()
+                                        //Image(systemName: "arrow.up.right")
+                                    }
+                                }.fullScreenCover(isPresented: $showDeleteAccountView){
+                                    DeleteAccountView()
+                                }
                             }
                         }
-                    }
-                    Group{
-                        Text("SUPPORT")
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .padding(.top,50)
-                        Button("Contact Us"){
-                            showContactUsView.toggle()
+                        Group{
+                            Text("SUPPORT")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .padding(.top,50)
+                            Button("Contact Us"){
+                                showContactUsView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showContactUsView){
+                                ContactUsView()
+                            }
+                            Button("Privacy Policy"){
+                                showPrivacyPolicyView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showPrivacyPolicyView){
+                                PrivacyView()
+                            }
+                            Button("Terms & Conditions"){
+                                showTermsandConditionsView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showTermsandConditionsView){
+                                TermsandConditionsView()
+                            }
                         }
-                        .fullScreenCover(isPresented: $showContactUsView){
-                            ContactUsView()
+                        Group{
+                            Text("ABOUT")
+                                .font(.system(size: 20))
+                                .fontWeight(.bold)
+                                .padding(.top,50)
+                            
+                            
+                            Button("Acknowledgements"){
+                                showAcknowledgementsView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showAcknowledgementsView){
+                                AcknowledgementsView()
+                            }
+                            
+                            Button("Version"){
+                                showVersionView.toggle()
+                            }
+                            .fullScreenCover(isPresented: $showVersionView){
+                                VersionView()
+                            }
                         }
-                        Button("Privacy Policy"){
-                            showPrivacyPolicyView.toggle()
-                        }
-                        .fullScreenCover(isPresented: $showPrivacyPolicyView){
-                            PrivacyView()
-                        }
-                        Button("Terms & Conditions"){
-                            showTermsandConditionsView.toggle()
-                        }
-                        .fullScreenCover(isPresented: $showTermsandConditionsView){
-                            TermsandConditionsView()
-                        }
-                    }
-                    Group{
-                        Text("ABOUT")
-                            .font(.system(size: 20))
-                            .fontWeight(.bold)
-                            .padding(.top,50)
                         
-                        
-                        Button("Acknowledgements"){
-                            showAcknowledgementsView.toggle()
-                        }
-                        .fullScreenCover(isPresented: $showAcknowledgementsView){
-                            AcknowledgementsView()
-                        }
-                        
-                        Button("Version"){
-                            showVersionView.toggle()
-                        }
-                        .fullScreenCover(isPresented: $showVersionView){
-                            VersionView()
-                        }
-                        
-                    }
                     }
                     .listStyle(.plain)
-                    .scrollDisabled(true)
-                    .frame(maxHeight: 600)
-                Spacer()
+                    .frame(height: 600)
+                    Spacer()
+                    
                     HStack{
-
                         if userInfoStore.user?.isEmailVerified ?? false {
                             Spacer()
-                        Button{
-                            Task {
-                                await userInfoStore.logOut()
-                                userInfoStore.isShowingSignoutAlert.toggle()
+                            Button{
+                                Task {
+                                    await userInfoStore.logOut()
+                                    userInfoStore.isShowingSignoutAlert.toggle()
+                                }
+                            } label: {
+                                Text("Sign Out")
+                                    .frame(width: UIScreen.main.bounds.width - 30, height: 46.0)
+                                    .background(.black)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(7)
                             }
-                        } label: {
-                            Text("Sign Out")
-                                .frame(width: UIScreen.main.bounds.width - 30, height: 46.0)
-                                .background(.black)
-                                .foregroundColor(.white)
-                                .cornerRadius(7)
-                        }
                             Spacer()
+                        }
                     }
-                }
-                .padding(.bottom, 20)
-//                Spacer()
-            }// VStack 종료
-            
+                    .padding(.bottom, 20)
+                }// VStack 종료
         } // NavigationView 종료
-        
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {

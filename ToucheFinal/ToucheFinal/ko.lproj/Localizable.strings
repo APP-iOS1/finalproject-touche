@@ -32,7 +32,8 @@
 "Nickname" = "닉네임";
 "Email" = "이메일";
 "Region" = "지역";
-"View Comments" = "개의 코멘트";
+"%lld View Comments" = "%lld개의 댓글";
+"Sign in to favorite your products" = "더 많은 기능은 로그인을 해주세요.";
 "FragranceFamily" = "향수 분위기";
 "ScentType" = "향수 타입";
 "KeyNote" = "중심 노트";
@@ -78,8 +79,13 @@
 "Apply" = "적용하기";
 "Result" = "결과";
 "Edit" = "변경";
+<<<<<<< HEAD
 "No **comments** have been created." = "작성한 댓글이 없습니다.";
 "You don't have a **perfume**\n that you **like** yet." = "하트를 누른 향수가 없습니다.";
+=======
+"No comments have been created." = "작성한 리뷰가 없습니다.";
+"You don't have a perfume\n that you like yet." = "좋아요를 누른 향수가 없습니다.";
+>>>>>>> 29d203c ([Design] : UI 디테일한 부분 수정)
 "Result" = "결과";
 "There are **No products** registered." = "등록된 향수가 없습니다.";
 "View Comments" = "댓글 보기";
@@ -108,8 +114,11 @@
 "Change from Gallery" = "사진에서 고르기";
 "Take Photo" = "사진찍기";
 "Notice" = "경고";
+"Acknowledgements" = "라이선스";
+"ABOUT" = "앱 정보";
 "Try registering as a member." = "로그인을 해보세요";
 "Brand " = "브랜드 ";
+<<<<<<< HEAD
 //113
 "Comment" = "댓글";
 "(Required) I have read and agree to all the terms and conditions. " = "(필수) 약관을 모두 읽고 동의합니다. ";
@@ -117,6 +126,9 @@
 "(Required) I agree to the collection and use of personal infomation. " = "(필수) 개인정보 수집 ・ 이용에 동의합니다.";
 "Privacy policy" = "개인정보 수집 ・ 이용 동의";
 "You can collect only your liked products." = "당신은 당신이 좋아하는 제품만 모을 수 있습니다.";
+=======
+
+>>>>>>> 29d203c ([Design] : UI 디테일한 부분 수정)
 /// enum 또는 구조체라 안바뀜..
 "Sign In" = "로그인";
 "Sign Up" = "회원가입";

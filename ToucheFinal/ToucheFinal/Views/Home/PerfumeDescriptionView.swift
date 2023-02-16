@@ -39,7 +39,7 @@ struct PerfumeDescriptionView: View {
                                             .foregroundColor(.green)
                                     }
                                     Spacer()
-                                    Image(systemName: selectedIndex == idx ? "chevron.down" : "chevron.up")
+                                    Image(systemName: selectedIndex == idx ? "chevron.up" : "chevron.down")
                                 }
                                 .padding(.vertical, 5)
                             }
