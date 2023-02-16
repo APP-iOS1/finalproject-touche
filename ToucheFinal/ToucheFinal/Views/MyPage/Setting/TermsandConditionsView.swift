@@ -19,6 +19,8 @@ struct TermsandConditionsView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 200, height: 50)
+                    Divider()
+                        .frame(width: 200)
                     VStack(alignment: .leading){
                         
                         

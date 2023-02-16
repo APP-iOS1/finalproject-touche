@@ -132,7 +132,7 @@ struct DeleteAccountView: View {
                                 Button("OK"){
                                 }
                             } message: {
-                                Text("아이디 또는 비밀번호가 일치하지 않습니다. 다시 한번 확인해주세요.")
+                                Text("Password does not match.")
                             }
                     }
                     .disabled(false)
