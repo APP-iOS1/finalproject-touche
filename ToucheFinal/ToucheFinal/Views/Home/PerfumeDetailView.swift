@@ -66,31 +66,17 @@ struct PerfumeDetailView: View {
                 } // VSTACK
             } // SCROLL
         } // READER
-        .alert(
-            """
-            Sign in to favorite your products
-            """
-            ,isPresented: $loginAlertActive
-        ) {
-            Button("Cancel", role: .cancel) {}
-            Button {
+        .alert("Sign in to favorite your products",isPresented: $loginAlertActive) {
+            Button("Cancel") {}
+            Button("Sign In") {
                 navLinkActive = true
-            } label: {
-                Text("Sign In")
             }
         }
-        .alert(
-            """
-            You already wrote a review with the same account.
-            """
-            ,isPresented: $isCheckedReview
-        ) {
-            Button("OK", role: .cancel) {}
+        .alert("You already wrote a review with the same account.",isPresented: $isCheckedReview) {
+            Button("OK") {}
         }
-
         .sheet(isPresented: $isShowingWriteComment, content: {
             WriteCommentView(score: 0, isShowingWriteComment: $isShowingWriteComment, perfume: $perfume, reviewText: "", commentId: "")
-//                .presentationDetents([.medium])
                 .presentationDetents([.height(viewSize > 375 ? 450 : 450)])
         })
         .modifier(SignInFullCover(isShowing: $navLinkActive))

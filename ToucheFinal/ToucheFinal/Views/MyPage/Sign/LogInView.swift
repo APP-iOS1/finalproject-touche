@@ -91,12 +91,10 @@ struct LogInView: View {
             }
             .disabled(email.isEmpty || password.isEmpty )
             .padding(.top, 10)
-            .alert("Send mail", isPresented: $loginFailActive) {
+            .alert("This email is not authorized. Please check the mail you received and complete the authentication.", isPresented: $loginFailActive) {
                 Button("OK"){
                 }
-            } message: {
-                Text("This email is not authorized. Please check the mail you received and complete the authentication.")
-            }
+            } 
             Spacer()
         } //VStack
         .background(Color.white) // background 컬러 지정안해주면 화면 밖 눌러도 키보드 안내려감.

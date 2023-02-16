@@ -116,24 +116,7 @@ struct DeleteAccountView: View {
                             .frame(maxWidth: .infinity, minHeight: 46)
                             .background(.gray)
                             .cornerRadius(7)
-                            .alert(isPresented: $showAlert) {
-                                Alert(title: Text("Delete Account"), message: Text("You can cancel the action\nvia the left button."), primaryButton: .destructive(Text("Delete"), action: {
-                                    Task{
-                                        if await userInfoStore.deleteAccount(email: email, password: password) {
-                                            userInfoStore.userInfo = nil
-                                            dismiss()
-                                        } else {
-                                            loginFailActive.toggle()
-                                        }
-                                    }
-                                }), secondaryButton: .cancel(Text("Cancel")))
-                            }
-                            .alert("Faill", isPresented: $loginFailActive) {
-                                Button("OK"){
-                                }
-                            } message: {
-                                Text("아이디 또는 비밀번호가 일치하지 않습니다. 다시 한번 확인해주세요.")
-                            }
+                            
                     }
                     .disabled(false)
                     Spacer()
@@ -152,6 +135,22 @@ struct DeleteAccountView: View {
                 .onTapGesture {
                   hideKeyboard()
                 }
+                .alert("You can cancel the action\nvia the left button.", isPresented: $showAlert) {
+                    Button("Delete", role: .destructive) {
+                        Task{
+                            if await userInfoStore.deleteAccount(email: email, password: password) {
+                                userInfoStore.userInfo = nil
+                                dismiss()
+                            } else {
+                                loginFailActive.toggle()
+                            }
+                        }
+                    }
+                }
+                .alert("Email or password does not match. Please check again.", isPresented: $loginFailActive) {
+                    Button("OK"){
+                    }
+                } 
             }
         }
     }

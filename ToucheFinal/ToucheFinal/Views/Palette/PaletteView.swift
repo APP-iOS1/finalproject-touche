@@ -141,11 +141,7 @@ struct PaletteView: View {
                         .onTapGesture(perform: {
                             isSignin.toggle()
                         })
-                        .alert(
-                        """
-                        Please sign in to like / comment on products
-                        """
-                        ,isPresented: $isSignin
+                        .alert("Sign in to favorite your products",isPresented: $isSignin
                         ) {
                             Button("Cancel", role: .cancel) {}
                             Button {

@@ -101,11 +101,7 @@ struct CommentCell: View {
                         .padding(.leading, -3)
                 }
             }
-            .alert(
-                "Delete"
-                ,isPresented: $deleteAlertActive
-            ) {
-                Button("Cancel", role: .cancel) {}
+            .alert( "Delete",isPresented: $deleteAlertActive) {
                 Button("Delete", role: .destructive) {
                     Task {
                         await perfumeStore.deletePerfumeComment(perfumeId: perfume.perfumeId, score: comment.perfumeScore)
