@@ -25,6 +25,7 @@ struct SettingView: View {
     @State var showPrivacyPolicyView: Bool = false
     @State var showTermsandConditionsView: Bool = false
     @State var showVersionView: Bool = false
+    @State var showLicensesView: Bool = false
     
     var body: some View {
         NavigationView {
@@ -64,42 +65,55 @@ struct SettingView: View {
                             }
                         }
                     }
-                        Group{
-                            Text("SUPPORT")
-                                .font(.headline)
-                                .fontWeight(.bold)
-                                .padding(.top,50)
-                            Button("Contact Us"){
-                                showContactUsView.toggle()
-                            }
-                            .fullScreenCover(isPresented: $showContactUsView){
-                                ContactUsView()
-                            }
-                            Button("Privacy Policy"){
-                                showPrivacyPolicyView.toggle()
-                            }
-                            .fullScreenCover(isPresented: $showPrivacyPolicyView){
-                                PrivacyView()
-                            }
-                            Button("Terms & Conditions"){
-                                showTermsandConditionsView.toggle()
-                            }
-                            .fullScreenCover(isPresented: $showTermsandConditionsView){
-                                TermsandConditionsView()
-                            }
-                            Button("Version"){
-                                showVersionView.toggle()
-                            }
-                            .fullScreenCover(isPresented: $showVersionView){
-                                VersionView()
-                            }
+                    Group{
+                        Text("SUPPORT")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .padding(.top,50)
+                        Button("Contact Us"){
+                            showContactUsView.toggle()
                         }
+                        .fullScreenCover(isPresented: $showContactUsView){
+                            ContactUsView()
+                        }
+                        Button("Privacy Policy"){
+                            showPrivacyPolicyView.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showPrivacyPolicyView){
+                            PrivacyView()
+                        }
+                        Button("Terms & Conditions"){
+                            showTermsandConditionsView.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showTermsandConditionsView){
+                            TermsandConditionsView()
+                        }
+                    }
+                    Group{
+                        Text("ABOUT")
+                            .font(.system(size: 20))
+                            .fontWeight(.bold)
+                            .padding(.top,50)
+                        Button("Version"){
+                            showVersionView.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showVersionView){
+                            VersionView()
+                        }
+                        Button("Licenses"){
+                            showLicensesView.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showLicensesView){
+                            //라이센스뷰()
+                        }
+                    }
                     }
                     .listStyle(.plain)
                     .scrollDisabled(true)
                     .frame(maxHeight: 400)
                 Spacer()
                     HStack{
+
                         if userInfoStore.user?.isEmailVerified ?? false {
                             Spacer()
                         Button{
@@ -120,7 +134,7 @@ struct SettingView: View {
                 .padding(.bottom, 20)
 //                Spacer()
             }// VStack 종료
-            Spacer()
+            
         } // NavigationView 종료
         
         .toolbar {

@@ -131,8 +131,8 @@ struct PaletteView: View {
                             Spacer()
                             VStack(alignment: .leading) {
                                 Text("To use more features")
-                                    .padding(.bottom, 10)
-                                Text("You can collect your favorite products.")
+                                    .padding(.bottom, 5)
+                                Text("Try registering as a member.")
                             }
                             .frame(width: 200)
                             Spacer()

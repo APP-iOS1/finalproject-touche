@@ -60,36 +60,37 @@ struct SignUpView: View {
             VStack(alignment: .leading){
                 // Email
                 Group {
+                    Text("Email")
+                    // 이메일 형식이고 중복이 아닌 경우에 checkmark 나오기
+                    if checkEmail(email: email) == true && userInfoStore.isEmailDuplicated == false {
+                        Image(systemName: "checkmark.circle")
+                            .foregroundColor(.green)
+                    }
+                    
                     HStack {
-                        Text("Email")
-                        // 이메일 형식이고 중복이 아닌 경우에 checkmark 나오기
-                        if checkEmail(email: email) == true && userInfoStore.isEmailDuplicated == false {
-                            Image(systemName: "checkmark.circle")
-                                .foregroundColor(.green)
-                        }
-                        Spacer()
-                        
+                        TextField("Enter Email", text: $email)
+                            .focused($focusedField, equals: .email)
+                            .modifier(KeyboardTextField())
+                            .keyboardType(.emailAddress) // 이메일용 키보드
+                            .submitLabel(.next)
+                        // 이메일 중복체크 후에 텍스트필드에서 수정한 경우 초록체크모양 사라지고 중복 재확인해야 Sign Up 버튼 활성화됨
+                            .onChange(of: email) { _ in
+                                userInfoStore.isEmailDuplicated = nil
+                            }
                         Button {
                             userInfoStore.duplicateCheck(emailAddress: email)
                         } label: {
                             Text("Check")
-                                .underline()
-                                .foregroundColor(email.isEmpty ? .gray : .black)
+                                .foregroundColor(email.isEmpty ? .gray : .white)
                         }
                         .disabled(email.isEmpty)
+                        .buttonStyle(.borderedProminent)
+                        .tint(.black)
+                        
                     }
-                    
-                    TextField("Enter Email", text: $email)
-                        .focused($focusedField, equals: .email)
-                        .modifier(KeyboardTextField())
-                        .keyboardType(.emailAddress) // 이메일용 키보드
-                        .submitLabel(.next)
-                        .frame(height: 40)
-                        .padding(.top, -6)
-                    // 이메일 중복체크 후에 텍스트필드에서 수정한 경우 초록체크모양 사라지고 중복 재확인해야 Sign Up 버튼 활성화됨
-                        .onChange(of: email) { _ in
-                            userInfoStore.isEmailDuplicated = nil
-                        }
+                    .padding(.top, -6)
+                    .frame(height: 40)
+//                    .border(.black)
                     
                     if !isEmailRuleSatisfied {
                         Text("Please enter a vaild email.")
@@ -144,43 +145,53 @@ struct SignUpView: View {
                 
                 // Nick Name
                 Group{
-                    HStack {
                         Text("NickName")
                         if nickNameCheck == false {
                             Image(systemName: "checkmark.circle")
                                 .foregroundColor(.green)
                         }
-                        Spacer()
-                        Button {
-                            Task {
-                                do {
-                                    let target = try await userInfoStore.isNicknameDuplicated(nickName: nickName)
-                                    nickNameCheck = target
-                                } catch {
-                                    throw(error)
-                                }
+//                        Spacer()
+//                        Button {
+//                            Task {
+//                                do {
+//                                    let target = try await userInfoStore.isNicknameDuplicated(nickName: nickName)
+//                                    nickNameCheck = target
+//                                } catch {
+//                                    throw(error)
+//                                }
+//                            }
+//                        } label: {
+//                            Text("Check")
+//                                .underline()
+//                                .foregroundColor(nickName.isEmpty ? .gray : .black)
+//                        }
+//                        .disabled(nickName.isEmpty)
+                        
+                    HStack {
+                        TextField("Enter Nick Name", text: $nickName)
+                            .focused($focusedField, equals: .nickName)
+                            .modifier(KeyboardTextField())
+                            .keyboardType(.alphabet)
+                            .submitLabel(.done)
+                            .frame(height: 40)
+                        // 닉네임 중복체크 후에 텍스트필드에서 수정한 경우 초록체크모양 사라지고 중복 재확인해야 Sign Up 버튼 활성화됨
+                            .onChange(of: nickName) { _ in
+                                nickNameCheck = nil
                             }
+                        
+                        Button {
+                            userInfoStore.duplicateCheck(emailAddress: email)
                         } label: {
                             Text("Check")
-                                .underline()
-                                .foregroundColor(nickName.isEmpty ? .gray : .black)
+                                .foregroundColor(nickName.isEmpty ? .gray : .white)
                         }
                         .disabled(nickName.isEmpty)
-                        
+                        .buttonStyle(.borderedProminent)
+                        .tint(.black)
                     }
-                    
-                    TextField("Enter Nick Name", text: $nickName)
-                        .focused($focusedField, equals: .nickName)
-                        .modifier(KeyboardTextField())
-                        .keyboardType(.alphabet)
-                        .submitLabel(.done)
-                        .frame(height: 40)
-                        .padding(.top, -6)
-                    // 닉네임 중복체크 후에 텍스트필드에서 수정한 경우 초록체크모양 사라지고 중복 재확인해야 Sign Up 버튼 활성화됨
-                        .onChange(of: nickName) { _ in
-                            nickNameCheck = nil
-                        }
-                    
+                    .padding(.top, -6)
+                    .frame(height: 40)
+
                     // nickNameCheck == true:중복된 닉네임 (=이미 존재하는 닉네임)
                     if nickNameCheck == true && !nickName.isEmpty {
                         Text("Already exists.")

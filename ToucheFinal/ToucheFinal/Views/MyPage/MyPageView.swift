@@ -16,7 +16,6 @@ struct MyPageView: View {
     //  @State private var image: UIImage = UIImage()
     @State private var userNickname: String = ""
     @State private var showEditMyProfileView = false
-    @State private var nation: String = ""
     @State private var rotation: Double = 0
     
     @Environment(\.dismiss) var dismiss
@@ -60,12 +59,11 @@ struct MyPageView: View {
                         .padding(.bottom, 4)
                     
                     HStack{
-                        Text(userInfoStore.userInfo?.userNickName ?? "")
-                        Text(nation)
-                        //  Text(userInfoStore.userInfo?.userNation.flag() ?? "")
+                        Text("\(userInfoStore.userInfo?.userNation.flag() ?? "")")
+                            .opacity(0)
+                        Text("\(userInfoStore.userInfo?.userNickName ?? "")")
+                        Text("\(userInfoStore.userInfo?.userNation.flag() ?? "")")
                     }
-                    
-                    
                     
                     Button {
                         showEditMyProfileView.toggle()
@@ -89,7 +87,7 @@ struct MyPageView: View {
                          EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
                          */
                         
-                        EditMyProfileView(userNickname: $userNickname, userNation: $nation)
+                        EditMyProfileView(userNickname: $userNickname)
                     }
                     
                 } // GROUP
@@ -242,7 +240,6 @@ struct MyPageView: View {
                 
                 await userInfoStore.readWrittenComments()
                 
-                nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
         .refreshable {

@@ -116,7 +116,6 @@ struct DeleteAccountView: View {
                             .frame(maxWidth: .infinity, minHeight: 46)
                             .background(.gray)
                             .cornerRadius(7)
-                            
                     }
                     .disabled(false)
                     Spacer()
