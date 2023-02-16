@@ -247,13 +247,11 @@ struct SignUpView: View {
                 print("sign up ..")
             }
         }
-        .alert("Sign up", isPresented: $sendMailAlertActive) {
+        .alert("Your mail has been sent. Please click the link in the mail you received to complete sign up.", isPresented: $sendMailAlertActive) {
             Button("OK"){
                 presentationMode.wrappedValue.dismiss()
             }
-        } message: {
-            Text("Your mail has been sent. Please click the link in the mail you received to complete sign up.")
-        }
+        } 
     }
     func checkEmail(email: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
