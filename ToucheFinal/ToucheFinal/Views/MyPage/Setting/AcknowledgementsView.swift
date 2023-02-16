@@ -14,6 +14,7 @@ struct AcknowledgementsView: View {
     var body: some View {
         NavigationView{
             HStack{
+                ScrollView{
                 VStack(alignment: .leading){
                     Text("We use\nthese open source libraries\nto make Touché")
                         .font(.system(size: 35))
@@ -36,7 +37,7 @@ struct AcknowledgementsView: View {
                         Text("API:")
                             .fontWeight(.semibold)
                         
-                            Text("The data used by Touché")
+                        Text("The data used by Touché")
                         HStack{
                             Text("is from")
                             Text("Sephora API")
@@ -45,8 +46,22 @@ struct AcknowledgementsView: View {
                     }
                     .foregroundColor(.gray)
                     .padding(.bottom, 5)
+                    //Spacer()
+                    Group{
+                        Text("Image:")
+                            .fontWeight(.semibold)
+                        Text("https://www.chanel.com")
+                            .tint(.gray)
+                        Text("https://www.lelabofragrances.com")
+                            .tint(.gray)
+                        Text("https://www.byredo.com/eu_en/")
+                            .tint(.gray)
+                    }
+                    .foregroundColor(.gray)
+                    .padding(.bottom, 5)
                     Spacer()
                 }
+            }
                 .padding()
                 Spacer()
             }
