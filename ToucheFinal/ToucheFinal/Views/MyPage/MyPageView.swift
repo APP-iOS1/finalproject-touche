@@ -57,7 +57,7 @@ struct MyPageView: View {
                                 }
                         }
                         .aspectRatio(contentMode: .fill)
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 4)
                     
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
@@ -66,11 +66,20 @@ struct MyPageView: View {
                     }
                     
                     
+                    
                     Button {
                         showEditMyProfileView.toggle()
                     } label: {
                         Text("Edit Profile")
+                            .frame(width: UIScreen.main.bounds.width - 310, height: 30)
+                            .font(.footnote)
+                            .foregroundColor(.black)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 5).stroke(Color.black, lineWidth: 0.5)
+                                    .cornerRadius(5)
+                            )
                     }
+                    .padding(.bottom, 5)
                     .fullScreenCover(isPresented: $showEditMyProfileView) {
                         //EditMyProfileView()
                         
@@ -96,14 +105,19 @@ struct MyPageView: View {
                                 .resizable()
                                 .aspectRatio(1.0, contentMode: .fit)
                                 .foregroundColor(selection == .reviewed ? .primary : .secondary)
-                                .frame(height: 25.0)
+                                .frame(height: 23.0)
                             
-                            Text("Reviewed")
+                            Text("Comment")
                                 .foregroundColor(selection == .reviewed ? .primary : .secondary)
                                 .font(.system(size: 15))
+                                .padding(.top, -3)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
+
+                    Divider()
+                        .frame(height: 33.0)
+                        .padding(.top, -7)
                     
                     Button {
                         selection = .liked
@@ -113,11 +127,12 @@ struct MyPageView: View {
                                 .resizable()
                                 .aspectRatio(1.0, contentMode: .fit)
                                 .foregroundColor(selection == .liked ? .primary : .secondary)
-                                .frame(height: 25.0)
+                                .frame(height: 22.0)
                             
                             Text("Liked")
                                 .foregroundColor(selection == .liked ? .primary : .secondary)
                                 .font(.system(size: 15))
+                                .padding(.top, -4)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -131,7 +146,7 @@ struct MyPageView: View {
                         Divider()
                         Spacer()
                         // TODO: 문구 수정하기
-                        Text("Did not write a **review.**")
+                        Text("Did not write a **comment.**")
                             .multilineTextAlignment(.center)
                         Spacer()
                         Spacer()

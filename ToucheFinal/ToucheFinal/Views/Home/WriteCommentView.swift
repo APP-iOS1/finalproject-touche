@@ -74,7 +74,7 @@ struct WriteCommentView: View {
                     .padding([.leading, .top], 8)
                 }
                 .padding(5)
-                .frame(width: 330, height: 130)
+                .frame(width: UIScreen.main.bounds.width - 30, height: 130)
                 .overlay(
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(.gray, lineWidth: 0.5)
@@ -113,7 +113,7 @@ struct WriteCommentView: View {
                     }
                 }label: {
                     Text("Post Comment")
-                        .frame(width: 330, height: 46)
+                        .frame(width: UIScreen.main.bounds.width - 30, height: 46)
                         .background(manager.reviewText.isEmpty || score < 1 ? .gray : .black)
                         .foregroundColor(.white)
                         .cornerRadius(7)

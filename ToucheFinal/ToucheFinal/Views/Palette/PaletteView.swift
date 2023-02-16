@@ -167,12 +167,16 @@ struct PaletteView: View {
             .padding(.top, 0.1)
             .onAppear {
                 Task {
-                    if let userId = userInfoStore.user?.uid {
+                    
+                    if userInfoStore.user?.isEmailVerified ?? false {
+                        print("true 실행")
+                        let userId = userInfoStore.user?.uid ?? ""
                         await perfumeStore.readLikedPerfumes(userId: userId)
                         if perfumeStore.likedPerfumes.isEmpty {
                             guard let randomScentType = userSelectedScentType.randomElement() else {return}
                             setMaxCountScentType(scentType: randomScentType)
                         } else {
+                            print("false 실행")
                             for perfume in perfumeStore.likedPerfumes {
                                 scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
                             }
