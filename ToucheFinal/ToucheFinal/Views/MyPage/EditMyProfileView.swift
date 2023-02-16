@@ -116,23 +116,23 @@ struct EditMyProfileView: View {
                             .keyboardType(.alphabet)
                             .modifier(KeyboardTextField())
                         // 닉네임 변경시, 닉네임 개수 0이상 20미만, 닉네임중복 아닐경우 true.
-//                            .onChange(of: editNickname) { value in
-//                                if editNickname.count > 0 && editNickname.count < 20 {
-//                                    self.editIsValid = true
-//                                } else {
-//                                    self.editIsValid = false
-//                                }
-//                            }
+                        //                            .onChange(of: editNickname) { value in
+                        //                                if editNickname.count > 0 && editNickname.count < 20 {
+                        //                                    self.editIsValid = true
+                        //                                } else {
+                        //                                    self.editIsValid = false
+                        //                                }
+                        //                            }
                             .onReceive(Just($editNickname.value)) { val in  //  ref: https://eunjin3786.tistory.com/412
                                 print("val: \(val.wrappedValue)")
                                 
                                 //if (val.wrappedValue != "") {
-                                    
-                                    let nickname = val.wrappedValue
-                                    
-                                    //userNickname = nickname
-                                    userInfoStore.userNickname = nickname
-                                    
+                                
+                                let nickname = val.wrappedValue
+                                
+                                //userNickname = nickname
+                                userInfoStore.userNickname = nickname
+                                
                                 //}
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -194,10 +194,10 @@ struct EditMyProfileView: View {
                     }
                 }
                 .padding(.bottom, 20)
-                    Divider()
-                        //.frame(minWidth: .infinity)
-                    Spacer()
-                }
+                Divider()
+                //.frame(minWidth: .infinity)
+                Spacer()
+            }
             .fullScreenCover(isPresented: $showGallerySheet){
                 ImagePicker(sourceType: .photoLibrary, selectedImage: self.$editImage)}
             .fullScreenCover(isPresented: $showCameraSheet) {
@@ -210,7 +210,7 @@ struct EditMyProfileView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done"){
+                    Button("Done") {
                         Task {
                             // TODO: 닉네임 수정시 중복확인하는 부분
                             /*
@@ -228,10 +228,9 @@ struct EditMyProfileView: View {
                             //                                editNation = editNation
                             
                             //MARK: - 닉네임 Update Method 호출
-
-                            await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editNickname.value)
-                              }
-
+                            /*
+                             await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editNickname.value)
+                             */
                             
                             //MARK: - 기존 버전
                             /*
@@ -240,58 +239,58 @@ struct EditMyProfileView: View {
                             
                             //  isChangedImage 얘에 변화가 감지 되었을 때,
                             //if (isChangedImage == true) {   //  isChangedImage
-                                //MARK: - (바꾼 버전) editImage를 png화 하여 사진을 Upload하는 (Storage로) 메서드를 호출하고 그 메서드의 반환 타입은 String
-                                
-                                let strImg: String = await userInfoStore.uploadPhoto(editImage.jpegData(compressionQuality: 0.5))   //  JPEG화
-                                
-                                print("strImg: \(strImg)")
-                                
-                            if (userInfoStore.userNickname != "") {
+                            //MARK: - (바꾼 버전) editImage를 png화 하여 사진을 Upload하는 (Storage로) 메서드를 호출하고 그 메서드의 반환 타입은 String
+                            
+                            let strImg: String = await userInfoStore.uploadPhoto(editImage.jpegData(compressionQuality: 0.5))   //  JPEG화
+                            
+                            print("strImg: \(strImg)")
+                            
+                            if (editNickname.value != "") {
                                 
                                 await userInfoStore.updateUserProfile(uid: userInfoStore.user?.uid ?? "", nickname: editNickname.value, nation: editNation, userProfileImageUrl: strImg)   //  strImg[0] -> strImg
                                 
                             }
-                                
-                                //MARK: - User 컬렉션 doc의 'userProfileImage'에 위의 strImg 값을 넘겨줘서 저장
-                                //let val: String = await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg)
-                                
-                                //print("val: \(val)")
-                                
-                                /*
-                                 let imageUrl = URL(string: val)!
-                                 
-                                 //MARK: - Runtime 시점에 오류 발생!
-                                 //  ref: https://www.inflearn.com/questions/748436/synchronous-url-loading-%EC%98%A4%EB%A5%98
-                                 
-                                 //  ref: https://www.reddit.com/r/swift/comments/5m0tdb/is_it_possible_to_convert_url_to_uiimage/
-                                 let imageData = try! Data(contentsOf: imageUrl)
-                                 
-                                 let image = UIImage(data: imageData)
-                                 
-                                 if let img = image {
-                                 
-                                 editImage = img
-                                 }
-                                 */
-                                
-                                //MARK: - Runtime 에러 URLSession으로 해결
-//                                if let imageUrl = URL(string: val) {
-//
-//                                    URLSession.shared.dataTask(with: imageUrl, completionHandler: { data, _, _ in
-//
-//                                        guard let imageData = data else { return }
-//
-//                                        DispatchQueue.main.async {  //  UI처리는 무조건 main thread에서 작업한다!
-//
-//                                            let image = UIImage(data: imageData)
-//
-//                                            if let img = image {
-//
-//                                                editImage = img
-//                                            }
-//                                        }
-//                                    })
-//                                }
+                            
+                            //MARK: - User 컬렉션 doc의 'userProfileImage'에 위의 strImg 값을 넘겨줘서 저장
+                            //let val: String = await userInfoStore.setProfilePhotoUrl(uid: userInfoStore.user?.uid ?? "", userProfileImageUrl: strImg)
+                            
+                            //print("val: \(val)")
+                            
+                            /*
+                             let imageUrl = URL(string: val)!
+                             
+                             //MARK: - Runtime 시점에 오류 발생!
+                             //  ref: https://www.inflearn.com/questions/748436/synchronous-url-loading-%EC%98%A4%EB%A5%98
+                             
+                             //  ref: https://www.reddit.com/r/swift/comments/5m0tdb/is_it_possible_to_convert_url_to_uiimage/
+                             let imageData = try! Data(contentsOf: imageUrl)
+                             
+                             let image = UIImage(data: imageData)
+                             
+                             if let img = image {
+                             
+                             editImage = img
+                             }
+                             */
+                            
+                            //MARK: - Runtime 에러 URLSession으로 해결
+                            //                                if let imageUrl = URL(string: val) {
+                            //
+                            //                                    URLSession.shared.dataTask(with: imageUrl, completionHandler: { data, _, _ in
+                            //
+                            //                                        guard let imageData = data else { return }
+                            //
+                            //                                        DispatchQueue.main.async {  //  UI처리는 무조건 main thread에서 작업한다!
+                            //
+                            //                                            let image = UIImage(data: imageData)
+                            //
+                            //                                            if let img = image {
+                            //
+                            //                                                editImage = img
+                            //                                            }
+                            //                                        }
+                            //                                    })
+                            //                                }
                             //}
                             
                             await userInfoStore.fetchUser(user: userInfoStore.user)
@@ -302,7 +301,7 @@ struct EditMyProfileView: View {
                     
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
                     // TODO: Location 구현 후 비활성화 설정하기
-//                    .disabled(!editIsValid)
+                    //                    .disabled(!editIsValid)
                 }
             }
             .navigationTitle(Text("Edit Profile"))
