@@ -16,7 +16,6 @@ struct MyPageView: View {
     //  @State private var image: UIImage = UIImage()
     @State private var userNickname: String = ""
     @State private var showEditMyProfileView = false
-    @State private var nation: String = ""
     @State private var rotation: Double = 0
     
     @Environment(\.dismiss) var dismiss
@@ -25,7 +24,7 @@ struct MyPageView: View {
     @EnvironmentObject var perfumeStore: PerfumeStore
     
     @State private var selection: Selection = .reviewed
-
+    
     let columns: [GridItem] = .init(repeating: .init(.flexible(), spacing: 4.0), count: 3)
     
     enum Selection {
@@ -61,11 +60,9 @@ struct MyPageView: View {
                     
                     HStack{
                         Text(userInfoStore.userInfo?.userNickName ?? "")
-                        Text(nation)
-                        //  Text(userInfoStore.userInfo?.userNation.flag() ?? "")
+                        //  Text(nation)
+                        Text(userInfoStore.userInfo?.userNation.flag() ?? "")
                     }
-                    
-                    
                     
                     Button {
                         showEditMyProfileView.toggle()
@@ -73,6 +70,8 @@ struct MyPageView: View {
                         Text("Edit Profile")
                             .frame(width: UIScreen.main.bounds.width - 310, height: 30)
                             .font(.footnote)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.4)
                             .foregroundColor(.black)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 5).stroke(Color.black, lineWidth: 0.5)
@@ -84,16 +83,16 @@ struct MyPageView: View {
                         //EditMyProfileView()
                         
                         /*
-                        EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
+                         EditMyProfileView(image: $image, userNickname: $userNickname, userNation: $nation)
                          */
-                        
-                        EditMyProfileView(userNickname: $userNickname, userNation: $nation)
+                                                
+                        EditMyProfileView()
                     }
                     
                 } // GROUP
                 
                 Divider()
-                    //.padding(.bottom, 0)
+                //.padding(.bottom, 0)
                 
                 // CONTENT SECTION
                 HStack(alignment: .center, spacing: 20) {
@@ -114,7 +113,7 @@ struct MyPageView: View {
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
-
+                    
                     Divider()
                         .frame(height: 33.0)
                         .padding(.top, -7)
@@ -146,7 +145,7 @@ struct MyPageView: View {
                         Divider()
                         Spacer()
                         // TODO: 문구 수정하기
-                        Text("Did not write a **comment.**")
+                        Text("No **comments** have been created.")
                             .multilineTextAlignment(.center)
                         Spacer()
                         Spacer()
@@ -173,7 +172,7 @@ struct MyPageView: View {
                         Divider()
                         Spacer()
                         // TODO: 문구 수정하기
-                        Text("You don't have **any perfume**\n that you **really like?**")
+                        Text("You don't have a **perfume**\n that you **like** yet.")
                             .multilineTextAlignment(.center)
                         Spacer()
                         Spacer()
@@ -195,7 +194,7 @@ struct MyPageView: View {
                                                     .tint(.primary)
                                             }
                                     }
-
+                                    
                                 }
                             }
                             .padding(.vertical, 8.0)
@@ -236,11 +235,9 @@ struct MyPageView: View {
                 userNickname = await userInfoStore.getNickName(uid: user.uid)
                 
                 await userInfoStore.fetchUser(user: user)
-                print(userInfoStore.userInfo)
+                //print(userInfoStore.userInfo)
                 
                 await userInfoStore.readWrittenComments()
-                
-                nation = await userInfoStore.getProfileNationality(uid: user.uid)
             }
         } // NAVIGATION
         .refreshable {

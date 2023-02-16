@@ -101,11 +101,7 @@ struct CommentCell: View {
                         .padding(.leading, -3)
                 }
             }
-            .alert(
-                "Delete"
-                ,isPresented: $deleteAlertActive
-            ) {
-                Button("Cancel", role: .cancel) {}
+            .alert( "Delete",isPresented: $deleteAlertActive) {
                 Button("Delete", role: .destructive) {
                     Task {
                         await perfumeStore.deletePerfumeComment(perfumeId: perfume.perfumeId, score: comment.perfumeScore)
@@ -116,7 +112,7 @@ struct CommentCell: View {
                     }
                 }
             } message: {
-                Text("Are you sure you want to delete the review?")
+                Text("Are you sure you want to delete the comment?")
             }
             .sheet(isPresented: $isShowingWriteComment) {
                 WriteCommentView(score: comment.perfumeScore, isShowingWriteComment: $isShowingWriteComment, perfume: $perfume, reviewText: comment.contents, commentId: comment.commentId)

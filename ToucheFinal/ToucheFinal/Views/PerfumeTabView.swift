@@ -45,7 +45,7 @@ struct PerfumeTabView: View {
                     }
                     Spacer()
                     Divider()
-                        .offset(y: -8)
+//                        .offset(y: -8)
                     HStack{
                         Spacer()
                         
@@ -72,19 +72,21 @@ struct PerfumeTabView: View {
                             Spacer()
                         }
                     }
-                    .padding(.top, 12)
-                    .padding(.bottom, 5)
+                    .padding([.top, .bottom], 10)
                 }
                 .onAppear {
                     print(selectedColors)
                     fetchPerfumeNamesToUserDefaults()
                 }
+
             } // else
             }
         }
         .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                 isLoading.toggle()
+
+                //.padding(.bottom, 10)
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)

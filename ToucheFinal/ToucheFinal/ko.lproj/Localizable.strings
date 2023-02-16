@@ -54,7 +54,7 @@
 "To use more features" = "더 많은 기능을 이용하고 싶다면";
 "Sign In" = "로그인";
 "Sign Up" = "회원가입";
-"You can write reviews of perfumes you have used." = "로그인하시면 가진 향수에 대한 리뷰를 남길 수 있습니다.";
+"You can write comments of perfumes you have used." = "로그인 하시면 향수에 대한 리뷰를 남길 수 있습니다.";
 "Password" = "비밀번호";
 "Enter Email" = "이메일을 입력하세요.";
 "Enter Password" = "비밀번호를 입력하세요.";
@@ -72,17 +72,48 @@
 "Japan" = "일본";
 "Republic Of Korea" = "대한민국";
 "United States" = "미국";
-"Brand" = "브랜드";
 "01 Brand" = "01 브랜드";
 "02 Color" = "02 컬러";
 "Clear" = "초기화";
 "Apply" = "적용하기";
 "Result" = "결과";
 "Edit" = "변경";
-// MARK: 영/한 문구 검토 부탁드립니다.
-"Did not write a **review.**" = "작성한 리뷰가 없습니다.";
-"You don't have **any perfume**\n that you **really like?**" = "하트를 누른 향수가 없습니다.";
-//
+"No comments have been created." = "작성한 리뷰가 없습니다.";
+"You don't have a perfume that you like yet." = "하트를 누른 향수가 없습니다.";
+"Result" = "결과";
+"There are **No products** registered." = "등록된 향수가 없습니다.";
+"View Comments" = "댓글 보기";
+"Leave your review" = "댓글 작성하기";
+"Magazine" = "매거진";
+"Version" = "버전";
+"Enter Password again" = "비밀번호를 한번 더 입력하세요.";
+"Enter Nick Name" = "닉네임을 입력하세요.";
+"NickName" = "닉네임";
+"Please enter a valid email." = "올바른 이메일을 입력하세요.";
+"Confirm your password" = "비밀번호 확인";
+"This app is not helpful." = "이 앱은 도움이 되지 않습니다.";
+"Can't find right produncts." = "올바른 제품을 찾을 수 없습니다.";
+"Too busy / Too distracting." = "너무 바쁘다 / 너무 산만하다.";
+"Enter directly." = "직접 작성하기";
+"RECENT SEARCHES" = "최근 검색어";
+"perfume" = "향수";
+"more" = "더보기";
+"At least __One Color__ must be selected" = "적어도 한 개의 컬러는 선택해야 합니다.";
+"You can select up to 10 brands." = "10개까지 선택할 수 있습니다.";
+"You can select up to 10 colors." = "10개까지 선택할 수 있습니다.";
+"See you again!" = "다음에 또 봐요!";
+"Sign out complete." = "로그아웃 되었습니다.";
+"Welcome to Touché !" = "Touché에 오신것을 환영합니다!";
+"Sign in Success" = "로그인 성공!";
+"Change from Gallery" = "사진에서 고르기";
+"Take Photo" = "사진찍기";
+"Notice" = "경고";
+"Try registering as a member." = "로그인을 해보세요";
+"Brand " = "브랜드 ";
+/// enum 또는 구조체라 안바뀜..
+"Sign In" = "로그인";
+"Sign Up" = "회원가입";
+///
 "Touché Privacy Policy" = "Touché 개인정보 보호정책";
 "(1) Privacy Processing"  = "(1) 개인정보 처리";
 "The protection of natural persons in relation to the processing of personal data is a fundamental right. Article 8(1) of the Charter of Fundamental Rights of the European Union (the 'Charter') and Article 16(1) of the Treaty on the Functioning of the European Union (TFEU) provide that everyone has the right to the protection of personal data concerning him or her." = "개인정보처리의 보호는 개인의 기본적인 권리이다. 유럽연합 기본권 헌장(이하 ‘헌장’) 제8조 (1)항과 유럽연합기능조약(이하 TFEU)의 제 16조 (1)항에서는 모든 사람은 본인의 개인정보를 보호할 권리가 있다고 규정하고 있다.";
@@ -121,12 +152,15 @@
 "The Service contract is concluded when the user agrees to this Terms and Conditions and applies for Service use after completing the entered matter, and the Touché team approves the application." = "서비스 계약은 이용자가 본 약관에 동의하여 입력한 사항을 완료한 후 서비스 이용을 신청하고, Touché 팀이 승인하면 체결됩니다.";
 "Do you have any complaints?" = "불만사항이 있으십니까?";
 "If you want to delete account,\nPlease fill in the space below." = "계정을 삭제하고 싶으십니까?\n아래 내용을 확인해주세요.";
-"Account ID:" = "사용자 아이디:";
+"Account ID: " = "사용자 아이디: ";
 "Reason:" = "탈퇴 사유:";
 "This app is not helpful." = "이 앱이 유용하지 않습니다.";
 "Can't find right products." = "적절한 상품을 찾을 수 없습니다.";
 "Too busy / Too distracting." = "너무 바쁩니다.";
 "Enter directly." = "사유를 직접 입력합니다.";
 "Provide reason." = "탈퇴 사유를 입력해주세요.";
+"You already wrote a comment with the same account." = "이미 같은 계정으로 코멘트를 입력했습니다.";
+"Leave your comment" = "리뷰 남기기";
+"Are you sure you want to delete the comment?" = "리뷰를 삭제하시겠습니까?";
 
 
