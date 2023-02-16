@@ -1,10 +1,35 @@
 # 뚜셰 (Touché)
 
-```
-- 프로젝트 소개
-- 향수에 대해 관심을 갖기 시작해, 다양한 향수 정보르 얻고 싶은 사람
-- 기본적인 향수 정보, 시각화 정보를 제공해 향수 정보를 보다 직관적으로 알 수 있도록 돕는 앱니다.
-```
+<img width="800" alt="allScreen" src="https://user-images.githubusercontent.com/75517368/219392322-dbeaf347-a664-4614-afa7-f20f3f62499d.png">
+
+## 프로젝트 소개 
+
+
+> `향수`에 대해 관심을 갖기 시작해, 다양한 `향수` 정보를 얻고 싶은 사람을 위한
+> 기본적인 `향수` 정보, 시각화 정보를 제공해 `향수` 정보를 보다 직관적으로 알 수 있도록 돕는 `뚜셰(Touché)`앱니다.
+
+
+
+## Skills & Tech Stack
+
+<p>
+  <h4>개발</h4>
+    <span>
+      <img src="https://img.shields.io/badge/16.0+-FF6000?style=flat-square&logo=iOS&logoColor=white"/>
+      <img src="https://img.shields.io/badge/Swift-F05138?style=flat-square&logo=swift&logoColor=white"/>
+      <img src="https://img.shields.io/badge/SwiftUI-0061b7?style=flat-square&logo=swift&logoColor=white"/>
+      <img src="https://img.shields.io/badge/Xcode 14.2-147EFB?style=flat-square&logo=xcode&logoColor=white"/>
+      <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&logoColor=orange"/>
+    </span>
+  <br/>
+  <h4>협업 / 디자인</h4>
+    <span>
+      <img src="https://img.shields.io/badge/Github-000000?style=flat-square&logo=github&logoColor=white"/>
+      <img src="https://img.shields.io/badge/Jira-0052CC?style=flat-square&logo=Jira&logoColor=white"/>
+      <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=Figma&logoColor=white"/>
+    </span>
+    
+</p>
 
 
 ## 컨벤션
@@ -20,10 +45,50 @@
 ```
 
 
-## 주요기능과 스크린샷
+### 🗂 Folder Structure
 
-## 프로젝트 정보
-- 설치/실행 방법
+```
+
+📦ToucheFinal
+ ┣ 📂ToucheFinal
+ ┃ ┣ 📂Assets.xcassets
+ ┃ ┣ 📂Extension
+ ┃ ┣ 📂Info 2.bundle
+ ┃ ┣ 📂Info.bundle
+ ┃ ┣ 📂Models
+ ┃ ┣ 📂Preview Content
+ ┃ ┣ 📂Store
+ ┃ ┣ 📂Util
+ ┃ ┣ 📂Views
+ ┃ ┣ 📂ko.lproj
+ ┃ ┣ 📜GoogleService-Info.plist
+ ┃ ┣ 📜Info.plist
+ ┃ ┣ 📜Language.swift
+ ┃ ┗ 📜ToucheFinalApp.swift
+ ┣ 📂ToucheFinal.xcodeproj
+ ┗ 📜.DS_Store
+ 
+```
+
+### 🎁 Library
+
+| Name              | Version |       |
+| ----------------- | :-----: | ----- |
+| Firebase          | `9.0.0` | `SPM` |
+| SegmentedPicker   | `0.0.2` | `SPM` |
+| SDWebImageSwiftUI | `2.2.2` | `SPM` |
+| SwiftSoup         | `2.5.3` | `SPM` |
+| Magnetic          | `3.3.1` | `SPM` |
+| AlertToast        | `1.3.9` | `SPM` |
+
+
+## 📱구동 화면
+|<img src="https://user-images.githubusercontent.com/75517368/219413852-03144177-b5a6-4a64-b6e8-ac923a07a995.gif"></img>|<img src="https://user-images.githubusercontent.com/75517368/219417785-55aa35b3-71f9-4dcd-b75b-40712233f937.gif"></img>|<img src="https://user-images.githubusercontent.com/75517368/219420778-1ea0452a-8916-4fa5-aa9a-a0fdbfaa4626.gif"></img>|<img src="https://user-images.githubusercontent.com/75517368/219418446-517eb3e9-1ff3-4ea6-b3ea-78543dea39f3.gif"></img>|
+|:-:|:-:|:-:|:-:|
+|`온보딩뷰`|`매거진`|`필터뷰`|`서치뷰`|
+|<img src="https://user-images.githubusercontent.com/75517368/219419611-21239f0a-db05-4815-b0d6-f9c3aab6c529.gif"></img>|<img src="https://user-images.githubusercontent.com/75517368/219418027-d7ea9af1-d0f9-4c47-9475-ccc092e73655.gif"></img>|<img src="https://user-images.githubusercontent.com/75517368/219421290-32534b15-fbeb-496c-ac24-28e6f9ed575e.gif"></img>|<img src="https://user-images.githubusercontent.com/75517368/219423206-244380a6-50d7-422c-8bf6-1cbfdfe7578f.gif"></img>|
+|`향수 상세보기`|`팔레트`|`프로필`|`로그인 및 회원가입`|
+<br>
 
 ## 참여자
 | <img src="https://avatars.githubusercontent.com/u/114036537?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/75517368?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/99034396?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/68586179?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/48742019?v=4" width=200> |
@@ -37,3 +102,5 @@
 | 석진<br/>[@tjrwls](https://github.com/tjrwls)<br/> | 운상<br/>[@wschooo](https://github.com/wschooo)<br/> | 진표<br/> [@jphong1005](https://github.com/jphong1005)<br/> | 유진<br/>[@yooj1202](https://github.com/yooj1202)<br/> | 뚜셰<br/>[Touché](https://github.com/)<br/> |
 
 ## 라이센스
+
+[MIT](https://choosealicense.com/licenses/mit/)
