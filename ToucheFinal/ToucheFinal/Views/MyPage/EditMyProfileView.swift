@@ -141,7 +141,21 @@ struct EditMyProfileView: View {
                                 VStack {
                                     Spacer()
                                     Rectangle().frame(height: 0.8)
-                                        .foregroundColor(Color(uiColor: (editNickname.value.count > 12) || editNickname.value.isEmpty ? .red : .systemGray5 ))
+                                        .foregroundColor((editNickname.value.isEmpty) || (editNickname.value.count > 12) ? Color(uiColor: .red) : Color(uiColor: .systemGray5))
+                                        .overlay {
+                                            if (editNickname.value.isEmpty) || (editNickname.value.count > 12) {
+                                                HStack {
+                                                    Text("Nickname can not be blank!")
+                                                        .font(.system(size: 10))
+                                                        .offset(y: 6)
+                                                        .padding(.leading, 10)
+                                                        .foregroundColor(.red)
+                                                        .kerning(1)
+                                                    
+                                                    Spacer()
+                                                }
+                                            }
+                                        }
                                 }
                             )
                             .padding(.trailing, 11)
@@ -162,6 +176,7 @@ struct EditMyProfileView: View {
                             ForEach(0 ..< 5) { idx in
                                 Button {
                                     editNation = nation[idx]
+                                    print(editNation)
                                 } label: {
                                     Text(nation[idx])
                                         .overlay(
@@ -199,26 +214,28 @@ struct EditMyProfileView: View {
                         Task {
                             // TODO: 닉네임 수정시 중복확인하는 부분
                             /*
-                            do {
-                                let target = try await userInfoStore.isNicknameDuplicated(nickName: editName)
-                                nickNameCheck = target
-                            } catch {
-                                throw(error)
-                            }
+                             do {
+                             let target = try await userInfoStore.isNicknameDuplicated(nickName: editName)
+                             nickNameCheck = target
+                             } catch {
+                             throw(error)
+                             }
                              */
                             
-                            //if editIsValid && nickNameCheck == false {
-                                // 수정 완료 기능
-//                                userNickname = editName
-//                                editNation = editNation
+                            //if editNickname.value == "" {
+                            // 수정 완료 기능
+                            //                                userNickname = editName
+                            //                                editNation = editNation
                             
                             //MARK: - 닉네임 Update Method 호출
-                            //await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editNickname.value)
-//                            }
+
+                            await userInfoStore.updateUserNickName(uid: Auth.auth().currentUser?.uid ?? "", nickname: editNickname.value)
+                              }
+
                             
                             //MARK: - 기존 버전
                             /*
-                            let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
+                             let strImg = await userInfoStore.uploadPhoto([editImage.pngData() ?? Data()])
                              */
                             
                             //  isChangedImage 얘에 변화가 감지 되었을 때,
@@ -226,7 +243,7 @@ struct EditMyProfileView: View {
                                 //MARK: - (바꾼 버전) editImage를 png화 하여 사진을 Upload하는 (Storage로) 메서드를 호출하고 그 메서드의 반환 타입은 String
                                 
                                 let strImg: String = await userInfoStore.uploadPhoto(editImage.jpegData(compressionQuality: 0.5))   //  JPEG화
-
+                                
                                 print("strImg: \(strImg)")
                                 
                             if (userInfoStore.userNickname != "") {
@@ -275,23 +292,13 @@ struct EditMyProfileView: View {
 //                                        }
 //                                    })
 //                                }
-                            //} else {
-                                
-                                //print("Nope!")
-                                
-                                //await userInfoStore.updateUserProfile(uid: userInfoStore.user?.uid ?? "", nickname: editNickname.value, nation: editNation, userProfileImageUrl: "")
                             //}
-                            
-                            /*
-                             await userInfoStore.setProfileNationality(uid: userInfoStore.user?.uid ?? "", nation: userNation)
-                             */
                             
                             await userInfoStore.fetchUser(user: userInfoStore.user)
                             
                             dismiss()
                         }
                     }
-                    //  .disabled(editImage == UIImage())
                     
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
                     // TODO: Location 구현 후 비활성화 설정하기
@@ -351,7 +358,6 @@ extension String {
 struct EditMyProfileView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            //  EditMyProfileView(userNickname: .constant(""), userNation: .constant(""))
             EditMyProfileView()
                 .environmentObject(UserInfoStore())
                 .previewDevice("iPhone 13 mini")

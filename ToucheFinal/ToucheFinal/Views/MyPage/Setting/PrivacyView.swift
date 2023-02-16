@@ -10,7 +10,7 @@ import SwiftUI
 struct PrivacyView: View {
     
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         
         NavigationView{
@@ -20,13 +20,11 @@ struct PrivacyView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 200, height: 50)
+                    Divider()
+                        .frame(width: 200)
                     
                     VStack(alignment: .leading){
                         Group{
-                            Text("Touché Privacy Policy")
-                                .fontWeight(.semibold)
-                                .font(.system(size: 19))
-                                .padding(.bottom, 7)
                             
                             Text("(1) Privacy Processing")
                                 .modifier(Title())
@@ -76,6 +74,7 @@ struct PrivacyView: View {
                     }
                     .padding()
                 }
+                .navigationBarTitle("Privacy Policy", displayMode: .inline)
                 .toolbar{
                     ToolbarItem(placement: .navigationBarLeading){
                         Button {
@@ -87,6 +86,7 @@ struct PrivacyView: View {
                     }
                 }
             }
+            .navigationBarTitle("Privacy policy", displayMode: .inline)
         }
     }
 }

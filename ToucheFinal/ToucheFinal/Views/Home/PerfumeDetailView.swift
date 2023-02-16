@@ -66,31 +66,17 @@ struct PerfumeDetailView: View {
                 } // VSTACK
             } // SCROLL
         } // READER
-        .alert(
-            """
-            Sign in to favorite your products
-            """
-            ,isPresented: $loginAlertActive
-        ) {
-            Button("Cancel", role: .cancel) {}
-            Button {
+        .alert("Sign in to favorite your products",isPresented: $loginAlertActive) {
+            Button("Cancel") {}
+            Button("Sign In") {
                 navLinkActive = true
-            } label: {
-                Text("Sign In")
             }
         }
-        .alert(
-            """
-            You already wrote a review with the same account.
-            """
-            ,isPresented: $isCheckedReview
-        ) {
-            Button("OK", role: .cancel) {}
+        .alert("You already wrote a review with the same account.",isPresented: $isCheckedReview) {
+            Button("OK") {}
         }
-
         .sheet(isPresented: $isShowingWriteComment, content: {
             WriteCommentView(score: 0, isShowingWriteComment: $isShowingWriteComment, perfume: $perfume, reviewText: "", commentId: "")
-//                .presentationDetents([.medium])
                 .presentationDetents([.height(viewSize > 375 ? 450 : 450)])
         })
         .modifier(SignInFullCover(isShowing: $navLinkActive))
@@ -115,8 +101,30 @@ struct PerfumeDetailView: View {
             }
             print(perfume.perfumeId)
         }
-        
-        
+        .onDisappear {
+            Task {
+                if userInfoStore.user != nil {    //  로그인
+                    await userInfoStore.fetchUser(user: userInfoStore.user)
+                    guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
+                    if !recentlyPerfumesId.isEmpty {
+                        await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                    }
+                } else {    //  비로그인
+                    let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+                    if !recentlyPerfumesId.isEmpty {
+                        await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                    }
+                }
+                let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+                let perfumesId = setRecomendedPerfumesId(perfumesId: selectedScentTypes)
+                await perfumeStore.readRecomendedPerfumes(perfumesId: perfumesId)
+                await perfumeStore.readMostCommentsPerfumes()
+            }
+        }
+    }
+    
+    func setRecomendedPerfumesId(perfumesId: [String]) -> [String] {
+        return Array(perfumesId.prefix(10))
     }
 }
 
@@ -254,7 +262,7 @@ private extension PerfumeDetailView {
                     .font(.caption)
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("Leave your review")
+                Text("Leave your comment")
                     .underline()
                     .onTapGesture(perform: {
                         switch userInfoStore.user?.isEmailVerified ?? false {
@@ -282,7 +290,7 @@ private extension PerfumeDetailView {
     /// Comment를 남길수 있는 뷰
     func commentView() -> some View {
         // MARK: - Comments
-        ScrollView {
+        VStack {
             // Comments
             ForEach(commentStore.comments, id: \.self) { comment in
                 Divider()
