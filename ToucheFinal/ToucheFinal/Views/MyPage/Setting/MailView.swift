@@ -21,7 +21,7 @@ struct MailView: View {
                 mail.mailComposeDelegate = self
                 mail.setToRecipients(["yujin0552@naver.com"])
 
-                UIApplication.shared.windows.last?.rootViewController?.present(mail, animated: true, completion: nil)
+                //UIApplication.shared.windows.last?.rootViewController?.present(mail, animated: true, completion: nil)
             } else {
                 // Alert
             }

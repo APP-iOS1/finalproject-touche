@@ -25,7 +25,7 @@ struct SettingView: View {
     @State var showPrivacyPolicyView: Bool = false
     @State var showTermsandConditionsView: Bool = false
     @State var showVersionView: Bool = false
-    @State var showLicensesView: Bool = false
+    @State var showAcknowledgementsView: Bool = false
     
     var body: some View {
         NavigationView {
@@ -94,18 +94,22 @@ struct SettingView: View {
                             .font(.system(size: 20))
                             .fontWeight(.bold)
                             .padding(.top,50)
+                        
+                        
+                        Button("Acknowledgements"){
+                            showAcknowledgementsView.toggle()
+                        }
+                        .fullScreenCover(isPresented: $showAcknowledgementsView){
+                            AcknowledgementsView()
+                        }
+                        
                         Button("Version"){
                             showVersionView.toggle()
                         }
                         .fullScreenCover(isPresented: $showVersionView){
                             VersionView()
                         }
-                        Button("Licenses"){
-                            showLicensesView.toggle()
-                        }
-                        .fullScreenCover(isPresented: $showLicensesView){
-                            //라이센스뷰()
-                        }
+                        
                     }
                     }
                     .listStyle(.plain)

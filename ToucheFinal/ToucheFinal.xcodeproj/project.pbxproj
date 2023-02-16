@@ -40,6 +40,7 @@
 		61FE13232977D7A9003F0466 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13222977D7A8003F0466 /* RatingView.swift */; };
 		61FE13252977DC3F003F0466 /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FE13242977DC3F003F0466 /* SearchFilterView.swift */; };
 		653CE9C3299D2EFD009EE313 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653CE9C2299D2EFD009EE313 /* MailView.swift */; };
+		653CE9C5299D5654009EE313 /* AcknowledgementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653CE9C4299D5654009EE313 /* AcknowledgementsView.swift */; };
 		653F875929967D70009AB5BE /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F875829967D70009AB5BE /* Language.swift */; };
 		6550DD35299A1AFA004AF206 /* ContactUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550DD34299A1AFA004AF206 /* ContactUsView.swift */; };
 		6550DD37299A1B1E004AF206 /* TermsandConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550DD36299A1B1E004AF206 /* TermsandConditionsView.swift */; };
@@ -133,6 +134,7 @@
 		61FE13222977D7A8003F0466 /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RatingView.swift; path = ToucheFinal/Views/RatingView.swift; sourceTree = SOURCE_ROOT; };
 		61FE13242977DC3F003F0466 /* SearchFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilterView.swift; sourceTree = "<group>"; };
 		653CE9C2299D2EFD009EE313 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
+		653CE9C4299D5654009EE313 /* AcknowledgementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgementsView.swift; sourceTree = "<group>"; };
 		653F875829967D70009AB5BE /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		6550DD34299A1AFA004AF206 /* ContactUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsView.swift; sourceTree = "<group>"; };
 		6550DD36299A1B1E004AF206 /* TermsandConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsandConditionsView.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				653CE9C2299D2EFD009EE313 /* MailView.swift */,
 				6550DD34299A1AFA004AF206 /* ContactUsView.swift */,
 				6550DD3C299C7908004AF206 /* VersionView.swift */,
+				653CE9C4299D5654009EE313 /* AcknowledgementsView.swift */,
 				656A00EA29792FFD002E37E6 /* SelectNationView.swift */,
 				656A00E829792E08002E37E6 /* DeleteAccountView.swift */,
 			);
@@ -588,6 +591,7 @@
 				657A092029765E9C00E5B565 /* CommentStore.swift in Sources */,
 				AA239BAB2991CF0400D834C5 /* SearchQuery.swift in Sources */,
 				61FE13212977D7A1003F0466 /* CommentCell.swift in Sources */,
+				653CE9C5299D5654009EE313 /* AcknowledgementsView.swift in Sources */,
 				2390497E2977920C0097B20A /* GuideView.swift in Sources */,
 				A8BAF8DD297A55FD00D1DDCD /* MyPageMyCommentCell.swift in Sources */,
 				233260DA297775B700771B2A /* SignOutView.swift in Sources */,

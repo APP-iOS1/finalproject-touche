@@ -72,7 +72,13 @@ struct PerfumeDetailView: View {
                 navLinkActive = true
             }
         }
-        .alert("You already wrote a review with the same account.",isPresented: $isCheckedReview) {
+
+        .alert(
+            """
+            You already wrote a comment with the same account.
+            """
+            ,isPresented: $isCheckedReview
+        ) {
             Button("OK") {}
         }
         .sheet(isPresented: $isShowingWriteComment, content: {
