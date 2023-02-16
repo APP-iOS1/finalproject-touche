@@ -26,6 +26,10 @@ struct SignUpView: View {
     @State var nickName: String = ""
     @FocusState private var focusedField: Field?
     @State var sendMailAlertActive: Bool = false
+    @State var isCheckedTermsAndConditions: Bool = false
+    @State var isCheckedPrivacy: Bool = false
+    @State var isShowingSheet: Bool = false
+    @State var modalName = ""
     
     // 이메일 정규식 검사
     var isEmailRuleSatisfied : Bool {
@@ -50,7 +54,7 @@ struct SignUpView: View {
     // 회원가입 버튼
     var isSignUpDisabled: Bool {
         // 조건을 다 만족하면 회원가입 버튼 abled
-        if userInfoStore.isEmailDuplicated == false && isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && isNickNameSatisfied && !password.isEmpty && !checkPassword.isEmpty {
+        if userInfoStore.isEmailDuplicated == false && isEmailRuleSatisfied &&  isPasswordRuleSatisfied && isPasswordSame && isNickNameSatisfied && !password.isEmpty && !checkPassword.isEmpty && isCheckedPrivacy && isCheckedTermsAndConditions {
             return false
         } else { return true }// 하나라도 만족하지 않는다면 disabled
     }
@@ -208,39 +212,102 @@ struct SignUpView: View {
             .padding()
             .textFieldStyle(.roundedBorder)
             
-//            NavigationLink {
-//                ConfirmEmailView()
-//            } label: {
-                Button {
-                    Task {
-                        print("회원가입 버튼")
-                        await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
-                        userInfoStore.isEmailDuplicated = nil
-                        await userInfoStore.sendVerificationEmail()
-                        // 향수 디테일 뷰에서 회원 가입 할때 모달창 디스미스 위한 조건문
-//                        if userInfoStore.loginState == .success {
-                            sendMailAlertActive.toggle()
-                            
-//                        }
-
-                    }
-                } label: {
-                    Text("Sign Up")
-                        .frame(width: UIScreen.main.bounds.width - 30, height: 46)
-                        .background(isSignUpDisabled ? .gray : .black)
-                        .foregroundColor(.white)
-                        .cornerRadius(7)
-                }
-                .disabled(isSignUpDisabled)
-//            }
-
+            //            NavigationLink {
+            //                ConfirmEmailView()
+            //            } label: {
             
-
+            
+            /// 회원 이용 약관: TermsandConditionView
+            ///(Required) I have read and agree to all the terms and conditions. Terms and conditions -> (필수) 약관을 모두 읽고 동의합니다. 이용약관
+            ///
+            /// 개인정보 처리방침: Privacy policy
+            /// (Required) I agree to the collection and use of personal infomation. Privacy policy -> (필수) 개인정보 수집 ・ 이용에 동의합니다. 개인정보 수집 ・ 이용 동의
+            Group {
+                VStack(alignment: .leading, spacing: 15) {
+                    HStack() {
+                        Button {
+                            isCheckedTermsAndConditions.toggle()
+                        } label: {
+                            Label("Checkbox terms and conditions", systemImage: isCheckedTermsAndConditions ? "checkmark.square.fill" : "square")
+                                .labelStyle(.iconOnly)
+                                .font(.title2)
+                                .foregroundColor(isCheckedTermsAndConditions ? .green : .gray)
+                        }
+                        
+                        Text("(Required) I have read and agree to all the terms and conditions. ")
+                            .padding(.leading, 15)
+                    }
+                    Button {
+                        modalName = "terms"
+                        isShowingSheet.toggle()
+                    } label: {
+                        Text("Terms and conditions")
+                            .underline()
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .foregroundColor(.black)
+                    }
+                }
+                .padding(20)
+                
+                VStack(alignment: .leading, spacing: 15) {
+                    HStack() {
+                        Button {
+                            isCheckedPrivacy.toggle()
+                        } label: {
+                            Label("Checkbox privacy policy", systemImage: isCheckedPrivacy ? "checkmark.square.fill" : "square")
+                                .labelStyle(.iconOnly)
+                                .font(.title2)
+                                .foregroundColor(isCheckedPrivacy ? .green : .gray)
+                        }
+                        
+                        
+                        Text("(Required) I agree to the collection and use of personal infomation. ")
+                            .padding(.leading, 15)
+                    }
+                    Button {
+                        modalName = "privacy"
+                        isShowingSheet.toggle()
+                    } label: {
+                        Text("Privacy policy")
+                            .underline()
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .foregroundColor(.black)
+                    }
+                    
+                }
+                .padding(20)
+            }
+            
+            Button {
+                Task {
+                    print("회원가입 버튼")
+                    await userInfoStore.signUp(emailAddress: email, password: password, nickname: nickName)
+                    userInfoStore.isEmailDuplicated = nil
+                    await userInfoStore.sendVerificationEmail()
+                    // 향수 디테일 뷰에서 회원 가입 할때 모달창 디스미스 위한 조건문
+                    //                        if userInfoStore.loginState == .success {
+                    sendMailAlertActive.toggle()
+                    
+                    //                        }
+                    
+                }
+            } label: {
+                Text("Sign Up")
+                    .frame(width: UIScreen.main.bounds.width - 30, height: 46)
+                    .background(isSignUpDisabled ? .gray : .black)
+                    .foregroundColor(.white)
+                    .cornerRadius(7)
+            }
+            .disabled(isSignUpDisabled)
+            //            }
+            
+            
+            
             
         }
         .onAppear{
             print("SignUp")
-         // 이메일, 닉네임 옆 초록 체크표시 없애기
+            // 이메일, 닉네임 옆 초록 체크표시 없애기
             userInfoStore.isEmailDuplicated = nil
             nickNameCheck = nil
             
@@ -262,7 +329,21 @@ struct SignUpView: View {
             Button("OK"){
                 presentationMode.wrappedValue.dismiss()
             }
-        } 
+        } message: {
+            Text("Your mail has been sent. Please click the link in the mail you received to complete sign up.")
+        }
+        .sheet(isPresented: $isShowingSheet) {
+            modalName = ""
+        } content: {
+            switch modalName {
+            case "terms":
+                TermsandConditionsView()
+            case "privacy":
+                PrivacyView()
+            default:
+                Text("")
+            }
+        }
     }
     func checkEmail(email: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
