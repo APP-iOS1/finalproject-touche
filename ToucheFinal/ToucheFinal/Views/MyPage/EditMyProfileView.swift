@@ -292,7 +292,7 @@ struct EditMyProfileView: View {
                             dismiss()
                         }
                     }
-                    .disabled(editImage == UIImage())
+                    .disabled(editImage == UIImage() || editNickname.value.isEmpty)
                     
                     // editIsValid가 false인 경우, done버튼 비활성화 + 중복확인
                     // TODO: Location 구현 후 비활성화 설정하기
