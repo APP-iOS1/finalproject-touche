@@ -338,8 +338,6 @@ struct SignUpView: View {
             Button("OK"){
                 presentationMode.wrappedValue.dismiss()
             }
-        } message: {
-            Text("Your mail has been sent. Please click the link in the mail you received to complete sign up.")
         }
         .sheet(isPresented: $isShowingSheet) {
             modalName = ""
