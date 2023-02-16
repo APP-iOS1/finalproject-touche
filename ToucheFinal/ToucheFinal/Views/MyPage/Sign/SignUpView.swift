@@ -64,11 +64,13 @@ struct SignUpView: View {
             VStack(alignment: .leading){
                 // Email
                 Group {
-                    Text("Email")
-                    // 이메일 형식이고 중복이 아닌 경우에 checkmark 나오기
-                    if checkEmail(email: email) == true && userInfoStore.isEmailDuplicated == false {
-                        Image(systemName: "checkmark.circle")
-                            .foregroundColor(.green)
+                    HStack {
+                        Text("Email")
+                        // 이메일 형식이고 중복이 아닌 경우에 checkmark 나오기
+                        if checkEmail(email: email) == true && userInfoStore.isEmailDuplicated == false {
+                            Image(systemName: "checkmark.circle")
+                                .foregroundColor(.green)
+                        }
                     }
                     
                     HStack {
@@ -149,11 +151,13 @@ struct SignUpView: View {
                 
                 // Nick Name
                 Group{
+                    HStack {
                         Text("NickName")
                         if nickNameCheck == false {
                             Image(systemName: "checkmark.circle")
                                 .foregroundColor(.green)
                         }
+                    }
 //                        Spacer()
 //                        Button {
 //                            Task {
@@ -184,7 +188,9 @@ struct SignUpView: View {
                             }
                         
                         Button {
-                            userInfoStore.duplicateCheck(emailAddress: email)
+                            Task {
+                                nickNameCheck = try await userInfoStore.isNicknameDuplicated(nickName: nickName)
+                            }
                         } label: {
                             Text("Check")
                                 .foregroundColor(nickName.isEmpty ? .gray : .white)
@@ -235,6 +241,7 @@ struct SignUpView: View {
                         }
                         
                         Text("(Required) I have read and agree to all the terms and conditions. ")
+                            .font(.subheadline)
                             .padding(.leading, 15)
                     }
                     Button {
@@ -242,6 +249,7 @@ struct SignUpView: View {
                         isShowingSheet.toggle()
                     } label: {
                         Text("Terms and conditions")
+                            .font(.subheadline)
                             .underline()
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .foregroundColor(.black)
@@ -275,6 +283,7 @@ struct SignUpView: View {
                     }
                     
                 }
+                .font(.subheadline)
                 .padding(20)
             }
             
