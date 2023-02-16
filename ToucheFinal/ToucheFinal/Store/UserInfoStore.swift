@@ -263,8 +263,9 @@ final class UserInfoStore: ObservableObject{
     final func updateUserNickName(uid: String, nickname: String) async -> Void {
         let path = database
         do {
+            
             var resNickname: String = nickname
-            var processingOnBothSides = nickname.trimmingCharacters(in: .whitespaces)   //  양쪽 사이드 공백 제거
+            let processingOnBothSides = nickname.trimmingCharacters(in: .whitespaces)   //  양쪽 사이드 공백 제거
             let removeSpacesBetweenStr = processingOnBothSides.replacingOccurrences(of: " ", with: "", options: .regularExpression) //  string 사이에 공백 제거
             
             print("removeSpacesBetweenStr:\(removeSpacesBetweenStr)")
@@ -375,7 +376,7 @@ final class UserInfoStore: ObservableObject{
             
             var imageURL: String = ""
             
-            print("imgsData: \(imagesData)")
+            print("imgsData: \(String(describing: imagesData))")
             
             if let imageData = imagesData {
                 
@@ -392,13 +393,14 @@ final class UserInfoStore: ObservableObject{
                 print("사진 업로드 성공: \(imageURL)")
                 
                 await fetchUser(user: Auth.auth().currentUser)
-                print("신규가입자: \(userInfo?.userProfileImage)")
+                print("신규가입자: \(String(describing: userInfo?.userProfileImage))")
                 
                 // delPath에서 오류나는 이유는 신규가입자일 경우, storage에 저장한 프로필이미지id가 없으니까 path를 못찾기때문
                 // 신규가입자일 경우는 사진추가(업로드)만 하고, 프로필이미지를 한번이라도 변경한 경우에만 delete를 한 후에 업로드하기
                 if !(userInfo?.userProfileImage == "") {
-                    let delPath = "images/\(String( userInfo?.userProfileImage.split(separator: "%2F")[1].split(separator: "?")[0] ?? ""))"
+                    let delPath = "images/\(String(userInfo?.userProfileImage.split(separator: "%2F")[1].split(separator: "?")[0] ?? ""))"
                     print("path: \(delPath)")
+                    
                     try await storageRef.child(delPath).delete()
                 }
             }
@@ -413,9 +415,12 @@ final class UserInfoStore: ObservableObject{
     
     /// 사용 중인 유저의 닉네임을 수정
     final func updateUserProfile(uid: String, nickname: String, nation: String, userProfileImageUrl: String) async -> Void {
+        
+        print("???: \(userProfileImageUrl)")
+        
         let path = database
         var userNation = ""
-        var userProfileImageUrl = ""
+        var profileImageUrl = userProfileImageUrl
 
         do {
             switch nation {
@@ -433,14 +438,22 @@ final class UserInfoStore: ObservableObject{
                 userNation = "None"
             }
             
-            if userProfileImageUrl == "" {
-                userProfileImageUrl = userInfo?.userProfileImage ?? ""
+            if profileImageUrl == "" {
+                profileImageUrl = userInfo?.userProfileImage ?? ""
             }
             
+            var resNickname: String = nickname
+            let processingOnBothSides = nickname.trimmingCharacters(in: .whitespaces)   //  양쪽 사이드 공백 제거
+            let removeSpacesBetweenStr = processingOnBothSides.replacingOccurrences(of: " ", with: "", options: .regularExpression) //  string 사이에 공백 제거
+            
+            print("removeSpacesBetweenStr:\(removeSpacesBetweenStr)")
+            
+            resNickname = removeSpacesBetweenStr
+            
             try await path.document(uid).updateData([
-                "userNickName": nickname,
+                "userNickName": resNickname.lowercased(),
                 "userNation": userNation,
-                "userProfileImage": userProfileImageUrl])
+                "userProfileImage": profileImageUrl])
         } catch {
 #if DEBUG
             print("\(error.localizedDescription)")
@@ -467,7 +480,7 @@ final class UserInfoStore: ObservableObject{
         
         do {
             
-            print(nation)
+            print("nation\(nation)")
             
             switch nation {
             case "🇺🇸":

@@ -34,7 +34,7 @@ struct SettingView: View {
                     /// SETTINGS Group
                     Group {
                         Text("SETTINGS")
-                            .font(.system(size: 20))
+                            .font(.headline)
                             .fontWeight(.bold)
                         Button{
                             Task{
@@ -67,7 +67,7 @@ struct SettingView: View {
                     }
                     Group{
                         Text("SUPPORT")
-                            .font(.system(size: 20))
+                            .font(.headline)
                             .fontWeight(.bold)
                             .padding(.top,50)
                         Button("Contact Us"){
@@ -114,9 +114,12 @@ struct SettingView: View {
                     }
                     .listStyle(.plain)
                     .scrollDisabled(true)
-                    //.frame(maxHeight: 400)
-                    VStack{
+                    .frame(maxHeight: 400)
+                Spacer()
+                    HStack{
+
                         if userInfoStore.user?.isEmailVerified ?? false {
+                            Spacer()
                         Button{
                             Task {
                                 await userInfoStore.logOut()
@@ -124,15 +127,16 @@ struct SettingView: View {
                             }
                         } label: {
                             Text("Sign Out")
-                                .frame(width: 150, height: 40.0)
+                                .frame(width: UIScreen.main.bounds.width - 30, height: 46.0)
                                 .background(.black)
                                 .foregroundColor(.white)
-                                .cornerRadius(20)
+                                .cornerRadius(7)
                         }
+                            Spacer()
                     }
                 }
-                .padding(.leading, 20)
-                Spacer()
+                .padding(.bottom, 20)
+//                Spacer()
             }// VStack 종료
             
         } // NavigationView 종료

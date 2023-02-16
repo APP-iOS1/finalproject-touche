@@ -13,18 +13,21 @@ struct SignOutView: View {
             VStack {
                 HStack {
                     Text("To use more features")
-                        .font(.system(size: 28))
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                     Spacer()
                 }
                 .frame(height: 80)
-                .padding(.horizontal, 20)
+                .padding(.leading, 20)
                 .padding(.top, -35)
                 HStack{
                     NavigationLink {
                         LogInSignUpView(selectedIndex: 0)
                     } label: {
                         Text("Sign In")
-                            .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 44)
+                            .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 46)
                             .background(.black)
                             .foregroundColor(.white)
                             .cornerRadius(7)
@@ -34,7 +37,7 @@ struct SignOutView: View {
                         LogInSignUpView(selectedIndex: 1)
                     } label: {
                         Text("Sign Up")
-                            .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 44)
+                            .frame(width: UIScreen.main.bounds.width / 2 - 20, height: 46)
                             .foregroundColor(.black)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 7).stroke(Color.black, lineWidth: 0.5)
@@ -43,7 +46,7 @@ struct SignOutView: View {
                     }.tint(.white)
                     
                 }
-                .padding(.top, -10)
+                .padding(.top, -15)
                 .padding(.bottom)
                 
                 Divider()

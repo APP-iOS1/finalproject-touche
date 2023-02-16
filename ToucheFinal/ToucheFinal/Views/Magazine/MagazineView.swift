@@ -1,5 +1,5 @@
 //
-//  Magazine1.swift
+//  MagazineView.swift
 //  ToucheFinal
 //
 //  Created by TAEHYOUNG KIM on 2023/02/14.
@@ -18,6 +18,7 @@ struct MagazineView: View {
     @State var showDetailPage: Bool = false
     @State var animateView: Bool = false
     @State var animateContent: Bool = false
+    @State var isDisable: Bool = false
     @State var scrollOffset: CGFloat = 0
     @State var perfumes: [Perfume] = []
     @State var magazines: [Magazine] = []
@@ -36,17 +37,18 @@ struct MagazineView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     HStack {
                         Text("Magazine")
-                            .font(.largeTitle)
+                            .font(.title)
                             .fontWeight(.semibold)
                             .opacity(showDetailPage ? 0 : 1)
                     }
-                    .padding()
+                    .padding(.top, 15)
+                    .padding(.bottom, -5)
                     
                     
                     VStack(spacing: 0) {
                         ForEach(magazineStore.magazines) { item in
                             Button {
-                                withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.3)) {
+                                withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7)) {
                                     currentItem = item
                                     showDetailPage.toggle()
                                 }
@@ -56,6 +58,7 @@ struct MagazineView: View {
                             }
                             .buttonStyle(ScaledButtonStyle())
                             .opacity(showDetailPage ? (currentItem?.id == item.id ? 1 :0) : 1)
+                            .disabled(isDisable)
                             
                         }
                     }
@@ -67,14 +70,14 @@ struct MagazineView: View {
                 //                        .ignoresSafeArea(.container, edges: .top)
                 //                }
                 //            }
-                .background(alignment: .top) {
-                    RoundedRectangle(cornerRadius: 15, style: .continuous)
-                        .fill(Color.white)
-                        .frame(height: animateView ? nil : 350, alignment: .top)
-                        .scaleEffect(animateView ? 1: 0.93)
-                        .opacity(animateView ? 1 : 0)
-                        .ignoresSafeArea()
-                }
+//                .background(alignment: .top) {
+//                    RoundedRectangle(cornerRadius: 15, style: .continuous)
+//                        .fill(Color.blue)
+//                        .frame(height: animateView ? nil : 350, alignment: .top)
+//                        .scaleEffect(animateView ? 1: 0.93)
+//                        .opacity(animateView ? 1 : 0)
+//                        .ignoresSafeArea()
+//                }
                 .refreshable {
                     Task {
                         await magazineStore.readMagazines()
@@ -121,7 +124,6 @@ struct MagazineView: View {
                 Color.white
             )
             .clipShape(CustomCorner(corners: showDetailPage ? [] : [.bottomLeft, .bottomRight], radius: 20))
-
         }
         .shadow(color: .black.opacity(showDetailPage ? 0 : 0.3), radius: 20, x: 0, y: 10)
         .matchedGeometryEffect(id: item.id, in: animation)
@@ -130,7 +132,6 @@ struct MagazineView: View {
     func DetailView(item: Magazine) -> some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
-
                 CardView(item: item)
                     .scaleEffect(animateView ? 1 : 0.9)
                 
@@ -181,6 +182,10 @@ struct MagazineView: View {
                     currentItem = nil
                     showDetailPage = false
                 }
+                isDisable = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        isDisable = false
+                    }
             } label: {
                 Image(systemName: "xmark.circle.fill")
                     .symbolRenderingMode(.palette)
