@@ -104,3 +104,6 @@
 ## 라이센스
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## 연관링크
+뚜셰 관리자앱 레포지터리: [https://github.com/APPSCHOOL1-REPO/finalproject-touche-admin](https://github.com/APPSCHOOL1-REPO/finalproject-touche-admin)
