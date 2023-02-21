@@ -9,6 +9,12 @@
 > 기본적인 `향수` 정보, 시각화 정보를 제공해 `향수` 정보를 보다 직관적으로 알 수 있도록 돕는 `뚜셰(Touché)` 입니다.
 
 
+## 멋쟁이 사자처럼 App School 1기 Final Project 대상 수상
+
+<p align=center>
+    <img style="border: 1px solid black;" src="./Touche.png" width=50%>
+</p>
+
 
 ## Skills & Tech Stack
 
