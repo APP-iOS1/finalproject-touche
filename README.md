@@ -94,7 +94,6 @@ GoogleService-Info.plist
 | Firebase          | `9.0.0` | `SPM` |
 | SegmentedPicker   | `0.0.2` | `SPM` |
 | SDWebImageSwiftUI | `2.2.2` | `SPM` |
-| SwiftSoup         | `2.5.3` | `SPM` |
 | Magnetic          | `3.3.1` | `SPM` |
 | AlertToast        | `1.3.9` | `SPM` |
 
