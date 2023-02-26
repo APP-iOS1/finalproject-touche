@@ -20,7 +20,6 @@
 		6115A2C929790EFE00BE740E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6115A2C829790EFE00BE740E /* FirebaseStorage */; };
 		61212E5E2978E2DF00D0ED57 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E5D2978E2DF00D0ED57 /* FirebaseFirestore */; };
 		61212E602978E30E00D0ED57 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 61212E5F2978E30E00D0ED57 /* FirebaseFirestoreSwift */; };
-		61212E622978E32E00D0ED57 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61212E612978E32E00D0ED57 /* GoogleService-Info.plist */; };
 		61212E642978E35A00D0ED57 /* SephoraFirebaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61212E632978E35A00D0ED57 /* SephoraFirebaseView.swift */; };
 		61212E662978E37200D0ED57 /* APIStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61212E652978E37200D0ED57 /* APIStore.swift */; };
 		61212E692978E3B100D0ED57 /* LongDescriptionParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61212E682978E3B100D0ED57 /* LongDescriptionParsing.swift */; };
@@ -109,7 +108,6 @@
 		2390497F2977B9420097B20A /* LogInRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRootView.swift; sourceTree = "<group>"; };
 		239049812977CBBF0097B20A /* WriteCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteCommentView.swift; sourceTree = "<group>"; };
 		23E417F2298959BC0051707E /* ColorPaletteUnderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteUnderView.swift; sourceTree = "<group>"; };
-		61212E612978E32E00D0ED57 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61212E632978E35A00D0ED57 /* SephoraFirebaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SephoraFirebaseView.swift; sourceTree = "<group>"; };
 		61212E652978E37200D0ED57 /* APIStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStore.swift; sourceTree = "<group>"; };
 		61212E682978E3B100D0ED57 /* LongDescriptionParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongDescriptionParsing.swift; sourceTree = "<group>"; };
@@ -330,7 +328,6 @@
 			isa = PBXGroup;
 			children = (
 				656A00EC29795B5B002E37E6 /* Info.plist */,
-				61212E612978E32E00D0ED57 /* GoogleService-Info.plist */,
 				658E2E7429953F5C00F6BA7B /* Localizable.strings */,
 				653F875829967D70009AB5BE /* Language.swift */,
 				657A08F82976596900E5B565 /* ToucheFinalApp.swift */,
@@ -511,7 +508,6 @@
 				657A09002976596A00E5B565 /* Preview Assets.xcassets in Resources */,
 				658E2E7229953F5C00F6BA7B /* Localizable.strings in Resources */,
 				657A08FD2976596A00E5B565 /* Assets.xcassets in Resources */,
-				61212E622978E32E00D0ED57 /* GoogleService-Info.plist in Resources */,
 				6174493F29889FD10064BEE8 /* Main.storyboard in Resources */,
 				658E2E6F2994D42D00F6BA7B /* Info.bundle in Resources */,
 			);
