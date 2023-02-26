@@ -117,7 +117,9 @@ GoogleService-Info.plist
 
 ## 라이센스
 
-[MIT](https://choosealicense.com/licenses/mit/)
+Touché is available under the MIT license. See the [LICENSE](https://github.com/APPSCHOOL1-REPO/finalproject-touche/blob/main/License) file for more info.
+
+
 
 ## 연관링크
 뚜셰 관리자앱 레포지터리: [https://github.com/APPSCHOOL1-REPO/finalproject-touche-admin](https://github.com/APPSCHOOL1-REPO/finalproject-touche-admin)
