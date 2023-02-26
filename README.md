@@ -15,6 +15,14 @@
     <img style="border: 1px solid black;" src="./Touche.png" width=50%>
 </p>
 
+## 앱 설치 실행 가이드
+```
+elinholic95@icloud.com 으로 연락 주시면 아래 파일을 전달받으실 수 있습니다.
+GoogleService-Info.plist
+
+위 파일 없이 간단한 앱 빌드만 필요하시다면, 번들 아이디 com.codelion.ToucheFinal 을 입력해주세요.
+```
+
 
 ## Skills & Tech Stack
 
