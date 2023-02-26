@@ -21,6 +21,9 @@ elinholic95@icloud.com 으로 연락 주시면 아래 파일을 전달받으실 
 GoogleService-Info.plist
 
 위 파일 없이 간단한 앱 빌드만 필요하시다면, 번들 아이디 com.codelion.ToucheFinal 을 입력해주세요.
+
+첫 실행 시 MagneticView+Accessibility.swift 파일에서 에러가 발생할 수 있습니다.
+에러 메세지를 클릭 하여 Fix 를 클릭 후 앱을 실행시켜 주세요.
 ```
 
 
