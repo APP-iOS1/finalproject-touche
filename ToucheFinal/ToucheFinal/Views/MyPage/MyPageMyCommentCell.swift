@@ -24,16 +24,21 @@ struct MyPageMyCommentCell: View {
                 
                 
                 VStack(alignment: .leading, spacing: 4.0) {
-                    Text(perfume.brandName).font(.custom("NotoSans-Regular", size: 15))
+                    Text(perfume.brandName)
+                        .font(.footnote)
+                        .fontWeight(.bold)
                         .unredacted()
                         .lineLimit(1)
-                    Text(perfume.displayName).font(.custom("NotoSans-ExtraLight", size: 15))
-                        .font(.system(size: 14))
+                    Text(perfume.displayName)
+                        .font(.footnote)
+                        .fontWeight(.light)
                         .multilineTextAlignment(.leading)
-                    Text(comment.contents).font(.custom("NotoSans-Regular", size: 10))
+                    Text(comment.contents)
+                        .font(.subheadline)
+                        .foregroundColor(.black.opacity(0.8))
                         .multilineTextAlignment(.leading)
-                        .lineLimit(2...4)
-                    RatingView(score: .constant(perfume.totalPerfumeScore/perfume.commentCount), frame: 15, canClick: false)
+                        .lineLimit(1...2)
+                    RatingView(score: .constant(perfume.commentCount == 0 ? perfume.totalPerfumeScore : perfume.totalPerfumeScore / perfume.commentCount), frame: 13, canClick: false)
                     
                     
                 }

@@ -16,4 +16,27 @@ extension String{
     func stringss(num: Int) -> String {
         return String(self.prefix(num))
     }
+    
+    func flag() -> String {
+        switch self {
+        case "United States of America":
+            return "🇺🇸"
+        case "Republic of Korea":
+            return "🇰🇷"
+        case "France":
+            return "🇫🇷"
+        case "España":
+            return "🇪🇸"
+        case "Canada":
+            return "🇨🇦"
+        default:
+            return "🏳️"
+        }
+    }
+    
+    func isValidNickname() -> Bool {
+        let regex = "^.*([a-zA-Z0-9])+.*$"
+        let nickNameTest = NSPredicate(format:"SELF MATCHES %@", regex)
+        return nickNameTest.evaluate(with: self)
+    }
 }

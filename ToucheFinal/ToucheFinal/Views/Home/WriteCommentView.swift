@@ -13,18 +13,20 @@ struct WriteCommentView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var commentStore: CommentStore
     @Environment(\.dismiss) var dismiss
-    
     @StateObject var manager = TFManager()
-    @State private var score: Int = 0
     
+    @State var oldScore: Int = 0
+    @State var score: Int
     @Binding var isShowingWriteComment: Bool
     
-    var perfume: Perfume
-    var placeholderString: String = "Review"
+    @Binding var perfume: Perfume
+    var reviewText: String
+    var commentId: String
+    var placeholderString: String = "Comment"
     
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollView {
                 Spacer()
                 HStack {
                     AsyncImage(url: URL(string: perfume.heroImage)) { image in
@@ -52,65 +54,73 @@ struct WriteCommentView: View {
                     .frame(height: 90)
                     Spacer()
                 }
-                
-                VStack {
-//                    TextField("Review", text: $manager.reviewText, axis: .vertical)
-                    //                        .padding(5)
+                // TextField
+                ZStack {
                     TextEditor(text: $manager.reviewText)
                         .scrollContentBackground(.hidden)
-                        .foregroundColor(manager.reviewText == placeholderString ? .gray : .primary)
-                        .onTapGesture {
-                            if manager.reviewText == placeholderString {
-                                manager.reviewText = ""
+                        .keyboardType(.alphabet)
+                        .modifier(KeyboardTextField())
+                    // Placeholder
+                    VStack {
+                        HStack {
+                            if manager.reviewText.isEmpty {
+                                Text(placeholderString)
+                                    .opacity(0.25)
                             }
+                            Spacer()
                         }
-                    Spacer()
+                        Spacer()
+                    }
+                    .padding([.leading, .top], 8)
                 }
                 .padding(5)
-                .frame(width: 330, height: 130)
+                .frame(width: UIScreen.main.bounds.width - 30, height: 130)
                 .overlay(
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(.gray, lineWidth: 0.5)
                 )
                 HStack {
                     Spacer()
-                    if manager.reviewText == "Review" {
-                        Text("\(0)/200")
-                            .foregroundColor(.gray)
-                            .padding(.trailing, 13)
-                    } else {
                         Text("\(manager.reviewText.count)/200")
                             .foregroundColor(.gray)
                             .padding(.trailing, 13)
-                    }
                 }
-                
                 RatingView(score: $score, frame: 30, canClick: true)
                     .padding([.horizontal, .bottom])
                 
                 Button{
                     Task {
+                        // TODO: - 함수 정리
                         guard let userInfo = userInfoStore.userInfo else {return}
                         await userInfoStore.fetchUser(user: userInfoStore.user)
-                        let comment = Comment(commentId: UUID().uuidString, commentTime: Date().timeIntervalSince1970, contents: manager.reviewText, perfumeScore: score , writerId: userInfo.userId, writerNickName: userInfo.userNickName, writerImage: userInfo.userProfileImage, likedPeople: [])
-                        
-                        await commentStore.setComment(comment: comment, perfumeId: perfume.perfumeId)
-                        await commentStore.fetchComments(perfumeId: perfume.perfumeId)
-                        await perfumeStore.updateCommentCount(perfumeId: perfume.perfumeId, score: score)
-                        await userInfoStore.updateWrittenComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
-                        isShowingWriteComment.toggle()
+                        if !commentId.isEmpty { // update comment
+                            await commentStore.updateComment(perfumeId: perfume.perfumeId, commentId: commentId, contents: manager.reviewText, score: score)
+                            await commentStore.fetchComments(perfumeId: perfume.perfumeId)
+                            await perfumeStore.updateTotalPerfumeScore(perfumeId: perfume.perfumeId, oldScore: oldScore, newScore: score)
+                            
+                            
+                        } else { // create comment
+                            let comment = Comment(commentId: UUID().uuidString, commentTime: Date().timeIntervalSince1970, contents: manager.reviewText, perfumeScore: score , writerId: userInfo.userId, writerNickName: userInfo.userNickName, writerImage: userInfo.userProfileImage, likedPeople: [])
+                            
+                            await commentStore.setComment(comment: comment, perfumeId: perfume.perfumeId)
+                            await commentStore.fetchComments(perfumeId: perfume.perfumeId)
+                            await perfumeStore.updateCommentCount(perfumeId: perfume.perfumeId, score: score)
+                            await userInfoStore.updateWrittenComment(perfumeId: perfume.perfumeId, commentId: comment.commentId)
+                        }
+                        perfume = await perfumeStore.fetchPerfume(perfumeId: perfume.perfumeId)
+                        readPerfumes()
+                        isShowingWriteComment = false
                     }
                 }label: {
-                    Text("Post Review")
-                        .frame(width: 330, height: 46)
-                        .background(.black)
+                    Text("Post Comment")
+                        .frame(width: UIScreen.main.bounds.width - 30, height: 46)
+                        .background(manager.reviewText.isEmpty || score < 1 ? .gray : .black)
                         .foregroundColor(.white)
                         .cornerRadius(7)
                 }
                 .disabled(manager.reviewText.count < 1 || score < 1)
                 Spacer()
             }
-            .padding()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -122,7 +132,40 @@ struct WriteCommentView: View {
                     }
                 }
             }
+            .onAppear {
+                manager.reviewText = reviewText
+                oldScore = score
+            }
+        } //NavigationStack
+        .onTapGesture {
+            hideKeyboard()
         }
+    }
+    func readPerfumes() {
+        if userInfoStore.user != nil {    //  로그인 상태일 때
+            Task {
+                await userInfoStore.fetchUser(user: userInfoStore.user)
+                guard let recentlyPerfumesId = userInfoStore.userInfo?.recentlyPerfumesId else {return}
+                if !recentlyPerfumesId.isEmpty {
+                    await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                }
+            }
+        } else {    //  로그인 했을 경우
+            Task {
+                let recentlyPerfumesId = UserDefaults.standard.array(forKey: "recentlyPerfumesId") as? [String] ?? []
+                if !recentlyPerfumesId.isEmpty {
+                    await perfumeStore.readRecentlyPerfumes(perfumesId: recentlyPerfumesId)
+                }
+            }
+        }
+        
+        Task {
+            let selectedScentTypes = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
+            await perfumeStore.readRecomendedPerfumes(perfumesId: setRecomendedPerfumesId(perfumesId: selectedScentTypes))
+        }
+    }
+    func setRecomendedPerfumesId(perfumesId: [String]) -> [String] {
+        return Array(perfumesId.prefix(10))
     }
 }
 
@@ -130,7 +173,7 @@ struct WriteCommentView: View {
 
 // 150자 글자 수 제한
 class TFManager: ObservableObject {
-    @Published var reviewText = "Review" {
+    @Published var reviewText = "comment" {
         didSet {
             if reviewText.count > 200 && oldValue.count <= 200 {
                 reviewText = oldValue
@@ -141,8 +184,8 @@ class TFManager: ObservableObject {
 
 struct WriteCommentView_Previews: PreviewProvider {
     static var previews: some View {
-        WriteCommentView(isShowingWriteComment: .constant(true),
-                         perfume: Perfume(perfumeId: "P258612",
+        WriteCommentView(score: 4, isShowingWriteComment: .constant(true),
+                         perfume: .constant(Perfume(perfumeId: "P258612",
                                           brandName: "CHANEL",
                                           displayName: "CHANCE EAU TENDRE Eau de Toilette",
                                           heroImage: "https://www.sephora.com/productimages/sku/s2238145-main-grid.jpg",
@@ -154,6 +197,6 @@ struct WriteCommentView_Previews: PreviewProvider {
                                           likedPeople: ["1", "2"],
                                           commentCount: 154,
                                           totalPerfumeScore: 616
-                                         ))
+                                         )), reviewText: "", commentId: "ddd")
     }
 }

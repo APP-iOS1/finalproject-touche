@@ -8,21 +8,19 @@
 import SwiftUI
 
 struct PaletteView: View {
-    @State private var degrees: Double = 0
-    @State private var radius: CGFloat = 140.0
-    @State private var animation: Animation? = nil
-    @State private var txt = ""
-    @State private var isTapped = false
-    @State private var scentTypeCount: [String: Double] = [:]
-    @State private var selectedColor: Color = Color("customGray")
-    @State var isSignin: Bool = false
-    @State var navLinkActive = false
-    @State var perfumes: [Perfume] = []
-    
     @EnvironmentObject var perfumeStore: PerfumeStore
     @EnvironmentObject var userInfoStore: UserInfoStore
-    @ObservedObject var colorPaletteCondition = ColorPalette()
     
+    @State private var selectedColor: Color = .clear
+    @State private var perfumes: [Perfume] = []
+    @State private var scentTypeCount: [String: Double] = [:]
+    @State private var rotationDegrees: Double = 0
+    @State private var selectedScentType = ""
+    @State private var isTapped = false
+    @State private var isSignin = false
+    @State private var navLinkActive = false
+    
+    var userSelectedScentType: [String] = UserDefaults.standard.array(forKey: "selectedScentTypes") as? [String] ?? []
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -33,7 +31,7 @@ struct PaletteView: View {
             ScrollView {
                 VStack {
                     Text("Perfume Palette")
-                        .font(.largeTitle)
+                        .font(.title)
                         .padding(.bottom, 40)
                         .fontWeight(.semibold)
                     
@@ -41,27 +39,24 @@ struct PaletteView: View {
                         // MARK: - 팔레트 테두리 색
                         Group{
                             ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
-                                PalletteCell(
-                                    colorPaletteCondition: colorPaletteCondition, color: color.color,
+                                PaletteCell(
+                                    selectedColor: selectedColor, color: color.color,
                                     degrees: Double(index) * 22.5,
                                     name: color.name,
                                     count: scentTypeCount[color.name] ?? 0)
-                                //                                .opacity(isTapped ? (color.name == txt ? 1 : 0.5) : 0.5)
                                 .onTapGesture {
-                                    colorPaletteCondition.selectedColor = color.color
-                                    colorPaletteCondition.selectedCircle = color.color
-                                    txt = color.name
+                                    selectedColor = color.color
+                                    selectedScentType = color.name
                                     isTapped = true
                                     perfumes = perfumeStore.likedPerfumes.filter {$0.scentType == color.name}
-                                    degrees = Double(index) * 22.5
+                                    rotationDegrees = Double(index) * 22.5
                                 }
                             }
-                            .frame(width: 300, height: 300)
                         }
+                        .frame(width: 300, height: 300)
                         .padding(.vertical, 20)
-                        .rotationEffect(Angle(degrees: 360 - degrees))
-                        .animation(.easeInOut(duration: 1), value: degrees)
-                        
+                        .rotationEffect(Angle(degrees: 360 - rotationDegrees))
+                        .animation(.easeInOut(duration: 1), value: rotationDegrees)
                         
                         // MARK: - 팔레트 눌렀을때 나오는 가운데 부분
                         ForEach(Array(PerfumeColor.types.enumerated()), id: \.offset) { index, color in
@@ -74,48 +69,48 @@ struct PaletteView: View {
                                         .multilineTextAlignment(.center)
                                         .foregroundColor(.white)
                                 }
-                                .opacity(isTapped ? (color.name == txt ? 1 : 0) : 0)
-                                .animation(.linear(duration: 0.5), value: txt)
-                                .onTapGesture {
-                                    if isTapped {
-                                        colorPaletteCondition.selectedColor = .clear
-                                        colorPaletteCondition.selectedCircle = .clear
-                                        txt = ""
-                                        isTapped = false
-                                        perfumes.removeAll()
-                                    }
-                                }
+                                .opacity(isTapped ? (color.name == selectedScentType ? 1 : 0) : 0)
+                                .animation(.linear(duration: 0.5), value: selectedScentType)
                         }
                     }
                     
                     //MARK: -Scent type
-                    HStack {
-                        Text("Scent Type")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                        Spacer()
+                    if selectedScentType != "" {
+                        HStack {
+                            Text(selectedScentType)
+                                .minimumScaleFactor(0.7)
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .lineLimit(1)
+                            if userSelectedScentType.contains(selectedScentType) {
+                                Text("(\(Image(systemName: "checkmark")))")
+                                    .bold()
+                            }
+                            Spacer()
+                        }
+                        .padding(.top, 30)
+                        
+                        // scent type에 대한 설명
+                        Text(PerfumeColor.types.filter{$0.name == selectedScentType}.first?.description?.first ?? " ")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .background(.white)
+                            .cornerRadius(10)
+//                            .font(.body)
+                            .fontWeight(.light)
                     }
-                    .padding(.top, 30)
-                    
-                    // scent type에 대한 설명
-                    Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum nulla libero, vel accumsan sapien blandit ac. Donec nunc ligula, imperdiet eu massa ac, vehicula faucibus neque.")
-                        .padding()
-                        .background(Color("customGray"))
-                        .cornerRadius(10)
-                    //                        .frame(height: 150)
-                    
                     
                     //MARK: -Wish list
                     HStack {
-                        Text("Wish List")
-                            .font(.title)
+                        Text("Liked")
+                            .font(.title3)
                             .fontWeight(.semibold)
                         
                         Spacer()
                     }
                     .padding(.top, 30)
                     
-                    if userInfoStore.user != nil {
+                    if userInfoStore.user?.isEmailVerified ?? false {
                         LazyVGrid(columns: columns, spacing: 15) {
                             ForEach(perfumes, id: \.self.perfumeId) { perfume in
                                 NavigationLink {
@@ -136,20 +131,17 @@ struct PaletteView: View {
                             Spacer()
                             VStack(alignment: .leading) {
                                 Text("To use more features")
-                                    .padding(.bottom, 10)
-                                Text("You can collect your favorite products.")
+                                    .padding(.bottom, 5)
+                                Text("Try registering as a member.")
                             }
                             .frame(width: 200)
                             Spacer()
                         }
+                        .padding(.bottom, 20)
                         .onTapGesture(perform: {
                             isSignin.toggle()
                         })
-                        .alert(
-                        """
-                        Please sign in to like / comment on products
-                        """
-                        ,isPresented: $isSignin
+                        .alert("Sign in to favorite your products",isPresented: $isSignin
                         ) {
                             Button("Cancel", role: .cancel) {}
                             Button {
@@ -166,22 +158,48 @@ struct PaletteView: View {
             }
             .background(
                 ZStack {
-                    ColorPaletteUnderView(colorPaletteCondition: colorPaletteCondition, perfumesCount: perfumes.count)
+                    ColorPaletteUnderView(selectedColor: selectedColor, perfumesCount: perfumes.count)
                 }
             )
             .modifier(SignInFullCover(isShowing: $navLinkActive))
             .padding(.top, 0.1)
             .onAppear {
                 Task {
-                    guard let userId = userInfoStore.user?.uid else {return}
-                    await perfumeStore.readLikedPerfumes(userId: userId)
-                    for perfume in perfumeStore.likedPerfumes {
-                        scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
+                    
+                    if userInfoStore.user?.isEmailVerified ?? false {
+                        print("true 실행")
+                        let userId = userInfoStore.user?.uid ?? ""
+                        await perfumeStore.readLikedPerfumes(userId: userId)
+                        if perfumeStore.likedPerfumes.isEmpty {
+                            guard let randomScentType = userSelectedScentType.randomElement() else {return}
+                            setMaxCountScentType(scentType: randomScentType)
+                        } else {
+                            print("false 실행")
+                            for perfume in perfumeStore.likedPerfumes {
+                                scentTypeCount[perfume.scentType] = (scentTypeCount[perfume.scentType] ?? 0) + 1
+                            }
+                            if let mostWishScentType = scentTypeCount.max(by: { $0.value < $1.value}) {
+                                setMaxCountScentType(scentType: mostWishScentType.key)
+                            }
+                        }
+                    } else {
+                        guard let randomScentType = userSelectedScentType.randomElement() else {return}
+                        setMaxCountScentType(scentType: randomScentType)
                     }
-                    perfumes = perfumeStore.likedPerfumes.filter {$0.scentType == txt}
                 }
             }
-            .onDisappear()
+        }
+    }
+    
+    func setMaxCountScentType(scentType: String) {
+        perfumes = perfumeStore.likedPerfumes.filter{$0.scentType == scentType}
+        selectedColor = Color(scentType: scentType)
+        selectedScentType = scentType
+        isTapped = true
+        if let colorPaletteCondition = PerfumeColor.types.firstIndex(where: {
+            $0.name == scentType
+        }) {
+            rotationDegrees = Double(colorPaletteCondition) * 22.5
         }
     }
 }

@@ -7,21 +7,19 @@
 
 import SwiftUI
 import AlertToast
+import FirebaseAuth
 
 struct LogInRootView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
+    
     var body: some View {
         VStack {
-            if userInfoStore.userInfo != nil {
+            if userInfoStore.user?.isEmailVerified ?? false {
                 MyPageView(perfume: dummy[0], comment: commentDummy[0]) // 로그인 되면
             } else { // 로그인 안되면
                 SignOutView()
     //            MyPageView()
             }
-        }
-        /// 없는 정보로 로그인 할때 경고창
-        .toast(isPresenting: $userInfoStore.isShowingFailAlert) {
-            AlertToast(displayMode: .hud, type: .error(Color.red), title: "Incorrect Information!")
         }
     }
 }

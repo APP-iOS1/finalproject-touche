@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct PalletteCell: View {
-    @ObservedObject var colorPaletteCondition: ColorPalette
+struct PaletteCell: View {
+    var selectedColor: Color
     @EnvironmentObject var userInfoStore: UserInfoStore
     var color: Color
     var degrees: Double
@@ -34,7 +34,7 @@ struct PalletteCell: View {
                 Circle()
                     .trim(from: 0.7205, to: 0.7795)
                     .stroke(lineWidth: 50)
-                    .opacity(userInfoStore.userInfo == nil ? 1 : opacity)
+                    .opacity(userInfoStore.user == nil ? 1 : opacity)
                     .overlay{
                         Text(name)
                             .font(.system(size: 14))
@@ -45,8 +45,8 @@ struct PalletteCell: View {
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                     }
-                    .offset(y: colorPaletteCondition.selectedColor == color  ? -15 : 0)
-                    .animation(.easeOut(duration: 1), value: colorPaletteCondition.selectedColor)
+                    .offset(y: selectedColor == color  ? -15 : 0)
+                    .animation(.easeOut(duration: 1), value: selectedColor)
                     .rotationEffect(Angle(degrees: degrees))
                     .foregroundColor(color)
             }
@@ -55,8 +55,8 @@ struct PalletteCell: View {
     }
 }
 
-struct PalletteCell_Previews: PreviewProvider {
+struct PaletteCell_Previews: PreviewProvider {
     static var previews: some View {
-        PalletteCell(colorPaletteCondition: ColorPalette(), color: .red, degrees: 40, name: "Fresh Aquatics", count: 3)
+        PaletteCell(selectedColor: .clear, color: .red, degrees: 40, name: "Fresh Aquatics", count: 3)
     }
 }

@@ -8,21 +8,25 @@
 import SwiftUI
 import Combine
 
+
 final class FilterViewModel: ObservableObject {
     @Published var brands: [Brand] = []
     @Published var colors: [PerfumeColor] = []
     @Published var canApplying: Bool = false
     @Published var tab: Tab = .brand
-    @Published var search: String = ""
-
+    @Published var brandSearch: String = ""
+    @Published var colorSearch: String = ""
+    @Published var isShowingOverCheckedBrandAlert = false
+    @Published var isShowingOverCheckedColorAlert = false
+    
     // grouping: [https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298](https://www.hackingwithswift.com/forums/swift/best-way-to-group-string-array-by-first-character-and-show-in-table-view-as-groups/298)
     
     var brandSections: [(letter: String, brands: [Brand])]  {
         let filtered = Brand.dummy.filter {
-            if search.isEmpty {
+            if brandSearch.isEmpty {
                 return true
             } else {
-                return $0.name.lowercased().contains(search.lowercased())
+                return $0.name.lowercased().contains(brandSearch.lowercased())
             }
         }
 
@@ -35,14 +39,16 @@ final class FilterViewModel: ObservableObject {
         .sorted { (left, right) -> Bool in
             left.letter < right.letter
         }
+        
+        
     }
     
     var colorSections: [(letter: String, colors: [PerfumeColor])]  {
         let filtered = PerfumeColor.types.filter {
-            if search.isEmpty {
+            if colorSearch.isEmpty {
                 return true
             } else {
-                return $0.name.lowercased().contains(search.lowercased())
+                return $0.name.lowercased().contains(colorSearch.lowercased())
             }
         }
 
@@ -108,10 +114,10 @@ final class FilterViewModel: ObservableObject {
         switch self.tab {
         case .brand:
             colors.removeAll()
-            search = ""
+            colorSearch = ""
         case .color:
             brands.removeAll()
-            search = ""
+            brandSearch = ""
         }
     }
     
@@ -119,12 +125,13 @@ final class FilterViewModel: ObservableObject {
     func clear() {
         brands.removeAll()
         colors.removeAll()
-        search = ""
+        colorSearch = ""
+        brandSearch = ""
     }
 }
 
 struct FilterView: View {
-    @StateObject var vm = FilterViewModel()
+    @EnvironmentObject var vm: FilterViewModel
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
@@ -144,10 +151,12 @@ struct FilterView: View {
                 .foregroundStyle(.tertiary)
                 .ignoresSafeArea(.keyboard)
         }
-        .searchable(text: $vm.search, prompt: "Search")
+        .searchable(text: vm.tab == .brand ? $vm.brandSearch : $vm.colorSearch, prompt: "Search")
         .scrollDismissesKeyboard(.interactively)
         .navigationBarTitle("Filter")
         .navigationBarTitleDisplayMode(.inline)
+        .keyboardType(.alphabet)
+        .modifier(KeyboardTextField())
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -185,25 +194,25 @@ private extension FilterView {
                         .fontWeight(.bold)
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
-                            ForEach(vm.brands, id: \.self) { brand in
-                                
-                                HStack {
-                                    Text(brand.name)
-                                        .fontWeight(.light)
-                                    Image(systemName: "xmark")
+                                ForEach(vm.brands, id: \.self) { brand in
+                                    
+                                    HStack {
+                                        Text(brand.name)
+                                            .fontWeight(.light)
+                                        Image(systemName: "xmark")
+                                    }
+                                    .frame(height: 10)
+                                    .padding(10)
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 10, style: .circular)
+                                            .strokeBorder(.secondary, lineWidth: 0.5)
+                                    }
+                                    .padding(1)
+                                    .onTapGesture {
+                                        vm.removeBrand(brand)
+                                    }
                                 }
-                                .frame(height: 10)
-                                .padding(10)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 10, style: .circular)
-                                        .strokeBorder(.secondary, lineWidth: 0.5)
-                                }
-                                .padding(1)
-                                .onTapGesture {
-                                    vm.removeBrand(brand)
-                                }
-                            }
-                        }
+                        }//LazyHStack
                     }
                 }
                 
@@ -217,27 +226,27 @@ private extension FilterView {
                         .fontWeight(.bold)
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
-                            ForEach(vm.colors, id: \.id) { perfumeColor in
-                                HStack(spacing: 4.0) {
-                                    Circle()
-                                        .frame(width: 10)
-                                        .foregroundColor(perfumeColor.color)
-                                    Text(perfumeColor.name)
-                                        .fontWeight(.light)
-                                    Image(systemName: "xmark")
+                                ForEach(vm.colors, id: \.id) { perfumeColor in
+                                    HStack(spacing: 4.0) {
+                                        Circle()
+                                            .frame(width: 10)
+                                            .foregroundColor(perfumeColor.color)
+                                        Text(perfumeColor.name)
+                                            .fontWeight(.light)
+                                        Image(systemName: "xmark")
+                                    }
+                                    .frame(height: 10)
+                                    .padding(10)
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 10, style: .circular)
+                                            .strokeBorder(.secondary, lineWidth: 0.5)
+                                    }
+                                    .padding(1)
+                                    .onTapGesture {
+                                        vm.removeColor(perfumeColor)
+                                    }
                                 }
-                                .frame(height: 10)
-                                .padding(10)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 10, style: .circular)
-                                        .strokeBorder(.secondary, lineWidth: 0.5)
-                                }
-                                .padding(1)
-                                .onTapGesture {
-                                    vm.removeColor(perfumeColor)
-                                }
-                            }
-                        }
+                        }//LazyHStack
                     }
                 }
                 
@@ -300,7 +309,24 @@ private extension FilterView {
                         Section(vm.brandSections[index].letter) {
                             ForEach(vm.brandSections[index].brands) { brand in
                                 Button {
-                                    vm.isSelectedBrand(brand) ? vm.removeBrand(brand) : vm.appendBrand(brand)
+                                    //MARK: 최대 10개까지만 저장시키는 방식
+
+                                    if vm.brands.count < 11 && vm.isSelectedBrand(brand) {
+                                        vm.removeBrand(brand)
+                                        
+                                        //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
+                                        
+                                    } else if vm.brands.count < 10 && !(vm.isSelectedBrand(brand)) {
+                                        vm.appendBrand(brand)
+                                        
+                                        //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
+                                        
+                                    } else if vm.brands.count == 10 {
+                                        
+                                        //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
+                                        vm.isShowingOverCheckedBrandAlert.toggle()
+//                                        print("팝업 실행")
+                                    }
                                 } label: {
                                     HStack {
                                         Image(systemName: "checkmark")
@@ -320,7 +346,22 @@ private extension FilterView {
                         Section(vm.colorSections[index].letter) {
                             ForEach(vm.colorSections[index].colors) { color in
                                 Button {
-                                    vm.isSelectedColor(color) ? vm.removeColor(color) : vm.apppendColor(color)
+                                    if vm.colors.count < 11 && vm.isSelectedColor(color) {
+                                        vm.removeColor(color)
+                                        
+                                        //print("현재 선택된 컬러 개수는: \(vm.colors.count)")
+                                        
+                                    } else if vm.colors.count < 10 && !(vm.isSelectedColor(color)) {
+                                        vm.apppendColor(color)
+                                        
+                                        //print("현재 선택된 컬러 개수는: \(vm.colors.count)")
+                                        
+                                    } else if vm.colors.count == 10 {
+                                        
+                                        //print("현재 선택된 브랜드 개수는: \(vm.brands.count)")
+                                        vm.isShowingOverCheckedColorAlert.toggle()
+                                        //print("팝업 실행")
+                                    }
                                 } label: {
                                     HStack {
                                         Image(systemName: "checkmark")

@@ -8,12 +8,11 @@
 import SwiftUI
 import FirebaseCore
 
-
 @main
 struct ToucheFinalApp: App {
     init() {
             FirebaseApp.configure()
-            UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
+//            UserDefaults.standard.set(true, forKey: "isShowingOnboardingView")
         }
     
     var body: some Scene {
@@ -21,13 +20,14 @@ struct ToucheFinalApp: App {
         let perfumeStore = PerfumeStore()
         let colorPalette = ColorPalette()
         let commentStore = CommentStore()
+        let filterStore = FilterViewModel()
         WindowGroup {
             PerfumeTabView()
                 .environmentObject(colorPalette)
                 .environmentObject(userInfoStore)
                 .environmentObject(perfumeStore)
                 .environmentObject(commentStore)
-           
+                .environmentObject(filterStore)
         }
     }
 }

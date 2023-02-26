@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import SwiftSoup
 
 class APIStore: ObservableObject {
     @Published var notice: String = ""
@@ -176,7 +177,10 @@ class APIStore: ObservableObject {
                     print("longDescription: ",jsonData.longDescription)
                     print(response.statusCode)
                     longDescription = jsonData.longDescription
-                    quickDescription = jsonData.quickLookDescription
+//                    quickDescription = jsonData.quickLookDescription
+                    do {
+                        quickDescription = try SwiftSoup.parse(jsonData.quickLookDescription).text()
+                    } catch {}
                     
                     // --------------------- (family, finalType, finalKeyNotes) ------------------
                     
